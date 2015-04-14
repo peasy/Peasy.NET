@@ -10,3 +10,5 @@ facile.net is a simple middle tier framework that offers the following:
 - Swappable data proxies
 - Async support
 - Multiple client support
+
+more to come, stay tuned ...
