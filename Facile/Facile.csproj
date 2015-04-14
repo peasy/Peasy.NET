@@ -54,7 +54,6 @@
     <Compile Include="ISupportCRUDAsync.cs" />
     <Compile Include="ITransactionSupportStatusContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReturnsObjectServiceCommand.cs" />
     <Compile Include="Rules\CannotEditPropertyRule.cs" />
     <Compile Include="Rules\ConcurrencyCheckRule.cs" />
     <Compile Include="Rules\DomainObjectMustContainIDRule.cs" />
@@ -62,6 +61,7 @@
     <Compile Include="Rules\IRule.cs" />
     <Compile Include="Rules\PropertyValueRequiredRule.cs" />
     <Compile Include="Rules\RuleBase.cs" />
+    <Compile Include="ServiceCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

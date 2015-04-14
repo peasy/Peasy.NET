@@ -78,41 +78,4 @@ namespace Facile
                 yield return result;
         }
     }
-
-    //public class ReturnsObjectServiceCommand<T> : ReturnsObjectCommandBase<T>
-    //{
-    //    private Func<T> _executeMethod;
-    //    private Func<Task<T>> _executeAsyncMethod;
-    //    private Func<IEnumerable<ValidationResult>> _getValidationResultsMethod;
-    //    private Func<IEnumerable<ValidationResult>> _getBusinessRulesResultsMethod;
-
-    //    public ReturnsObjectServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<ValidationResult>> getBusinessRulesResultsMethod)
-    //    {
-    //        _executeMethod = executeMethod;
-    //        _executeAsyncMethod = executeAsyncMethod;
-    //        _getBusinessRulesResultsMethod = getBusinessRulesResultsMethod;
-    //        _getValidationResultsMethod = getValidationResultsMethod;
-    //    }
-
-    //    protected override T OnExecute()
-    //    {
-    //        var result = _executeMethod();
-    //        return result;
-    //    }
-
-    //    protected async override Task<T> OnExecuteAsync()
-    //    {
-    //        var result = await _executeAsyncMethod();
-    //        return result;
-    //    }
-
-    //    public override IEnumerable<ValidationResult> GetValidationErrors()
-    //    {
-    //        foreach (var result in _getValidationResultsMethod())
-    //            yield return result;
-
-    //        foreach (var result in _getBusinessRulesResultsMethod())
-    //            yield return result;
-    //    }
-    //}
 }
