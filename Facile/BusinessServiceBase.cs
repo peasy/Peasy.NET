@@ -180,7 +180,7 @@ namespace Facile
         }
 
         /// <summary>
-        /// Composes a <see cref="T:Facile.ICommand`1" /> that invokes <see cref="T:Facile.IDataProxy`1" />.Delete() upon successful execution of business and validation rules
+        /// Composes a <see cref="Facile.ICommand" /> that invokes <see cref="T:Facile.IDataProxy`1" />.Delete() upon successful execution of business and validation rules
         /// </summary>
         public virtual ICommand DeleteCommand(int id)
         {
