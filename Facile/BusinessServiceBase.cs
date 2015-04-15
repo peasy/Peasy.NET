@@ -225,7 +225,7 @@ namespace Facile
         protected virtual T Update(T entity)
         {
             // only perform this if we're not latency prone - keep it close to the server, no need to do this more than once
-            if (this.SupportsTransactions)
+            if (!_dataProxy.IsLatencyProne)
             {
                 T current = GetByID(entity.ID);
                 if (current == null)

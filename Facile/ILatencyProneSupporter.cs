@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Facile
 {
-    public interface IDataProxy<T> : ISupportCRUD<T>, ISupportCRUDAsync<T>, ITransactionSupportStatusContainer, ILatencyProneSupporter
+    public interface ILatencyProneSupporter
     {
+        bool IsLatencyProne { get; }
     }
 }

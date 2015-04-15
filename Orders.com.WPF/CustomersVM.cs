@@ -60,7 +60,6 @@ namespace Orders.com.WPF
             set
             {
                 _customers = new ObservableCollection<CustomerVM>(value);
-                _customersService.del
                 OnPropertyChanged("Customers");
             }
         }

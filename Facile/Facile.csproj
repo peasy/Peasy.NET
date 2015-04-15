@@ -50,6 +50,7 @@
     <Compile Include="IDataProxy.cs" />
     <Compile Include="IDomainObject.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="ILatencyProneSupporter.cs" />
     <Compile Include="ISupportCRUD.cs" />
     <Compile Include="ISupportCRUDAsync.cs" />
     <Compile Include="ITransactionSupportStatusContainer.cs" />

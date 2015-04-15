@@ -103,5 +103,10 @@ namespace Orders.com.DAL.EF
         {
             get { return true; }
         }
+
+        public bool IsLatencyProne
+        {
+            get { return false; }
+        }
     }
 }
