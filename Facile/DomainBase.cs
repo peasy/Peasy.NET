@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Facile
 {
-    public abstract class DomainBase : IDomainObject
+    public abstract class DomainBase : IDomainObject<int>
     {
         // TODO: Include Newtonsoft.json??
         //[JsonIgnore, IgnoreDataMember]

@@ -14,7 +14,7 @@ namespace Facile.Extensions
 {
     public static class DomainBaseExtensions
     {
-        public static string ClassName<T>(this T domainObject) where T : IDomainObject
+        public static string ClassName<T>(this T domainObject) 
         {
             var type = domainObject.GetType().GetTypeInfo();
             var displayAttribute = type.GetCustomAttributes(true)
@@ -26,7 +26,7 @@ namespace Facile.Extensions
             return type.Name;
         }
 
-        public static IEnumerable<ValidationResult> GetValidationErrors<T>(this T domainObject) where T : IDomainObject
+        public static IEnumerable<ValidationResult> GetValidationErrors<T>(this T domainObject) 
         {
             var validationResults = new List<ValidationResult>();
             var context = new ValidationContext(domainObject);
@@ -34,7 +34,7 @@ namespace Facile.Extensions
             return validationResults;
         }
 
-        public static T CreateCopy<T>(this T domainObject) where T : IDomainObject
+        public static T CreateCopy<T>(this T domainObject) 
         {
             //return Mapper.Map(domainObject, default(T));
             return domainObject;
@@ -49,7 +49,7 @@ namespace Facile.Extensions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="domainObject"></param>
-        public static void RevertForeignKeysFromZeroToNull<T>(this T domainObject) where T : IDomainObject
+        public static void RevertForeignKeysFromZeroToNull<T>(this T domainObject) 
         {
             var foreignKeyProperties = domainObject.GetCachedForeignKeyProperties();
 
@@ -67,7 +67,7 @@ namespace Facile.Extensions
             }
         }
 
-        public static void RevertNonEditableValues<T>(this T changedObject, T originalObject) where T : IDomainObject
+        public static void RevertNonEditableValues<T>(this T changedObject, T originalObject) 
         {
             var nonEditableProperties = changedObject.GetCachedNonEditableProperties();
 
@@ -85,7 +85,7 @@ namespace Facile.Extensions
             }
         }
 
-        public static IEnumerable<PropertyInfo> GetCachedForeignKeyProperties<T>(this T domainObject) where T : IDomainObject
+        public static IEnumerable<PropertyInfo> GetCachedForeignKeyProperties<T>(this T domainObject) 
         {
             var type = typeof(T);
             if (!_cachedForeignKeyProperties.ContainsKey(type))
@@ -102,7 +102,7 @@ namespace Facile.Extensions
             return _cachedForeignKeyProperties[type];
         }
 
-        public static IEnumerable<PropertyInfo> GetCachedNonEditableProperties<T>(this T domainObject) where T : IDomainObject
+        public static IEnumerable<PropertyInfo> GetCachedNonEditableProperties<T>(this T domainObject) 
         {
             var type = typeof(T); 
             if (!_cachedNonEditableProperties.ContainsKey(type))

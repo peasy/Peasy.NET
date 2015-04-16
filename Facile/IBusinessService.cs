@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace Facile
 {
-    public interface IBusinessService<T>
+    public interface IBusinessService<T, TKey>
     {
         ICommand<IEnumerable<T>> GetAllCommand();
-        ICommand<T> GetByIDCommand(int id);
+        ICommand<T> GetByIDCommand(TKey id);
         ICommand<T> InsertCommand(T entity);
         ICommand<T> UpdateCommand(T entity);
-        ICommand DeleteCommand(int id);
+        ICommand DeleteCommand(TKey id);
     }
 }

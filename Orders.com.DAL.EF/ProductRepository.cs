@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.EF
 {
-    public class ProductRepository : IDataProxy<Product>
+    public class ProductRepository : IDataProxy<Product, int>
     {
         public ProductRepository()
         {

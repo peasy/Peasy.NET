@@ -4,7 +4,7 @@ using Orders.com.Core.Domain;
 
 namespace Orders.com.WPF
 {
-    public class CustomerVM : EntityViewModelBase<Customer>
+    public class CustomerVM : EntityViewModelBase<Customer, int>
     {
         public CustomerVM (CustomerService service) : base(service)
         {

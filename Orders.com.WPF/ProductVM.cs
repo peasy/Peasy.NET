@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF
 {
-    public class ProductVM : EntityViewModelBase<Product>
+    public class ProductVM : EntityViewModelBase<Product, int>
     {
         public ProductVM(ProductService service) : base(service)
         {

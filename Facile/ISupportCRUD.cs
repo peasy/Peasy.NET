@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Facile
 {
-    public interface ISupportCRUD<T> : ISupportGetAll<T>,
-                                       ISupportGetByID<T>,
+    public interface ISupportCRUD<T, TKey> : ISupportGetAll<T>,
+                                       ISupportGetByID<T, TKey>,
                                        ISupportInsert<T>,
                                        ISupportUpdate<T>,
-                                       ISupportDelete
+                                       ISupportDelete<TKey>
  
     {
     }
@@ -20,9 +20,9 @@ namespace Facile
         IEnumerable<T> GetAll();
     }
 
-    public interface ISupportGetByID<T>
+    public interface ISupportGetByID<T, TKey>
     {
-        T GetByID(int id);
+        T GetByID(TKey id);
     }
 
     public interface ISupportInsert<T> 
@@ -41,8 +41,8 @@ namespace Facile
         T Update(T entity);
     }
 
-    public interface ISupportDelete
+    public interface ISupportDelete<TKey>
     {
-        void Delete(int id);
+        void Delete(TKey id);
     }
 }

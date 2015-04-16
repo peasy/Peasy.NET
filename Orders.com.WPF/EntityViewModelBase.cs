@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF
 {
-    public class EntityViewModelBase<T> : ViewModelBase where T : new()
+    public class EntityViewModelBase<T, Tkey> : ViewModelBase where T : new()
     {
-        private IBusinessService<T> _service;
+        private IBusinessService<T, Tkey> _service;
         private T _current;
 
-        public EntityViewModelBase(IBusinessService<T> service)
+        public EntityViewModelBase(IBusinessService<T, Tkey> service)
         {
             _service = service;
             CurrentEntity = new T();
             IsNew = true;
         }
 
-        public EntityViewModelBase(T entity, IBusinessService<T> service)
+        public EntityViewModelBase(T entity, IBusinessService<T, Tkey> service)
         {
             _service = service;
             CurrentEntity = entity;

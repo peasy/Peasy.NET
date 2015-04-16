@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Facile
 {
-    public interface IDomainObject
+    public interface IDomainObject<TKey>
     {
-        int ID { get; set; }
+        TKey ID { get; set; }
     }
 }

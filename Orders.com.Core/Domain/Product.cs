@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.Core.Domain
 {
-    public class Product : IDomainObject
+    public class Product : IDomainObject<int>
     {
         public int ProductID { get; set; }
 

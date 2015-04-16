@@ -12,16 +12,17 @@ namespace Facile
     /// <summary>
     /// Base class of all business services
     /// </summary>
-    public abstract class BusinessServiceBase<T> : IBusinessService<T>, ITransactionSupportStatusContainer where T : IDomainObject, new()
+    public abstract class BusinessServiceBase<T, TKey> : IBusinessService<T, TKey>, 
+                                                         ITransactionSupportStatusContainer where T : IDomainObject<TKey>, new()
     {
-        private IDataProxy<T> _dataProxy;
+        private IDataProxy<T, TKey> _dataProxy;
 
-        protected IDataProxy<T> DataProxy
+        protected IDataProxy<T, TKey> DataProxy
         {
             get { return _dataProxy; }
         }
 
-        public BusinessServiceBase(IDataProxy<T> dataProxy)
+        public BusinessServiceBase(IDataProxy<T, TKey> dataProxy)
         {
             _dataProxy = dataProxy;
         }
@@ -29,7 +30,7 @@ namespace Facile
         /// <summary>
         /// Override this method to supply custom business rules to GetAllCommand() and GetByIDCommand()
         /// </summary>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForRetrieve(int id)
+        protected virtual IEnumerable<IRule> GetBusinessRulesForRetrieve(TKey id)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -53,7 +54,7 @@ namespace Facile
         /// <summary>
         /// Override this method to supply custom business rules to DeleteCommand() 
         /// </summary>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForDelete(int id)
+        protected virtual IEnumerable<IRule> GetBusinessRulesForDelete(TKey id)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -99,19 +100,21 @@ namespace Facile
         /// Supplies validation results to DeleteCommand()
         /// </summary>
 
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForDelete(int id)
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id)
         {
-            if (id <= 0)
-                yield return new ValidationResult("id must be greater than 0", new string[] { typeof(T).Name });
+            yield break;
+            //if (id <= 0)
+            //    yield return new ValidationResult("id must be greater than 0", new string[] { typeof(T).Name });
         }
         
         /// <summary>
         /// Supplies validation results to GetByIDCommand()
         /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetByID(int id)
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id)
         {
-            if (id <= 0)
-                yield return new ValidationResult("id must be greater than 0", new string[] { typeof(T).Name });
+            yield break;
+            //if (id <= 0)
+            //    yield return new ValidationResult("id must be greater than 0", new string[] { typeof(T).Name });
         }
 
         /// <summary>
@@ -125,7 +128,7 @@ namespace Facile
         /// <summary>
         /// Composes a <see cref="T:Facile.ICommand`1" /> that invokes <see cref="T:Facile.IDataProxy`1" />.GetByID() upon successful execution of business and validation rules
         /// </summary>
-        public virtual ICommand<T> GetByIDCommand(int id)
+        public virtual ICommand<T> GetByIDCommand(TKey id)
         {
             return new ServiceCommand<T>
             (
@@ -182,7 +185,7 @@ namespace Facile
         /// <summary>
         /// Composes a <see cref="Facile.ICommand" /> that invokes <see cref="T:Facile.IDataProxy`1" />.Delete() upon successful execution of business and validation rules
         /// </summary>
-        public virtual ICommand DeleteCommand(int id)
+        public virtual ICommand DeleteCommand(TKey id)
         {
             return new ServiceCommand
             (
@@ -204,7 +207,7 @@ namespace Facile
         /// <summary>
         /// Invoked by GetByIDCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual T GetByID(int id)
+        protected virtual T GetByID(TKey id)
         {
             return _dataProxy.GetByID(id);
         }
@@ -241,7 +244,7 @@ namespace Facile
         /// <summary>
         /// Invoked by DeleteCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual void Delete(int id)
+        protected virtual void Delete(TKey id)
         {
             _dataProxy.Delete(id);
         }
@@ -257,7 +260,7 @@ namespace Facile
         /// <summary>
         /// Invoked by GetByIDCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual async Task<T> GetByIDAsync(int id)
+        protected virtual async Task<T> GetByIDAsync(TKey id)
         {
             return await _dataProxy.GetByIDAsync(id);
         }
@@ -293,7 +296,7 @@ namespace Facile
         /// <summary>
         /// Invoked by DeleteCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual Task DeleteAsync(int id)
+        protected virtual Task DeleteAsync(TKey id)
         {
             return _dataProxy.DeleteAsync(id);
         }
@@ -303,7 +306,7 @@ namespace Facile
             get { return _dataProxy.SupportsTransactions; }
         }
 
-        public string BuildNotFoundError(int id)
+        public string BuildNotFoundError(TKey id)
         {            
             var message = string.Format("{0} ID {1} could not be found.", new T().ClassName(), id.ToString());
             return message;

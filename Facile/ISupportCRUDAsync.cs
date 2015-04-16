@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Facile 
 {
-    public interface ISupportCRUDAsync<T> : ISupportGetAllAsync<T>,
-                                   ISupportGetByIDAsync<T>,
+    public interface ISupportCRUDAsync<T, TKey> : ISupportGetAllAsync<T>,
+                                   ISupportGetByIDAsync<T, TKey>,
                                    ISupportInsertAsync<T>,
                                    ISupportUpdateAsync<T>,
-                                   ISupportDeleteAsync
+                                   ISupportDeleteAsync<TKey>
     {
     }
 
@@ -19,11 +19,11 @@ namespace Facile
         Task<IEnumerable<T>> GetAllAsync();
     }
 
-    public interface ISupportGetByIDAsync<T>
+    public interface ISupportGetByIDAsync<T, TKey>
     {
-        Task<T> GetByIDAsync(int id);
+        Task<T> GetByIDAsync(TKey id);
     }
-
+    
     public interface ISupportInsertAsync<T> 
     {
         Task<T> InsertAsync(T entity);
@@ -40,8 +40,8 @@ namespace Facile
         Task<T> UpdateAsync(T entity);
     }
 
-    public interface ISupportDeleteAsync
+    public interface ISupportDeleteAsync<TKey>
     {
-        Task DeleteAsync(int id);
+        Task DeleteAsync(TKey id);
     }
 }

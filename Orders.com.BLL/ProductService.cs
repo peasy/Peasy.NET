@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class ProductService : BusinessServiceBase<Product>
+    public class ProductService : BusinessServiceBase<Product, int>
     {
-        public ProductService(IDataProxy<Product> dataProxy) : base(dataProxy)
+        public ProductService(IDataProxy<Product, int> dataProxy) : base(dataProxy)
         {
         }
     }

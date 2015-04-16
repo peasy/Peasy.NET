@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.Core.DataProxy
 {
-    public interface IProductDataProxy : IDataProxy<Product>
+    public interface IProductDataProxy : IDataProxy<Product, int>
     {
     }
 }
