@@ -10,7 +10,7 @@ namespace Orders.com.BLL
 {
     public class CustomerService : BusinessServiceBase<Customer, int>
     {
-        public CustomerService(IDataProxy<Customer, int> dataProxy) : base(dataProxy)
+        public CustomerService(IServiceDataProxy<Customer, int> dataProxy) : base(dataProxy)
         {
         }
     }

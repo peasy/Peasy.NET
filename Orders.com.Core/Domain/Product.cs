@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.Core.Domain
 {
-    public class Product : IDomainObject<int>
+    public class Product : DomainBase<int>
     {
         public int ProductID { get; set; }
 
@@ -21,7 +21,7 @@ namespace Orders.com.Core.Domain
         [Required]
         public decimal? Price { get; set; }
 
-        public int ID
+        public override int ID
         {
             get { return ProductID; }
             set { ProductID = value; }

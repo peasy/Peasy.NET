@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.EF
 {
-    public class ProductRepository : IDataProxy<Product, int>
+    public class ProductRepository : IServiceDataProxy<Product, int>
     {
         public ProductRepository()
         {
@@ -52,7 +52,7 @@ namespace Orders.com.DAL.EF
         public Product Insert(Product entity)
         {
             //Thread.Sleep(1000);
-            Debug.WriteLine("INSERTING customer into database");
+            Debug.WriteLine("INSERTING product into database");
             var nextID = _products.Max(c => c.ID) + 1;
             entity.ID = nextID;
             Products.Add(entity);
@@ -61,7 +61,7 @@ namespace Orders.com.DAL.EF
 
         public Product Update(Product entity)
         {
-            Debug.WriteLine("UPDATING customer in database");
+            Debug.WriteLine("UPDATING product in database");
             var existing = Products.First(c => c.ID == entity.ID);
             Mapper.Map(entity, existing);
             return entity;
@@ -69,9 +69,9 @@ namespace Orders.com.DAL.EF
 
         public void Delete(int id)
         {
-            Debug.WriteLine("DELETING customer in database");
-            var customer = Products.First(c => c.ID == id);
-            Products.Remove(customer);
+            Debug.WriteLine("DELETING product in database");
+            var product = Products.First(c => c.ID == id);
+            Products.Remove(product);
         }
 
         public Task<IEnumerable<Product>> GetAllAsync()
@@ -106,7 +106,7 @@ namespace Orders.com.DAL.EF
 
         public bool IsLatencyProne
         {
-            get { return true; }
+            get { return false; }
         }
     }
 }

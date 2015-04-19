@@ -14,6 +14,9 @@ namespace Facile.Extensions
 {
     public static class DomainBaseExtensions
     {
+        private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedNonEditableProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
+        private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedForeignKeyProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
+
         public static string ClassName<T>(this T domainObject) 
         {
             var type = domainObject.GetType().GetTypeInfo();
@@ -25,24 +28,6 @@ namespace Facile.Extensions
 
             return type.Name;
         }
-
-        public static IEnumerable<ValidationResult> GetValidationErrors<T>(this T domainObject) 
-        {
-            var validationResults = new List<ValidationResult>();
-            var context = new ValidationContext(domainObject);
-            Validator.TryValidateObject(domainObject, context, validationResults, true);
-            return validationResults;
-        }
-
-        public static T CreateCopy<T>(this T domainObject) 
-        {
-            //return Mapper.Map(domainObject, default(T));
-            return domainObject;
-            // TODO: inject mapper abstraction
-        }
-
-        private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedNonEditableProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
-        private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedForeignKeyProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
 
         /// <summary>
         /// Changes property values from 0 to NULL for any Nullable<int> property marked with the FACForeignKeyAttribute

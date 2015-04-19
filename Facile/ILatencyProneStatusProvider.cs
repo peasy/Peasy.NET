@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Facile
 {
-    public interface ITransactionSupportStatusContainer
+    public interface ILatencyProneStatusProvider
     {
-        bool SupportsTransactions { get; }
+        bool IsLatencyProne { get; }
     }
 }

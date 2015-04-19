@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Facile
 {
-    public interface IDomainObject<TKey>
+    public interface ITransactionSupportStatusProvider
     {
-        TKey ID { get; set; }
+        bool SupportsTransactions { get; }
     }
 }

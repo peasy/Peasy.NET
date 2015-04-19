@@ -4,14 +4,14 @@ using System.Runtime.Serialization;
 //using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
-namespace Facile
+namespace Orders.com.Core
 {
-    public abstract class DomainBase : IDomainObject<int>
+    public abstract class DomainBase<TKey> : IDomainObject<TKey>
     {
         // TODO: Include Newtonsoft.json??
         //[JsonIgnore, IgnoreDataMember]
         [IgnoreDataMember]
-        public abstract int ID { get; set; }
+        public abstract TKey ID { get; set; }
 
         //[Required] - TODO: require on update only
         public byte[] Version { get; set; }

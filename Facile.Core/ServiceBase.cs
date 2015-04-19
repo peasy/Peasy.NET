@@ -5,22 +5,21 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Facile.Core.Core
+namespace Facile.Core
 {
     /// <summary>
     /// Base class of all business services
     /// </summary>
-    public abstract class BusinessServiceBase<T, TKey> : IBusinessService<T, TKey>, 
-                                                         ITransactionSupportStatusContainer where T : IDomainObject<TKey>, new()
+    public abstract class ServiceBase<T, TKey> : IBusinessService<T, TKey> where T : IDomainObject<TKey>, new()
     {
-        private IDataProxy<T, TKey> _dataProxy;
+        protected IDataProxy<T, TKey> _dataProxy;
 
         protected IDataProxy<T, TKey> DataProxy
         {
             get { return _dataProxy; }
         }
 
-        public BusinessServiceBase(IDataProxy<T, TKey> dataProxy)
+        public ServiceBase(IDataProxy<T, TKey> dataProxy)
         {
             _dataProxy = dataProxy;
         }
@@ -101,8 +100,6 @@ namespace Facile.Core.Core
         protected virtual IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id)
         {
             yield break;
-            //if (id <= 0)
-            //    yield return new ValidationResult("id must be greater than 0", new string[] { typeof(T).Name });
         }
         
         /// <summary>
@@ -111,8 +108,6 @@ namespace Facile.Core.Core
         protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id)
         {
             yield break;
-            //if (id <= 0)
-            //    yield return new ValidationResult("id must be greater than 0", new string[] { typeof(T).Name });
         }
 
         /// <summary>
@@ -274,17 +269,6 @@ namespace Facile.Core.Core
         protected virtual Task DeleteAsync(TKey id)
         {
             return _dataProxy.DeleteAsync(id);
-        }
-
-        public bool SupportsTransactions
-        {
-            get { return _dataProxy.SupportsTransactions; }
-        }
-
-        public string BuildNotFoundError(TKey id)
-        {            
-            var message = string.Format("{0} ID {1} could not be found.", new T().ClassName(), id.ToString());
-            return message;
         }
     }
 }

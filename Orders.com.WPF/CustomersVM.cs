@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Facile.Extensions;
+using Facile.Core.Extensions;
 
 namespace Orders.com.WPF
 {

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Orders.com.Core.Domain
 {
-    public class Customer : IDomainObject<int>
+    public class Customer : DomainBase<int>
     {
         public int CustomerID { get; set; }
 
@@ -16,7 +16,7 @@ namespace Orders.com.Core.Domain
         [StringLength(20)]
         public string Name { get; set; }
 
-        public int ID
+        public override int ID
         {
             set { CustomerID = value; }
             get { return CustomerID; }

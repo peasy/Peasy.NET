@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Facile.Extensions;
+using Facile.Core;
 
 namespace Facile.Rules
 {
