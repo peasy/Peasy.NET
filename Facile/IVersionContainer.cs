@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Facile
 {
-    public interface IConcurrencyCheckSupporter
+    public interface IVersionContainer
     {
-        bool VersionEquals(IConcurrencyCheckSupporter concurrencyCheckSupporter);
+        byte[] Version { get; }
     }
 }

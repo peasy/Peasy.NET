@@ -5,16 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Facile.Extensions;
 using Facile.Core;
-using Orders.com.Core;
 
 namespace Facile.Rules
 {
-    public class ConcurrencyCheckRule<TKey> : RuleBase
+    public class ConcurrencyCheckRule : RuleBase
     {
-        private DomainBase<TKey> _originalEntity;
-        private DomainBase<TKey> _newEntity;
+        private IVersionContainer _originalEntity;
+        private IVersionContainer _newEntity;
 
-        public ConcurrencyCheckRule(DomainBase<TKey> originalEntity, DomainBase<TKey> newEntity)
+        public ConcurrencyCheckRule(IVersionContainer originalEntity, IVersionContainer newEntity)
         {
             _originalEntity = originalEntity;
             _newEntity = newEntity;

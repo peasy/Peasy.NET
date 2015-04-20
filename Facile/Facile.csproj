@@ -42,11 +42,12 @@
     <Compile Include="Extensions\DomainBaseExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Attributes\FacileForeignKeyAttribute.cs" />
-    <Compile Include="IConcurrencyCheckSupporter.cs" />
+    <Compile Include="IVersionContainer.cs" />
     <Compile Include="ILatencyProneStatusProvider.cs" />
     <Compile Include="IServiceDataProxy.cs" />
     <Compile Include="ITransactionSupportStatusProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\ConcurrencyCheckRule.cs" />
     <Compile Include="Rules\GreaterThanZeroRule.cs" />
     <Compile Include="Rules\PropertyValueRequiredRule.cs" />
   </ItemGroup>

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Orders.com.Core.Domain
 {
-    public class Customer : DomainBase<int>
+    public class Customer : DomainBase<int>, IVersionContainer
     {
         public int CustomerID { get; set; }
 
@@ -21,5 +21,8 @@ namespace Orders.com.Core.Domain
             set { CustomerID = value; }
             get { return CustomerID; }
         }
+
+        //[Required] - TODO: require on update only
+        public byte[] Version { get; set; }
     }
 }
