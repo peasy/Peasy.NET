@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using Facile.Core;
+using Orders.com.Core;
 
 namespace Facile.Rules
 {
@@ -25,7 +26,7 @@ namespace Facile.Rules
         }
     }
 
-    public class CannotEditPropertyRule<T, D> : RuleBase where T : DomainBase
+    public class CannotEditPropertyRule<T, D, TKey> : RuleBase where T : DomainBase<TKey>
     {
         private T _original;
         private T _changed;

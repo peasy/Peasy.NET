@@ -37,7 +37,6 @@
     <Compile Include="ServiceBase.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandBase.cs" />
-    <Compile Include="DomainBase.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="ExecutionResult.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />

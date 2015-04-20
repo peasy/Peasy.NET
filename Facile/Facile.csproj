@@ -36,7 +36,6 @@
   <ItemGroup>
     <Compile Include="Attributes\FacileDisplayNameAttribute.cs" />
     <Compile Include="BusinessServiceBase.cs" />
-    <Compile Include="DomainBase.cs" />
     <Compile Include="Exception\DomainObjectNotFoundException.cs" />
     <Compile Include="Exception\FacileException.cs" />
     <Compile Include="Extensions\DomainBaseExtensions.cs" />
@@ -46,9 +45,6 @@
     <Compile Include="IServiceDataProxy.cs" />
     <Compile Include="ITransactionSupportStatusProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rules\CannotEditPropertyRule.cs" />
-    <Compile Include="Rules\ConcurrencyCheckRule.cs" />
-    <Compile Include="Rules\DomainObjectMustContainIDRule.cs" />
     <Compile Include="Rules\GreaterThanZeroRule.cs" />
     <Compile Include="Rules\PropertyValueRequiredRule.cs" />
   </ItemGroup>

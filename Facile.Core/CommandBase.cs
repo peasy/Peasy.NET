@@ -25,32 +25,32 @@ namespace Facile.Core
         Task<IEnumerable<ValidationResult>> GetValidationErrorsAsync();
     }
 
-    public abstract class AsyncCommandBase<T> : IAsyncCommand where T : DomainBase
-    {
-        private Func<Task<IEnumerable<ValidationResult>>> _getValidationResultsAsyncMethod;
-        private Func<Task<IEnumerable<ValidationResult>>> _getBusinessRulesResultsAsyncMethod;
+    //public abstract class AsyncCommandBase<T> : IAsyncCommand where T : IDomainObject<T>
+    //{
+    //    private Func<Task<IEnumerable<ValidationResult>>> _getValidationResultsAsyncMethod;
+    //    private Func<Task<IEnumerable<ValidationResult>>> _getBusinessRulesResultsAsyncMethod;
 
-        public AsyncCommandBase(Func<Task<IEnumerable<ValidationResult>>> getValidationResultsAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> getBusinessRulesResultsAsyncMethod)
-        {
-            _getValidationResultsAsyncMethod = getValidationResultsAsyncMethod;
-            _getBusinessRulesResultsAsyncMethod = getBusinessRulesResultsAsyncMethod;
-        }
+    //    public AsyncCommandBase(Func<Task<IEnumerable<ValidationResult>>> getValidationResultsAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> getBusinessRulesResultsAsyncMethod)
+    //    {
+    //        _getValidationResultsAsyncMethod = getValidationResultsAsyncMethod;
+    //        _getBusinessRulesResultsAsyncMethod = getBusinessRulesResultsAsyncMethod;
+    //    }
 
-        public virtual async Task<bool> CanExecuteAsync()
-        {
-            var errors = await GetValidationErrorsAsync();
-            return !errors.Any();
-        }
+    //    public virtual async Task<bool> CanExecuteAsync()
+    //    {
+    //        var errors = await GetValidationErrorsAsync();
+    //        return !errors.Any();
+    //    }
 
-        public virtual async Task<IEnumerable<ValidationResult>> GetValidationErrorsAsync()
-        {
-            var validationResults = _getValidationResultsAsyncMethod();
-            var businessRulesResults = _getBusinessRulesResultsAsyncMethod();
+    //    public virtual async Task<IEnumerable<ValidationResult>> GetValidationErrorsAsync()
+    //    {
+    //        var validationResults = _getValidationResultsAsyncMethod();
+    //        var businessRulesResults = _getBusinessRulesResultsAsyncMethod();
 
-            var x = await Task.WhenAll(validationResults, businessRulesResults);
-            return x.SelectMany(a => a);
+    //        var x = await Task.WhenAll(validationResults, businessRulesResults);
+    //        return x.SelectMany(a => a);
 
-            //return validationResults.Concat(businessRulesResults);
-        }
-    }
+    //        //return validationResults.Concat(businessRulesResults);
+    //    }
+    //}
 }
