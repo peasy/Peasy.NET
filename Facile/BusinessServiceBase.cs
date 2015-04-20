@@ -54,6 +54,12 @@ namespace Facile
                 {
                     throw new DomainObjectNotFoundException(BuildNotFoundError(entity.ID));
                 }
+                IConcurrencyCheckSupporter concurrencySupporter = current as IConcurrencyCheckSupporter;
+                if (concurrencySupporter != null)
+                {
+                    if (!concurrencySupporter.VersionEquals(entity as IConcurrencyCheckSupporter))
+                        throw new ConcurrencyException("A concurrency exception occurred");
+                }
                 entity.RevertNonEditableValues(current);
                 entity.RevertForeignKeysFromZeroToNull();
             }

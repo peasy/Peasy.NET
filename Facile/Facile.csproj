@@ -36,11 +36,13 @@
   <ItemGroup>
     <Compile Include="Attributes\FacileDisplayNameAttribute.cs" />
     <Compile Include="BusinessServiceBase.cs" />
+    <Compile Include="Exception\ConcurrencyException.cs" />
     <Compile Include="Exception\DomainObjectNotFoundException.cs" />
     <Compile Include="Exception\FacileException.cs" />
     <Compile Include="Extensions\DomainBaseExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Attributes\FacileForeignKeyAttribute.cs" />
+    <Compile Include="IConcurrencyCheckSupporter.cs" />
     <Compile Include="ILatencyProneStatusProvider.cs" />
     <Compile Include="IServiceDataProxy.cs" />
     <Compile Include="ITransactionSupportStatusProvider.cs" />

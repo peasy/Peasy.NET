@@ -216,8 +216,6 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by UpdateCommand() if validation and business rules execute successfully
         /// </summary>
-        /// <exception cref="Facile.Exception.DomainObjectNotFoundException" />
-        /// <exception cref="Facile.Exception.ConcurrencyException" />
         protected virtual T Update(T entity)
         {
             return _dataProxy.Update(entity);
