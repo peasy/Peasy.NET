@@ -41,7 +41,7 @@
     <Compile Include="ExecutionResult.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
-    <Compile Include="IBusinessService.cs" />
+    <Compile Include="IService.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IDataProxy.cs" />
     <Compile Include="IDomainObject.cs" />

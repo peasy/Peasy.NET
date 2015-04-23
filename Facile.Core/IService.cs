@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Facile.Core
 {
-    public interface IBusinessService<T, TKey>
+    public interface IService<T, TKey>
     {
         ICommand<IEnumerable<T>> GetAllCommand();
         ICommand<T> GetByIDCommand(TKey id);

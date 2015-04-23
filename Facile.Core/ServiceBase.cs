@@ -10,7 +10,7 @@ namespace Facile.Core
     /// <summary>
     /// Base class of all business services
     /// </summary>
-    public abstract class ServiceBase<T, TKey> : IBusinessService<T, TKey> where T : IDomainObject<TKey>, new()
+    public abstract class ServiceBase<T, TKey> : IService<T, TKey> where T : IDomainObject<TKey>, new()
     {
         protected IDataProxy<T, TKey> _dataProxy;
 

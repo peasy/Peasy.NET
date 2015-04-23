@@ -10,17 +10,17 @@ namespace Orders.com.WPF
 {
     public class EntityViewModelBase<T, Tkey> : ViewModelBase where T : new()
     {
-        private IBusinessService<T, Tkey> _service;
+        private IService<T, Tkey> _service;
         private T _current;
 
-        public EntityViewModelBase(IBusinessService<T, Tkey> service)
+        public EntityViewModelBase(IService<T, Tkey> service)
         {
             _service = service;
             CurrentEntity = new T();
             IsNew = true;
         }
 
-        public EntityViewModelBase(T entity, IBusinessService<T, Tkey> service)
+        public EntityViewModelBase(T entity, IService<T, Tkey> service)
         {
             _service = service;
             CurrentEntity = entity;
