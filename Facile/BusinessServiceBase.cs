@@ -23,10 +23,9 @@ namespace Facile
         /// </summary>
         protected override IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id)
         {
-            yield break;
-            // TODO: create extension methods that check for the presence of a value:  ex.) ValueSupplied(this int), (this string), (this guid), etc.
-            //if (id <= 0)
-            //    yield return new ValidationResult("id must be greater than 0", new string[] { typeof(T).Name });
+            var rule = id.CreateValueRequiredRule("id").Validate();
+            if (!rule.IsValid)
+                yield return new ValidationResult(rule.ErrorMessage, new string[] { typeof(T).Name });
         }
         
         /// <summary>
@@ -34,9 +33,9 @@ namespace Facile
         /// </summary>
         protected override IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id)
         {
-            yield break;
-            //if (id <= 0)
-            //    yield return new ValidationResult("id must be greater than 0", new string[] { typeof(T).Name });
+            var rule = id.CreateValueRequiredRule("id").Validate();
+            if (!rule.IsValid)
+                yield return new ValidationResult(rule.ErrorMessage, new string[] { typeof(T).Name });
         }
 
         /// <summary>

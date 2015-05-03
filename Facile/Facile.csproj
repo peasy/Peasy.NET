@@ -42,6 +42,7 @@
     <Compile Include="Extensions\DomainBaseExtensions.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Attributes\FacileForeignKeyAttribute.cs" />
+    <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="IVersionContainer.cs" />
     <Compile Include="ILatencyProneStatusProvider.cs" />
     <Compile Include="IServiceDataProxy.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="Rules\ConcurrencyCheckRule.cs" />
     <Compile Include="Rules\GreaterThanZeroRule.cs" />
     <Compile Include="Rules\PropertyValueRequiredRule.cs" />
+    <Compile Include="Rules\ValueRequiredRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Facile.Core\Facile.Core.csproj">

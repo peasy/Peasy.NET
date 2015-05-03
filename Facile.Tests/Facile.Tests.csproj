@@ -62,6 +62,7 @@
     <Compile Include="Rules\DomainObjectMustContainIDRuleTests.cs" />
     <Compile Include="Rules\GreaterThanZeroRuleTests.cs" />
     <Compile Include="Rules\RuleBaseTests.cs" />
+    <Compile Include="Rules\ValueRequiredRuleTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
