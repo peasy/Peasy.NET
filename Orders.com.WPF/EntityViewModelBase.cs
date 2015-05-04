@@ -40,7 +40,7 @@ namespace Orders.com.WPF
         {
         }
 
-        public virtual async void Save()
+        public virtual async Task SaveAsync()
         {
             if (IsDirty)
             {

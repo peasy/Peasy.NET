@@ -64,16 +64,17 @@ namespace Orders.com.WPF
             }
         }
 
-        private async void LoadCustomers()
+        private async Task LoadCustomers()
         {
             var result = await _customersService.GetAllCommand().ExecuteAsync();
             var vms = result.Value.Select(c => new CustomerVM(c, _customersService));
             Customers = vms.ToArray();
         }
 
-        private void SaveCustomers()
+        private async Task SaveCustomers()
         {
-            Customers.ForEach(vm => vm.Save());
+            var results = Customers.Select(vm => vm.SaveAsync()).ToArray();
+            await Task.WhenAll(results);
         }
 
         private void AddCustomer()
@@ -81,7 +82,7 @@ namespace Orders.com.WPF
             _customers.Add(new CustomerVM(_customersService));
         }
 
-        private async void DeleteSelectedVM()
+        private async Task DeleteSelectedVM()
         {
             if (SelectedCustomer != null && !SelectedCustomer.IsNew)
             {

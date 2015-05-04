@@ -51,7 +51,7 @@ namespace Orders.com.DAL.EF
 
         public Product Insert(Product entity)
         {
-            //Thread.Sleep(1000);
+            Thread.Sleep(1000);
             Debug.WriteLine("INSERTING product into database");
             var nextID = _products.Max(c => c.ID) + 1;
             entity.ID = nextID;
@@ -61,6 +61,7 @@ namespace Orders.com.DAL.EF
 
         public Product Update(Product entity)
         {
+            Thread.Sleep(1000);
             Debug.WriteLine("UPDATING product in database");
             var existing = Products.First(c => c.ID == entity.ID);
             Mapper.Map(entity, existing);

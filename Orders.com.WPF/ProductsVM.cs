@@ -64,16 +64,17 @@ namespace Orders.com.WPF
             }
         }
 
-        private async void LoadProducts()
+        private async Task LoadProducts()
         {
             var result = await _productsService.GetAllCommand().ExecuteAsync();
             var vms = result.Value.Select(c => new ProductVM(c, _productsService));
             Products = vms.ToArray();
         }
 
-        private void SaveProducts()
+        private async Task SaveProducts()
         {
-            Products.ForEach(vm => vm.Save());
+            var results = Products.Select(vm => vm.SaveAsync()).ToArray();
+            await Task.WhenAll(results);
         }
 
         private void AddProduct()
@@ -81,7 +82,7 @@ namespace Orders.com.WPF
             _products.Add(new ProductVM(_productsService));
         }
 
-        private async void DeleteSelectedVM()
+        private async Task DeleteSelectedVM()
         {
             if (SelectedProduct != null && !SelectedProduct.IsNew)
             {
