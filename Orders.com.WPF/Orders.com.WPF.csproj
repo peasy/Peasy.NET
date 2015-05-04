@@ -57,7 +57,9 @@
     </ApplicationDefinition>
     <Compile Include="Command.cs" />
     <Compile Include="Converters\ErrorsConverter.cs" />
+    <Compile Include="CategoriesVM.cs" />
     <Compile Include="CustomersVM.cs" />
+    <Compile Include="CategoryVM.cs" />
     <Compile Include="CustomerVM.cs" />
     <Compile Include="EntityViewModelBase.cs" />
     <Compile Include="MainWindowVM.cs" />

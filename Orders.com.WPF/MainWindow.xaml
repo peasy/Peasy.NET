@@ -85,6 +85,45 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+            <TabItem Header="Categories" DataContext="{Binding CategoriesVM}" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" AutoGenerateColumns="False" >
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="ID" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ID}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate> 
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource visibilityConverter}}">
+                                            <Image.ToolTip>
+                                                <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" /> 
+                                            </Image.ToolTip>
+                                        </Image>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate> 
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Margin="5" Content="Reload" Command="{Binding LoadCategoriesCommand}"/>
+                        <Button Margin="5" Content="Add" Command="{Binding AddCategoryCommand}"/>
+                        <Button Margin="5" Content="Delete" Command="{Binding DeleteSelectedCommand}"/>
+                        <Button Margin="5" Content="Save" Command="{Binding SaveCategoriesCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Orders" DataContext="{Binding OrdersVM}">
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

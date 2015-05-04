@@ -33,7 +33,8 @@ namespace Orders.com.WPF
         {
             var customersService = new CustomerService(new CustomerRepository());
             var productsService = new ProductService(new ProductRepository());
-            this.DataContext = new MainWindowVM(customersService, productsService);
+            var categoriesService = new CategoryService(new CategoryRepository());
+            this.DataContext = new MainWindowVM(customersService, productsService, categoriesService);
         }
 
         public MainWindowVM VM

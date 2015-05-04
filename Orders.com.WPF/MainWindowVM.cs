@@ -13,17 +13,18 @@ namespace Orders.com.WPF
 {
     public class MainWindowVM : ViewModelBase
     {
-        private CustomerService _customersService;
         private CustomersVM _customersVM;
         private ProductsVM _productsVM;
+        private CategoriesVM _categoriesVM;
 
-        public MainWindowVM(CustomerService customersService, ProductService productService)
+        public MainWindowVM(CustomerService customerService, ProductService productService, CategoryService categoryService)
         {
-            _customersService = customersService;
-            _customersVM = new CustomersVM(_customersService);
+            _customersVM = new CustomersVM(customerService);
             _customersVM.LoadCustomersCommand.Execute(null);
             _productsVM = new ProductsVM(productService);
             _productsVM.LoadProductsCommand.Execute(null);
+            _categoriesVM = new CategoriesVM(categoryService);
+            _categoriesVM.LoadCategoriesCommand.Execute(null);
         }
 
         public CustomersVM CustomersVM
@@ -31,9 +32,14 @@ namespace Orders.com.WPF
             get { return _customersVM; }
         }
 
-       public ProductsVM ProductsVM
+        public ProductsVM ProductsVM
         {
             get { return _productsVM; }
+        }
+
+        public CategoriesVM CategoriesVM
+        {
+            get { return _categoriesVM; }
         }
 
     }

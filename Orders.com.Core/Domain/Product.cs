@@ -21,6 +21,9 @@ namespace Orders.com.Core.Domain
         [Required]
         public decimal? Price { get; set; }
 
+        [FacileForeignKey]
+        public int CategoryID { get; set; }
+
         public override int ID
         {
             get { return ProductID; }
