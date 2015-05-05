@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.Core.Domain
 {
-    public class Category : DomainBase<int>
+    public class Category : DomainBase
     {
         public int CategoryID { get; set; }
 

@@ -26,7 +26,7 @@ namespace Facile.Rules
         }
     }
 
-    public class CannotEditPropertyRule<T, D, TKey> : RuleBase where T : DomainBase<TKey>
+    public class CannotEditPropertyRule<T, D> : RuleBase where T : DomainBase
     {
         private T _original;
         private T _changed;
