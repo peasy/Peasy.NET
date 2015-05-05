@@ -49,6 +49,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderService.cs" />
     <Compile Include="CustomerService.cs" />
     <Compile Include="CategoryService.cs" />
     <Compile Include="ProductService.cs" />

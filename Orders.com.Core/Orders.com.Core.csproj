@@ -45,6 +45,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProxy\IOrderDataProxy.cs" />
     <Compile Include="DataProxy\ICustomerDataProxy.cs" />
     <Compile Include="DataProxy\ICategoryDataProxy.cs" />
     <Compile Include="DataProxy\IProductDataProxy.cs" />
