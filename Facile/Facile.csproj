@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Attributes\FacileDisplayNameAttribute.cs" />
+    <Compile Include="Attributes\FacileRequiredAttribute.cs" />
     <Compile Include="BusinessServiceBase.cs" />
     <Compile Include="Exception\ConcurrencyException.cs" />
     <Compile Include="Exception\DomainObjectNotFoundException.cs" />
