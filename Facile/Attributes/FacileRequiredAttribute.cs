@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 
 namespace Facile.Attributes
 {
+    /// <summary>
+    /// Validates that non-zero values are supplied for int, decimal or non-default values for dates
+    /// </summary>
     public class FacileRequiredAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var errorMessage = string.Format("The {0} field is required.", validationContext.DisplayName);
             var validationResult = new ValidationResult(errorMessage, new string[] { validationContext.DisplayName });
+
             if (value == null) return validationResult;
 
             if (value is string && string.IsNullOrWhiteSpace(value.ToString()))
