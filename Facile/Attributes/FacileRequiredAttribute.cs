@@ -34,7 +34,7 @@ namespace Facile.Attributes
                 if (date == DateTime.MinValue) return validationResult;
             }
 
-            return base.IsValid(value, validationContext);
+            return ValidationResult.Success;
         }
     }
 }
