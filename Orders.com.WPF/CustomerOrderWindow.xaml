@@ -1,0 +1,72 @@
+﻿<Window x:Class="Orders.com.WPF.CustomerOrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Customer Order" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>           
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Content="Order ID:" Grid.Row="0"/>
+            <Label Content="Customer:" Grid.Row="1" />
+            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,5,0" ItemsSource="{Binding Customers}" DisplayMemberPath="Name" SelectedValuePath="CustomerID" SelectedValue="{Binding CurrentCustomerID}"/>
+            <Label Content="Total:" Grid.Row="2" />
+        </Grid>
+        <GroupBox Header="Items" Grid.Row="1" Grid.ColumnSpan="2">
+            <DataGrid ItemsSource="{Binding OrderItems}" SelectedItem="{Binding SelectedOrderItem, Mode=TwoWay}" AutoGenerateColumns="False" Margin="0,5,0,5">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="ID" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ID}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                    <DataGridTemplateColumn Header="Product" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding Products}" DisplayMemberPath="Name" SelectedValuePath="ProductID" SelectedValue="{Binding CurrentCustomerID}"/>
+                            </DataTemplate> 
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Price" IsReadOnly="true">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Label></Label>
+                            </DataTemplate> 
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Quantity"></DataGridTextColumn>
+                    <!--<DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource visibilityConverter}}">
+                                <Image.ToolTip>
+                                    <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
+                                </Image.ToolTip>
+                            </Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Margin="5" Content="Add" Command="{Binding AddOrderItemCommand}"/>
+            <Button Margin="5" Content="Delete" Command="{Binding DeleteSelectedCommand}"/>
+            <Button Margin="5" Content="Save" Command="{Binding SaveCustomersCommand}"/>
+        </StackPanel>
+    </Grid>
+</Window>

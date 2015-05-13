@@ -14,6 +14,11 @@ namespace Orders.com.Core.Domain
         [FacileForeignKey]
         public int CustomerID { get; set; }
 
+        [FacileForeignKey]
+        public DateTime OrderDate { get; set; }
+
+        public decimal Total { get; set; }
+
         public override int ID
         {
             get { return OrderID; }

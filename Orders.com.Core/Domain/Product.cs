@@ -1,4 +1,5 @@
 ﻿using Facile;
+using Facile.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,7 +22,7 @@ namespace Orders.com.Core.Domain
         [Required]
         public decimal? Price { get; set; }
 
-        [FacileForeignKey]
+        [FacileForeignKey, FacileRequired, Display(Name="Category")]
         public int CategoryID { get; set; }
 
         public override int ID

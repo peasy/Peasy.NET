@@ -23,6 +23,10 @@ namespace Orders.com.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private CustomerService _customersService;
+        private OrderItemService _orderItemsService;
+        private ProductService _productsService;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,15 +35,28 @@ namespace Orders.com.WPF
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var customersService = new CustomerService(new CustomerRepository());
-            var productsService = new ProductService(new ProductRepository());
+            _customersService = new CustomerService(new CustomerRepository());
+            _orderItemsService = new OrderItemService(new OrderItemRepository());
+            _productsService = new ProductService(new ProductRepository());
             var categoriesService = new CategoryService(new CategoryRepository());
-            this.DataContext = new MainWindowVM(customersService, productsService, categoriesService);
+            var ordersService = new OrderService(new OrderRepository());
+            this.DataContext = new MainWindowVM(_customersService, _productsService, categoriesService, ordersService);
         }
 
         public MainWindowVM VM
         {
             get { return this.DataContext as MainWindowVM; }
+        }
+
+        private void addCustomerOrderClick(object sender, RoutedEventArgs e)
+        {
+            var customerOrderWindow = new CustomerOrderWindow(_customersService, _orderItemsService, _productsService);
+            var result = customerOrderWindow.ShowDialog();
+            if (result.GetValueOrDefault() == true)
+            {
+                //VM.SplitResults = splitsWindow.SplitResults;
+                //VM.SaveSplitInsertResults();
+            }
         }
    }
 }
