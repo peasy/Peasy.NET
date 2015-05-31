@@ -19,6 +19,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Label Content="Order ID:" Grid.Row="0"/>
+            <Label Content="{Binding ID}" Grid.Row="0" Grid.Column="1" />
             <Label Content="Customer:" Grid.Row="1" />
             <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,5,0" ItemsSource="{Binding Customers}" DisplayMemberPath="Name" SelectedValuePath="CustomerID" SelectedValue="{Binding CurrentCustomerID}"/>
             <Label Content="Total:" Grid.Row="2" />
@@ -64,9 +65,10 @@
             </DataGrid>
         </GroupBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Margin="5" Content="Add" Command="{Binding AddOrderItemCommand}"/>
+            <Button Margin="5" Content="Add" Click="AddItemClick"/>
             <Button Margin="5" Content="Delete" Command="{Binding DeleteSelectedCommand}"/>
-            <Button Margin="5" Content="Save" Command="{Binding SaveCustomersCommand}"/>
+            <Button Margin="5" Content="Save" Command="{Binding SaveOrderCommand}"/>
+            <Button Margin="5" Content="Place Order" Command="{Binding SaveCustomersCommand}"/>
         </StackPanel>
     </Grid>
 </Window>

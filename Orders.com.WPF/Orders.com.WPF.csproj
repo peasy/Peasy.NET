@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command.cs" />
+    <Compile Include="Converters\DecimalConverter.cs" />
     <Compile Include="Converters\ErrorsConverter.cs" />
     <Compile Include="CategoriesVM.cs" />
     <Compile Include="CustomerOrderVM.cs" />
@@ -64,6 +65,9 @@
     <Compile Include="CustomerVM.cs" />
     <Compile Include="EntityViewModelBase.cs" />
     <Compile Include="MainWindowVM.cs" />
+    <Compile Include="OrderItemWindow.xaml.cs">
+      <DependentUpon>OrderItemWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OrdersVM.cs" />
     <Compile Include="CustomerOrderWindow.xaml.cs">
       <DependentUpon>CustomerOrderWindow.xaml</DependentUpon>
@@ -87,6 +91,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="CustomerOrderWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OrderItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

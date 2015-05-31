@@ -20,16 +20,37 @@ namespace Orders.com.WPF
     /// </summary>
     public partial class CustomerOrderWindow : Window
     {
+        private OrderItemService _orderItemService;
+        private ProductService _productService;
+        private CategoryService _categoryService;
+        private OrderService _orderService;
+    
         public CustomerOrderWindow()
         {
             InitializeComponent();
         }
 
-        public CustomerOrderWindow(CustomerService customerService, OrderItemService orderItemService, ProductService productService)
+        public CustomerOrderWindow(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, ProductService productService, CategoryService categoryService)
         {
             InitializeComponent();
-            var vm = new CustomerOrderVM(customerService, orderItemService, productService);
+            _orderService = orderService;
+            _orderItemService = orderItemService;
+            _productService = productService;
+            _categoryService = categoryService;
+            var vm = new CustomerOrderVM(orderService, customerService, orderItemService, _categoryService, productService);
             DataContext = vm;
         }
+
+        private void AddItemClick(object sender, RoutedEventArgs e)
+        {
+            var orderItemWindow = new OrderItemWindow(_orderItemService, _categoryService, _productService);
+            var result = orderItemWindow.ShowDialog();
+            if (result.GetValueOrDefault() == true)
+            {
+                //VM.SplitResults = splitsWindow.SplitResults;
+                //VM.SaveSplitInsertResults();
+            }
+        }
+
     }
 }

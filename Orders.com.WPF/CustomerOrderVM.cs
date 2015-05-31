@@ -10,28 +10,45 @@ using System.Windows.Input;
 
 namespace Orders.com.WPF
 {
-    public class CustomerOrderVM : ViewModelBase
+    public class CustomerOrderVM : EntityViewModelBase<Order, int>
     {
         private CustomerService _customerService;
         private OrderItemService _orderItemService;
+        private OrderService _orderService;
         private IEnumerable<Customer> _customers;
         private ObservableCollection<OrderItemVM> _orderItems;
-        private int _customerID;
+        private ICommand _saveOrderCommand;
         private ICommand _addOrderItemCommand;
         private ProductService _productService;
+        private CategoryService _categoryService;
 
-        public CustomerOrderVM(CustomerService customerService, OrderItemService orderItemService, ProductService productService)
+        public CustomerOrderVM(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+            : base(orderService)
         {
+            Setup(orderService, customerService, orderItemService, categoryService, productService);
+        }
+
+        public CustomerOrderVM(Order order, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+            : base(order, orderService)
+        {
+            Setup(orderService, customerService, orderItemService, categoryService, productService);
+        }
+
+        private void Setup(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+        {
+            _orderService = orderService;
             _customerService = customerService;
             _orderItemService = orderItemService;
+            _categoryService = categoryService;
             _productService = productService;
             _orderItems = new ObservableCollection<OrderItemVM>();
+            _saveOrderCommand = new Command(() => SaveAsync());
             _addOrderItemCommand = new Command(() => AddOrderItem());
         }
 
         public IEnumerable<Customer> Customers
         {
-            get 
+            get
             {
                 if (_customers == null)
                     LoadCustomers();
@@ -45,10 +62,20 @@ namespace Orders.com.WPF
             }
         }
 
+        public int ID
+        {
+            get { return CurrentEntity.OrderID; }
+        }
+
         public int CurrentCustomerID
         {
-            get { return _customerID; }
-            set { _customerID = value; }
+            get { return CurrentEntity.CustomerID; }
+            set
+            {
+                CurrentEntity.CustomerID = value;
+                IsDirty = true;
+                OnPropertyChanged("CurrentCustomerID");
+            }
         }
 
         public IEnumerable<OrderItemVM> OrderItems
@@ -60,16 +87,27 @@ namespace Orders.com.WPF
         {
             get { return _addOrderItemCommand; }
         }
-        
+
+        public ICommand SaveOrderCommand
+        {
+            get { return _saveOrderCommand; }
+        }
+
         private void AddOrderItem()
         {
-            _orderItems.Add(new OrderItemVM(_orderItemService, _productService));
+            _orderItems.Add(new OrderItemVM(_orderItemService, _categoryService, _productService));
         }
 
         private async void LoadCustomers()
         {
             var result = await _customerService.GetAllCommand().ExecuteAsync();
             Customers = result.Value;
+        }
+
+        protected override void OnCommandExecutionSuccess(Facile.Core.ExecutionResult<Order> result)
+        {
+            OnPropertyChanged("ID");
+            // TODO: save order items here
         }
     }
 }

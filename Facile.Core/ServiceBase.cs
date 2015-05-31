@@ -151,6 +151,7 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand<T> InsertCommand(T entity)
         {
+            OnBeforeInsertCreated(entity);
             return new ServiceCommand<T>
             (
                 executeMethod: () => Insert(entity),
@@ -158,6 +159,10 @@ namespace Facile.Core
                 getValidationResultsMethod: () => GetValidationResultsForInsert(entity),
                 getBusinessRulesResultsMethod: () => GetBusinessRulesResults(GetBusinessRulesForInsert(entity))
             );
+        }
+
+        protected virtual void OnBeforeInsertCreated(T entity)
+        {
         }
         
         /// <summary>

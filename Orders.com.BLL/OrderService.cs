@@ -1,4 +1,5 @@
 ﻿using Facile;
+using Facile.Extensions;
 using Orders.com.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,11 @@ namespace Orders.com.BLL
         public OrderService(IServiceDataProxy<Order, int> dataProxy) : base(dataProxy)
         {
         }
+
+        protected override void OnBeforeInsertCreated(Order entity)
+        {
+            entity.OrderDate = DateTime.Now;
+        }
+
     }
 }

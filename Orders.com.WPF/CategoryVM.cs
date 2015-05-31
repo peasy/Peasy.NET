@@ -34,7 +34,7 @@ namespace Orders.com.WPF
         protected override void OnCommandExecutionSuccess(ExecutionResult<Category> result)
         {
             OnPropertyChanged("ID");
-            Name = CurrentEntity.Name;
+            //Name = CurrentEntity.Name;
         }
     }
 }

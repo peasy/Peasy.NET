@@ -48,6 +48,7 @@ namespace Orders.com.WPF
 
                 if (result.Success)
                 {
+                    CurrentEntity = result.Value;
                     OnCommandExecutionSuccess(result);
                     IsNew = false;
                     IsDirty = false;
