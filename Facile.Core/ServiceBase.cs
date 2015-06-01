@@ -123,6 +123,7 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand<T> GetByIDCommand(TKey id)
         {
+            OnBeforeGetByIDCommandCreated(id);
             return new ServiceCommand<T>
             (
                 executeMethod: () => GetByID(id),
@@ -132,11 +133,16 @@ namespace Facile.Core
             );
         }
 
+        protected void OnBeforeGetByIDCommandCreated(TKey id)
+        {
+        }
+
         /// <summary>
         /// Composes a <see cref="T:Facile.ICommand`1" /> that invokes <see cref="T:Facile.IDataProxy`1" />.GetAll() upon successful execution of business and validation rules
         /// </summary>
         public virtual ICommand<IEnumerable<T>> GetAllCommand()
         {
+            OnBeforeGetAllCommandCreated();
             return new ServiceCommand<IEnumerable<T>>
             (
                 executeMethod: () => GetAll(),
@@ -146,12 +152,16 @@ namespace Facile.Core
             );
         }
 
+        protected void OnBeforeGetAllCommandCreated()
+        {
+        }
+
         /// <summary>
         /// Composes a <see cref="T:Facile.ICommand`1" /> that invokes <see cref="T:Facile.IDataProxy`1" />.Insert() upon successful execution of business and validation rules
         /// </summary>
         public virtual ICommand<T> InsertCommand(T entity)
         {
-            OnBeforeInsertCreated(entity);
+            OnBeforeInsertCommandCreated(entity);
             return new ServiceCommand<T>
             (
                 executeMethod: () => Insert(entity),
@@ -161,7 +171,7 @@ namespace Facile.Core
             );
         }
 
-        protected virtual void OnBeforeInsertCreated(T entity)
+        protected virtual void OnBeforeInsertCommandCreated(T entity)
         {
         }
         
@@ -171,6 +181,7 @@ namespace Facile.Core
         /// <param name="entity"></param>
         public virtual ICommand<T> UpdateCommand(T entity)
         {
+            OnBeforeUpdateCommandCreated(entity);
             return new ServiceCommand<T>
             (
                 executeMethod: () => Update(entity),
@@ -180,11 +191,16 @@ namespace Facile.Core
             );
         }
 
+        protected void OnBeforeUpdateCommandCreated(T entity)
+        {
+        }
+
         /// <summary>
         /// Composes a <see cref="Facile.ICommand" /> that invokes <see cref="T:Facile.IDataProxy`1" />.Delete() upon successful execution of business and validation rules
         /// </summary>
         public virtual ICommand DeleteCommand(TKey id)
         {
+            OnBeforeDeleteCommandCreated(id);
             return new ServiceCommand
             (
                 executeMethod: () => Delete(id),
@@ -192,6 +208,10 @@ namespace Facile.Core
                 getValidationResultsMethod: () => GetValidationResultsForDelete(id),
                 getBusinessRulesResultsMethod: () => GetBusinessRulesResults(GetBusinessRulesForDelete(id))
             );
+        }
+
+        protected void OnBeforeDeleteCommandCreated(TKey id)
+        {
         }
 
         /// <summary>
