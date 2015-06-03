@@ -15,10 +15,9 @@ namespace Orders.com.BLL
         {
         }
 
-        protected override void OnBeforeInsertCommandCreated(Order entity)
+        protected override void OnBeforeInsertCommandExecuted(Order entity)
         {
             entity.OrderDate = DateTime.Now;
         }
-
     }
 }

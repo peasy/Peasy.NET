@@ -123,9 +123,9 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand<T> GetByIDCommand(TKey id)
         {
-            OnBeforeGetByIDCommandCreated(id);
             return new ServiceCommand<T>
             (
+                beforeExecuteMethod: () => OnBeforeGetByIDCommandExecuted(id),
                 executeMethod: () => GetByID(id),
                 executeAsyncMethod: () => GetByIDAsync(id),
                 getValidationResultsMethod: () => GetValidationResultsForGetByID(id),
@@ -133,7 +133,7 @@ namespace Facile.Core
             );
         }
 
-        protected void OnBeforeGetByIDCommandCreated(TKey id)
+        protected void OnBeforeGetByIDCommandExecuted(TKey id)
         {
         }
 
@@ -142,9 +142,9 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand<IEnumerable<T>> GetAllCommand()
         {
-            OnBeforeGetAllCommandCreated();
             return new ServiceCommand<IEnumerable<T>>
             (
+                beforeExecuteMethod: () => OnBeforeGetAllCommandExecuted(),
                 executeMethod: () => GetAll(),
                 executeAsyncMethod: () => GetAllAsync(),
                 getValidationResultsMethod: () => GetValidationResultsForGetAll(),
@@ -152,7 +152,7 @@ namespace Facile.Core
             );
         }
 
-        protected void OnBeforeGetAllCommandCreated()
+        protected void OnBeforeGetAllCommandExecuted()
         {
         }
 
@@ -161,9 +161,9 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand<T> InsertCommand(T entity)
         {
-            OnBeforeInsertCommandCreated(entity);
             return new ServiceCommand<T>
             (
+                beforeExecuteMethod: () => OnBeforeInsertCommandExecuted(entity),
                 executeMethod: () => Insert(entity),
                 executeAsyncMethod: () => InsertAsync(entity),
                 getValidationResultsMethod: () => GetValidationResultsForInsert(entity),
@@ -171,7 +171,7 @@ namespace Facile.Core
             );
         }
 
-        protected virtual void OnBeforeInsertCommandCreated(T entity)
+        protected virtual void OnBeforeInsertCommandExecuted(T entity)
         {
         }
         
@@ -181,9 +181,9 @@ namespace Facile.Core
         /// <param name="entity"></param>
         public virtual ICommand<T> UpdateCommand(T entity)
         {
-            OnBeforeUpdateCommandCreated(entity);
             return new ServiceCommand<T>
             (
+                beforeExecuteMethod: () => OnBeforeUpdateCommandExecuted(entity),
                 executeMethod: () => Update(entity),
                 executeAsyncMethod: () => UpdateAsync(entity),
                 getValidationResultsMethod: () => GetValidationResultsForUpdate(entity),
@@ -191,7 +191,7 @@ namespace Facile.Core
             );
         }
 
-        protected void OnBeforeUpdateCommandCreated(T entity)
+        protected void OnBeforeUpdateCommandExecuted(T entity)
         {
         }
 
@@ -200,9 +200,9 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand DeleteCommand(TKey id)
         {
-            OnBeforeDeleteCommandCreated(id);
             return new ServiceCommand
             (
+                beforeExecuteMethod: () => OnBeforeDeleteCommandExecuted(id),
                 executeMethod: () => Delete(id),
                 executeAsyncMethod: () => DeleteAsync(id),
                 getValidationResultsMethod: () => GetValidationResultsForDelete(id),
@@ -210,7 +210,7 @@ namespace Facile.Core
             );
         }
 
-        protected void OnBeforeDeleteCommandCreated(TKey id)
+        protected void OnBeforeDeleteCommandExecuted(TKey id)
         {
         }
 
