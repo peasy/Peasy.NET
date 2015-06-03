@@ -1,5 +1,6 @@
 ﻿using Orders.com.BLL;
 using Orders.com.DAL.EF;
+using Orders.com.WPF.VM;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

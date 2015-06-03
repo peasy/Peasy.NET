@@ -1,4 +1,5 @@
 ﻿using Orders.com.BLL;
+using Orders.com.WPF.VM;
 using System;
 using System.Collections.Generic;
 using System.Linq;

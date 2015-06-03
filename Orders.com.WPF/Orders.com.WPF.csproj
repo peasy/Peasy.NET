@@ -58,25 +58,25 @@
     <Compile Include="Command.cs" />
     <Compile Include="Converters\DecimalConverter.cs" />
     <Compile Include="Converters\ErrorsConverter.cs" />
-    <Compile Include="CategoriesVM.cs" />
-    <Compile Include="CustomerOrderVM.cs" />
-    <Compile Include="CustomersVM.cs" />
-    <Compile Include="CategoryVM.cs" />
-    <Compile Include="CustomerVM.cs" />
-    <Compile Include="EntityViewModelBase.cs" />
-    <Compile Include="MainWindowVM.cs" />
+    <Compile Include="VM\CategoriesVM.cs" />
+    <Compile Include="VM\CustomerOrderVM.cs" />
+    <Compile Include="VM\CustomersVM.cs" />
+    <Compile Include="VM\CategoryVM.cs" />
+    <Compile Include="VM\CustomerVM.cs" />
+    <Compile Include="VM\EntityViewModelBase.cs" />
+    <Compile Include="VM\MainWindowVM.cs" />
     <Compile Include="OrderItemWindow.xaml.cs">
       <DependentUpon>OrderItemWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OrdersVM.cs" />
+    <Compile Include="VM\OrdersVM.cs" />
     <Compile Include="CustomerOrderWindow.xaml.cs">
       <DependentUpon>CustomerOrderWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OrderItemVM.cs" />
-    <Compile Include="OrderVM.cs" />
-    <Compile Include="ProductsVM.cs" />
-    <Compile Include="ProductVM.cs" />
-    <Compile Include="ViewModelBase.cs" />
+    <Compile Include="VM\OrderItemVM.cs" />
+    <Compile Include="VM\OrderVM.cs" />
+    <Compile Include="VM\ProductsVM.cs" />
+    <Compile Include="VM\ProductVM.cs" />
+    <Compile Include="VM\ViewModelBase.cs" />
     <Compile Include="Converters\VisibilityConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
