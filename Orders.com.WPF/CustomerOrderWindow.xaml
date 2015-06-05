@@ -1,7 +1,12 @@
 ﻿<Window x:Class="Orders.com.WPF.CustomerOrderWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:Orders.com.WPF.Converters"
         Title="Customer Order" Height="300" Width="394.03">
+    <Window.Resources>
+        <converters:VisibilityConverter x:Key="visibilityConverter" />
+        <converters:ErrorsConverter x:Key="errorsConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -21,9 +26,9 @@
             <Label Content="Order ID:" Grid.Row="0"/>
             <Label Content="{Binding ID}" Grid.Row="0" Grid.Column="1" />
             <Label Content="Customer:" Grid.Row="1" />
-            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,5,0" ItemsSource="{Binding Customers}" DisplayMemberPath="Name" SelectedValuePath="CustomerID" SelectedValue="{Binding CurrentCustomerID}" Width="Auto"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,5,0" ItemsSource="{Binding Customers}" DisplayMemberPath="Name" SelectedValuePath="CustomerID" SelectedValue="{Binding CurrentCustomerID}" Width="Auto" VerticalAlignment="Center"/>
             <Label Content="Total:" Grid.Row="2" />
-            <Label Content="{Binding Total, StringFormat=\{0:C\}}" Grid.Row="2" Grid.Column="1" />
+            <Label Content="{Binding Total}" ContentStringFormat="C" Grid.Row="2" Grid.Column="1" />
         </Grid>
         <GroupBox Header="Items" Grid.Row="1" Grid.ColumnSpan="2" Margin="5">
             <Grid>
@@ -40,10 +45,10 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Header="Category" >
+                        <DataGridTemplateColumn Header="Category">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox Margin="1" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="CategoryID" SelectedValue="{Binding CurrentCategoryID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <ComboBox Margin="1" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="CategoryID" SelectedValue="{Binding CurrentCategoryID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -54,12 +59,11 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Binding="{Binding Price, StringFormat=C}" IsReadOnly="True" Header="Price"></DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Price, StringFormat=C}" IsReadOnly="True" Header="Price" ></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Quantity"></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Amount, StringFormat=C}" IsReadOnly="True" Header="Amount"></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Status}" IsReadOnly="True" Header="Status"></DataGridTextColumn>
-
-                        <!--<DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource visibilityConverter}}">
@@ -69,7 +73,7 @@
                             </Image>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
+                </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <Button Grid.Row="1" Margin="5" Content="Add" HorizontalAlignment="Right" Command="{Binding AddOrderItemCommand}" />

@@ -1,4 +1,5 @@
-﻿using Orders.com.BLL;
+﻿using Facile.Core.Extensions;
+using Orders.com.BLL;
 using Orders.com.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -111,7 +112,14 @@ namespace Orders.com.WPF.VM
         protected override void OnCommandExecutionSuccess(Facile.Core.ExecutionResult<Order> result)
         {
             OnPropertyChanged("ID");
-            // TODO: save order items here
+        }
+
+        public override async Task SaveAsync()
+        {
+            await base.SaveAsync();
+            var results = OrderItems.ForEach(item => item.OrderID = CurrentEntity.OrderID)
+                                    .Select(vm => vm.SaveAsync()).ToArray();
+            await Task.WhenAll(results);
         }
 
         public async Task UpdateOrder(OrderItemVM orderItemVM)
