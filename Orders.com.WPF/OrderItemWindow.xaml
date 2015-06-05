@@ -27,8 +27,8 @@
         <Label Content="Amount:" Grid.Row="4"/>
         <TextBlock Grid.Row="4" Grid.Column="1" Margin="5" Text="{Binding Amount, StringFormat=C}"></TextBlock>
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Margin="5" Content="Cancel" Command="{Binding DeleteSelectedCommand}"/>
-            <Button Margin="5" Content="Save" Command="{Binding SaveCustomersCommand}"/>
+            <Button Margin="5" Content="Cancel" Click="CancelButtonClick"/>
+            <Button Margin="5" Content="Save" Click="SaveButtonClick" />
         </StackPanel>
     </Grid>
 </Window>

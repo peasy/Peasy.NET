@@ -31,5 +31,20 @@ namespace Orders.com.WPF
             InitializeComponent();
             DataContext = new OrderItemVM(orderItemService, categoryService, productService);
         }
+
+        public OrderItemVM VM
+        {
+            get { return DataContext as OrderItemVM; }
+        }
+
+        private void SaveButtonClick(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+        }
+
+        private void CancelButtonClick(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+        }
     }
 }

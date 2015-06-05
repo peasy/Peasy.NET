@@ -67,6 +67,15 @@ namespace Orders.com.WPF.VM
             get { return CurrentEntity.OrderID; }
         }
 
+        public decimal Total
+        {
+            get
+            {
+                if (!OrderItems.Any()) return 0;
+                return OrderItems.Sum(o => o.Amount.GetValueOrDefault());
+            }
+        }
+
         public int CurrentCustomerID
         {
             get { return CurrentEntity.CustomerID; }
@@ -93,11 +102,6 @@ namespace Orders.com.WPF.VM
             get { return _saveOrderCommand; }
         }
 
-        private void AddOrderItem()
-        {
-            _orderItems.Add(new OrderItemVM(_orderItemService, _categoryService, _productService));
-        }
-
         private async void LoadCustomers()
         {
             var result = await _customerService.GetAllCommand().ExecuteAsync();
@@ -108,6 +112,34 @@ namespace Orders.com.WPF.VM
         {
             OnPropertyChanged("ID");
             // TODO: save order items here
+        }
+
+        public async Task UpdateOrder(OrderItemVM orderItemVM)
+        {
+            if (orderItemVM.IsNew)
+                await AddOrderItem(orderItemVM);
+            else
+                await UpdateOrderItem(orderItemVM);
+        }
+
+        private void AddOrderItem()
+        {
+            var item = new OrderItemVM(_orderItemService, _categoryService, _productService);
+            item.PropertyChanged += (s, e) => OnPropertyChanged("Total");
+            _orderItems.Add(item);
+        }
+
+        private async Task AddOrderItem(OrderItemVM orderItemVM)
+        {
+            if (IsNew) await SaveAsync();
+            orderItemVM.OrderID = ID;
+            await orderItemVM.SaveAsync();
+            _orderItems.Add(orderItemVM);
+        }
+
+        private async Task UpdateOrderItem(OrderItemVM orderItemVM)
+        {
+            await orderItemVM.SaveAsync();
         }
     }
 }

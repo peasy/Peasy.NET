@@ -42,14 +42,18 @@ namespace Orders.com.WPF
             DataContext = vm;
         }
 
+        private CustomerOrderVM VM
+        {
+            get { return DataContext as CustomerOrderVM; }
+        }
+
         private void AddItemClick(object sender, RoutedEventArgs e)
         {
             var orderItemWindow = new OrderItemWindow(_orderItemService, _categoryService, _productService);
             var result = orderItemWindow.ShowDialog();
             if (result.GetValueOrDefault() == true)
             {
-                //VM.SplitResults = splitsWindow.SplitResults;
-                //VM.SaveSplitInsertResults();
+                VM.UpdateOrder(orderItemWindow.VM);
             }
         }
 

@@ -17,7 +17,7 @@ namespace Orders.com.WPF.VM
         private IEnumerable<Product> _products;
         private int _currentCategoryID;
         private Product _currentProduct;
-        private System.Windows.Input.ICommand _saveCustomersCommand;
+        //private System.Windows.Input.ICommand _saveCustomersCommand;
 
         public OrderItemVM(OrderItemService service, CategoryService categoryService, ProductService productService)
             : base(service)
@@ -143,11 +143,18 @@ namespace Orders.com.WPF.VM
             }
         }
 
+        public int OrderID
+        {
+            get { return CurrentEntity.OrderID; }
+            set { CurrentEntity.OrderID = value; }
+        }
+
         protected override void OnCommandExecutionSuccess(ExecutionResult<OrderItem> result)
         {
             OnPropertyChanged("ID");
             OnPropertyChanged("Quantity");
             OnPropertyChanged("Amount");
         }
+
     }
 }
