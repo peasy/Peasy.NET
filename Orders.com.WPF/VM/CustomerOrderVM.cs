@@ -43,8 +43,8 @@ namespace Orders.com.WPF.VM
             _categoryService = categoryService;
             _productService = productService;
             _orderItems = new ObservableCollection<OrderItemVM>();
-            _saveOrderCommand = new Command(() => SaveAsync());
-            _addOrderItemCommand = new Command(() => AddOrderItem());
+            _saveOrderCommand = new Command(() => SaveAsync(), CanSave);
+            _addOrderItemCommand = new Command(() => AddOrderItem(), CanSave);
         }
 
         public IEnumerable<Customer> Customers

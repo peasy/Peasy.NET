@@ -18,7 +18,7 @@ namespace Orders.com.Core.Domain
         [FacileForeignKey, FacileRequired]
         public int CustomerID { get; set; }
 
-        [Editable(false), FacileRequired]
+        [Editable(false)]
         public DateTime OrderDate { get; set; }
 
         public decimal Total { get; set; }

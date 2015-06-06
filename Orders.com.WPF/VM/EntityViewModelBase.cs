@@ -39,7 +39,7 @@ namespace Orders.com.WPF.VM
         protected virtual void OnCommandExecutionSuccess(ExecutionResult<T> result)
         {
         }
-
+        
         public virtual async Task SaveAsync()
         {
             if (IsDirty)
@@ -69,6 +69,11 @@ namespace Orders.com.WPF.VM
                 return _service.InsertCommand(CurrentEntity);
             else
                 return _service.UpdateCommand(CurrentEntity);
+        }
+
+        public bool CanSave()
+        {
+            return CreateCommand().CanExecute;
         }
     }
 }
