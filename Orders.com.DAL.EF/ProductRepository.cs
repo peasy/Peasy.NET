@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Facile;
+using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.EF
 {
-    public class ProductRepository : IServiceDataProxy<Product, int>
+    public class ProductRepository : IProductDataProxy 
     {
         public ProductRepository()
         {
@@ -50,7 +51,7 @@ namespace Orders.com.DAL.EF
             return Products.Select(Mapper.Map<Product, Product>).ToArray();
         }
 
-        public Product GetByID(int id)
+        public Product GetByID(long id)
         {
             Debug.WriteLine("Executing EF Product.GetByID");
             return Products.First(c => c.ID == id);
@@ -75,7 +76,7 @@ namespace Orders.com.DAL.EF
             return entity;
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             Debug.WriteLine("DELETING product in database");
             var product = Products.First(c => c.ID == id);
@@ -87,7 +88,7 @@ namespace Orders.com.DAL.EF
             return Task.Run(() => GetAll());
         }
 
-        public Task<Product> GetByIDAsync(int id)
+        public Task<Product> GetByIDAsync(long id)
         {
             return Task.Run(() => GetByID(id));
         }
@@ -102,7 +103,7 @@ namespace Orders.com.DAL.EF
             return Task.Run(() => Update(entity));
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(long id)
         {
             return Task.Run(() => Delete(id));
         }

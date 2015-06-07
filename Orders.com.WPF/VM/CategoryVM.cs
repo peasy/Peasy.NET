@@ -5,7 +5,7 @@ using Orders.com.Core.Domain;
 
 namespace Orders.com.WPF.VM
 {
-    public class CategoryVM : EntityViewModelBase<Category, int>
+    public class CategoryVM : OrdersDotComVMBase<Category>
     {
         public CategoryVM (CategoryService service) : base(service)
         {
@@ -15,7 +15,7 @@ namespace Orders.com.WPF.VM
         {
         }
 
-        public int ID
+        public long ID
         {
             get { return CurrentEntity.ID; }
         }

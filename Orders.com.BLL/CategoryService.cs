@@ -1,4 +1,5 @@
 ﻿using Facile;
+using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class CategoryService : BusinessServiceBase<Category, int>
+    public class CategoryService : OrdersDotComServiceBase<Category> 
     {
-        public CategoryService(IServiceDataProxy<Category, int> dataProxy) : base(dataProxy)
+        public CategoryService(ICategoryDataProxy dataProxy) : base(dataProxy)
         {
         }
     }

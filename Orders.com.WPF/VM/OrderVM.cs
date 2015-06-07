@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF.VM
 {
-    public class OrderVM : EntityViewModelBase<Order, int>
+    public class OrderVM : OrdersDotComVMBase<Order>
     {
         public OrderVM (OrderService service) : base(service)
         {
@@ -19,7 +19,7 @@ namespace Orders.com.WPF.VM
         {
         }
 
-        public int ID
+        public long ID
         {
             get { return CurrentEntity.ID; }
         }

@@ -49,6 +49,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrdersDotComServiceBase.cs" />
     <Compile Include="OrderItemService.cs" />
     <Compile Include="OrderService.cs" />
     <Compile Include="CustomerService.cs" />

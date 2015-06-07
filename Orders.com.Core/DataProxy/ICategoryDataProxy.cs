@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.Core.DataProxy
 {
-    public interface ICategoryDataProxy : IServiceDataProxy<Category, int>
+    public interface ICategoryDataProxy : IOrdersDotComDataProxy<Category>
     {
     }
 }

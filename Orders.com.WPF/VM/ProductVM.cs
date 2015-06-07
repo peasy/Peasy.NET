@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF.VM
 {
-    public class ProductVM : EntityViewModelBase<Product, int>
+    public class ProductVM : OrdersDotComVMBase<Product>
     {
         public ProductVM(ProductService service) : base(service)
         {
@@ -20,7 +20,7 @@ namespace Orders.com.WPF.VM
         {
         }
 
-        public int ID
+        public long ID
         {
             get { return CurrentEntity.ID; }
         }

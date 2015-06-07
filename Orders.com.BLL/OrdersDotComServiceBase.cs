@@ -1,4 +1,5 @@
 ﻿using Facile;
+using Facile.Core;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using System;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class ProductService : OrdersDotComServiceBase<Product>
+    public abstract class OrdersDotComServiceBase<T> : BusinessServiceBase<T, long> where T : IDomainObject<long>, new()
     {
-        public ProductService(IProductDataProxy dataProxy) : base(dataProxy)
+        public OrdersDotComServiceBase(IOrdersDotComDataProxy<T> dataProxy) : base(dataProxy)
         {
         }
     }

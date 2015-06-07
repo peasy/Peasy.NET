@@ -11,7 +11,7 @@ namespace Orders.com.Core.Domain
 {
     public class Product : DomainBase
     {
-        public int ProductID { get; set; }
+        public long ProductID { get; set; }
 
         [Required]
         [StringLength(30)]
@@ -23,9 +23,9 @@ namespace Orders.com.Core.Domain
         public decimal? Price { get; set; }
 
         [FacileForeignKey, FacileRequired, Display(Name="Category")]
-        public int CategoryID { get; set; }
+        public long CategoryID { get; set; }
 
-        public override int ID
+        public override long ID
         {
             get { return ProductID; }
             set { ProductID = value; }

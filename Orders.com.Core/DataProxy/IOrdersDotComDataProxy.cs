@@ -1,5 +1,4 @@
 ﻿using Facile;
-using Orders.com.Core.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.Core.DataProxy
 {
-    public interface IProductDataProxy : IOrdersDotComDataProxy<Product>
+    public interface IOrdersDotComDataProxy<T> : IServiceDataProxy<T, long>
     {
     }
 }

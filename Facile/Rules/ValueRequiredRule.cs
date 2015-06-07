@@ -12,6 +12,12 @@ namespace Facile.Rules
         private string _errorMessage;
         private Func<bool> _validate;
 
+        public ValueRequiredRule(long value, string fieldName)
+        {
+            _errorMessage = string.Format("{0} must be greater than 0", fieldName);
+            _validate = () => value > 0;                        
+        }
+
         public ValueRequiredRule(int value, string fieldName)
         {
             _errorMessage = string.Format("{0} must be greater than 0", fieldName);

@@ -49,6 +49,7 @@
     <Compile Include="DataProxy\IOrderDataProxy.cs" />
     <Compile Include="DataProxy\ICustomerDataProxy.cs" />
     <Compile Include="DataProxy\ICategoryDataProxy.cs" />
+    <Compile Include="DataProxy\IOrdersDotComDataProxy.cs" />
     <Compile Include="DataProxy\IProductDataProxy.cs" />
     <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\Customer.cs" />

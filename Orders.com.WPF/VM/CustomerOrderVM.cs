@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace Orders.com.WPF.VM
 {
-    public class CustomerOrderVM : EntityViewModelBase<Order, int>
+    public class CustomerOrderVM : OrdersDotComVMBase<Order>
     {
         private CustomerService _customerService;
         private OrderItemService _orderItemService;
@@ -72,7 +72,7 @@ namespace Orders.com.WPF.VM
             set;
         }
 
-        public int ID
+        public long ID
         {
             get { return CurrentEntity.OrderID; }
         }
@@ -86,7 +86,7 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        public int CurrentCustomerID
+        public long CurrentCustomerID
         {
             get { return CurrentEntity.CustomerID; }
             set

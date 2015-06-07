@@ -11,19 +11,19 @@ namespace Orders.com.Core.Domain
 {
     public class Order : DomainBase
     {
-        public int OrderID { get; set; }
+        public long OrderID { get; set; }
 
         public int OrderStatusID { get; set; }
 
         [FacileForeignKey, FacileRequired]
-        public int CustomerID { get; set; }
+        public long CustomerID { get; set; }
 
         [Editable(false)]
         public DateTime OrderDate { get; set; }
 
         public decimal Total { get; set; }
 
-        public override int ID
+        public override long ID
         {
             get { return OrderID; }
             set { OrderID = value; }

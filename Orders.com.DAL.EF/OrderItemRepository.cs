@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Facile;
+using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.EF
 {
-    public class OrderItemRepository : IServiceDataProxy<OrderItem, int>
+    public class OrderItemRepository : IOrderItemDataProxy 
     {
         public OrderItemRepository()
         {
@@ -38,7 +39,7 @@ namespace Orders.com.DAL.EF
             return OrderItems.Select(Mapper.Map<OrderItem, OrderItem>).ToArray();
         }
 
-        public OrderItem GetByID(int id)
+        public OrderItem GetByID(long id)
         {
             Debug.WriteLine("Executing EF OrderItem.GetByID");
             return OrderItems.First(c => c.ID == id);
@@ -63,7 +64,7 @@ namespace Orders.com.DAL.EF
             return entity;
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             Debug.WriteLine("DELETING orderItem in database");
             var orderItem = OrderItems.First(c => c.ID == id);
@@ -75,7 +76,7 @@ namespace Orders.com.DAL.EF
             return Task.Run(() => GetAll());
         }
 
-        public Task<OrderItem> GetByIDAsync(int id)
+        public Task<OrderItem> GetByIDAsync(long id)
         {
             return Task.Run(() => GetByID(id));
         }
@@ -90,7 +91,7 @@ namespace Orders.com.DAL.EF
             return Task.Run(() => Update(entity));
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(long id)
         {
             return Task.Run(() => Delete(id));
         }

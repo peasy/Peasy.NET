@@ -9,12 +9,12 @@ namespace Orders.com.Core.Domain
 {
     public class Category : DomainBase
     {
-        public int CategoryID { get; set; }
+        public long CategoryID { get; set; }
 
         [Required]
         public string Name { get; set; }
         
-        public override int ID
+        public override long ID
         {
             get { return CategoryID; }
             set { CategoryID = value; }

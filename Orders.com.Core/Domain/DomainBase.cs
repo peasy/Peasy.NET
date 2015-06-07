@@ -7,12 +7,12 @@ using Facile;
 
 namespace Orders.com.Core
 {
-    public abstract class DomainBase : IDomainObject<int> 
+    public abstract class DomainBase : IDomainObject<long> 
     {
         // TODO: Include Newtonsoft.json??
         //[JsonIgnore, IgnoreDataMember]
         [IgnoreDataMember]
-        public abstract int ID { get; set; }
+        public abstract long ID { get; set; }
 
         public string Self { get; set; }
 

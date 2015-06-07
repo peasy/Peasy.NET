@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Facile;
+using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.EF
 {
-    public class CustomerRepository : IServiceDataProxy<Customer, int>
+    public class CustomerRepository : ICustomerDataProxy 
     {
         public CustomerRepository()
         {
@@ -43,7 +44,7 @@ namespace Orders.com.DAL.EF
             return Customers.Select(Mapper.Map<Customer, Customer>).ToArray();
         }
 
-        public Customer GetByID(int id)
+        public Customer GetByID(long id)
         {
             Debug.WriteLine("Executing EF Customer.GetByID");
             return Customers.First(c => c.ID == id);
@@ -67,7 +68,7 @@ namespace Orders.com.DAL.EF
             return entity;
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             Debug.WriteLine("DELETING customer in database");
             var customer = Customers.First(c => c.ID == id);
@@ -79,7 +80,7 @@ namespace Orders.com.DAL.EF
             return Task.Run(() => GetAll());
         }
 
-        public Task<Customer> GetByIDAsync(int id)
+        public Task<Customer> GetByIDAsync(long id)
         {
             return Task.Run(() => GetByID(id));
         }
@@ -94,7 +95,7 @@ namespace Orders.com.DAL.EF
             return Task.Run(() => Update(entity));
         }
 
-        public Task DeleteAsync(int id)
+        public Task DeleteAsync(long id)
         {
             return Task.Run(() => Delete(id)); 
         }

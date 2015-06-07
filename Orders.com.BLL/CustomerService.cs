@@ -1,4 +1,5 @@
 ﻿using Facile;
+using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class CustomerService : BusinessServiceBase<Customer, int>
+    public class CustomerService : OrdersDotComServiceBase<Customer>
     {
-        public CustomerService(IServiceDataProxy<Customer, int> dataProxy) : base(dataProxy)
+        public CustomerService(ICustomerDataProxy dataProxy) : base(dataProxy)
         {
         }
     }

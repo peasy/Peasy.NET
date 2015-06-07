@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF.VM
 {
-    public class OrderItemVM : EntityViewModelBase<OrderItem, int>
+    public class OrderItemVM : OrdersDotComVMBase<OrderItem>
     {
         private CategoryService _categoryService;
         private ProductService _productService;
         private IEnumerable<Category> _categories;
         private IEnumerable<Product> _products;
-        private int _currentCategoryID;
+        private long _currentCategoryID;
         private Product _currentProduct;
         //private System.Windows.Input.ICommand _saveCustomersCommand;
 
@@ -32,12 +32,12 @@ namespace Orders.com.WPF.VM
             _productService = productService;
         }
 
-        public int ID
+        public long ID
         {
             get { return CurrentEntity.ID; }
         }
 
-        public int CurrentCategoryID
+        public long CurrentCategoryID
         {
             get
             {
@@ -50,7 +50,7 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        public int CurrentProductID
+        public long CurrentProductID
         {
             get { return CurrentEntity.ProductID; }
             set
@@ -143,7 +143,7 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        public int OrderID
+        public long OrderID
         {
             get { return CurrentEntity.OrderID; }
             set { CurrentEntity.OrderID = value; }

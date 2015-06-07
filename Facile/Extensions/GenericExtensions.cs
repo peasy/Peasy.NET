@@ -14,6 +14,8 @@ namespace Facile.Extensions
         {
             if (value is string)
                 return new ValueRequiredRule(value as string, fieldName);
+            else if (value is long)
+                return new ValueRequiredRule(Convert.ToInt64(value), fieldName);
             else if (value is int)
                 return new ValueRequiredRule(Convert.ToInt32(value), fieldName);
             else if (value is Guid)

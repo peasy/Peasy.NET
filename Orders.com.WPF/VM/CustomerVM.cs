@@ -5,7 +5,7 @@ using Orders.com.Core.Domain;
 
 namespace Orders.com.WPF.VM
 {
-    public class CustomerVM : EntityViewModelBase<Customer, int>
+    public class CustomerVM : OrdersDotComVMBase<Customer>
     {
         public CustomerVM (CustomerService service) : base(service)
         {
@@ -15,7 +15,7 @@ namespace Orders.com.WPF.VM
         {
         }
 
-        public int ID
+        public long ID
         {
             get { return CurrentEntity.ID; }
         }

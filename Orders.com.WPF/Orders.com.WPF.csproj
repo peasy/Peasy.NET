@@ -68,6 +68,7 @@
     <Compile Include="OrderItemWindow.xaml.cs">
       <DependentUpon>OrderItemWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VM\OrdersDotComVMBase.cs" />
     <Compile Include="VM\OrdersVM.cs" />
     <Compile Include="CustomerOrderWindow.xaml.cs">
       <DependentUpon>CustomerOrderWindow.xaml</DependentUpon>
