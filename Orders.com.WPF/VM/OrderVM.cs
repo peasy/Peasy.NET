@@ -24,6 +24,11 @@ namespace Orders.com.WPF.VM
             get { return CurrentEntity.ID; }
         }
 
+        public DateTime OrderDate
+        {
+            get { return CurrentEntity.OrderDate; }
+        }
+
         //public string Name
         //{
         //    get { return CurrentEntity.Name; }

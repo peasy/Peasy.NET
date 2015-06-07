@@ -128,7 +128,7 @@
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <DataGrid ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" AutoGenerateColumns="False" >
+                    <DataGrid ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" AutoGenerateColumns="False" >
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="ID" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -137,7 +137,9 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <!--<DataGridTextColumn Binding="{Binding Name}" Header="Name" />-->
+                            <DataGridTextColumn Binding="{Binding OrderDate}" Header="Order Date" />
+                            <DataGridTextColumn Binding="{Binding Customer}" Header="Customer" />
+                            <DataGridTextColumn Binding="{Binding Customer}" Header="Total" />
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

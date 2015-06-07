@@ -1,5 +1,6 @@
 ﻿using Facile;
 using Facile.Core;
+using Orders.com.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF.VM
 {
-    public class EntityViewModelBase<T, Tkey> : ViewModelBase where T : new()
+    public class EntityViewModelBase<T, Tkey> : ViewModelBase where T : IDomainObject<Tkey>, new()
     {
         private IService<T, Tkey> _service;
         private T _current;
@@ -60,6 +61,14 @@ namespace Orders.com.WPF.VM
                     IsValid = false;
                     Errors = result.Errors.ToArray();
                 }
+            }
+        }
+
+        public virtual async Task DeleteAsync()
+        {
+            if (!IsNew)
+            {
+                await _service.DeleteCommand(CurrentEntity.ID).ExecuteAsync();
             }
         }
 

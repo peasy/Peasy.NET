@@ -20,6 +20,7 @@ namespace Orders.com.WPF.VM
         private ObservableCollection<OrderItemVM> _orderItems;
         private ICommand _saveOrderCommand;
         private ICommand _addOrderItemCommand;
+        private ICommand _deleteSelectedItemCommand;
         private ProductService _productService;
         private CategoryService _categoryService;
 
@@ -45,7 +46,9 @@ namespace Orders.com.WPF.VM
             _orderItems = new ObservableCollection<OrderItemVM>();
             _saveOrderCommand = new Command(() => SaveAsync(), CanSave);
             _addOrderItemCommand = new Command(() => AddOrderItem(), CanSave);
+            _deleteSelectedItemCommand = new Command(() => DeleteSelectedItem());
         }
+
 
         public IEnumerable<Customer> Customers
         {
@@ -61,6 +64,12 @@ namespace Orders.com.WPF.VM
                 _customers = value;
                 OnPropertyChanged("Customers");
             }
+        }
+
+        public OrderItemVM SelectedOrderItem
+        {
+            get;
+            set;
         }
 
         public int ID
@@ -103,6 +112,11 @@ namespace Orders.com.WPF.VM
             get { return _saveOrderCommand; }
         }
 
+        public ICommand DeleteSelectedItemCommand
+        {
+            get { return _deleteSelectedItemCommand; }
+        }
+
         private async void LoadCustomers()
         {
             var result = await _customerService.GetAllCommand().ExecuteAsync();
@@ -122,14 +136,6 @@ namespace Orders.com.WPF.VM
             await Task.WhenAll(results);
         }
 
-        public async Task UpdateOrder(OrderItemVM orderItemVM)
-        {
-            if (orderItemVM.IsNew)
-                await AddOrderItem(orderItemVM);
-            else
-                await UpdateOrderItem(orderItemVM);
-        }
-
         private void AddOrderItem()
         {
             var item = new OrderItemVM(_orderItemService, _categoryService, _productService);
@@ -137,17 +143,11 @@ namespace Orders.com.WPF.VM
             _orderItems.Add(item);
         }
 
-        private async Task AddOrderItem(OrderItemVM orderItemVM)
+        private async Task DeleteSelectedItem()
         {
-            if (IsNew) await SaveAsync();
-            orderItemVM.OrderID = ID;
-            await orderItemVM.SaveAsync();
-            _orderItems.Add(orderItemVM);
-        }
-
-        private async Task UpdateOrderItem(OrderItemVM orderItemVM)
-        {
-            await orderItemVM.SaveAsync();
+            await SelectedOrderItem.DeleteAsync();
+            _orderItems.Remove(SelectedOrderItem);
+            SelectedOrderItem = null;
         }
     }
 }

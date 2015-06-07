@@ -48,7 +48,7 @@ namespace Orders.com.DAL.EF
         {
             Thread.Sleep(1000);
             Debug.WriteLine("INSERTING orderItem into database");
-            var nextID = OrderItems.Count() > 1 ? OrderItems.Max(c => c.ID) + 1 : 1;
+            var nextID = OrderItems.Any() ? OrderItems.Max(c => c.ID) + 1 : 1;
             entity.ID = nextID;
             OrderItems.Add(entity);
             return entity;

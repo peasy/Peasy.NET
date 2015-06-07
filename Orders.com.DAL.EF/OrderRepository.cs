@@ -26,11 +26,15 @@ namespace Orders.com.DAL.EF
             {
                 if (_orders == null)
                 {
-                    _orders = new List<Order>();
+                    _orders = new List<Order>()
+                    {
+                        new Order() { OrderID = 1, CustomerID = 1, OrderDate = DateTime.Now.AddMonths(-3) }
+                    };
                 }
                 return _orders;
             }
         }
+
         public IEnumerable<Order> GetAll()
         {
             Debug.WriteLine("Executing EF Order.GetAll");
@@ -48,7 +52,7 @@ namespace Orders.com.DAL.EF
         {
             Thread.Sleep(1000);
             Debug.WriteLine("INSERTING order into database");
-            var nextID = Orders.Count() > 1 ? Orders.Max(c => c.ID) + 1 : 1;
+            var nextID = Orders.Any() ? Orders.Max(c => c.ID) + 1 : 1;
             entity.ID = nextID;
             Orders.Add(entity);
             return entity;
