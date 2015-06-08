@@ -25,7 +25,7 @@ namespace Orders.com.WPF.VM
         {
             _customersVM = new CustomersVM(customerService);
             _customersVM.LoadCustomersCommand.Execute(null);
-            _productsVM = new ProductsVM(productService);
+            _productsVM = new ProductsVM(productService, categoryService);
             _productsVM.LoadProductsCommand.Execute(null);
             _categoriesVM = new CategoriesVM(categoryService);
             _categoriesVM.LoadCategoriesCommand.Execute(null);

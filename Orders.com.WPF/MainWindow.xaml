@@ -64,6 +64,13 @@
                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                             <DataGridTextColumn Binding="{Binding Price}" Header="Price" />
                             <DataGridTextColumn Binding="{Binding Description}" Header="Description" />
+                            <DataGridTemplateColumn Header="Category">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox Margin="1" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="CategoryID" SelectedValue="{Binding CurrentCategoryID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
