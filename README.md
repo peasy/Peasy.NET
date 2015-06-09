@@ -11,4 +11,4 @@ facile.net is a simple middle tier framework that offers the following:
 - Async support
 - Multiple client support
 
-more to come, stay tuned ...
+Looking for contributors for sample app consumers, framework improvements, and Nuget distributions!
