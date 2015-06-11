@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 public static class Extensions
 {
+    public static MinuteResult Minutes(this int minutes)
+    {
+      return new MinuteResult(minutes); 
+    }
+
     public static DayResult Days(this int days)
     {
       return new DayResult(days); 
@@ -16,6 +21,11 @@ public static class Extensions
         return new YearResult(years);
     }
     
+    public static DateTime Ago(this MinuteResult result)
+    {
+      return DateTime.Now.AddMinutes(-result.NumberOfMinutes);
+    }
+
     public static DateTime Ago(this DayResult result)
     {
       return DateTime.Now.AddDays(-result.NumberOfDays);
@@ -38,6 +48,15 @@ public static class Extensions
 }
 
 
+public class MinuteResult
+{
+    public MinuteResult(int numberOfMinutes)
+    {
+        NumberOfMinutes = numberOfMinutes;
+    }
+
+    public int NumberOfMinutes { get; private set; }
+}
 
 public class DayResult
 {
