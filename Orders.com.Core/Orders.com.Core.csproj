@@ -57,10 +57,12 @@
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\OrderItem.cs" />
     <Compile Include="Domain\Product.cs" />
+    <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\CannotEditPropertyRule.cs" />
     <Compile Include="Rules\DomainObjectMustContainIDRule.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
