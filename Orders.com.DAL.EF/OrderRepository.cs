@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Orders.com.Core.Extensions;
 
 namespace Orders.com.DAL.EF
 {

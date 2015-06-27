@@ -29,6 +29,7 @@ namespace Orders.com.WPF
         private OrderItemService _orderItemsService;
         private ProductService _productsService;
         private CategoryService _categoriesService;
+        private EventAggregator _eventAggregator = new EventAggregator();
 
         public MainWindow()
         {
@@ -44,7 +45,7 @@ namespace Orders.com.WPF
             _productsService = new ProductService(new ProductRepository());
             _categoriesService = new CategoryService(new CategoryRepository());
             var ordersService = new OrderService(new OrderRepository());
-            this.DataContext = new MainWindowVM(_customersService, _productsService, _categoriesService, ordersService);
+            this.DataContext = new MainWindowVM(_eventAggregator, _customersService, _productsService, _categoriesService, ordersService);
         }
 
         public MainWindowVM VM
@@ -54,7 +55,7 @@ namespace Orders.com.WPF
 
         private void addCustomerOrderClick(object sender, RoutedEventArgs e)
         {
-            var customerOrderWindow = new CustomerOrderWindow(_ordersService, _customersService, _orderItemsService, _productsService, _categoriesService);
+            var customerOrderWindow = new CustomerOrderWindow(_ordersService, _customersService, _orderItemsService, _productsService, _categoriesService, _eventAggregator);
             var result = customerOrderWindow.ShowDialog();
             if (result.GetValueOrDefault() == true)
             {

@@ -23,26 +23,28 @@ namespace Orders.com.WPF.VM
         private ICommand _deleteSelectedItemCommand;
         private ProductService _productService;
         private CategoryService _categoryService;
+        private EventAggregator _eventAggregator;
 
-        public CustomerOrderVM(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+        public CustomerOrderVM(EventAggregator eventAggregator, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
             : base(orderService)
         {
-            Setup(orderService, customerService, orderItemService, categoryService, productService);
+            Setup(eventAggregator, orderService, customerService, orderItemService, categoryService, productService);
         }
 
-        public CustomerOrderVM(Order order, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+        public CustomerOrderVM(EventAggregator eventAggregator, Order order, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
             : base(order, orderService)
         {
-            Setup(orderService, customerService, orderItemService, categoryService, productService);
+            Setup(eventAggregator, orderService, customerService, orderItemService, categoryService, productService);
         }
 
-        private void Setup(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+        private void Setup(EventAggregator eventAggregator, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
         {
             _orderService = orderService;
             _customerService = customerService;
             _orderItemService = orderItemService;
             _categoryService = categoryService;
             _productService = productService;
+            _eventAggregator = eventAggregator;
             _orderItems = new ObservableCollection<OrderItemVM>();
             _saveOrderCommand = new Command(() => SaveAsync(), CanSave);
             _addOrderItemCommand = new Command(() => AddOrderItem(), CanSave);
@@ -134,6 +136,7 @@ namespace Orders.com.WPF.VM
             var results = OrderItems.ForEach(item => item.OrderID = CurrentEntity.OrderID)
                                     .Select(vm => vm.SaveAsync()).ToArray();
             await Task.WhenAll(results);
+            _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent() { Order = CurrentEntity });
         }
 
         private void AddOrderItem()

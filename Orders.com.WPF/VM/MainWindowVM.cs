@@ -17,19 +17,22 @@ namespace Orders.com.WPF.VM
         private ProductsVM _productsVM;
         private CategoriesVM _categoriesVM;
         private OrdersVM _ordersVM;
+        private EventAggregator _eventAggregator;
 
-        public MainWindowVM(CustomerService customerService, 
+        public MainWindowVM(EventAggregator eventAggregator,
+                            CustomerService customerService, 
                             ProductService productService, 
                             CategoryService categoryService,
                             OrderService orderService)
         {
+            _eventAggregator = eventAggregator;
             _customersVM = new CustomersVM(customerService);
             _customersVM.LoadCustomersCommand.Execute(null);
             _productsVM = new ProductsVM(productService, categoryService);
             _productsVM.LoadProductsCommand.Execute(null);
             _categoriesVM = new CategoriesVM(categoryService);
             _categoriesVM.LoadCategoriesCommand.Execute(null);
-            _ordersVM = new OrdersVM(orderService);
+            _ordersVM = new OrdersVM(orderService, _eventAggregator);
             _ordersVM.LoadOrdersCommand.Execute(null);
         }
 

@@ -31,14 +31,14 @@ namespace Orders.com.WPF
             InitializeComponent();
         }
 
-        public CustomerOrderWindow(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, ProductService productService, CategoryService categoryService)
+        public CustomerOrderWindow(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, ProductService productService, CategoryService categoryService, EventAggregator eventAggregator)
         {
             InitializeComponent();
             _orderService = orderService;
             _orderItemService = orderItemService;
             _productService = productService;
             _categoryService = categoryService;
-            var vm = new CustomerOrderVM(orderService, customerService, orderItemService, _categoryService, productService);
+            var vm = new CustomerOrderVM(eventAggregator, orderService, customerService, orderItemService, _categoryService, productService);
             DataContext = vm;
         }
 
