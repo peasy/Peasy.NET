@@ -22,8 +22,8 @@ namespace Orders.com.WPF.VM
         public OrdersVM(OrderService categoryService, EventAggregator eventAggregator)
         {
             _ordersService = categoryService;
-            _addOrderCommand = new Command(() => AddOrder());
-            _saveOrdersCommand = new Command(() => SaveOrders());
+            //_addOrderCommand = new Command(() => AddOrder());
+            //_saveOrdersCommand = new Command(() => SaveOrders());
             _loadOrdersCommand = new Command(() => LoadOrders());
             _deleteSelectedCommand = new Command(() => DeleteSelectedVM());
             _eventAggregator = eventAggregator;
@@ -68,21 +68,21 @@ namespace Orders.com.WPF.VM
 
         private async Task LoadOrders()
         {
-            var result = await _ordersService.GetAllCommand().ExecuteAsync();
-            var vms = result.Value.Select(c => new OrderVM(c, _ordersService));
+            var result = await _ordersService.GetAllCommand(0, 10).ExecuteAsync();
+            var vms = result.Value.Select(c => new OrderVM(c));
             Orders = vms.ToArray();
         }
 
-        private async Task SaveOrders()
-        {
-            var results = Orders.Select(vm => vm.SaveAsync()).ToArray();
-            await Task.WhenAll(results);
-        }
+        //private async Task SaveOrders()
+        //{
+        //    var results = Orders.Select(vm => vm.SaveAsync()).ToArray();
+        //    await Task.WhenAll(results);
+        //}
 
-        private void AddOrder()
-        {
-            _orders.Add(new OrderVM(_ordersService));
-        }
+        //private void AddOrder()
+        //{
+        //    _orders.Add(new OrderVM(_ordersService));
+        //}
 
         private async Task DeleteSelectedVM()
         {

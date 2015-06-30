@@ -62,7 +62,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
-                            <DataGridTextColumn Binding="{Binding Price}" Header="Price" />
+                            <DataGridTextColumn Binding="{Binding Price, StringFormat=C}" Header="Price" />
                             <DataGridTextColumn Binding="{Binding Description}" Header="Description" />
                             <DataGridTemplateColumn Header="Category">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -146,7 +146,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Binding="{Binding OrderDate}" Header="Order Date" />
                             <DataGridTextColumn Binding="{Binding Customer}" Header="Customer" />
-                            <DataGridTextColumn Binding="{Binding Customer}" Header="Total" />
+                            <DataGridTextColumn Binding="{Binding Total, StringFormat=C}" Header="Total" />
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

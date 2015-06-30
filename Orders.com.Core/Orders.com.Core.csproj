@@ -59,6 +59,7 @@
     <Compile Include="Domain\Product.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryData\OrderInfo.cs" />
     <Compile Include="Rules\CannotEditPropertyRule.cs" />
     <Compile Include="Rules\DomainObjectMustContainIDRule.cs" />
   </ItemGroup>

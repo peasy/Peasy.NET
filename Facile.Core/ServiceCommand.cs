@@ -71,6 +71,11 @@ namespace Facile.Core
             _getValidationResultsMethod = getValidationResultsMethod;
         }
 
+        public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod)
+            : this(() => {}, executeMethod, executeAsyncMethod, () => { return Enumerable.Empty<ValidationResult>(); }, () => { return Enumerable.Empty<ValidationResult>(); })
+        {
+        }
+
         protected override void OnInitialization()
         {
             _beforeExecuteMethod();

@@ -1,6 +1,7 @@
 ﻿using Facile.Core;
 using Orders.com.BLL;
 using Orders.com.Core.Domain;
+using Orders.com.Core.QueryData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,41 +10,59 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF.VM
 {
-    public class OrderVM : OrdersDotComVMBase<Order>
+    public class OrderVM : ViewModelBase 
     {
-        public OrderVM (OrderService service) : base(service)
-        {
-        }
+        private long _orderID;
+        private DateTime _orderDate;
+        private string _name;
+        private decimal _total;
 
-        public OrderVM(Order customer, OrderService service) : base(customer, service)
+        public OrderVM(OrderInfo order) 
         {
+            _orderID = order.OrderID;
+            _orderDate = order.OrderDate;
+            _name = order.CustomerName;
+            _total = order.Total;
         }
 
         public long ID
         {
-            get { return CurrentEntity.ID; }
+            get { return _orderID; }
+            set
+            {
+                _orderID = value;
+                OnPropertyChanged("ID");
+            }
         }
 
         public DateTime OrderDate
         {
-            get { return CurrentEntity.OrderDate; }
+            get { return _orderDate; }
+            set
+            {
+                _orderDate = value;
+                OnPropertyChanged("OrderDate");
+            }
         }
 
-        //public string Name
-        //{
-        //    get { return CurrentEntity.Name; }
-        //    set
-        //    {
-        //        CurrentEntity.Name = value;
-        //        IsDirty = true;
-        //        OnPropertyChanged("Name");
-        //    }
-        //}
-
-        protected override void OnCommandExecutionSuccess(ExecutionResult<Order> result)
+        public string Customer
         {
-            OnPropertyChanged("ID");
-            //Name = CurrentEntity.Name;
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Customer");
+            }
+        }
+
+        public decimal Total 
+        {
+            get { return _total; }
+            set
+            {
+                _total = value;
+                OnPropertyChanged("Total");
+            }
         }
     }
 }

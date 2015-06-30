@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Orders.com.Core.Extensions;
+using Orders.com.Core.QueryData;
 
 namespace Orders.com.DAL.EF
 {
@@ -30,11 +31,27 @@ namespace Orders.com.DAL.EF
                 {
                     _orders = new List<Order>()
                     {
-                        new Order() { OrderID = 1, CustomerID = 1, OrderDate = DateTime.Now.AddMonths(-3) }
+                        new Order() { OrderID = 1, CustomerID = 1, OrderDate = DateTime.Now.AddMonths(-3), Total = 455 }
                     };
                 }
                 return _orders;
             }
+        }
+
+        public IEnumerable<OrderInfo> GetAll(int start, int pageSize)
+        {
+            var orders = GetAll();
+            var customers = new CustomerRepository().GetAll().ToDictionary(c => c.CustomerID);
+            var results = orders.Skip(start)
+                                .Take(pageSize)
+                                .Select(o => new OrderInfo()
+                                { 
+                                    OrderID = o.OrderID,
+                                    OrderDate = o.OrderDate,
+                                    CustomerName = customers[o.CustomerID].Name,
+                                    Total = o.Total
+                                });
+            return results.ToArray();
         }
 
         public IEnumerable<Order> GetAll()
@@ -81,6 +98,11 @@ namespace Orders.com.DAL.EF
             return Task.Run(() => GetAll());
         }
 
+        public Task<IEnumerable<OrderInfo>> GetAllAsync(int start, int pageSize)
+        {
+            return Task.Run(() => GetAll(start, pageSize));
+        }
+
         public Task<Order> GetByIDAsync(long id)
         {
             return Task.Run(() => GetByID(id));
@@ -110,5 +132,8 @@ namespace Orders.com.DAL.EF
         {
             get { return false; }
         }
+
+
+
     }
 }
