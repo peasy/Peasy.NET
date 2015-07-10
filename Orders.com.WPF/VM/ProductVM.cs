@@ -96,10 +96,9 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        protected override void OnCommandExecutionSuccess(ExecutionResult<Product> result)
+        protected override void OnInsertSuccess(ExecutionResult<Product> result)
         {
             OnPropertyChanged("ID");
-            Name = CurrentEntity.Name;
         }
     }
 }

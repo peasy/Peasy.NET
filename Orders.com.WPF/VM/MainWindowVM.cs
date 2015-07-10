@@ -32,7 +32,7 @@ namespace Orders.com.WPF.VM
             _productsVM.LoadProductsCommand.Execute(null);
             _categoriesVM = new CategoriesVM(categoryService);
             _categoriesVM.LoadCategoriesCommand.Execute(null);
-            _ordersVM = new OrdersVM(orderService, _eventAggregator);
+            _ordersVM = new OrdersVM(orderService, customerService, _eventAggregator);
             _ordersVM.LoadOrdersCommand.Execute(null);
         }
 

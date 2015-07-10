@@ -16,6 +16,7 @@ namespace Orders.com.WPF.VM
         private DateTime _orderDate;
         private string _name;
         private decimal _total;
+        private CustomerOrderVM customerOrderVM;
 
         public OrderVM(OrderInfo order) 
         {
@@ -23,6 +24,14 @@ namespace Orders.com.WPF.VM
             _orderDate = order.OrderDate;
             _name = order.CustomerName;
             _total = order.Total;
+        }
+
+        public OrderVM(CustomerOrderVM order, CustomerService customerService)
+        {
+            _orderID = order.ID;
+            _orderDate = order.CurrentEntity.OrderDate;
+            _name = customerService.GetAllCommand().Execute().Value.First(c => c.CustomerID == order.CurrentCustomerID).Name;
+            _total = order.OrderItems.Sum(i => i.Amount.Value);
         }
 
         public long ID

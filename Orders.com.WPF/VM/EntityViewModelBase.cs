@@ -37,7 +37,11 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        protected virtual void OnCommandExecutionSuccess(ExecutionResult<T> result)
+        protected virtual void OnInsertSuccess(ExecutionResult<T> result)
+        {
+        }
+
+        protected virtual void OnUpdateSuccess(ExecutionResult<T> result)
         {
         }
         
@@ -50,7 +54,14 @@ namespace Orders.com.WPF.VM
                 if (result.Success)
                 {
                     CurrentEntity = result.Value;
-                    OnCommandExecutionSuccess(result);
+                    if (IsNew)
+                    {
+                        OnInsertSuccess(result);
+                    }
+                    else
+                    {
+                        OnUpdateSuccess(result);
+                    }
                     IsNew = false;
                     IsDirty = false;
                     IsValid = true;

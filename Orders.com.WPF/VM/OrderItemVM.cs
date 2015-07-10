@@ -149,11 +149,11 @@ namespace Orders.com.WPF.VM
             set { CurrentEntity.OrderID = value; }
         }
 
-        protected override void OnCommandExecutionSuccess(ExecutionResult<OrderItem> result)
+        protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
         {
             OnPropertyChanged("ID");
-            OnPropertyChanged("Quantity");
-            OnPropertyChanged("Amount");
+            //OnPropertyChanged("Quantity");
+            //OnPropertyChanged("Amount");
         }
 
     }

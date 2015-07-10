@@ -51,7 +51,6 @@ namespace Orders.com.WPF.VM
             _deleteSelectedItemCommand = new Command(() => DeleteSelectedItem());
         }
 
-
         public IEnumerable<Customer> Customers
         {
             get
@@ -125,18 +124,24 @@ namespace Orders.com.WPF.VM
             Customers = result.Value;
         }
 
-        protected override void OnCommandExecutionSuccess(Facile.Core.ExecutionResult<Order> result)
+        protected override void OnInsertSuccess(Facile.Core.ExecutionResult<Order> result)
         {
             OnPropertyChanged("ID");
+            _eventAggregator.SendMessage<OrderInsertedEvent>(new OrderInsertedEvent() { Order = this });
+        }
+
+        protected override void OnUpdateSuccess(Facile.Core.ExecutionResult<Order> result)
+        {
+            _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent() { Order = CurrentEntity });
         }
 
         public override async Task SaveAsync()
         {
             await base.SaveAsync();
             var results = OrderItems.ForEach(item => item.OrderID = CurrentEntity.OrderID)
-                                    .Select(vm => vm.SaveAsync()).ToArray();
+                                    .Select(vm => vm.SaveAsync())
+                                    .ToArray();
             await Task.WhenAll(results);
-            _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent() { Order = CurrentEntity });
         }
 
         private void AddOrderItem()

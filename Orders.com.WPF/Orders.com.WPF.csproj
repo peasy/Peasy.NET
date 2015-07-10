@@ -59,6 +59,7 @@
     <Compile Include="Converters\DecimalConverter.cs" />
     <Compile Include="Converters\ErrorsConverter.cs" />
     <Compile Include="EventAggregator.cs" />
+    <Compile Include="OrderInsertedEvent.cs" />
     <Compile Include="OrderUpdatedEvent.cs" />
     <Compile Include="VM\CategoriesVM.cs" />
     <Compile Include="VM\CustomerOrderVM.cs" />

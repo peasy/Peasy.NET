@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Orders.com.WPF.VM
 {
-    public class OrdersVM : ViewModelBase, IListener<OrderUpdatedEvent>
+    public class OrdersVM : ViewModelBase, IListener<OrderUpdatedEvent>, IListener<OrderInsertedEvent>
     {
         private OrderService _ordersService;
         private ObservableCollection<OrderVM> _orders;
@@ -18,16 +18,18 @@ namespace Orders.com.WPF.VM
         private ICommand _loadOrdersCommand;
         private ICommand _deleteSelectedCommand;
         private EventAggregator _eventAggregator;
+        private CustomerService _customerService;
 
-        public OrdersVM(OrderService categoryService, EventAggregator eventAggregator)
+        public OrdersVM(OrderService categoryService, CustomerService customerService, EventAggregator eventAggregator)
         {
             _ordersService = categoryService;
+            _customerService = customerService; 
             //_addOrderCommand = new Command(() => AddOrder());
             //_saveOrdersCommand = new Command(() => SaveOrders());
             _loadOrdersCommand = new Command(() => LoadOrders());
             _deleteSelectedCommand = new Command(() => DeleteSelectedVM());
             _eventAggregator = eventAggregator;
-            _eventAggregator.AddListener<OrderUpdatedEvent>(this, true);
+            _eventAggregator.AddListener<OrderInsertedEvent>(this, true);
         }
 
         public OrderVM SelectedOrder
@@ -97,6 +99,11 @@ namespace Orders.com.WPF.VM
         public void Handle(OrderUpdatedEvent message)
         {
             System.Diagnostics.Debug.WriteLine(message.Order.OrderID);
+        }
+
+        public void Handle(OrderInsertedEvent message)
+        {
+            _orders.Add(new OrderVM(message.Order, _customerService));
         }
     }
 }
