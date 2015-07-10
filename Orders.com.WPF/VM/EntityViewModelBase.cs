@@ -14,6 +14,8 @@ namespace Orders.com.WPF.VM
         private IService<T, Tkey> _service;
         private T _current;
 
+        public EventHandler ItemSaved { get; set; }
+
         public EntityViewModelBase(IService<T, Tkey> service)
         {
             _service = service;
@@ -62,6 +64,7 @@ namespace Orders.com.WPF.VM
                     {
                         OnUpdateSuccess(result);
                     }
+                    if (ItemSaved != null) ItemSaved(this, EventArgs.Empty);
                     IsNew = false;
                     IsDirty = false;
                     IsValid = true;
