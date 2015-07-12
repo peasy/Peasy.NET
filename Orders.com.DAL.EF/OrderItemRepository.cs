@@ -48,6 +48,13 @@ namespace Orders.com.DAL.EF
             return OrderItems.First(c => c.ID == id);
         }
 
+        public IEnumerable<OrderItem> GetByOrder(long orderID)
+        {
+            return OrderItems.Where(i => i.OrderID == orderID)
+                             .Select(Mapper.Map<OrderItem, OrderItem>)
+                             .ToArray();
+        }
+
         public OrderItem Insert(OrderItem entity)
         {
             Thread.Sleep(1000);
@@ -77,6 +84,11 @@ namespace Orders.com.DAL.EF
         public Task<IEnumerable<OrderItem>> GetAllAsync()
         {
             return Task.Run(() => GetAll());
+        }
+
+        public Task<IEnumerable<OrderItem>> GetByOrderAsync(long orderID)
+        {
+            return Task.Run(() => GetByOrder(orderID));
         }
 
         public Task<OrderItem> GetByIDAsync(long id)

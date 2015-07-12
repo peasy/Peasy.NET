@@ -10,5 +10,7 @@ namespace Orders.com.Core.DataProxy
 {
     public interface IOrderItemDataProxy : IOrdersDotComDataProxy<OrderItem>
     {
+        IEnumerable<OrderItem> GetByOrder(long orderID);
+        Task<IEnumerable<OrderItem>> GetByOrderAsync(long orderID);
     }
 }
