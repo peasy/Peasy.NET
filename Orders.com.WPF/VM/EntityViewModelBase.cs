@@ -14,7 +14,8 @@ namespace Orders.com.WPF.VM
         private IService<T, Tkey> _service;
         private T _current;
 
-        public EventHandler ItemSaved { get; set; }
+        public EventHandler EntitySaved { get; set; }
+        public EventHandler EntityDeleted { get; set; }
 
         public EntityViewModelBase(IService<T, Tkey> service)
         {
@@ -46,6 +47,10 @@ namespace Orders.com.WPF.VM
         protected virtual void OnUpdateSuccess(ExecutionResult<T> result)
         {
         }
+
+        protected virtual void OnDeleteSuccess(ExecutionResult result)
+        {
+        }
         
         public virtual async Task SaveAsync()
         {
@@ -59,13 +64,13 @@ namespace Orders.com.WPF.VM
                     if (IsNew)
                     {
                         OnInsertSuccess(result);
+                        IsNew = false;
                     }
                     else
                     {
                         OnUpdateSuccess(result);
                     }
-                    if (ItemSaved != null) ItemSaved(this, EventArgs.Empty);
-                    IsNew = false;
+                    if (EntitySaved != null) EntitySaved(this, EventArgs.Empty);
                     IsDirty = false;
                     IsValid = true;
                     Errors = null;
@@ -82,7 +87,9 @@ namespace Orders.com.WPF.VM
         {
             if (!IsNew)
             {
-                await _service.DeleteCommand(CurrentEntity.ID).ExecuteAsync();
+                var result = await _service.DeleteCommand(CurrentEntity.ID).ExecuteAsync();
+                OnDeleteSuccess(result);
+                if (EntityDeleted != null) EntityDeleted(this, EventArgs.Empty);
             }
         }
 
