@@ -27,7 +27,10 @@ namespace Orders.com.DAL.EF
             {
                 if (_orderItems == null)
                 {
-                    _orderItems = new List<OrderItem>();
+                    _orderItems = new List<OrderItem>()
+                    {
+                        new OrderItem() { ID = 1, OrderID = 1, Amount = 50, ProductID = 1, Quantity = 3 }
+                    };
                 }
                 return _orderItems;
             }

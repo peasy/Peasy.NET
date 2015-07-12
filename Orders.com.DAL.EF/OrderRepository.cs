@@ -31,7 +31,7 @@ namespace Orders.com.DAL.EF
                 {
                     _orders = new List<Order>()
                     {
-                        new Order() { OrderID = 1, CustomerID = 1, OrderDate = DateTime.Now.AddMonths(-3), Total = 455 }
+                        new Order() { OrderID = 1, CustomerID = 1, OrderDate = DateTime.Now.AddMonths(-3) }
                     };
                 }
                 return _orders;
@@ -42,6 +42,7 @@ namespace Orders.com.DAL.EF
         {
             var orders = GetAll();
             var customers = new CustomerRepository().GetAll().ToDictionary(c => c.CustomerID);
+            var orderItems = new OrderItemRepository().GetAll().ToArray();
             var results = orders.Skip(start)
                                 .Take(pageSize)
                                 .Select(o => new OrderInfo()
@@ -49,7 +50,7 @@ namespace Orders.com.DAL.EF
                                     OrderID = o.OrderID,
                                     OrderDate = o.OrderDate,
                                     CustomerName = customers[o.CustomerID].Name,
-                                    Total = o.Total
+                                    Total = orderItems.Where(i => i.OrderID == o.OrderID).Sum(i => i.Amount * i.Quantity.Value)
                                 });
             return results.ToArray();
         }

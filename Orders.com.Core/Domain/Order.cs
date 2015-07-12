@@ -21,8 +21,6 @@ namespace Orders.com.Core.Domain
         [Editable(false)]
         public DateTime OrderDate { get; set; }
 
-        public decimal Total { get; set; }
-
         public override long ID
         {
             get { return OrderID; }
