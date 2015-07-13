@@ -35,7 +35,9 @@ namespace Orders.com.WPF.VM
             : base(order, orderService)
         {
             Setup(eventAggregator, orderService, customerService, orderItemService, categoryService, productService);
+            LoadOrderItems();
         }
+
 
         private void Setup(EventAggregator eventAggregator, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
         {
@@ -118,10 +120,17 @@ namespace Orders.com.WPF.VM
             get { return _deleteSelectedItemCommand; }
         }
 
+        private async void LoadOrderItems()
+        {
+            var result = await _orderItemService.GetByOrderCommand(CurrentEntity.OrderID).ExecuteAsync();
+            result.Value.ForEach(i => LoadOrderItem(i));
+        }
+
         private async void LoadCustomers()
         {
             var result = await _customerService.GetAllCommand().ExecuteAsync();
             Customers = result.Value;
+            OnPropertyChanged("CurrentCustomerID");
         }
 
         protected override void OnInsertSuccess(Facile.Core.ExecutionResult<Order> result)
@@ -147,6 +156,19 @@ namespace Orders.com.WPF.VM
         private void AddOrderItem()
         {
             var item = new OrderItemVM(_orderItemService, _categoryService, _productService);
+            SubscribeHandlers(item);
+            _orderItems.Add(item);
+        }
+
+        private void LoadOrderItem(OrderItem orderItem)
+        {
+            var item = new OrderItemVM(orderItem, _categoryService, _orderItemService, _productService);
+            SubscribeHandlers(item);
+            _orderItems.Add(item);
+        }
+
+        private void SubscribeHandlers(OrderItemVM item)
+        {
             item.EntitySaved += (s, e) => _eventAggregator.SendMessage<CustomerOrderUpdatedEvent>(new CustomerOrderUpdatedEvent(this));
             item.EntityDeleted += (s, e) =>
             {
@@ -156,7 +178,6 @@ namespace Orders.com.WPF.VM
                 SelectedOrderItem = null;
             };
             item.PropertyChanged += (s, e) => OnPropertyChanged("Total");
-            _orderItems.Add(item);
         }
 
         private async Task DeleteSelectedItem()

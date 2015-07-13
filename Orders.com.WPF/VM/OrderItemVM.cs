@@ -26,10 +26,12 @@ namespace Orders.com.WPF.VM
             _categoryService = categoryService;
         }
 
-        public OrderItemVM(OrderItem customer, OrderItemService service, ProductService productService)
+        public OrderItemVM(OrderItem customer, CategoryService categoryService, OrderItemService service, ProductService productService)
             : base(customer, service)
         {
             _productService = productService;
+            _categoryService = categoryService;
+            OnPropertyChanged("Price");
         }
 
         public long ID
@@ -46,7 +48,7 @@ namespace Orders.com.WPF.VM
             set
             {
                 _currentCategoryID = value;
-                OnPropertyChanged("Products");
+                OnPropertyChanged("CurrentCategoryID");
             }
         }
 
@@ -57,6 +59,7 @@ namespace Orders.com.WPF.VM
             {
                 _currentProduct = Products.First(p => p.ProductID == value);
                 CurrentEntity.ProductID = value;
+                CurrentCategoryID = _currentProduct.CategoryID;
                 IsDirty = true;
                 OnPropertyChanged("CurrentProductID");
                 OnPropertyChanged("Price");
@@ -87,6 +90,7 @@ namespace Orders.com.WPF.VM
             {
                 _categories = value;
                 OnPropertyChanged("Categories");
+                //CurrentCategoryID = _categories.First(c => c.CategoryID = CurrentEntity.pr)
             }
         }
 
@@ -94,6 +98,7 @@ namespace Orders.com.WPF.VM
         {
             var result = await _categoryService.GetAllCommand().ExecuteAsync();
             Categories = result.Value;
+            OnPropertyChanged("CurrentCategoryID");
         }
 
         public IEnumerable<Product> Products
@@ -118,6 +123,7 @@ namespace Orders.com.WPF.VM
         {
             var result = await _productService.GetAllCommand().ExecuteAsync();
             Products = result.Value;
+            CurrentProductID = CurrentEntity.ProductID;
         }
 
         public decimal? Amount
@@ -152,8 +158,6 @@ namespace Orders.com.WPF.VM
         protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
         {
             OnPropertyChanged("ID");
-            //OnPropertyChanged("Quantity");
-            //OnPropertyChanged("Amount");
         }
 
     }

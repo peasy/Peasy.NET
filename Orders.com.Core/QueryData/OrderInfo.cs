@@ -11,6 +11,7 @@ namespace Orders.com.Core.QueryData
         public long OrderID { get; set; }
         public DateTime OrderDate { get; set; }
         public string CustomerName { get; set; }
+        public long CustomerID { get; set; }
         public decimal Total { get; set; }
     }
 }

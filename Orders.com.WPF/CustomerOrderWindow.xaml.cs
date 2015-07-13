@@ -1,4 +1,6 @@
 ﻿using Orders.com.BLL;
+using Orders.com.Core.Domain;
+using Orders.com.Core.QueryData;
 using Orders.com.WPF.VM;
 using System;
 using System.Collections.Generic;
@@ -21,24 +23,21 @@ namespace Orders.com.WPF
     /// </summary>
     public partial class CustomerOrderWindow : Window
     {
-        private OrderItemService _orderItemService;
-        private ProductService _productService;
-        private CategoryService _categoryService;
-        private OrderService _orderService;
-    
         public CustomerOrderWindow()
         {
             InitializeComponent();
         }
 
-        public CustomerOrderWindow(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, ProductService productService, CategoryService categoryService, EventAggregator eventAggregator)
+        public CustomerOrderWindow(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, ProductService productService, CategoryService categoryService, EventAggregator eventAggregator) : this()
         {
-            InitializeComponent();
-            _orderService = orderService;
-            _orderItemService = orderItemService;
-            _productService = productService;
-            _categoryService = categoryService;
-            var vm = new CustomerOrderVM(eventAggregator, orderService, customerService, orderItemService, _categoryService, productService);
+            var vm = new CustomerOrderVM(eventAggregator, orderService, customerService, orderItemService, categoryService, productService);
+            DataContext = vm;
+        }
+
+        public CustomerOrderWindow(OrderVM currentOrder, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, ProductService productService, CategoryService categoryService, EventAggregator eventAggregator) : this()
+        {
+            var order = new Order() { ID = currentOrder.ID, CustomerID = currentOrder.CustomerID, OrderDate = currentOrder.OrderDate };
+            var vm = new CustomerOrderVM(eventAggregator, order, orderService, customerService, orderItemService, categoryService, productService);
             DataContext = vm;
         }
 

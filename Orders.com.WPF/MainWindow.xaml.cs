@@ -1,4 +1,5 @@
 ﻿using Orders.com.BLL;
+using Orders.com.Core.Domain;
 using Orders.com.DAL.EF;
 using Orders.com.WPF.VM;
 using System;
@@ -57,11 +58,13 @@ namespace Orders.com.WPF
         {
             var customerOrderWindow = new CustomerOrderWindow(_ordersService, _customersService, _orderItemsService, _productsService, _categoriesService, _eventAggregator);
             var result = customerOrderWindow.ShowDialog();
-            if (result.GetValueOrDefault() == true)
-            {
-                //VM.SplitResults = splitsWindow.SplitResults;
-                //VM.SaveSplitInsertResults();
-            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var currentOrder = VM.OrdersVM.SelectedOrder;
+            var customerOrderWindow = new CustomerOrderWindow(currentOrder, _ordersService, _customersService, _orderItemsService, _productsService, _categoriesService, _eventAggregator);
+            customerOrderWindow.ShowDialog();
         }
    }
 }

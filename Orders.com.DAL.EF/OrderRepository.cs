@@ -50,6 +50,7 @@ namespace Orders.com.DAL.EF
                                     OrderID = o.OrderID,
                                     OrderDate = o.OrderDate,
                                     CustomerName = customers[o.CustomerID].Name,
+                                    CustomerID = o.CustomerID,
                                     Total = orderItems.Where(i => i.OrderID == o.OrderID).Sum(i => i.Amount * i.Quantity.Value)
                                 });
             return results.ToArray();

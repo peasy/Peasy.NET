@@ -15,7 +15,7 @@
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <DataGrid ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedCategory, Mode=TwoWay}" AutoGenerateColumns="False" >
+                    <DataGrid ItemsSource="{Binding Orders}" SelectedItem="{Binding SelectedOrder, Mode=TwoWay}" AutoGenerateColumns="False" >
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="ID" IsReadOnly="True">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -35,6 +35,13 @@
                                                 <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                             </Image.ToolTip>
                                         </Image>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Edit" Click="Button_Click"></Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

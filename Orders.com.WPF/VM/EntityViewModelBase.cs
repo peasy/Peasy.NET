@@ -28,6 +28,8 @@ namespace Orders.com.WPF.VM
         {
             _service = service;
             CurrentEntity = entity;
+            IsDirty = false;
+            IsNew = false;
         }
 
         public T CurrentEntity

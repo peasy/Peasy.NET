@@ -23,6 +23,7 @@ namespace Orders.com.WPF.VM
             _orderID = order.OrderID;
             _orderDate = order.OrderDate;
             _name = order.CustomerName;
+            CustomerID = order.CustomerID;
             _total = order.Total;
         }
 
@@ -62,6 +63,12 @@ namespace Orders.com.WPF.VM
                 _name = value;
                 OnPropertyChanged("Customer");
             }
+        }
+
+        public long CustomerID
+        {
+            get;
+            set;
         }
 
         public decimal Total 
