@@ -113,7 +113,7 @@
                             <DataGridTemplateColumn Header="Category">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox Margin="1" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="CategoryID" SelectedValue="{Binding CurrentCategoryID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <ComboBox Margin="1" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentCategoryID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

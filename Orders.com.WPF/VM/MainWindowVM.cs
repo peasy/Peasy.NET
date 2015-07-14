@@ -20,9 +20,6 @@ namespace Orders.com.WPF.VM
         private CategoryService _categoryService;
         private ProductService _productService;
         private CustomerService _customerService;
-        private IDictionary<long, CategoryVM> _categories;
-        private IDictionary<long, Product> _products;
-        private IDictionary<long, Customer> _customers;
 
         public MainWindowVM(EventAggregator eventAggregator,
                             CustomerService customerService, 
@@ -35,7 +32,7 @@ namespace Orders.com.WPF.VM
             _productService = productService;
             _customersVM = new CustomersVM(customerService);
             _customersVM.LoadCustomersCommand.Execute(null);
-            _productsVM = new ProductsVM(productService, categoryService);
+            _productsVM = new ProductsVM(productService, this);
             _productsVM.LoadProductsCommand.Execute(null);
             _categoriesVM = new CategoriesVM(categoryService);
             _categoriesVM.LoadCategoriesCommand.Execute(null);

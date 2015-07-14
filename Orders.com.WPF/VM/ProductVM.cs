@@ -12,39 +12,22 @@ namespace Orders.com.WPF.VM
 {
     public class ProductVM : OrdersDotComVMBase<Product>
     {
-        private CategoryService _categoriesService;
         private IEnumerable<Category> _categories;
+        private MainWindowVM _mainVM;
 
-        public ProductVM(ProductService service, CategoryService categoriesService) : base(service)
+        public ProductVM(ProductService service, MainWindowVM mainVM) : base(service)
         {
-            _categoriesService = categoriesService;
+            _mainVM = mainVM;
         }
 
-        public ProductVM(Product product, ProductService service, CategoryService categoriesService) : base(product, service)
+        public ProductVM(Product product, ProductService service, MainWindowVM mainVM) : base(product, service)
         {
-            _categoriesService = categoriesService;
+            _mainVM = mainVM;
         }
 
-        public IEnumerable<Category> Categories
+        public IEnumerable<CategoryVM> Categories
         {
-            get
-            {
-                if (_categories == null)
-                    LoadCategories();
-
-                return _categories;
-            }
-            set
-            {
-                _categories = value;
-                OnPropertyChanged("Categories");
-            }
-        }
-
-        public async void LoadCategories()
-        {
-            var categories = await _categoriesService.GetAllCommand().ExecuteAsync();
-            Categories = categories.Value;
+            get { return _mainVM.Categories; }
         }
 
         public long ID

@@ -13,17 +13,17 @@ namespace Orders.com.WPF.VM
     public class ProductsVM : ViewModelBase
     {
         private ProductService _productsService;
-        private CategoryService _categoriesService;
         private ObservableCollection<ProductVM> _products;
         private ICommand _addProductCommand;
         private ICommand _saveProductsCommand;
         private ICommand _loadProductsCommand;
         private ICommand _deleteSelectedCommand;
+        private MainWindowVM _mainVM;
 
-        public ProductsVM(ProductService productsService, CategoryService categoriesService)
+        public ProductsVM(ProductService productsService, MainWindowVM mainVM)
         {
             _productsService = productsService;
-            _categoriesService = categoriesService;
+            _mainVM = mainVM;
             _addProductCommand = new Command(() => AddProduct());
             _saveProductsCommand = new Command(() => SaveProducts());
             _loadProductsCommand = new Command(() => LoadProducts());
@@ -69,7 +69,7 @@ namespace Orders.com.WPF.VM
         private async Task LoadProducts()
         {
             var result = await _productsService.GetAllCommand().ExecuteAsync();
-            var vms = result.Value.Select(c => new ProductVM(c, _productsService, _categoriesService));
+            var vms = result.Value.Select(c => new ProductVM(c, _productsService, _mainVM));
             Products = vms.ToArray();
         }
 
@@ -81,7 +81,7 @@ namespace Orders.com.WPF.VM
 
         private void AddProduct()
         {
-            _products.Add(new ProductVM(_productsService, _categoriesService));
+            _products.Add(new ProductVM(_productsService, _mainVM));
         }
 
         private async Task DeleteSelectedVM()
