@@ -68,9 +68,6 @@
     <Compile Include="VM\CustomerVM.cs" />
     <Compile Include="VM\EntityViewModelBase.cs" />
     <Compile Include="VM\MainWindowVM.cs" />
-    <Compile Include="OrderItemWindow.xaml.cs">
-      <DependentUpon>OrderItemWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="VM\OrdersDotComVMBase.cs" />
     <Compile Include="VM\OrdersVM.cs" />
     <Compile Include="CustomerOrderWindow.xaml.cs">
@@ -95,10 +92,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="CustomerOrderWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="OrderItemWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
