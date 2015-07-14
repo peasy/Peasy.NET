@@ -27,7 +27,7 @@ namespace Orders.com.WPF.VM
 
         public IEnumerable<CategoryVM> Categories
         {
-            get { return _mainVM.Categories; }
+            get { return _mainVM.CategoriesVM.Categories; }
         }
 
         public long ID

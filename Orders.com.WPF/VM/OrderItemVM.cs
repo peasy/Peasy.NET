@@ -76,16 +76,16 @@ namespace Orders.com.WPF.VM
 
         public IEnumerable<CategoryVM> Categories
         {
-            get { return _mainVM.Categories; }
+            get { return _mainVM.CategoriesVM.Categories; }
         }
 
         public IEnumerable<ProductVM> Products
         {
             get
             {
-                if (CurrentCategoryID > 0) return _mainVM.Products.Where(p => p.CurrentCategoryID == CurrentCategoryID).ToArray();
+                if (CurrentCategoryID > 0) return _mainVM.ProductsVM.Products.Where(p => p.CurrentCategoryID == CurrentCategoryID).ToArray();
 
-                return _mainVM.Products;
+                return _mainVM.ProductsVM.Products;
             }
         }
 

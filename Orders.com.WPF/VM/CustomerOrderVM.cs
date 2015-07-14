@@ -50,7 +50,7 @@ namespace Orders.com.WPF.VM
 
         public IEnumerable<CustomerVM> Customers
         {
-            get { return _mainVM.Customers; }
+            get { return _mainVM.CustomersVM.Customers; }
         }
 
         public OrderItemVM SelectedOrderItem

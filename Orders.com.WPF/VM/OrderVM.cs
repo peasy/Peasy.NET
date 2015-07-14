@@ -28,7 +28,7 @@ namespace Orders.com.WPF.VM
         {
             ID = order.ID;
             OrderDate = order.CurrentEntity.OrderDate;
-            Customer = vm.Customers.First(c => c.ID == order.CurrentCustomerID).Name;
+            Customer = vm.CustomersVM.Customers.First(c => c.ID == order.CurrentCustomerID).Name;
             CustomerID = order.CurrentCustomerID;
             Total = order.OrderItems.Sum(i => i.Amount.Value);
         }

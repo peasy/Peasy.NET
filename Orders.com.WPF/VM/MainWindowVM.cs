@@ -59,20 +59,5 @@ namespace Orders.com.WPF.VM
         {
             get { return _ordersVM; }
         }
-
-        public IEnumerable<CategoryVM> Categories
-        {
-            get { return _categoriesVM.Categories; }
-        }
-
-        public IEnumerable<ProductVM> Products
-        {
-            get { return _productsVM.Products; } 
-        }
-
-        public IEnumerable<CustomerVM> Customers
-        {
-            get { return _customersVM.Customers; }
-        }
     }
 }
