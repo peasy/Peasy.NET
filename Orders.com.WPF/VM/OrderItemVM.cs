@@ -11,27 +11,23 @@ namespace Orders.com.WPF.VM
 {
     public class OrderItemVM : OrdersDotComVMBase<OrderItem>
     {
-        private CategoryService _categoryService;
-        private ProductService _productService;
-        private IEnumerable<Category> _categories;
-        private IEnumerable<Product> _products;
         private long _currentCategoryID;
         private Product _currentProduct;
-        //private System.Windows.Input.ICommand _saveCustomersCommand;
+        private MainWindowVM _mainVM;
 
-        public OrderItemVM(OrderItemService service, CategoryService categoryService, ProductService productService)
+        public OrderItemVM(OrderItemService service, MainWindowVM mainVM)
             : base(service)
         {
-            _productService = productService;
-            _categoryService = categoryService;
+            _mainVM = mainVM;
         }
 
-        public OrderItemVM(OrderItem customer, CategoryService categoryService, OrderItemService service, ProductService productService)
+        public OrderItemVM(OrderItem customer, OrderItemService service, MainWindowVM mainVM)
             : base(customer, service)
         {
-            _productService = productService;
-            _categoryService = categoryService;
-            OnPropertyChanged("Price");
+            _mainVM = mainVM;
+            CurrentProductID = CurrentEntity.ProductID;
+            CurrentCategoryID = _currentProduct.CategoryID;
+            IsDirty = false;
         }
 
         public long ID
@@ -49,6 +45,7 @@ namespace Orders.com.WPF.VM
             {
                 _currentCategoryID = value;
                 OnPropertyChanged("CurrentCategoryID");
+                OnPropertyChanged("Products");
             }
         }
 
@@ -59,7 +56,6 @@ namespace Orders.com.WPF.VM
             {
                 _currentProduct = Products.First(p => p.ProductID == value);
                 CurrentEntity.ProductID = value;
-                CurrentCategoryID = _currentProduct.CategoryID;
                 IsDirty = true;
                 OnPropertyChanged("CurrentProductID");
                 OnPropertyChanged("Price");
@@ -80,50 +76,17 @@ namespace Orders.com.WPF.VM
 
         public IEnumerable<Category> Categories
         {
-            get
-            {
-                if (_categories == null)
-                    LoadCategories();
-                return _categories;
-            }
-            private set
-            {
-                _categories = value;
-                OnPropertyChanged("Categories");
-                //CurrentCategoryID = _categories.First(c => c.CategoryID = CurrentEntity.pr)
-            }
-        }
-
-        private async Task LoadCategories()
-        {
-            var result = await _categoryService.GetAllCommand().ExecuteAsync();
-            Categories = result.Value;
-            OnPropertyChanged("CurrentCategoryID");
+            get { return _mainVM.Categories.Values; }
         }
 
         public IEnumerable<Product> Products
         {
             get
             {
-                if (_products == null)
-                    LoadProducts();
+                if (CurrentCategoryID > 0) return _mainVM.Products.Values.Where(p => p.CategoryID == CurrentCategoryID).ToArray();
 
-                if (CurrentCategoryID > 0) return _products.Where(p => p.CategoryID == CurrentCategoryID).ToArray();
-
-                return _products;
+                return _mainVM.Products.Values;
             }
-            private set
-            {
-                _products = value;
-                OnPropertyChanged("Products");
-            }
-        }
-
-        private async Task LoadProducts()
-        {
-            var result = await _productService.GetAllCommand().ExecuteAsync();
-            Products = result.Value;
-            CurrentProductID = CurrentEntity.ProductID;
         }
 
         public decimal? Amount

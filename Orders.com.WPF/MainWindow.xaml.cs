@@ -56,14 +56,14 @@ namespace Orders.com.WPF
 
         private void addCustomerOrderClick(object sender, RoutedEventArgs e)
         {
-            var customerOrderWindow = new CustomerOrderWindow(_ordersService, _customersService, _orderItemsService, _productsService, _categoriesService, _eventAggregator);
+            var customerOrderWindow = new CustomerOrderWindow(_ordersService, _customersService, _orderItemsService, VM, _eventAggregator);
             var result = customerOrderWindow.ShowDialog();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var currentOrder = VM.OrdersVM.SelectedOrder;
-            var customerOrderWindow = new CustomerOrderWindow(currentOrder, _ordersService, _customersService, _orderItemsService, _productsService, _categoriesService, _eventAggregator);
+            var customerOrderWindow = new CustomerOrderWindow(currentOrder, _ordersService, _customersService, _orderItemsService, VM, _eventAggregator);
             customerOrderWindow.ShowDialog();
         }
    }

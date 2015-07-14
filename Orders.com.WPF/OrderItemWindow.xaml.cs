@@ -26,11 +26,11 @@ namespace Orders.com.WPF
             InitializeComponent();
         }
 
-        public OrderItemWindow(OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
-        {
-            InitializeComponent();
-            DataContext = new OrderItemVM(orderItemService, categoryService, productService);
-        }
+        //public OrderItemWindow(OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+        //{
+        //    InitializeComponent();
+        //    DataContext = new OrderItemVM(orderItemService, categoryService, productService);
+        //}
 
         public OrderItemVM VM
         {

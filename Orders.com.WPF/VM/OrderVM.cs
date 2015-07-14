@@ -12,64 +12,42 @@ namespace Orders.com.WPF.VM
 {
     public class OrderVM : ViewModelBase 
     {
-        private long _orderID;
-        private DateTime _orderDate;
-        private string _name;
+        private string _customerName;
         private decimal _total;
-        private CustomerOrderVM customerOrderVM;
 
         public OrderVM(OrderInfo order) 
         {
-            _orderID = order.OrderID;
-            _orderDate = order.OrderDate;
-            _name = order.CustomerName;
+            ID = order.OrderID;
+            OrderDate = order.OrderDate;
+            Customer = order.CustomerName;
             CustomerID = order.CustomerID;
-            _total = order.Total;
+            Total = order.Total;
         }
 
-        public OrderVM(CustomerOrderVM order, CustomerService customerService)
+        public OrderVM(CustomerOrderVM order, MainWindowVM vm)
         {
-            _orderID = order.ID;
-            _orderDate = order.CurrentEntity.OrderDate;
-            _name = customerService.GetAllCommand().Execute().Value.First(c => c.CustomerID == order.CurrentCustomerID).Name;
-            _total = order.OrderItems.Sum(i => i.Amount.Value);
+            ID = order.ID;
+            OrderDate = order.CurrentEntity.OrderDate;
+            Customer = vm.Customers[order.CurrentCustomerID].Name;
+            CustomerID = order.CurrentCustomerID;
+            Total = order.OrderItems.Sum(i => i.Amount.Value);
         }
 
-        public long ID
-        {
-            get { return _orderID; }
-            set
-            {
-                _orderID = value;
-                OnPropertyChanged("ID");
-            }
-        }
+        public long ID { get; set; }
 
-        public DateTime OrderDate
-        {
-            get { return _orderDate; }
-            set
-            {
-                _orderDate = value;
-                OnPropertyChanged("OrderDate");
-            }
-        }
+        public DateTime OrderDate { get; set; }
 
         public string Customer
         {
-            get { return _name; }
+            get { return _customerName; }
             set
             {
-                _name = value;
+                _customerName = value;
                 OnPropertyChanged("Customer");
             }
         }
 
-        public long CustomerID
-        {
-            get;
-            set;
-        }
+        public long CustomerID { get; set; }
 
         public decimal Total 
         {

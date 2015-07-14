@@ -13,19 +13,15 @@ namespace Orders.com.WPF.VM
     {
         private OrderService _ordersService;
         private ObservableCollection<OrderVM> _orders;
-        private ICommand _addOrderCommand;
-        private ICommand _saveOrdersCommand;
         private ICommand _loadOrdersCommand;
         private ICommand _deleteSelectedCommand;
         private EventAggregator _eventAggregator;
-        private CustomerService _customerService;
+        private MainWindowVM _mainVM;
 
-        public OrdersVM(OrderService categoryService, CustomerService customerService, EventAggregator eventAggregator)
+        public OrdersVM(OrderService categoryService, MainWindowVM mainVM, EventAggregator eventAggregator)
         {
             _ordersService = categoryService;
-            _customerService = customerService;
-            //_addOrderCommand = new Command(() => AddOrder());
-            //_saveOrdersCommand = new Command(() => SaveOrders());
+            _mainVM = mainVM;
             _loadOrdersCommand = new Command(() => LoadOrders());
             _deleteSelectedCommand = new Command(() => DeleteSelectedVM());
             _eventAggregator = eventAggregator;
@@ -36,16 +32,6 @@ namespace Orders.com.WPF.VM
         {
             get;
             set;
-        }
-
-        public ICommand AddOrderCommand
-        {
-            get { return _addOrderCommand; }
-        }
-
-        public ICommand SaveOrdersCommand
-        {
-            get { return _saveOrdersCommand; }
         }
 
         public ICommand LoadOrdersCommand
@@ -75,17 +61,6 @@ namespace Orders.com.WPF.VM
             Orders = vms.ToArray();
         }
 
-        //private async Task SaveOrders()
-        //{
-        //    var results = Orders.Select(vm => vm.SaveAsync()).ToArray();
-        //    await Task.WhenAll(results);
-        //}
-
-        //private void AddOrder()
-        //{
-        //    _orders.Add(new OrderVM(_ordersService));
-        //}
-
         private async Task DeleteSelectedVM()
         {
             if (SelectedOrder != null && !SelectedOrder.IsNew)
@@ -104,7 +79,7 @@ namespace Orders.com.WPF.VM
 
         public void Handle(OrderInsertedEvent message)
         {
-            _orders.Add(new OrderVM(message.Order, _customerService));
+            _orders.Add(new OrderVM(message.Order, _mainVM));
         }
     }
 }

@@ -13,39 +13,34 @@ namespace Orders.com.WPF.VM
 {
     public class CustomerOrderVM : OrdersDotComVMBase<Order>
     {
-        private CustomerService _customerService;
         private OrderItemService _orderItemService;
         private OrderService _orderService;
-        private IEnumerable<Customer> _customers;
         private ObservableCollection<OrderItemVM> _orderItems;
         private ICommand _saveOrderCommand;
         private ICommand _addOrderItemCommand;
         private ICommand _deleteSelectedItemCommand;
-        private ProductService _productService;
-        private CategoryService _categoryService;
         private EventAggregator _eventAggregator;
+        private MainWindowVM _mainVM;
 
-        public CustomerOrderVM(EventAggregator eventAggregator, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+        public CustomerOrderVM(EventAggregator eventAggregator, OrderService orderService, OrderItemService orderItemService, MainWindowVM mainVM)
             : base(orderService)
         {
-            Setup(eventAggregator, orderService, customerService, orderItemService, categoryService, productService);
+            Setup(eventAggregator, orderService, orderItemService, mainVM);
         }
 
-        public CustomerOrderVM(EventAggregator eventAggregator, Order order, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+        public CustomerOrderVM(EventAggregator eventAggregator, Order order, OrderService orderService, OrderItemService orderItemService, MainWindowVM mainVM)
             : base(order, orderService)
         {
-            Setup(eventAggregator, orderService, customerService, orderItemService, categoryService, productService);
+            Setup(eventAggregator, orderService, orderItemService, mainVM);
             LoadOrderItems();
+            OnPropertyChanged("CurrentCustomerID");
         }
 
-
-        private void Setup(EventAggregator eventAggregator, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, CategoryService categoryService, ProductService productService)
+        private void Setup(EventAggregator eventAggregator, OrderService orderService, OrderItemService orderItemService, MainWindowVM mainVM)
         {
             _orderService = orderService;
-            _customerService = customerService;
             _orderItemService = orderItemService;
-            _categoryService = categoryService;
-            _productService = productService;
+            _mainVM = mainVM;
             _eventAggregator = eventAggregator;
             _orderItems = new ObservableCollection<OrderItemVM>();
             _saveOrderCommand = new Command(() => SaveAsync(), CanSave);
@@ -55,18 +50,7 @@ namespace Orders.com.WPF.VM
 
         public IEnumerable<Customer> Customers
         {
-            get
-            {
-                if (_customers == null)
-                    LoadCustomers();
-
-                return _customers;
-            }
-            private set
-            {
-                _customers = value;
-                OnPropertyChanged("Customers");
-            }
+            get { return _mainVM.Customers.Values; }
         }
 
         public OrderItemVM SelectedOrderItem
@@ -124,13 +108,7 @@ namespace Orders.com.WPF.VM
         {
             var result = await _orderItemService.GetByOrderCommand(CurrentEntity.OrderID).ExecuteAsync();
             result.Value.ForEach(i => LoadOrderItem(i));
-        }
-
-        private async void LoadCustomers()
-        {
-            var result = await _customerService.GetAllCommand().ExecuteAsync();
-            Customers = result.Value;
-            OnPropertyChanged("CurrentCustomerID");
+            OnPropertyChanged("Total");
         }
 
         protected override void OnInsertSuccess(Facile.Core.ExecutionResult<Order> result)
@@ -155,14 +133,14 @@ namespace Orders.com.WPF.VM
 
         private void AddOrderItem()
         {
-            var item = new OrderItemVM(_orderItemService, _categoryService, _productService);
+            var item = new OrderItemVM(_orderItemService, _mainVM);
             SubscribeHandlers(item);
             _orderItems.Add(item);
         }
 
         private void LoadOrderItem(OrderItem orderItem)
         {
-            var item = new OrderItemVM(orderItem, _categoryService, _orderItemService, _productService);
+            var item = new OrderItemVM(orderItem, _orderItemService, _mainVM);
             SubscribeHandlers(item);
             _orderItems.Add(item);
         }

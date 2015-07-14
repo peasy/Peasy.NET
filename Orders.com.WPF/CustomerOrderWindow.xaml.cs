@@ -28,23 +28,26 @@ namespace Orders.com.WPF
             InitializeComponent();
         }
 
-        public CustomerOrderWindow(OrderService orderService, CustomerService customerService, OrderItemService orderItemService, ProductService productService, CategoryService categoryService, EventAggregator eventAggregator) : this()
+        public CustomerOrderWindow(OrderService orderService, 
+                                   CustomerService customerService, 
+                                   OrderItemService orderItemService, 
+                                   MainWindowVM mainVM,
+                                   EventAggregator eventAggregator) : this()
         {
-            var vm = new CustomerOrderVM(eventAggregator, orderService, customerService, orderItemService, categoryService, productService);
+            var vm = new CustomerOrderVM(eventAggregator, orderService, orderItemService, mainVM);
             DataContext = vm;
         }
 
-        public CustomerOrderWindow(OrderVM currentOrder, OrderService orderService, CustomerService customerService, OrderItemService orderItemService, ProductService productService, CategoryService categoryService, EventAggregator eventAggregator) : this()
+        public CustomerOrderWindow(OrderVM currentOrder, 
+                                   OrderService orderService, 
+                                   CustomerService customerService, 
+                                   OrderItemService orderItemService, 
+                                   MainWindowVM mainVM,
+                                   EventAggregator eventAggregator) : this()
         {
             var order = new Order() { ID = currentOrder.ID, CustomerID = currentOrder.CustomerID, OrderDate = currentOrder.OrderDate };
-            var vm = new CustomerOrderVM(eventAggregator, order, orderService, customerService, orderItemService, categoryService, productService);
+            var vm = new CustomerOrderVM(eventAggregator, order, orderService, orderItemService, mainVM);
             DataContext = vm;
         }
-
-        private CustomerOrderVM VM
-        {
-            get { return DataContext as CustomerOrderVM; }
-        }
-
     }
 }
