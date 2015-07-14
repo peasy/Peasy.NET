@@ -26,7 +26,7 @@
             <Label Content="Order ID:" Grid.Row="0" FontWeight="Bold"/>
             <Label Content="{Binding ID}" Grid.Row="0" Grid.Column="1" />
             <Label Content="Customer:" Grid.Row="1" FontWeight="Bold" />
-            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,5,0" ItemsSource="{Binding Customers}" DisplayMemberPath="Name" SelectedValuePath="CustomerID" SelectedValue="{Binding CurrentCustomerID}" Width="Auto" VerticalAlignment="Center"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,5,0" ItemsSource="{Binding Customers}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentCustomerID}" Width="Auto" VerticalAlignment="Center"/>
             <Label Content="Total:" Grid.Row="2" FontWeight="Bold" />
             <Label Content="{Binding Total}" ContentStringFormat="C" Grid.Row="2" Grid.Column="1" />
         </Grid>
@@ -48,14 +48,14 @@
                         <DataGridTemplateColumn Header="Category">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox Margin="1" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="CategoryID" SelectedValue="{Binding CurrentCategoryID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <ComboBox Margin="1" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentCategoryID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Product" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox Margin="1" ItemsSource="{Binding Products}" DisplayMemberPath="Name" SelectedValuePath="ProductID" SelectedValue="{Binding CurrentProductID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <ComboBox Margin="1" ItemsSource="{Binding Products}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentProductID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

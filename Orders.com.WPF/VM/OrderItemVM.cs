@@ -12,7 +12,7 @@ namespace Orders.com.WPF.VM
     public class OrderItemVM : OrdersDotComVMBase<OrderItem>
     {
         private long _currentCategoryID;
-        private Product _currentProduct;
+        private ProductVM _currentProduct;
         private MainWindowVM _mainVM;
 
         public OrderItemVM(OrderItemService service, MainWindowVM mainVM)
@@ -26,7 +26,7 @@ namespace Orders.com.WPF.VM
         {
             _mainVM = mainVM;
             CurrentProductID = CurrentEntity.ProductID;
-            CurrentCategoryID = _currentProduct.CategoryID;
+            CurrentCategoryID = _currentProduct.CurrentCategoryID;
             IsDirty = false;
         }
 
@@ -54,7 +54,7 @@ namespace Orders.com.WPF.VM
             get { return CurrentEntity.ProductID; }
             set
             {
-                _currentProduct = Products.First(p => p.ProductID == value);
+                _currentProduct = Products.First(p => p.ID == value);
                 CurrentEntity.ProductID = value;
                 IsDirty = true;
                 OnPropertyChanged("CurrentProductID");
@@ -74,18 +74,18 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        public IEnumerable<Category> Categories
+        public IEnumerable<CategoryVM> Categories
         {
-            get { return _mainVM.Categories.Values; }
+            get { return _mainVM.Categories; }
         }
 
-        public IEnumerable<Product> Products
+        public IEnumerable<ProductVM> Products
         {
             get
             {
-                if (CurrentCategoryID > 0) return _mainVM.Products.Values.Where(p => p.CategoryID == CurrentCategoryID).ToArray();
+                if (CurrentCategoryID > 0) return _mainVM.Products.Where(p => p.CurrentCategoryID == CurrentCategoryID).ToArray();
 
-                return _mainVM.Products.Values;
+                return _mainVM.Products;
             }
         }
 

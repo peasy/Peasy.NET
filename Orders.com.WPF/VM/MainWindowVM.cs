@@ -20,7 +20,7 @@ namespace Orders.com.WPF.VM
         private CategoryService _categoryService;
         private ProductService _productService;
         private CustomerService _customerService;
-        private IDictionary<long, Category> _categories;
+        private IDictionary<long, CategoryVM> _categories;
         private IDictionary<long, Product> _products;
         private IDictionary<long, Customer> _customers;
 
@@ -63,37 +63,19 @@ namespace Orders.com.WPF.VM
             get { return _ordersVM; }
         }
 
-        public IDictionary<long, Category> Categories
+        public IEnumerable<CategoryVM> Categories
         {
-            get
-            {
-                if (_categories == null)
-                    _categories = _categoryService.GetAllCommand().Execute().Value.ToDictionary(c => c.CategoryID);
-
-                return _categories;
-            }
+            get { return _categoriesVM.Categories; }
         }
 
-        public IDictionary<long, Product> Products
+        public IEnumerable<ProductVM> Products
         {
-            get
-            {
-                if (_products == null)
-                    _products = _productService.GetAllCommand().Execute().Value.ToDictionary(p => p.ProductID);
-
-                return _products;
-            }
+            get { return _productsVM.Products; } 
         }
 
-        public IDictionary<long, Customer> Customers
+        public IEnumerable<CustomerVM> Customers
         {
-            get
-            {
-                if (_customers == null)
-                    _customers = _customerService.GetAllCommand().Execute().Value.ToDictionary(c => c.CustomerID);
-
-                return _customers;
-            }
+            get { return _customersVM.Customers; }
         }
     }
 }

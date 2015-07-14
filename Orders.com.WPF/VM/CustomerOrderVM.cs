@@ -48,9 +48,9 @@ namespace Orders.com.WPF.VM
             _deleteSelectedItemCommand = new Command(() => DeleteSelectedItem());
         }
 
-        public IEnumerable<Customer> Customers
+        public IEnumerable<CustomerVM> Customers
         {
-            get { return _mainVM.Customers.Values; }
+            get { return _mainVM.Customers; }
         }
 
         public OrderItemVM SelectedOrderItem

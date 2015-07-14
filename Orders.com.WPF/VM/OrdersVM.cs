@@ -75,7 +75,7 @@ namespace Orders.com.WPF.VM
         {
             var order = Orders.First(o => o.ID == message.Order.ID);
             order.CustomerID = message.Order.CurrentCustomerID;
-            order.Customer = message.Order.Customers.First(c => c.CustomerID == order.CustomerID).Name;
+            order.Customer = message.Order.Customers.First(c => c.ID == order.CustomerID).Name;
             order.Total = message.Order.OrderItems.Sum(i => i.Amount.Value);
         }
 
