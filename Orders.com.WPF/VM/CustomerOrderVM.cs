@@ -119,7 +119,7 @@ namespace Orders.com.WPF.VM
 
         protected override void OnUpdateSuccess(Facile.Core.ExecutionResult<Order> result)
         {
-            _eventAggregator.SendMessage<CustomerOrderUpdatedEvent>(new CustomerOrderUpdatedEvent(this));
+            _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
         }
 
         public override async Task SaveAsync()
@@ -147,12 +147,12 @@ namespace Orders.com.WPF.VM
 
         private void SubscribeHandlers(OrderItemVM item)
         {
-            item.EntitySaved += (s, e) => _eventAggregator.SendMessage<CustomerOrderUpdatedEvent>(new CustomerOrderUpdatedEvent(this));
+            item.EntitySaved += (s, e) => _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
             item.EntityDeleted += (s, e) =>
             {
                 _orderItems.Remove(SelectedOrderItem);
                 OnPropertyChanged("Total");
-                _eventAggregator.SendMessage<CustomerOrderUpdatedEvent>(new CustomerOrderUpdatedEvent(this));
+                _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
                 SelectedOrderItem = null;
             };
             item.PropertyChanged += (s, e) => OnPropertyChanged("Total");

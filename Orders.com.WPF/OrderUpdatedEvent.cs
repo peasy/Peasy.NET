@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF
 {
-    public class CustomerOrderUpdatedEvent
+    public class OrderUpdatedEvent
     {
-        public CustomerOrderUpdatedEvent(CustomerOrderVM order)
+        public OrderUpdatedEvent(CustomerOrderVM order)
         {
             Order = order;
         }

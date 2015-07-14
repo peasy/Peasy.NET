@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Orders.com.WPF.VM
 {
-    public class OrdersVM : ViewModelBase, IListener<CustomerOrderUpdatedEvent>, IListener<OrderInsertedEvent>
+    public class OrdersVM : ViewModelBase, IListener<OrderUpdatedEvent>, IListener<OrderInsertedEvent>
     {
         private OrderService _ordersService;
         private ObservableCollection<OrderVM> _orders;
@@ -71,9 +71,11 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        public void Handle(CustomerOrderUpdatedEvent message)
+        public void Handle(OrderUpdatedEvent message)
         {
             var order = Orders.First(o => o.ID == message.Order.ID);
+            order.CustomerID = message.Order.CurrentCustomerID;
+            order.Customer = message.Order.Customers.First(c => c.CustomerID == order.CustomerID).Name;
             order.Total = message.Order.OrderItems.Sum(i => i.Amount.Value);
         }
 
