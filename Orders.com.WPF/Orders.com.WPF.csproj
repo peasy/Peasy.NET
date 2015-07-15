@@ -38,6 +38,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,6 +59,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="Converters\DecimalConverter.cs" />
     <Compile Include="Converters\ErrorsConverter.cs" />
+    <Compile Include="DTCTransactionContext.cs" />
     <Compile Include="EventAggregator.cs" />
     <Compile Include="OrderInsertedEvent.cs" />
     <Compile Include="OrderUpdatedEvent.cs" />

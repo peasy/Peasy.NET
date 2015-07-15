@@ -53,6 +53,8 @@
     <Compile Include="Rules\GreaterThanZeroRule.cs" />
     <Compile Include="Rules\PropertyValueRequiredRule.cs" />
     <Compile Include="Rules\ValueRequiredRule.cs" />
+    <Compile Include="ITransactionContext.cs" />
+    <Compile Include="Transaction\ITransactionSupportStatusContainer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Facile.Core\Facile.Core.csproj">
