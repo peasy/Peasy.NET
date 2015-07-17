@@ -79,6 +79,13 @@ namespace Facile
                 {
                     throw new DomainObjectNotFoundException(BuildNotFoundError(entity.ID));
                 }
+                if (current is IVersionContainer)
+                {
+                    var rule = new ConcurrencyCheckRule(current as IVersionContainer, entity as IVersionContainer).Validate();
+                    if (!rule.IsValid)
+                        throw new ConcurrencyException(rule.ErrorMessage);
+
+                }
                 entity.RevertNonEditableValues(current);
                 entity.RevertForeignKeysFromZeroToNull();
             }
