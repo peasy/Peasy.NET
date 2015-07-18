@@ -47,7 +47,8 @@ namespace Orders.com.DAL.EF
         public Customer GetByID(long id)
         {
             Debug.WriteLine("Executing EF Customer.GetByID");
-            return Customers.First(c => c.ID == id);
+            var customer = Customers.First(c => c.ID == id);
+            return Mapper.Map(customer, new Customer());
         }
 
         public Customer Insert(Customer entity)
@@ -56,7 +57,7 @@ namespace Orders.com.DAL.EF
             Debug.WriteLine("INSERTING customer into database");
             var nextID = _customers.Max(c => c.ID) + 1;
             entity.ID = nextID;
-            Customers.Add(entity);
+            Customers.Add(Mapper.Map(entity, new Customer()));
             return entity;
         }
 

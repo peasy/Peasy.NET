@@ -54,7 +54,8 @@ namespace Orders.com.DAL.EF
         public Product GetByID(long id)
         {
             Debug.WriteLine("Executing EF Product.GetByID");
-            return Products.First(c => c.ID == id);
+            var product = Products.First(c => c.ID == id);
+            return Mapper.Map(product, new Product());
         }
 
         public Product Insert(Product entity)
@@ -63,7 +64,7 @@ namespace Orders.com.DAL.EF
             Debug.WriteLine("INSERTING product into database");
             var nextID = _products.Max(c => c.ID) + 1;
             entity.ID = nextID;
-            Products.Add(entity);
+            Products.Add(Mapper.Map(entity, new Product()));
             return entity;
         }
 

@@ -45,7 +45,8 @@ namespace Orders.com.DAL.EF
         public OrderItem GetByID(long id)
         {
             Debug.WriteLine("Executing EF OrderItem.GetByID");
-            return OrderItems.First(c => c.ID == id);
+            var orderItem = OrderItems.First(c => c.ID == id);
+            return Mapper.Map(orderItem, new OrderItem());
         }
 
         public IEnumerable<OrderItem> GetByOrder(long orderID)
@@ -61,7 +62,7 @@ namespace Orders.com.DAL.EF
             Debug.WriteLine("INSERTING orderItem into database");
             var nextID = OrderItems.Any() ? OrderItems.Max(c => c.ID) + 1 : 1;
             entity.ID = nextID;
-            OrderItems.Add(entity);
+            OrderItems.Add(Mapper.Map(entity, new OrderItem()));
             return entity;
         }
 

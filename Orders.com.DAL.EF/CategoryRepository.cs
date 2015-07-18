@@ -47,7 +47,8 @@ namespace Orders.com.DAL.EF
         public Category GetByID(long id)
         {
             Debug.WriteLine("Executing EF Category.GetByID");
-            return Categories.First(c => c.ID == id);
+            var category = Categories.First(c => c.ID == id);
+            return Mapper.Map(category, new Category());
         }
 
         public Category Insert(Category entity)
@@ -56,7 +57,7 @@ namespace Orders.com.DAL.EF
             Debug.WriteLine("INSERTING category into database");
             var nextID = _categories.Max(c => c.ID) + 1;
             entity.ID = nextID;
-            Categories.Add(entity);
+            Categories.Add(Mapper.Map(entity, new Category()));
             return entity;
         }
 
