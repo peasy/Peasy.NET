@@ -107,5 +107,6 @@ namespace Orders.com.WPF.VM
         {
             return CreateCommand().CanExecute;
         }
+
     }
 }

@@ -2,6 +2,7 @@
 using Facile;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
+using Orders.com.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -31,7 +32,7 @@ namespace Orders.com.DAL.EF
                 {
                     _orders = new List<Order>()
                     {
-                        new Order() { OrderID = 1, CustomerID = 1, OrderDate = DateTime.Now.AddMonths(-3) }
+                        new Order() { OrderID = 1, CustomerID = 1, OrderDate = DateTime.Now.AddMonths(-3), OrderStatusID = 1 }
                     };
                 }
                 return _orders;
@@ -51,7 +52,9 @@ namespace Orders.com.DAL.EF
                                     OrderDate = o.OrderDate,
                                     CustomerName = customers[o.CustomerID].Name,
                                     CustomerID = o.CustomerID,
-                                    Total = orderItems.Where(i => i.OrderID == o.OrderID).Sum(i => i.Amount * i.Quantity.Value)
+                                    Total = orderItems.Where(i => i.OrderID == o.OrderID).Sum(i => i.Amount * i.Quantity.Value),
+                                    StatusID = o.OrderStatusID,
+                                    Status = o.OrderStatus().Name
                                 });
             return results.ToArray();
         }
@@ -66,7 +69,8 @@ namespace Orders.com.DAL.EF
         public Order GetByID(long id)
         {
             Debug.WriteLine("Executing EF Order.GetByID");
-            return Orders.First(c => c.ID == id);
+            var order = Orders.First(c => c.ID == id);
+            return Mapper.Map(order, new Order());
         }
 
         public Order Insert(Order entity)
@@ -75,7 +79,7 @@ namespace Orders.com.DAL.EF
             Debug.WriteLine("INSERTING order into database");
             var nextID = Orders.Any() ? Orders.Max(c => c.ID) + 1 : 1;
             entity.ID = nextID;
-            Orders.Add(entity);
+            Orders.Add(Mapper.Map(entity, new Order()));
             return entity;
         }
 
@@ -93,6 +97,22 @@ namespace Orders.com.DAL.EF
             Debug.WriteLine("DELETING order in database");
             var order = Orders.First(c => c.ID == id);
             Orders.Remove(order);
+        }
+
+        public Order Submit(long orderID, DateTime submittedOn)
+        {
+            var existing = Orders.First(c => c.ID == orderID);
+            existing.OrderStatusID = OrderStatusConstants.SUBMITTED_STATUS;
+            existing.SubmittedDate = submittedOn;
+            return Mapper.Map(existing, new Order());
+        }
+
+        public Order Ship(long orderID, DateTime shippedOn)
+        {
+            var existing = Orders.First(c => c.ID == orderID);
+            existing.OrderStatusID = OrderStatusConstants.SHIPPED_STATUS;
+            existing.ShippedDate = shippedOn;
+            return Mapper.Map(existing, new Order());
         }
 
         public Task<IEnumerable<Order>> GetAllAsync()
@@ -125,6 +145,16 @@ namespace Orders.com.DAL.EF
             return Task.Run(() => Delete(id));
         }
 
+        public Task<Order> SubmitAsync(long orderID, DateTime submittedOn)
+        {
+            return Task.Run(() => Submit(orderID, submittedOn));
+        }
+
+        public Task<Order> ShipAsync(long orderID, DateTime shippedOn)
+        {
+            return Task.Run(() => Ship(orderID, shippedOn));
+        }
+
         public bool SupportsTransactions
         {
             get { return true; }
@@ -134,8 +164,6 @@ namespace Orders.com.DAL.EF
         {
             get { return false; }
         }
-
-
 
     }
 }

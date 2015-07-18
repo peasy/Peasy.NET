@@ -13,13 +13,20 @@ namespace Orders.com.Core.Domain
     {
         public long OrderID { get; set; }
 
-        public int OrderStatusID { get; set; }
+        [Editable(false)]
+        public long OrderStatusID { get; set; }
 
         [FacileForeignKey, FacileRequired]
         public long CustomerID { get; set; }
 
         [Editable(false)]
         public DateTime OrderDate { get; set; }
+
+        [Editable(false)]
+        public DateTime? SubmittedDate { get; set; }
+
+        [Editable(false)]
+        public DateTime? ShippedDate { get; set; }
 
         public override long ID
         {

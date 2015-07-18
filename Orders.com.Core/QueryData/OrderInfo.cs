@@ -13,5 +13,8 @@ namespace Orders.com.Core.QueryData
         public string CustomerName { get; set; }
         public long CustomerID { get; set; }
         public decimal Total { get; set; }
+        public long StatusID { get; set; }
+        public string Status { get; set; }
+        public DateTime? SubmittedOn { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Orders.com.Core.Extensions;
 
 namespace Orders.com.BLL
 {
@@ -21,6 +22,7 @@ namespace Orders.com.BLL
         protected override void OnBeforeInsertCommandExecuted(Order entity)
         {
             entity.OrderDate = DateTime.Now;
+            entity.OrderStatusID = OrderStatusConstants.PENDING_STATUS;
         }
         
         public ICommand<IEnumerable<OrderInfo>> GetAllCommand(int start, int pageSize)
@@ -30,6 +32,35 @@ namespace Orders.com.BLL
             (
                 executeMethod: () => proxy.GetAll(start, pageSize),
                 executeAsyncMethod: () => proxy.GetAllAsync(start, pageSize)
+            );
+        }
+
+        public override ICommand DeleteCommand(long id)
+        {
+            //TODO: create a DeleteOrderCommand that takes OrderService and OrderItemService, and return that command here
+            return base.DeleteCommand(id);
+        }
+
+        public ICommand<Order> SubmitCommand(long orderID)
+        {
+            var proxy = DataProxy as IOrderDataProxy;
+            return new ServiceCommand<Order>
+            (
+                executeMethod: () => proxy.Submit(orderID, DateTime.Now),
+                executeAsyncMethod: () => proxy.SubmitAsync(orderID, DateTime.Now) 
+            );
+        }
+
+        public ICommand<Order> ShipCommand(long orderID)
+        {
+            //TODO: decrement inventory service
+            //TODO: create a ShipOrderCommand that requires OrderService and Inventory Service, and return that command here
+            // perform auth check?
+            var proxy = DataProxy as IOrderDataProxy;
+            return new ServiceCommand<Order>
+            (
+                executeMethod: () => proxy.Ship(orderID, DateTime.Now),
+                executeAsyncMethod: () => proxy.ShipAsync(orderID, DateTime.Now) 
             );
         }
     }

@@ -64,7 +64,7 @@ namespace Orders.com.DAL.EF
             Debug.WriteLine("INSERTING product into database");
             var nextID = _products.Max(c => c.ID) + 1;
             entity.ID = nextID;
-            Products.Add(Mapper.Map(entity, new Product()));
+            Products.Add(entity);
             return entity;
         }
 

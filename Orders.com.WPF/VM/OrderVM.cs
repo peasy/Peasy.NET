@@ -14,6 +14,8 @@ namespace Orders.com.WPF.VM
     {
         private string _customerName;
         private decimal _total;
+        private string _status;
+        private DateTime? _submittedOn;
 
         public OrderVM(OrderInfo order) 
         {
@@ -22,6 +24,9 @@ namespace Orders.com.WPF.VM
             Customer = order.CustomerName;
             CustomerID = order.CustomerID;
             Total = order.Total;
+            Status = order.Status;
+            StatusID = order.StatusID;
+            SubmittedOn = order.SubmittedOn;
         }
 
         public OrderVM(CustomerOrderVM order, MainWindowVM vm)
@@ -31,6 +36,9 @@ namespace Orders.com.WPF.VM
             Customer = vm.CustomersVM.Customers.First(c => c.ID == order.CurrentCustomerID).Name;
             CustomerID = order.CurrentCustomerID;
             Total = order.OrderItems.Sum(i => i.Amount.Value);
+            Status = order.Status.Name;
+            StatusID = order.StatusID;
+            SubmittedOn = order.SubmittedOn;
         }
 
         public long ID { get; set; }
@@ -56,6 +64,28 @@ namespace Orders.com.WPF.VM
             {
                 _total = value;
                 OnPropertyChanged("Total");
+            }
+        }
+
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                OnPropertyChanged("Status");
+            }
+        }
+        
+        public long StatusID { get; set; }
+
+        public DateTime? SubmittedOn
+        {
+            get { return _submittedOn; }
+            set
+            {
+                _submittedOn = value;
+                OnPropertyChanged("SubmittedOn");
             }
         }
     }

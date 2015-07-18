@@ -1,6 +1,7 @@
 ﻿using Facile.Core.Extensions;
 using Orders.com.BLL;
 using Orders.com.Core.Domain;
+using Orders.com.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +18,7 @@ namespace Orders.com.WPF.VM
         private OrderService _orderService;
         private ObservableCollection<OrderItemVM> _orderItems;
         private ICommand _saveOrderCommand;
+        private ICommand _submitOrderCommand;
         private ICommand _addOrderItemCommand;
         private ICommand _deleteSelectedItemCommand;
         private EventAggregator _eventAggregator;
@@ -46,6 +48,7 @@ namespace Orders.com.WPF.VM
             _saveOrderCommand = new Command(() => SaveAsync(), CanSave);
             _addOrderItemCommand = new Command(() => AddOrderItem(), CanSave);
             _deleteSelectedItemCommand = new Command(() => DeleteSelectedItem());
+            _submitOrderCommand = new Command(() => SubmitAsync(), CanSubmit);
         }
 
         public IEnumerable<CustomerVM> Customers
@@ -84,6 +87,21 @@ namespace Orders.com.WPF.VM
             }
         }
 
+        public OrderStateBase Status 
+        {
+            get { return CurrentEntity.OrderStatus(); }
+        }
+
+        public long StatusID
+        {
+            get { return CurrentEntity.OrderStatusID; }
+        }
+
+        public DateTime? SubmittedOn
+        {
+            get { return CurrentEntity.SubmittedDate; }
+        }
+
         public IEnumerable<OrderItemVM> OrderItems
         {
             get { return _orderItems; }
@@ -97,6 +115,16 @@ namespace Orders.com.WPF.VM
         public ICommand SaveOrderCommand
         {
             get { return _saveOrderCommand; }
+        }
+
+        public ICommand SubmitOrderCommand
+        {
+            get { return _submitOrderCommand; }
+        }
+
+        public bool CanSubmit()
+        {
+            return CurrentEntity.OrderStatus().IsPending && CanSave();
         }
 
         public ICommand DeleteSelectedItemCommand
@@ -131,6 +159,13 @@ namespace Orders.com.WPF.VM
             await Task.WhenAll(results);
         }
 
+        public async Task SubmitAsync()
+        {
+            var result = await _orderService.SubmitCommand(CurrentEntity.OrderID).ExecuteAsync();
+            CurrentEntity = result.Value;
+            _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
+        }
+
         private void AddOrderItem()
         {
             var item = new OrderItemVM(_orderItemService, _mainVM);
@@ -162,5 +197,6 @@ namespace Orders.com.WPF.VM
         {
             await SelectedOrderItem.DeleteAsync();
         }
+
     }
 }

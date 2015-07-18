@@ -73,10 +73,14 @@ namespace Orders.com.WPF.VM
 
         public void Handle(OrderUpdatedEvent message)
         {
+            var updatedOrder = message.Order;
             var order = Orders.First(o => o.ID == message.Order.ID);
-            order.CustomerID = message.Order.CurrentCustomerID;
-            order.Customer = message.Order.Customers.First(c => c.ID == order.CustomerID).Name;
-            order.Total = message.Order.OrderItems.Sum(i => i.Amount.Value);
+            order.CustomerID = updatedOrder.CurrentCustomerID;
+            order.Customer = updatedOrder.Customers.First(c => c.ID == order.CustomerID).Name;
+            order.Total = updatedOrder.OrderItems.Sum(i => i.Amount.Value);
+            order.Status = updatedOrder.Status.Name;
+            order.StatusID = updatedOrder.StatusID;
+            order.SubmittedOn = updatedOrder.SubmittedOn;
         }
 
         public void Handle(OrderInsertedEvent message)

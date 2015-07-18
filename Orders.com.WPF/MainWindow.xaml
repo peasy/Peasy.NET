@@ -27,6 +27,8 @@
                             <DataGridTextColumn Binding="{Binding OrderDate}" Header="Order Date" />
                             <DataGridTextColumn Binding="{Binding Customer}" Header="Customer" />
                             <DataGridTextColumn Binding="{Binding Total, StringFormat=C}" Header="Total" />
+                            <DataGridTextColumn Binding="{Binding Status}" Header="Status" />
+                            <DataGridTextColumn Binding="{Binding SubmittedOn}" Header="Submitted On" />
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

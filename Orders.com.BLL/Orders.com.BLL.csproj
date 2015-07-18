@@ -49,6 +49,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderStatusService.cs" />
     <Compile Include="Commands\DeleteOrderCommand.cs" />
     <Compile Include="OrdersDotComServiceBase.cs" />
     <Compile Include="OrderItemService.cs" />

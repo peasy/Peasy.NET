@@ -28,26 +28,44 @@ namespace Orders.com.WPF
             InitializeComponent();
         }
 
-        public CustomerOrderWindow(OrderService orderService, 
-                                   CustomerService customerService, 
-                                   OrderItemService orderItemService, 
+        public CustomerOrderWindow(OrderService orderService,
+                                   CustomerService customerService,
+                                   OrderItemService orderItemService,
                                    MainWindowVM mainVM,
-                                   EventAggregator eventAggregator) : this()
+                                   EventAggregator eventAggregator)
+            : this()
         {
             var vm = new CustomerOrderVM(eventAggregator, orderService, orderItemService, mainVM);
             DataContext = vm;
         }
 
-        public CustomerOrderWindow(OrderVM currentOrder, 
-                                   OrderService orderService, 
-                                   CustomerService customerService, 
-                                   OrderItemService orderItemService, 
+        public CustomerOrderWindow(OrderVM currentOrder,
+                                   OrderService orderService,
+                                   CustomerService customerService,
+                                   OrderItemService orderItemService,
                                    MainWindowVM mainVM,
-                                   EventAggregator eventAggregator) : this()
+                                   EventAggregator eventAggregator)
+            : this()
         {
-            var order = new Order() { ID = currentOrder.ID, CustomerID = currentOrder.CustomerID, OrderDate = currentOrder.OrderDate };
+            var order = new Order()
+            {
+                ID = currentOrder.ID,
+                CustomerID = currentOrder.CustomerID,
+                OrderDate = currentOrder.OrderDate,
+                OrderStatusID = currentOrder.StatusID
+            };
             var vm = new CustomerOrderVM(eventAggregator, order, orderService, orderItemService, mainVM);
             DataContext = vm;
+        }
+
+        private void SaveOrderButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void SubmitOrderButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
