@@ -18,8 +18,8 @@ namespace Orders.com.Core.Domain
 
         [FacileForeignKey, FacileRequired]
         public long ProductID { get; set; }
-
-        [Required]
+        
+        [Range(1, double.MaxValue, ErrorMessage="Quantity must be greater than 0")]
         public decimal? Quantity { get; set; }
 
         //[Editable(false)] -> TODO: create a rule that looks up current price for product id and ensure that totals match to avoid price changes or amount hijacking
