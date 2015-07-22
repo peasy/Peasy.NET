@@ -1,10 +1,7 @@
-﻿using Facile;
-using Orders.com.Core.Domain;
+﻿using Orders.com.Core.Domain;
 using Orders.com.Core.QueryData;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Orders.com.Core.DataProxy
