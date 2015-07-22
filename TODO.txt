@@ -1,4 +1,4 @@
-CustomerOrderView - Handle case where a product price changes after an orderItem has been created.  Need to keep the orderItem price and not clobber it with the new product price.
+CustomerOrderView - Handle case where a product price changes after an orderItem has been submitted.  Need to keep the orderItem price and not clobber it with the new product price.
 
 CustomerOrderView - Filter products based on availability
 
@@ -9,3 +9,7 @@ Order State History - OrderStateHistory dto, service, etc.  Maybe remove order s
 Backorder Functionality - Handle case where two orders are place with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
 
 Handle orderItem amount check - Always pull the product price, unless the orderItem has been created.  This is to allow updates to a saved orderedItem after a price has been changed, but disallows a hacker to attempt to change the price of an ordered item if it has not yet been saved.
+
+CustomerOrderView - Close view on succesful save of order and all order items. Throw exception for testing purposes.
+
+Shipping functionality
