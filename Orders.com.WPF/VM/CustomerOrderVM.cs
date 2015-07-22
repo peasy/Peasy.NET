@@ -124,7 +124,7 @@ namespace Orders.com.WPF.VM
 
         public bool CanSubmit()
         {
-            return CurrentEntity.OrderStatus().IsPending && CanSave();
+            return CurrentEntity.OrderStatus().IsPending && CanSave() && _orderItems.All(i => i.CanSave());
         }
 
         public ICommand DeleteSelectedItemCommand
@@ -161,6 +161,7 @@ namespace Orders.com.WPF.VM
 
         public async Task SubmitAsync()
         {
+            await SaveAsync();
             var result = await _orderService.SubmitCommand(CurrentEntity.OrderID).ExecuteAsync();
             CurrentEntity = result.Value;
             _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
