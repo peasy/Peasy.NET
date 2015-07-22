@@ -1,9 +1,8 @@
 ﻿using Facile.Core;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 //using Newtonsoft.Json;
-using System.ComponentModel.DataAnnotations;
-using Facile;
 
 namespace Orders.com.Core
 {
