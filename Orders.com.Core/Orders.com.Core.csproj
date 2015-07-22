@@ -45,6 +45,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProxy\InventoryItemDataProxy.cs" />
     <Compile Include="DataProxy\IOrderStatusDataProxy.cs" />
     <Compile Include="DataProxy\IOrderItemDataProxy.cs" />
     <Compile Include="DataProxy\IOrderDataProxy.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\Customer.cs" />
     <Compile Include="Domain\DomainBase.cs" />
+    <Compile Include="Domain\InventoryItem.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\OrderItem.cs" />
     <Compile Include="Domain\OrderStatus.cs" />
