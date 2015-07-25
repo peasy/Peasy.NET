@@ -76,6 +76,11 @@ namespace Facile.Core
         {
         }
 
+        public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<ValidationResult>> getBusinessRulesResultsMethod)
+            : this(() => {}, executeMethod, executeAsyncMethod, getValidationResultsMethod, getBusinessRulesResultsMethod)
+        {
+        }
+
         protected override void OnInitialization()
         {
             _beforeExecuteMethod();
