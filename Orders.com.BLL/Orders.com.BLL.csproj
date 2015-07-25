@@ -59,6 +59,7 @@
     <Compile Include="CategoryService.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\CanSubmitOrderRule.cs" />
     <Compile Include="Rules\MinProductsRequiredRule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
