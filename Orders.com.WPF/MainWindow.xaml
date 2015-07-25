@@ -47,13 +47,19 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Submit" Command="{Binding SubmitCommand}"></Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button Margin="5" Content="Reload" Command="{Binding LoadCategoriesCommand}"/>
                         <Button Margin="5" Content="Add" Click="addCustomerOrderClick" />
                         <Button Margin="5" Content="Delete" Command="{Binding DeleteSelectedCommand}"/>
-                        <Button Margin="5" Content="Save" Command="{Binding SaveCategoriesCommand}"/>
                     </StackPanel>
                 </Grid>
             </TabItem>

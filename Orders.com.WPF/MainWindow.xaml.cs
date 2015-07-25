@@ -45,8 +45,7 @@ namespace Orders.com.WPF
             _orderItemsService = new OrderItemService(new OrderItemRepository());
             _productsService = new ProductService(new ProductRepository());
             _categoriesService = new CategoryService(new CategoryRepository());
-            var ordersService = new OrderService(new OrderRepository());
-            this.DataContext = new MainWindowVM(_eventAggregator, _customersService, _productsService, _categoriesService, ordersService);
+            this.DataContext = new MainWindowVM(_eventAggregator, _customersService, _productsService, _categoriesService, _ordersService);
         }
 
         public MainWindowVM VM

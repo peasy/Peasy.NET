@@ -1,6 +1,7 @@
 ﻿using Facile.Core;
 using Orders.com.BLL;
 using Orders.com.Core.Domain;
+using Orders.com.Core.Extensions;
 using Orders.com.Core.QueryData;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,10 @@ namespace Orders.com.WPF.VM
         private decimal _total;
         private string _status;
         private DateTime? _submittedOn;
+        private System.Windows.Input.ICommand _submitCommand;
+        private OrderService _orderService;
 
-        public OrderVM(OrderInfo order) 
+        public OrderVM(OrderInfo order, OrderService orderService)
         {
             ID = order.OrderID;
             OrderDate = order.OrderDate;
@@ -27,9 +30,11 @@ namespace Orders.com.WPF.VM
             Status = order.Status;
             StatusID = order.StatusID;
             SubmittedOn = order.SubmittedOn;
+            _submitCommand = new Command(() => SubmitAsync());
+            _orderService = orderService;
         }
 
-        public OrderVM(CustomerOrderVM order, MainWindowVM vm)
+        public OrderVM(CustomerOrderVM order, MainWindowVM vm, OrderService orderService)
         {
             ID = order.ID;
             OrderDate = order.CurrentEntity.OrderDate;
@@ -39,6 +44,21 @@ namespace Orders.com.WPF.VM
             Status = order.Status.Name;
             StatusID = order.StatusID;
             SubmittedOn = order.SubmittedOn;
+            _submitCommand = new Command(() => SubmitAsync());
+            _orderService = orderService;
+        }
+
+        public System.Windows.Input.ICommand SubmitCommand
+        {
+            get { return _submitCommand; }
+        }
+
+        private async Task SubmitAsync()
+        {
+            var result = await _orderService.SubmitCommand(ID).ExecuteAsync();
+            Status = result.Value.OrderStatus().Name;
+            StatusID = result.Value.OrderStatusID;
+            SubmittedOn = result.Value.SubmittedDate;
         }
 
         public long ID { get; set; }
