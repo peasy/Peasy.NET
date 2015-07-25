@@ -13,3 +13,5 @@ Handle orderItem amount check - Always pull the product price, unless the orderI
 CustomerOrderView - Close view on succesful save of order and all order items. Throw exception for testing purposes.
 
 Shipping functionality
+
+Submit functionality - prevent a submit from happening if it's in the submitted state
