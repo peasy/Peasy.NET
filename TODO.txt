@@ -15,3 +15,5 @@ CustomerOrderView - Close view on succesful save of order and all order items. T
 Shipping functionality
 
 Submit functionality - prevent a submit from happening if it's in the submitted state
+
+Add async support for business and validation rules
