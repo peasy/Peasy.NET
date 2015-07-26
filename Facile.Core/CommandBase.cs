@@ -10,10 +10,10 @@ namespace Facile.Core
     {
         public virtual bool CanExecute
         {
-            get { return !GetValidationErrors().Any(); }
+            get { return !GetErrors().Any(); }
         }
 
-        public virtual IEnumerable<ValidationResult> GetValidationErrors()
+        public virtual IEnumerable<ValidationResult> GetErrors()
         {
             return Enumerable.Empty<ValidationResult>();
         }

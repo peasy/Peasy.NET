@@ -14,7 +14,7 @@ namespace Facile.Core
         {
             OnInitialization();
 
-            var validationResults = GetValidationErrors().ToArray();
+            var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
                 return new ExecutionResult() { Success = false, Errors = validationResults };
 
@@ -31,7 +31,7 @@ namespace Facile.Core
         {
             await OnInitializationAsync();
 
-            var validationResults = GetValidationErrors().ToArray();
+            var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
                 return new ExecutionResult() { Success = false, Errors = validationResults };
 
@@ -56,7 +56,7 @@ namespace Facile.Core
         {
             OnInitialization();
 
-            var validationResults = GetValidationErrors().ToArray();
+            var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
                 return new ExecutionResult<T>() { Success = false, Errors = validationResults };
 
@@ -73,7 +73,7 @@ namespace Facile.Core
         {
             await OnInitializationAsync();
 
-            var validationResults = GetValidationErrors().ToArray();
+            var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
                 return new ExecutionResult<T>() { Success = false, Errors = validationResults };
 

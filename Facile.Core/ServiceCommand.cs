@@ -45,7 +45,7 @@ namespace Facile.Core
             await _executeAsyncMethod();
         }
 
-        public override IEnumerable<ValidationResult> GetValidationErrors()
+        public override IEnumerable<ValidationResult> GetErrors()
         {
             foreach (var result in _getValidationRulesMethod())
                 yield return result;
@@ -109,7 +109,7 @@ namespace Facile.Core
             return result;
         }
 
-        public override IEnumerable<ValidationResult> GetValidationErrors()
+        public override IEnumerable<ValidationResult> GetErrors()
         {
             foreach (var result in _getValidationRulesMethod())
                 yield return result;

@@ -7,7 +7,7 @@ namespace Facile.Core
 {
     public interface IValidationErrorsContainer
     {
-        IEnumerable<ValidationResult> GetValidationErrors();
+        IEnumerable<ValidationResult> GetErrors();
     }
 
     public interface ICommandBase : IValidationErrorsContainer

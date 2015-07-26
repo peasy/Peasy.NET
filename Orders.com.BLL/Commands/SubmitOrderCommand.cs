@@ -30,9 +30,9 @@ namespace Orders.com.BLL.Commands
             return _dataProxy.SubmitAsync(_orderID, DateTime.Now);
         }
 
-        public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> GetValidationErrors()
+        public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> GetErrors()
         {
-            return base.GetValidationErrors();
+            return base.GetErrors();
         }
     }
 }
