@@ -13,16 +13,16 @@ namespace Facile.Core
         private Action _beforeExecuteMethod;
         private Action _executeMethod;
         private Func<Task> _executeAsyncMethod;
-        private Func<IEnumerable<ValidationResult>> _getValidationResultsMethod;
+        private Func<IEnumerable<ValidationResult>> _getValidationRulesMethod;
         private Func<IEnumerable<IRule>> _getBusinessRulesMethod;
 
-        public ServiceCommand(Action beforeExecuteMethod, Action executeMethod, Func<Task> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
+        public ServiceCommand(Action beforeExecuteMethod, Action executeMethod, Func<Task> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationRulesMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
         {
             _beforeExecuteMethod = beforeExecuteMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
             _getBusinessRulesMethod = getBusinessRulesMethod;
-            _getValidationResultsMethod = getValidationResultsMethod;
+            _getValidationRulesMethod = getValidationRulesMethod;
         }
 
         protected override void OnInitialization()
@@ -47,7 +47,7 @@ namespace Facile.Core
 
         public override IEnumerable<ValidationResult> GetValidationErrors()
         {
-            foreach (var result in _getValidationResultsMethod())
+            foreach (var result in _getValidationRulesMethod())
                 yield return result;
 
             foreach (var result in _getBusinessRulesMethod().GetBusinessRulesResults(this.GetType().Name))
@@ -60,25 +60,30 @@ namespace Facile.Core
         private Action _beforeExecuteMethod;
         private Func<T> _executeMethod;
         private Func<Task<T>> _executeAsyncMethod;
-        private Func<IEnumerable<ValidationResult>> _getValidationResultsMethod;
+        private Func<IEnumerable<ValidationResult>> _getValidationRulesMethod;
         private Func<IEnumerable<IRule>> _getBusinessRulesMethod;
 
-        public ServiceCommand(Action beforeExecuteMethod, Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
+        public ServiceCommand(Action beforeExecuteMethod, Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationRulesMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
         {
             _beforeExecuteMethod = beforeExecuteMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
             _getBusinessRulesMethod = getBusinessRulesMethod;
-            _getValidationResultsMethod = getValidationResultsMethod;
+            _getValidationRulesMethod = getValidationRulesMethod;
         }
 
         public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod)
-            : this(() => {}, executeMethod, executeAsyncMethod, () => { return Enumerable.Empty<ValidationResult>(); }, () => { return Enumerable.Empty<IRule>(); })
+            : this(() => {}, executeMethod, executeAsyncMethod, () => Enumerable.Empty<ValidationResult>(), () => Enumerable.Empty<IRule>())
         {
         }
 
-        public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
-            : this(() => {}, executeMethod, executeAsyncMethod, getValidationResultsMethod, getBusinessRulesMethod)
+        public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
+            : this(() => { }, executeMethod, executeAsyncMethod, () => Enumerable.Empty<ValidationResult>(), getBusinessRulesMethod)
+        {
+        }
+
+        public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationRulesMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
+            : this(() => {}, executeMethod, executeAsyncMethod, getValidationRulesMethod, getBusinessRulesMethod)
         {
         }
 
@@ -106,7 +111,7 @@ namespace Facile.Core
 
         public override IEnumerable<ValidationResult> GetValidationErrors()
         {
-            foreach (var result in _getValidationResultsMethod())
+            foreach (var result in _getValidationRulesMethod())
                 yield return result;
 
             foreach (var result in _getBusinessRulesMethod().GetBusinessRulesResults(this.GetType().Name))

@@ -128,7 +128,7 @@ namespace Facile.Core
                 beforeExecuteMethod: () => OnBeforeGetByIDCommandExecuted(id),
                 executeMethod: () => GetByID(id),
                 executeAsyncMethod: () => GetByIDAsync(id),
-                getValidationResultsMethod: () => GetValidationResultsForGetByID(id),
+                getValidationRulesMethod: () => GetValidationResultsForGetByID(id),
                 getBusinessRulesMethod: () => GetBusinessRulesForRetrieve(id)
             );
         }
@@ -147,7 +147,7 @@ namespace Facile.Core
                 beforeExecuteMethod: () => OnBeforeGetAllCommandExecuted(),
                 executeMethod: () => GetAll(),
                 executeAsyncMethod: () => GetAllAsync(),
-                getValidationResultsMethod: () => GetValidationResultsForGetAll(),
+                getValidationRulesMethod: () => GetValidationResultsForGetAll(),
                 getBusinessRulesMethod: () => new IRule[] { }
             );
         }
@@ -166,7 +166,7 @@ namespace Facile.Core
                 beforeExecuteMethod: () => OnBeforeInsertCommandExecuted(entity),
                 executeMethod: () => Insert(entity),
                 executeAsyncMethod: () => InsertAsync(entity),
-                getValidationResultsMethod: () => GetValidationResultsForInsert(entity),
+                getValidationRulesMethod: () => GetValidationResultsForInsert(entity),
                 getBusinessRulesMethod: () => GetBusinessRulesForInsert(entity)
             );
         }
@@ -186,7 +186,7 @@ namespace Facile.Core
                 beforeExecuteMethod: () => OnBeforeUpdateCommandExecuted(entity),
                 executeMethod: () => Update(entity),
                 executeAsyncMethod: () => UpdateAsync(entity),
-                getValidationResultsMethod: () => GetValidationResultsForUpdate(entity),
+                getValidationRulesMethod: () => GetValidationResultsForUpdate(entity),
                 getBusinessRulesMethod: () => GetBusinessRulesForUpdate(entity)
             );
         }
@@ -205,7 +205,7 @@ namespace Facile.Core
                 beforeExecuteMethod: () => OnBeforeDeleteCommandExecuted(id),
                 executeMethod: () => Delete(id),
                 executeAsyncMethod: () => DeleteAsync(id),
-                getValidationResultsMethod: () => GetValidationResultsForDelete(id),
+                getValidationRulesMethod: () => GetValidationResultsForDelete(id),
                 getBusinessRulesMethod: () => GetBusinessRulesForDelete(id)
             );
         }
