@@ -129,7 +129,7 @@ namespace Facile.Core
                 executeMethod: () => GetByID(id),
                 executeAsyncMethod: () => GetByIDAsync(id),
                 getValidationResultsMethod: () => GetValidationResultsForGetByID(id),
-                getBusinessRulesResultsMethod: () => GetBusinessRulesResults(GetBusinessRulesForRetrieve(id))
+                getBusinessRulesMethod: () => GetBusinessRulesForRetrieve(id)
             );
         }
 
@@ -148,7 +148,7 @@ namespace Facile.Core
                 executeMethod: () => GetAll(),
                 executeAsyncMethod: () => GetAllAsync(),
                 getValidationResultsMethod: () => GetValidationResultsForGetAll(),
-                getBusinessRulesResultsMethod: () => GetBusinessRulesResults(new IRule[] { })
+                getBusinessRulesMethod: () => new IRule[] { }
             );
         }
 
@@ -167,7 +167,7 @@ namespace Facile.Core
                 executeMethod: () => Insert(entity),
                 executeAsyncMethod: () => InsertAsync(entity),
                 getValidationResultsMethod: () => GetValidationResultsForInsert(entity),
-                getBusinessRulesResultsMethod: () => GetBusinessRulesResults(GetBusinessRulesForInsert(entity))
+                getBusinessRulesMethod: () => GetBusinessRulesForInsert(entity)
             );
         }
 
@@ -187,7 +187,7 @@ namespace Facile.Core
                 executeMethod: () => Update(entity),
                 executeAsyncMethod: () => UpdateAsync(entity),
                 getValidationResultsMethod: () => GetValidationResultsForUpdate(entity),
-                getBusinessRulesResultsMethod: () => GetBusinessRulesResults(GetBusinessRulesForUpdate(entity))
+                getBusinessRulesMethod: () => GetBusinessRulesForUpdate(entity)
             );
         }
 
@@ -206,7 +206,7 @@ namespace Facile.Core
                 executeMethod: () => Delete(id),
                 executeAsyncMethod: () => DeleteAsync(id),
                 getValidationResultsMethod: () => GetValidationResultsForDelete(id),
-                getBusinessRulesResultsMethod: () => GetBusinessRulesResults(GetBusinessRulesForDelete(id))
+                getBusinessRulesMethod: () => GetBusinessRulesForDelete(id)
             );
         }
 

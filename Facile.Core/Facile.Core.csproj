@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Extensions\IRuleExtensions.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="CommandBase.cs" />

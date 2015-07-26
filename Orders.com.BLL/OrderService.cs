@@ -48,7 +48,7 @@ namespace Orders.com.BLL
                 executeMethod: () => proxy.Submit(orderID, DateTime.Now),
                 executeAsyncMethod: () => proxy.SubmitAsync(orderID, DateTime.Now),
                 getValidationResultsMethod: () => Enumerable.Empty<ValidationResult>(),
-                getBusinessRulesResultsMethod: () => GetBusinessRulesResults(GetBusinessRulesForSubmit(orderID))
+                getBusinessRulesMethod: () => GetBusinessRulesForSubmit(orderID)
             );
         }
 

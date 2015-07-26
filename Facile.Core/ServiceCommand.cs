@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Facile.Core.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,14 +14,14 @@ namespace Facile.Core
         private Action _executeMethod;
         private Func<Task> _executeAsyncMethod;
         private Func<IEnumerable<ValidationResult>> _getValidationResultsMethod;
-        private Func<IEnumerable<ValidationResult>> _getBusinessRulesResultsMethod;
+        private Func<IEnumerable<IRule>> _getBusinessRulesMethod;
 
-        public ServiceCommand(Action beforeExecuteMethod, Action executeMethod, Func<Task> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<ValidationResult>> getBusinessRulesResultsMethod)
+        public ServiceCommand(Action beforeExecuteMethod, Action executeMethod, Func<Task> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
         {
             _beforeExecuteMethod = beforeExecuteMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
-            _getBusinessRulesResultsMethod = getBusinessRulesResultsMethod;
+            _getBusinessRulesMethod = getBusinessRulesMethod;
             _getValidationResultsMethod = getValidationResultsMethod;
         }
 
@@ -49,7 +50,7 @@ namespace Facile.Core
             foreach (var result in _getValidationResultsMethod())
                 yield return result;
 
-            foreach (var result in _getBusinessRulesResultsMethod())
+            foreach (var result in _getBusinessRulesMethod().GetBusinessRulesResults(this.GetType().Name))
                 yield return result;
         }
     }
@@ -60,24 +61,24 @@ namespace Facile.Core
         private Func<T> _executeMethod;
         private Func<Task<T>> _executeAsyncMethod;
         private Func<IEnumerable<ValidationResult>> _getValidationResultsMethod;
-        private Func<IEnumerable<ValidationResult>> _getBusinessRulesResultsMethod;
+        private Func<IEnumerable<IRule>> _getBusinessRulesMethod;
 
-        public ServiceCommand(Action beforeExecuteMethod, Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<ValidationResult>> getBusinessRulesResultsMethod)
+        public ServiceCommand(Action beforeExecuteMethod, Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
         {
             _beforeExecuteMethod = beforeExecuteMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
-            _getBusinessRulesResultsMethod = getBusinessRulesResultsMethod;
+            _getBusinessRulesMethod = getBusinessRulesMethod;
             _getValidationResultsMethod = getValidationResultsMethod;
         }
 
         public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod)
-            : this(() => {}, executeMethod, executeAsyncMethod, () => { return Enumerable.Empty<ValidationResult>(); }, () => { return Enumerable.Empty<ValidationResult>(); })
+            : this(() => {}, executeMethod, executeAsyncMethod, () => { return Enumerable.Empty<ValidationResult>(); }, () => { return Enumerable.Empty<IRule>(); })
         {
         }
 
-        public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<ValidationResult>> getBusinessRulesResultsMethod)
-            : this(() => {}, executeMethod, executeAsyncMethod, getValidationResultsMethod, getBusinessRulesResultsMethod)
+        public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationResultsMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
+            : this(() => {}, executeMethod, executeAsyncMethod, getValidationResultsMethod, getBusinessRulesMethod)
         {
         }
 
@@ -108,7 +109,7 @@ namespace Facile.Core
             foreach (var result in _getValidationResultsMethod())
                 yield return result;
 
-            foreach (var result in _getBusinessRulesResultsMethod())
+            foreach (var result in _getBusinessRulesMethod().GetBusinessRulesResults(this.GetType().Name))
                 yield return result;
         }
     }
