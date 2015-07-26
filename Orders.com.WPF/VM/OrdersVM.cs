@@ -79,7 +79,7 @@ namespace Orders.com.WPF.VM
             order.Customer = updatedOrder.Customers.First(c => c.ID == order.CustomerID).Name;
             order.Total = updatedOrder.OrderItems.Sum(i => i.Amount.Value);
             order.Status = updatedOrder.Status.Name;
-            order.StatusID = updatedOrder.StatusID;
+            order.OrderStatusID = updatedOrder.StatusID;
             order.SubmittedOn = updatedOrder.SubmittedOn;
         }
 

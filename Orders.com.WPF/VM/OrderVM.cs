@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF.VM
 {
-    public class OrderVM : ViewModelBase 
+    public class OrderVM : ViewModelBase, IOrderStatusIDContainer
     {
         private string _customerName;
         private decimal _total;
@@ -28,9 +28,9 @@ namespace Orders.com.WPF.VM
             CustomerID = order.CustomerID;
             Total = order.Total;
             Status = order.Status;
-            StatusID = order.StatusID;
+            OrderStatusID = order.StatusID;
             SubmittedOn = order.SubmittedOn;
-            _submitCommand = new Command(() => SubmitAsync());
+            _submitCommand = new Command(() => SubmitAsync(), () => this.OrderStatus().CanSubmit);
             _orderService = orderService;
         }
 
@@ -42,9 +42,9 @@ namespace Orders.com.WPF.VM
             CustomerID = order.CurrentCustomerID;
             Total = order.OrderItems.Sum(i => i.Amount.Value);
             Status = order.Status.Name;
-            StatusID = order.StatusID;
+            OrderStatusID = order.StatusID;
             SubmittedOn = order.SubmittedOn;
-            _submitCommand = new Command(() => SubmitAsync());
+            _submitCommand = new Command(() => SubmitAsync(), () => this.OrderStatus().CanSubmit);
             _orderService = orderService;
         }
 
@@ -57,7 +57,7 @@ namespace Orders.com.WPF.VM
         {
             var result = await _orderService.SubmitCommand(ID).ExecuteAsync();
             Status = result.Value.OrderStatus().Name;
-            StatusID = result.Value.OrderStatusID;
+            OrderStatusID = result.Value.OrderStatusID;
             SubmittedOn = result.Value.SubmittedDate;
         }
 
@@ -97,7 +97,7 @@ namespace Orders.com.WPF.VM
             }
         }
         
-        public long StatusID { get; set; }
+        public long OrderStatusID { get; set; }
 
         public DateTime? SubmittedOn
         {

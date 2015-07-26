@@ -1,5 +1,6 @@
 ﻿using Facile.Core;
 using Orders.com.Core.DataProxy;
+using Orders.com.Core.Domain;
 using Orders.com.Core.Extensions;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,18 @@ namespace Orders.com.BLL.Rules
 {
     public class CanSubmitOrderRule : RuleBase
     {
-        private long _orderID;
-        private IOrderDataProxy _orderDataProxy;
+        private Order _order;
 
-        public CanSubmitOrderRule(long orderID, IOrderDataProxy orderDataProxy)
+        public CanSubmitOrderRule(Order order)
         {
-            _orderID = orderID;
-            _orderDataProxy = orderDataProxy;
+            _order = order;
         }
 
         protected override void OnValidate()
         {
-            var order = _orderDataProxy.GetByID(_orderID); 
-            if (!order.OrderStatus().IsPending)
+            if (!_order.OrderStatus().IsPending)
             {
-                Invalidate(string.Format("Order ID:{0} is in a {1} state and cannot be submitted", _orderID.ToString(), order.OrderStatus().Name));
+                Invalidate(string.Format("Order ID:{0} is in a {1} state and cannot be submitted", _order.ID.ToString(), _order.OrderStatus().Name));
             }
         }
     }

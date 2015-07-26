@@ -124,7 +124,7 @@ namespace Orders.com.WPF.VM
 
         public bool CanSubmit()
         {
-            return CurrentEntity.OrderStatus().IsPending && CanSave() && _orderItems.All(i => i.CanSave());
+            return CurrentEntity.OrderStatus().CanSubmit && CanSave() && _orderItems.All(i => i.CanSave());
         }
 
         public ICommand DeleteSelectedItemCommand

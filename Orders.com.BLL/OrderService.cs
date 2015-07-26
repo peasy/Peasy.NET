@@ -54,7 +54,11 @@ namespace Orders.com.BLL
 
         private IEnumerable<IRule> GetBusinessRulesForSubmit(long orderID)
         {
-            yield return new CanSubmitOrderRule(orderID, DataProxy as IOrderDataProxy);        
+            if (!IsLatencyProne)
+            {
+                var order = DataProxy.GetByID(orderID);
+                yield return new CanSubmitOrderRule(order);        
+            }
         }
 
         public ICommand<Order> ShipCommand(long orderID)

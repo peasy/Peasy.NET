@@ -11,7 +11,7 @@ namespace Orders.com.Core.Extensions
 
     public static class OrderStatusExtensions
     {
-        public static OrderStateBase OrderStatus(this Order order)
+        public static OrderStateBase OrderStatus(this IOrderStatusIDContainer order)
         {
             switch (order.OrderStatusID)
             {
@@ -29,13 +29,14 @@ namespace Orders.com.Core.Extensions
 
     public abstract class OrderStateBase
     {
-        private Order _order;
+        private IOrderStatusIDContainer _order;
 
-        public OrderStateBase(Order order)
+        public OrderStateBase(IOrderStatusIDContainer order)
         {
             _order = order;
         }
 
+        public abstract string Name { get; }
         public abstract void SetPendingState();
         public abstract void SetSubmittedState();
         public abstract void SetShippedState();
@@ -55,14 +56,23 @@ namespace Orders.com.Core.Extensions
             get { return _order.OrderStatusID == OrderStatusConstants.SHIPPED_STATUS; }
 
         }
-        public abstract string Name { get; }
+
+        public bool CanSubmit
+        {
+            get { return IsPending; }
+        }
+
+        public bool CanShip
+        {
+            get { return IsSubmitted; }
+        }
     }
 
     public class PendingState : OrderStateBase
     {
-        private Order _order;
+        private IOrderStatusIDContainer _order;
 
-        public PendingState(Order order) : base(order)
+        public PendingState(IOrderStatusIDContainer order) : base(order)
         {
             _order = order; 
         }
@@ -88,9 +98,9 @@ namespace Orders.com.Core.Extensions
 
     public class SubmittedState : OrderStateBase
     {
-        private Order _order;
+        private IOrderStatusIDContainer _order;
 
-        public SubmittedState(Order order) : base(order)
+        public SubmittedState(IOrderStatusIDContainer order) : base(order)
         {
             _order = order; 
         }
@@ -117,9 +127,9 @@ namespace Orders.com.Core.Extensions
 
     public class ShippedState : OrderStateBase
     {
-        private Order _order;
+        private IOrderStatusIDContainer _order;
 
-        public ShippedState(Order order) : base(order)
+        public ShippedState(IOrderStatusIDContainer order) : base(order)
         {
             _order = order; 
         }

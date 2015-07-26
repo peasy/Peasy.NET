@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Orders.com.Core.Domain
 {
-    public class Order : DomainBase
+    public class Order : DomainBase, IOrderStatusIDContainer
     {
         public long OrderID { get; set; }
 

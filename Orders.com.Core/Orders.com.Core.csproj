@@ -57,6 +57,7 @@
     <Compile Include="Domain\Customer.cs" />
     <Compile Include="Domain\DomainBase.cs" />
     <Compile Include="Domain\InventoryItem.cs" />
+    <Compile Include="Domain\IOrderStatusIDContainer.cs" />
     <Compile Include="Domain\Order.cs" />
     <Compile Include="Domain\OrderItem.cs" />
     <Compile Include="Domain\OrderStatus.cs" />

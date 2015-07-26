@@ -52,7 +52,7 @@ namespace Orders.com.WPF
                 ID = currentOrder.ID,
                 CustomerID = currentOrder.CustomerID,
                 OrderDate = currentOrder.OrderDate,
-                OrderStatusID = currentOrder.StatusID
+                OrderStatusID = currentOrder.OrderStatusID
             };
             var vm = new CustomerOrderVM(eventAggregator, order, orderService, orderItemService, mainVM);
             DataContext = vm;
