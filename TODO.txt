@@ -17,3 +17,5 @@ Shipping functionality
 Submit functionality - prevent a submit from happening if it's in the submitted state
 
 Add async support for business and validation rules
+
+Add support to deny adding orderitems to an order that has been shipped
