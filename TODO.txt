@@ -19,3 +19,5 @@ Submit functionality - prevent a submit from happening if it's in the submitted 
 Add async support for business and validation rules
 
 Add support to deny adding orderitems to an order that has been shipped
+
+Business Rule - There must be one or more items on an order to be submittable/shippable
