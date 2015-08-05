@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
+using Orders.com.Core.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 
 namespace Orders.com.DAL.EF
 {
@@ -107,6 +109,19 @@ namespace Orders.com.DAL.EF
         public Task DeleteAsync(long id)
         {
             return Task.Run(() => Delete(id));
+        }
+
+        public OrderItem Ship(long orderItemID, DateTime shippedOn)
+        {
+            var existing = OrderItems.First(c => c.ID == orderItemID);
+            existing.OrderStatus().SetShippedState();
+            existing.ShippedDate = shippedOn;
+            return Mapper.Map(existing, new OrderItem());
+        }
+
+        public Task<OrderItem> ShipAsync(long orderItemID, DateTime shippedOn)
+        {
+            return Task.Run(() => Ship(orderItemID, shippedOn));
         }
 
         public bool SupportsTransactions

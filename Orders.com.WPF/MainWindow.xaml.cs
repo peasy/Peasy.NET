@@ -31,6 +31,7 @@ namespace Orders.com.WPF
         private ProductService _productsService;
         private CategoryService _categoriesService;
         private EventAggregator _eventAggregator = new EventAggregator();
+        private InventoryItemService _inventoryService;
 
         public MainWindow()
         {
@@ -40,9 +41,10 @@ namespace Orders.com.WPF
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _ordersService = new OrderService(new OrderRepository());
+            _inventoryService = new InventoryItemService(new InventoryItemRepository());
+            _orderItemsService = new OrderItemService(new OrderItemRepository(), _inventoryService);
+            _ordersService = new OrderService(new OrderRepository(), _orderItemsService, _inventoryService);
             _customersService = new CustomerService(new CustomerRepository());
-            _orderItemsService = new OrderItemService(new OrderItemRepository());
             _productsService = new ProductService(new ProductRepository());
             _categoriesService = new CategoryService(new CategoryRepository());
             this.DataContext = new MainWindowVM(_eventAggregator, _customersService, _productsService, _categoriesService, _ordersService);

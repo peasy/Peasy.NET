@@ -1,10 +1,11 @@
 ﻿using Facile;
 using Facile.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace Orders.com.Core.Domain
 {
-    public class OrderItem : DomainBase
+    public class OrderItem : DomainBase, IOrderStatusIDContainer
     {
         public long OrderItemID { get; set; }
 
@@ -19,6 +20,12 @@ namespace Orders.com.Core.Domain
 
         //[Editable(false)] -> TODO: create a rule that looks up current price for product id and ensure that totals match to avoid price changes or amount hijacking
         public decimal Amount { get; set; }
+
+        [Editable(false)]
+        public DateTime? ShippedDate { get; set; }
+
+        [Editable(false)]
+        public long OrderStatusID { get; set; }
 
         public override long ID
         {

@@ -14,8 +14,13 @@ namespace Orders.com.BLL
 {
     public class OrderService : OrdersDotComServiceBase<Order>
     {
-        public OrderService(IOrderDataProxy dataProxy) : base(dataProxy)
+        private InventoryItemService _inventoryService;
+        private OrderItemService _orderItemService;
+
+        public OrderService(IOrderDataProxy dataProxy, OrderItemService orderItemService, InventoryItemService inventoryService) : base(dataProxy)
         {
+            _inventoryService = inventoryService;
+            _orderItemService = orderItemService;
         }
 
         protected override void OnBeforeInsertCommandExecuted(Order entity)
