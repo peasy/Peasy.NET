@@ -10,10 +10,14 @@ namespace Orders.com.WPF.Converters
 {
     public class VisibilityConverter : IValueConverter
     {
+        public bool Reverse { get; set; }
+
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if ((bool)value == true)
-                return Visibility.Hidden;
+            var val = (bool)value;
+            if (Reverse) val = !val;
+            if (val == false)
+                return Visibility.Collapsed;
 
             return Visibility.Visible;
         }

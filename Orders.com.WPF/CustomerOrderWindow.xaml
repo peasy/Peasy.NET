@@ -4,7 +4,7 @@
         xmlns:converters="clr-namespace:Orders.com.WPF.Converters"
         Title="Customer Order" Height="344.776" Width="474.627">
     <Window.Resources>
-        <converters:VisibilityConverter x:Key="visibilityConverter" />
+        <converters:VisibilityConverter x:Key="visibilityConverter" Reverse="true" />
         <converters:ErrorsConverter x:Key="errorsConverter" />
     </Window.Resources>
     <Grid>

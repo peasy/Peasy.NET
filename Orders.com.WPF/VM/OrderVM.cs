@@ -59,6 +59,7 @@ namespace Orders.com.WPF.VM
             Status = result.Value.OrderStatus().Name;
             OrderStatusID = result.Value.OrderStatusID;
             SubmittedOn = result.Value.SubmittedDate;
+            OnPropertyChanged("OrderState");
         }
 
         public long ID { get; set; }
@@ -97,6 +98,11 @@ namespace Orders.com.WPF.VM
             }
         }
         
+        public OrderStateBase OrderState
+        {
+            get { return this.OrderStatus(); }
+        }
+
         public long OrderStatusID { get; set; }
 
         public DateTime? SubmittedOn

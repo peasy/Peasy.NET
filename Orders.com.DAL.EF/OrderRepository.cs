@@ -99,7 +99,7 @@ namespace Orders.com.DAL.EF
         public Order Submit(long orderID, DateTime submittedOn)
         {
             var existing = Orders.First(c => c.ID == orderID);
-            existing.OrderStatusID = OrderStatusConstants.SUBMITTED_STATUS;
+            existing.OrderStatus().SetSubmittedState();
             existing.SubmittedDate = submittedOn;
             return Mapper.Map(existing, new Order());
         }
@@ -107,7 +107,7 @@ namespace Orders.com.DAL.EF
         public Order Ship(long orderID, DateTime shippedOn)
         {
             var existing = Orders.First(c => c.ID == orderID);
-            existing.OrderStatusID = OrderStatusConstants.SHIPPED_STATUS;
+            existing.OrderStatus().SetShippedState();
             existing.ShippedDate = shippedOn;
             return Mapper.Map(existing, new Order());
         }

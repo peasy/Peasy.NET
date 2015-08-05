@@ -5,6 +5,7 @@
         xmlns:converters="clr-namespace:Orders.com.WPF.Converters">
     <Window.Resources>
         <converters:VisibilityConverter x:Key="visibilityConverter" />
+        <converters:VisibilityConverter x:Key="reverseVisibilityConverter" Reverse="true" />
         <converters:ErrorsConverter x:Key="errorsConverter" />
     </Window.Resources>
     <Grid>
@@ -32,7 +33,7 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource visibilityConverter}}">
+                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Image.ToolTip>
                                                 <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                             </Image.ToolTip>
@@ -50,7 +51,10 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Content="Submit" Command="{Binding SubmitCommand}"></Button>
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Button Content="Submit" Command="{Binding SubmitCommand}" Visibility="{Binding OrderState.CanSubmit, Converter={StaticResource visibilityConverter}}"></Button>
+                                            <Button Content="Ship" Command="{Binding ShipCommand}"></Button>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -82,7 +86,7 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource visibilityConverter}}">
+                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Image.ToolTip>
                                                 <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" /> 
                                             </Image.ToolTip>
@@ -128,7 +132,7 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource visibilityConverter}}">
+                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Image.ToolTip>
                                                 <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                             </Image.ToolTip>
