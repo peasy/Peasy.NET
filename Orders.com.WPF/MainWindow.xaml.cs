@@ -56,6 +56,7 @@ namespace Orders.com.WPF
         private void addCustomerOrderClick(object sender, RoutedEventArgs e)
         {
             var customerOrderWindow = new CustomerOrderWindow(_ordersService, _customersService, _orderItemsService, VM, _eventAggregator);
+            customerOrderWindow.Owner = this;
             var result = customerOrderWindow.ShowDialog();
         }
 
