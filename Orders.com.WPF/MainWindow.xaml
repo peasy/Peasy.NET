@@ -25,22 +25,12 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Binding="{Binding OrderDate}" Header="Order Date" />
-                            <DataGridTextColumn Binding="{Binding Customer}" Header="Customer" />
-                            <DataGridTextColumn Binding="{Binding Total, StringFormat=C}" Header="Total" />
-                            <DataGridTextColumn Binding="{Binding Status}" Header="Status" />
-                            <DataGridTextColumn Binding="{Binding SubmittedOn}" Header="Submitted On" />
-                            <DataGridTemplateColumn>
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
-                                            <Image.ToolTip>
-                                                <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
-                                            </Image.ToolTip>
-                                        </Image>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding OrderDate}" Header="Order Date" />
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Customer}" Header="Customer" />
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Total, StringFormat=C}" Header="Total" />
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Status}" Header="Status" />
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding SubmittedOn}" Header="Submitted On" />
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding ShippedOn}" Header="Shipped On" />
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

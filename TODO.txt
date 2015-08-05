@@ -21,3 +21,9 @@ Add async support for business and validation rules
 Add support to deny adding orderitems to an order that has been shipped
 
 Business Rule - There must be one or more items on an order to be submittable/shippable
+
+Complete delete order functionality
+
+Create way to view order that has been shipped, but do not allow addition/modification of ordered items
+
+Complete status functionality on customer order view for individual items as they can have differing statuses due to inventory issues
