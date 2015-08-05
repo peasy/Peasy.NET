@@ -35,7 +35,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" >
-                                            <Button Margin="1" Width="50" Content="Edit" Click="Button_Click"></Button>
+                                            <Button Margin="1" Width="50" Content="Edit" Click="editCustomerOrderClick"></Button>
                                             <Button Margin="1" Width="50" Content="Submit" Command="{Binding SubmitCommand}" Visibility="{Binding OrderState.CanSubmit, Converter={StaticResource visibilityConverter}}"></Button>
                                             <Button Margin="1" Width="50" Content="Ship" Command="{Binding ShipCommand}" Visibility="{Binding OrderState.CanShip, Converter={StaticResource visibilityConverter}}"></Button>
                                         </StackPanel>
