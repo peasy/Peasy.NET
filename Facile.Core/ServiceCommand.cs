@@ -25,6 +25,11 @@ namespace Facile.Core
             _getValidationRulesMethod = getValidationRulesMethod;
         }
 
+        public ServiceCommand(Action executeMethod, Func<Task> executeAsyncMethod)
+            : this(() => {}, executeMethod, executeAsyncMethod, () => Enumerable.Empty<ValidationResult>(), () => Enumerable.Empty<IRule>())
+        {
+        }
+
         protected override void OnInitialization()
         {
             _beforeExecuteMethod();
