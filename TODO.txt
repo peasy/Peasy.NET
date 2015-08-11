@@ -27,3 +27,7 @@ Complete delete order functionality
 Create way to view order that has been shipped, but do not allow addition/modification of ordered items
 
 Complete status functionality on customer order view for individual items as they can have differing statuses due to inventory issues
+
+Add concurrency support to repos and handle in UI accordingly
+
+Add command execution context support.  This will allow loading and sharing of objects to be passed from rules to execution methods (both async and sync) which will eliminate redundant proxy calls.
