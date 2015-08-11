@@ -13,6 +13,9 @@ namespace Orders.com.DAL.EF
 {
     public class OrderItemRepository : IOrderItemDataProxy 
     {
+        private int _counter;
+        private object _lock = new object();
+
         public OrderItemRepository()
         {
             Mapper.CreateMap<OrderItem, OrderItem>();
@@ -28,7 +31,6 @@ namespace Orders.com.DAL.EF
                 {
                     _orderItems = new List<OrderItem>()
                     {
-                        new OrderItem() { ID = 1, OrderID = 1, Amount = 10, ProductID = 1, Quantity = 3 }
                     };
                 }
                 return _orderItems;
@@ -50,6 +52,7 @@ namespace Orders.com.DAL.EF
 
         public IEnumerable<OrderItem> GetByOrder(long orderID)
         {
+            Debug.WriteLine("Executing EF OrderItem.GetByOrder");
             return OrderItems.Where(i => i.OrderID == orderID)
                              .Select(Mapper.Map<OrderItem, OrderItem>)
                              .ToArray();
@@ -59,8 +62,11 @@ namespace Orders.com.DAL.EF
         {
             Thread.Sleep(1000);
             Debug.WriteLine("INSERTING orderItem into database");
-            var nextID = OrderItems.Any() ? OrderItems.Max(c => c.ID) + 1 : 1;
-            entity.ID = nextID;
+            lock (_lock)
+            {
+                _counter++;
+            }
+            entity.ID = _counter;
             OrderItems.Add(Mapper.Map(entity, new OrderItem()));
             return entity;
         }
@@ -79,6 +85,22 @@ namespace Orders.com.DAL.EF
             Debug.WriteLine("DELETING orderItem in database");
             var orderItem = OrderItems.First(c => c.ID == id);
             OrderItems.Remove(orderItem);
+        }
+
+        public OrderItem Submit(long orderItemID, DateTime submittedOn)
+        {
+            var existing = OrderItems.First(c => c.ID == orderItemID);
+            existing.OrderStatus().SetSubmittedState();
+            existing.SubmittedDate = submittedOn;
+            return Mapper.Map(existing, new OrderItem());
+        }
+
+        public OrderItem Ship(long orderItemID, DateTime shippedOn)
+        {
+            var existing = OrderItems.First(c => c.ID == orderItemID);
+            existing.OrderStatus().SetShippedState();
+            existing.ShippedDate = shippedOn;
+            return Mapper.Map(new OrderItem(), existing);
         }
 
         public Task<IEnumerable<OrderItem>> GetAllAsync()
@@ -111,12 +133,9 @@ namespace Orders.com.DAL.EF
             return Task.Run(() => Delete(id));
         }
 
-        public OrderItem Ship(long orderItemID, DateTime shippedOn)
+        public Task<OrderItem> SubmitAsync(long orderItemID, DateTime shippedOn)
         {
-            var existing = OrderItems.First(c => c.ID == orderItemID);
-            existing.OrderStatus().SetShippedState();
-            existing.ShippedDate = shippedOn;
-            return Mapper.Map(existing, new OrderItem());
+            return Task.Run(() => Submit(orderItemID, shippedOn));
         }
 
         public Task<OrderItem> ShipAsync(long orderItemID, DateTime shippedOn)

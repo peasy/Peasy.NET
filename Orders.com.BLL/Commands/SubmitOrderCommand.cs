@@ -22,12 +22,14 @@ namespace Orders.com.BLL.Commands
 
         protected override Order OnExecute()
         {
-            return _dataProxy.Submit(_orderID, DateTime.Now);
+            //return _dataProxy.Submit(_orderID, DateTime.Now);
+            return null;
         }
 
         protected override Task<Order> OnExecuteAsync()
         {
-            return _dataProxy.SubmitAsync(_orderID, DateTime.Now);
+            //return _dataProxy.SubmitAsync(_orderID, DateTime.Now);
+            return null;
         }
 
         public override IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> GetErrors()

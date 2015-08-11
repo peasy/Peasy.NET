@@ -18,11 +18,6 @@ namespace Orders.com.Core.Domain
         [Editable(false)]
         public DateTime OrderDate { get; set; }
 
-        [Editable(false)]
-        public DateTime? SubmittedDate { get; set; }
-
-        [Editable(false)]
-        public DateTime? ShippedDate { get; set; }
 
         public override long ID
         {

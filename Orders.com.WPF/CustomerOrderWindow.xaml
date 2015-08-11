@@ -62,7 +62,7 @@
                         <DataGridTextColumn Binding="{Binding Price, StringFormat=C}" IsReadOnly="True" Header="Price" ></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Quantity"></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Amount, StringFormat=C}" IsReadOnly="True" Header="Amount"></DataGridTextColumn>
-                        <DataGridTextColumn Binding="{Binding Status}" IsReadOnly="True" Header="Status"></DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Status.Name}" IsReadOnly="True" Header="Status"></DataGridTextColumn>
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

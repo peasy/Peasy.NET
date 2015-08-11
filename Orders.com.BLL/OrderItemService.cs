@@ -4,6 +4,7 @@ using Orders.com.Core.Domain;
 using Orders.com.Core.Extensions;
 using System.Collections.Generic;
 using System;
+using Orders.com.BLL.Rules;
 
 namespace Orders.com.BLL
 {
@@ -31,6 +32,25 @@ namespace Orders.com.BLL
             );
         }
 
+        public ICommand<OrderItem> SubmitCommand(long orderItemID)
+        {
+            var proxy = DataProxy as IOrderItemDataProxy;
+            return new ServiceCommand<OrderItem>
+            (
+                executeMethod: () => proxy.Submit(orderItemID, DateTime.Now),
+                executeAsyncMethod: () => proxy.SubmitAsync(orderItemID, DateTime.Now),
+                getBusinessRulesMethod: () => GetBusinessRulesForSubmit(orderItemID)
+            );
+        }
+
+        private IEnumerable<IRule> GetBusinessRulesForSubmit(long orderItemID)
+        {
+            if (!IsLatencyProne)
+            {
+                var orderItem = DataProxy.GetByID(orderItemID);
+                yield return new CanSubmitOrderItemRule(orderItem);        
+            }
+        }
         public ICommand<OrderItem> ShipCommand(long orderItemID)
         {
             //TODO: decrement inventory service

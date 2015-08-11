@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
@@ -26,7 +27,6 @@ namespace Orders.com.BLL
         protected override void OnBeforeInsertCommandExecuted(Order entity)
         {
             entity.OrderDate = DateTime.Now;
-            entity.OrderStatusID = OrderStatusConstants.PENDING_STATUS;
         }
         
         public ICommand<IEnumerable<OrderInfo>> GetAllCommand(int start, int pageSize)
@@ -45,36 +45,24 @@ namespace Orders.com.BLL
             return base.DeleteCommand(id);
         }
 
-        public ICommand<Order> SubmitCommand(long orderID)
+        public ICommand SubmitCommand(long id)
         {
             var proxy = DataProxy as IOrderDataProxy;
-            return new ServiceCommand<Order>
+            return new ServiceCommand
             (
-                executeMethod: () => proxy.Submit(orderID, DateTime.Now),
-                executeAsyncMethod: () => proxy.SubmitAsync(orderID, DateTime.Now),
-                getBusinessRulesMethod: () => GetBusinessRulesForSubmit(orderID)
-            );
-        }
-
-        private IEnumerable<IRule> GetBusinessRulesForSubmit(long orderID)
-        {
-            if (!IsLatencyProne)
-            {
-                var order = DataProxy.GetByID(orderID);
-                yield return new CanSubmitOrderRule(order);        
-            }
-        }
-
-        public ICommand<Order> ShipCommand(long orderID)
-        {
-            //TODO: decrement inventory service
-            //TODO: create a ShipOrderCommand that requires OrderService and Inventory Service, and return that command here
-            // perform auth check?
-            var proxy = DataProxy as IOrderDataProxy;
-            return new ServiceCommand<Order>
-            (
-                executeMethod: () => proxy.Ship(orderID, DateTime.Now),
-                executeAsyncMethod: () => proxy.ShipAsync(orderID, DateTime.Now) 
+                executeMethod: () =>
+                {
+                    var items = _orderItemService.GetByOrderCommand(id).Execute().Value;
+                    var results = items.Select(i => _orderItemService.SubmitCommand(i.ID).Execute().Value);
+                },
+                executeAsyncMethod: async () =>
+                {
+                    var items = await _orderItemService.GetByOrderCommand(id).ExecuteAsync();
+                    //var results = items.Value.Select(i => _orderItemService.SubmitCommand(i.ID).ExecuteAsync()).ToArray();
+                    //var results = items.Value.Select(async i => await _orderItemService.SubmitCommand(i.ID).ExecuteAsync()).ToArray();
+                    foreach (var item in items.Value)
+                        await _orderItemService.SubmitCommand(item.ID).ExecuteAsync();
+                }
             );
         }
     }

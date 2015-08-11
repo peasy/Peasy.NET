@@ -9,6 +9,8 @@ namespace Orders.com.Core.DataProxy
     {
         IEnumerable<OrderItem> GetByOrder(long orderID);
         Task<IEnumerable<OrderItem>> GetByOrderAsync(long orderID);
+        OrderItem Submit(long orderItemID, DateTime submittedOn);
+        Task<OrderItem> SubmitAsync(long orderItemID, DateTime submittedOn);
         OrderItem Ship(long orderItemID, DateTime shippedOn);
         Task<OrderItem> ShipAsync(long orderItemID, DateTime shippedOn);
     }

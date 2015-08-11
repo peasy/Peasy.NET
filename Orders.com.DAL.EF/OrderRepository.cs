@@ -96,21 +96,6 @@ namespace Orders.com.DAL.EF
             Orders.Remove(order);
         }
 
-        public Order Submit(long orderID, DateTime submittedOn)
-        {
-            var existing = Orders.First(c => c.ID == orderID);
-            existing.OrderStatus().SetSubmittedState();
-            existing.SubmittedDate = submittedOn;
-            return Mapper.Map(existing, new Order());
-        }
-
-        public Order Ship(long orderID, DateTime shippedOn)
-        {
-            var existing = Orders.First(c => c.ID == orderID);
-            existing.OrderStatus().SetShippedState();
-            existing.ShippedDate = shippedOn;
-            return Mapper.Map(existing, new Order());
-        }
 
         public Task<IEnumerable<Order>> GetAllAsync()
         {
@@ -140,16 +125,6 @@ namespace Orders.com.DAL.EF
         public Task DeleteAsync(long id)
         {
             return Task.Run(() => Delete(id));
-        }
-
-        public Task<Order> SubmitAsync(long orderID, DateTime submittedOn)
-        {
-            return Task.Run(() => Submit(orderID, submittedOn));
-        }
-
-        public Task<Order> ShipAsync(long orderID, DateTime shippedOn)
-        {
-            return Task.Run(() => Ship(orderID, shippedOn));
         }
 
         public bool SupportsTransactions

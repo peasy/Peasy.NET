@@ -25,6 +25,9 @@ namespace Orders.com.Core.Domain
         public DateTime? ShippedDate { get; set; }
 
         [Editable(false)]
+        public DateTime? SubmittedDate { get; set; }
+
+        [Editable(false)]
         public long OrderStatusID { get; set; }
 
         public override long ID

@@ -80,7 +80,7 @@ namespace Orders.com.WPF.VM
             order.Total = updatedOrder.OrderItems.Sum(i => i.Amount.Value);
             order.Status = updatedOrder.Status.Name;
             order.OrderStatusID = updatedOrder.StatusID;
-            order.SubmittedOn = updatedOrder.SubmittedOn;
+            //order.SubmittedOn = updatedOrder.SubmittedOn;
         }
 
         public void Handle(OrderInsertedEvent message)

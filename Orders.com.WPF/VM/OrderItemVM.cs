@@ -1,6 +1,7 @@
 ﻿using Facile.Core;
 using Orders.com.BLL;
 using Orders.com.Core.Domain;
+using Orders.com.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -118,9 +119,20 @@ namespace Orders.com.WPF.VM
             set { CurrentEntity.OrderID = value; }
         }
 
+        public OrderStateBase Status 
+        {
+            get
+            {
+                if (IsNew) return null;
+                return CurrentEntity.OrderStatus();
+            }
+
+        }
+
         protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
         {
             OnPropertyChanged("ID");
+            OnPropertyChanged("Status");
         }
 
     }

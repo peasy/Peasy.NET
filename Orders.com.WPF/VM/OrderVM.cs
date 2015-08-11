@@ -43,7 +43,7 @@ namespace Orders.com.WPF.VM
             Total = order.OrderItems.Sum(i => i.Amount.Value);
             Status = order.Status.Name;
             OrderStatusID = order.StatusID;
-            SubmittedOn = order.SubmittedOn;
+            //SubmittedOn = order.SubmittedOn;
             _submitCommand = new Command(() => SubmitAsync(), () => this.OrderStatus().CanSubmit);
             _orderService = orderService;
         }
@@ -55,11 +55,11 @@ namespace Orders.com.WPF.VM
 
         private async Task SubmitAsync()
         {
-            var result = await _orderService.SubmitCommand(ID).ExecuteAsync();
-            Status = result.Value.OrderStatus().Name;
-            OrderStatusID = result.Value.OrderStatusID;
-            SubmittedOn = result.Value.SubmittedDate;
-            OnPropertyChanged("OrderState");
+            await _orderService.SubmitCommand(ID).ExecuteAsync();
+            //Status = result.Value.OrderStatus().Name;
+            //OrderStatusID = result.Value.OrderStatusID;
+            //SubmittedOn = result.Value.SubmittedDate;
+            //OnPropertyChanged("OrderState");
         }
 
         public long ID { get; set; }

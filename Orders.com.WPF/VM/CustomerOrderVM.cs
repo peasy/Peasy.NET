@@ -89,7 +89,9 @@ namespace Orders.com.WPF.VM
 
         public OrderStateBase Status 
         {
-            get { return CurrentEntity.OrderStatus(); }
+            get { return CurrentEntity.OrderStatus();
+                return OrderItems.Max(i => i.Status);
+                 }
         }
 
         public long StatusID
@@ -97,10 +99,10 @@ namespace Orders.com.WPF.VM
             get { return CurrentEntity.OrderStatusID; }
         }
 
-        public DateTime? SubmittedOn
-        {
-            get { return CurrentEntity.SubmittedDate; }
-        }
+        //public DateTime? SubmittedOn
+        //{
+        //    get { return CurrentEntity.SubmittedDate; }
+        //}
 
         public IEnumerable<OrderItemVM> OrderItems
         {
@@ -161,9 +163,8 @@ namespace Orders.com.WPF.VM
 
         public async Task SubmitAsync()
         {
-            await SaveAsync();
-            var result = await _orderService.SubmitCommand(CurrentEntity.OrderID).ExecuteAsync();
-            CurrentEntity = result.Value;
+            var results = OrderItems.Select(i => _orderItemService.SubmitCommand(CurrentEntity.ID).ExecuteAsync());
+            Task.WaitAll(results.ToArray());
             _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
         }
 
