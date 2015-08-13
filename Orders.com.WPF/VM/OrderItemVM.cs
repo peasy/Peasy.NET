@@ -15,6 +15,7 @@ namespace Orders.com.WPF.VM
         private long _currentCategoryID;
         private ProductVM _currentProduct;
         private MainWindowVM _mainVM;
+        private DateTime? _submittedOn;
 
         public OrderItemVM(OrderItemService service, MainWindowVM mainVM)
             : base(service)
@@ -95,13 +96,13 @@ namespace Orders.com.WPF.VM
             get
             {
                 if (_currentProduct != null)
-                    return _currentProduct.Price.Value * Quantity.GetValueOrDefault();
+                    return _currentProduct.Price.Value * Quantity;
 
                 return 0;
             }
         }
 
-        public decimal? Quantity
+        public decimal Quantity
         {
             get { return CurrentEntity.Quantity; }
             set
@@ -119,20 +120,50 @@ namespace Orders.com.WPF.VM
             set { CurrentEntity.OrderID = value; }
         }
 
-        public OrderStateBase Status 
+        public OrderStateBase Status
         {
             get
             {
                 if (IsNew) return null;
                 return CurrentEntity.OrderStatus();
             }
+        }
 
+        public long StatusID
+        {
+            get { return CurrentEntity.OrderStatusID; }
+        }
+
+        public DateTime? SubmittedOn
+        {
+            get { return _submittedOn; }
+            set
+            {
+                _submittedOn = value;
+                OnPropertyChanged("SubmittedOn");
+            }
         }
 
         protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
         {
             OnPropertyChanged("ID");
             OnPropertyChanged("Status");
+        }
+
+        public async Task SubmitAsync()
+        {
+            if (CanSubmit())
+            {
+                var service = _service as OrderItemService;
+                var result = await service.SubmitCommand(ID).ExecuteAsync();
+                CurrentEntity = result.Value;
+                OnPropertyChanged("Status");
+            }
+        }
+
+        public bool CanSubmit()
+        {
+            return CurrentEntity.OrderStatus().CanSubmit;
         }
 
     }

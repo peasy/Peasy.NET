@@ -52,18 +52,22 @@ namespace Orders.com.WPF
                 ID = currentOrder.ID,
                 CustomerID = currentOrder.CustomerID,
                 OrderDate = currentOrder.OrderDate,
-                OrderStatusID = currentOrder.OrderStatusID
             };
             var vm = new CustomerOrderVM(eventAggregator, order, orderService, orderItemService, mainVM);
             DataContext = vm;
         }
 
-        private void SaveOrderButtonClick(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        //private void SaveOrderButtonClick(object sender, RoutedEventArgs e)
+        //{
+        //    this.Close();
+        //}
 
-        private void SubmitOrderButtonClick(object sender, RoutedEventArgs e)
+        //private void SubmitOrderButtonClick(object sender, RoutedEventArgs e)
+        //{
+        //    this.Close();
+        //}
+
+        private void CloseWindowClick(object sender, RoutedEventArgs e)
         {
             this.Close();
         }

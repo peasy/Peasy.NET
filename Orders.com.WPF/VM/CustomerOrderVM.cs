@@ -87,22 +87,14 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        public OrderStateBase Status 
+        public OrderStateBase Status
         {
-            get { return CurrentEntity.OrderStatus();
-                return OrderItems.Max(i => i.Status);
-                 }
+            get
+            {
+                if (!OrderItems.Any()) return null;
+                return OrderItems.First(i => i.StatusID == OrderItems.Min(o => o.StatusID)).Status;
+            }
         }
-
-        public long StatusID
-        {
-            get { return CurrentEntity.OrderStatusID; }
-        }
-
-        //public DateTime? SubmittedOn
-        //{
-        //    get { return CurrentEntity.SubmittedDate; }
-        //}
 
         public IEnumerable<OrderItemVM> OrderItems
         {
@@ -126,7 +118,7 @@ namespace Orders.com.WPF.VM
 
         public bool CanSubmit()
         {
-            return CurrentEntity.OrderStatus().CanSubmit && CanSave() && _orderItems.All(i => i.CanSave());
+            return CanSave() && _orderItems.All(i => i.CanSave());
         }
 
         public ICommand DeleteSelectedItemCommand
@@ -163,8 +155,8 @@ namespace Orders.com.WPF.VM
 
         public async Task SubmitAsync()
         {
-            var results = OrderItems.Select(i => _orderItemService.SubmitCommand(CurrentEntity.ID).ExecuteAsync());
-            Task.WaitAll(results.ToArray());
+            var x = OrderItems.Select(i => i.SubmitAsync()).ToArray();
+            await Task.WhenAll(x);
             _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
         }
 

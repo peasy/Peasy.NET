@@ -11,13 +11,11 @@ using System.Threading.Tasks;
 
 namespace Orders.com.WPF.VM
 {
-    public class OrderVM : ViewModelBase, IOrderStatusIDContainer
+    public class OrderVM : ViewModelBase
     {
         private string _customerName;
         private decimal _total;
         private string _status;
-        private DateTime? _submittedOn;
-        private System.Windows.Input.ICommand _submitCommand;
         private OrderService _orderService;
 
         public OrderVM(OrderInfo order, OrderService orderService)
@@ -28,9 +26,6 @@ namespace Orders.com.WPF.VM
             CustomerID = order.CustomerID;
             Total = order.Total;
             Status = order.Status;
-            OrderStatusID = order.StatusID;
-            SubmittedOn = order.SubmittedOn;
-            _submitCommand = new Command(() => SubmitAsync(), () => this.OrderStatus().CanSubmit);
             _orderService = orderService;
         }
 
@@ -41,25 +36,8 @@ namespace Orders.com.WPF.VM
             Customer = vm.CustomersVM.Customers.First(c => c.ID == order.CurrentCustomerID).Name;
             CustomerID = order.CurrentCustomerID;
             Total = order.OrderItems.Sum(i => i.Amount.Value);
-            Status = order.Status.Name;
-            OrderStatusID = order.StatusID;
-            //SubmittedOn = order.SubmittedOn;
-            _submitCommand = new Command(() => SubmitAsync(), () => this.OrderStatus().CanSubmit);
+            Status = order.Status == null ? string.Empty : order.Status.Name;
             _orderService = orderService;
-        }
-
-        public System.Windows.Input.ICommand SubmitCommand
-        {
-            get { return _submitCommand; }
-        }
-
-        private async Task SubmitAsync()
-        {
-            await _orderService.SubmitCommand(ID).ExecuteAsync();
-            //Status = result.Value.OrderStatus().Name;
-            //OrderStatusID = result.Value.OrderStatusID;
-            //SubmittedOn = result.Value.SubmittedDate;
-            //OnPropertyChanged("OrderState");
         }
 
         public long ID { get; set; }
@@ -98,21 +76,5 @@ namespace Orders.com.WPF.VM
             }
         }
         
-        public OrderStateBase OrderState
-        {
-            get { return this.OrderStatus(); }
-        }
-
-        public long OrderStatusID { get; set; }
-
-        public DateTime? SubmittedOn
-        {
-            get { return _submittedOn; }
-            set
-            {
-                _submittedOn = value;
-                OnPropertyChanged("SubmittedOn");
-            }
-        }
     }
 }

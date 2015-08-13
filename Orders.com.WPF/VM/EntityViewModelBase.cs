@@ -11,7 +11,7 @@ namespace Orders.com.WPF.VM
 {
     public class EntityViewModelBase<T, Tkey> : ViewModelBase where T : IDomainObject<Tkey>, new()
     {
-        private IService<T, Tkey> _service;
+        protected IService<T, Tkey> _service;
         private T _current;
 
         public EventHandler EntitySaved { get; set; }
@@ -63,19 +63,19 @@ namespace Orders.com.WPF.VM
                 if (result.Success)
                 {
                     CurrentEntity = result.Value;
+                    IsDirty = false;
+                    IsValid = true;
+                    Errors = null;
                     if (IsNew)
                     {
-                        OnInsertSuccess(result);
                         IsNew = false;
+                        OnInsertSuccess(result);
                     }
                     else
                     {
                         OnUpdateSuccess(result);
                     }
                     if (EntitySaved != null) EntitySaved(this, EventArgs.Empty);
-                    IsDirty = false;
-                    IsValid = true;
-                    Errors = null;
                 }
                 else
                 {

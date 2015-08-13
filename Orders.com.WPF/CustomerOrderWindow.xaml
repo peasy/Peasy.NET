@@ -4,7 +4,7 @@
         xmlns:converters="clr-namespace:Orders.com.WPF.Converters"
         Title="Customer Order" Height="350" Width="721" WindowStartupLocation="CenterOwner">
     <Window.Resources>
-        <converters:VisibilityConverter x:Key="visibilityConverter" Reverse="true" />
+        <converters:VisibilityConverter x:Key="reverseVisibilityConverter" Reverse="true" />
         <converters:ErrorsConverter x:Key="errorsConverter" />
     </Window.Resources>
     <Grid>
@@ -63,14 +63,26 @@
                         <DataGridTextColumn Binding="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Quantity"></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Amount, StringFormat=C}" IsReadOnly="True" Header="Amount"></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Status.Name}" IsReadOnly="True" Header="Status"></DataGridTextColumn>
+                        <DataGridTextColumn IsReadOnly="True" Binding="{Binding SubmittedOn}" Header="Submitted On" />
+                        <DataGridTextColumn IsReadOnly="True" Binding="{Binding ShippedOn}" Header="Shipped On" />
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource visibilityConverter}}">
+                                    <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                         <Image.ToolTip>
                                             <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                         </Image.ToolTip>
                                     </Image>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Margin="1" Width="50" Content="Submit" Command="{Binding SubmitCommand}" Visibility="{Binding OrderState.CanSubmit, Converter={StaticResource reverseVisibilityConverter}}"></Button>
+                                        <Button Margin="1" Width="50" Content="Ship" Command="{Binding ShipCommand}" Visibility="{Binding OrderState.CanShip, Converter={StaticResource reverseVisibilityConverter}}"></Button>
+                                    </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -87,12 +99,13 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Grid.Row="1" Margin="5" Content="Add" HorizontalAlignment="Right" Command="{Binding AddOrderItemCommand}" />
+                <Button Grid.Row="1" Margin="5" Content="Add Item" HorizontalAlignment="Left" Command="{Binding AddOrderItemCommand}" />
             </Grid>
         </GroupBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Margin="5" Content="Save" Command="{Binding SaveOrderCommand}" Click="SaveOrderButtonClick"/>
-            <Button Margin="5" Content="Place Order" Command="{Binding SubmitOrderCommand}" Click="SubmitOrderButtonClick"/>
+            <Button Margin="5" Content="Save" Command="{Binding SaveOrderCommand}" />
+            <Button Margin="5" Content="Place Order" Command="{Binding SubmitOrderCommand}" />
+            <Button Margin="5" Content="Done" Click="CloseWindowClick"/>
         </StackPanel>
     </Grid>
 </Window>

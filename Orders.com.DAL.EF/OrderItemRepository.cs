@@ -89,6 +89,8 @@ namespace Orders.com.DAL.EF
 
         public OrderItem Submit(long orderItemID, DateTime submittedOn)
         {
+            Thread.Sleep(1000);
+            Debug.WriteLine("UPDATING orderItem in database - submitted state");
             var existing = OrderItems.First(c => c.ID == orderItemID);
             existing.OrderStatus().SetSubmittedState();
             existing.SubmittedDate = submittedOn;
@@ -97,6 +99,8 @@ namespace Orders.com.DAL.EF
 
         public OrderItem Ship(long orderItemID, DateTime shippedOn)
         {
+            Thread.Sleep(1000);
+            Debug.WriteLine("UPDATING orderItem in database - shipped state");
             var existing = OrderItems.First(c => c.ID == orderItemID);
             existing.OrderStatus().SetShippedState();
             existing.ShippedDate = shippedOn;
