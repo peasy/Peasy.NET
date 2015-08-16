@@ -78,8 +78,7 @@ namespace Orders.com.WPF.VM
             order.CustomerID = updatedOrder.CurrentCustomerID;
             order.Customer = updatedOrder.Customers.First(c => c.ID == order.CustomerID).Name;
             order.Total = updatedOrder.OrderItems.Sum(i => i.Amount.Value);
-            order.Status = updatedOrder.Status.Name;
-            //order.SubmittedOn = updatedOrder.SubmittedOn;
+            order.Status = updatedOrder.Status == null ? string.Empty : updatedOrder.Status.Name;
         }
 
         public void Handle(OrderInsertedEvent message)
