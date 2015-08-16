@@ -136,7 +136,7 @@ namespace Orders.com.WPF.VM
         protected override void OnInsertSuccess(Facile.Core.ExecutionResult<Order> result)
         {
             OnPropertyChanged("ID");
-            _eventAggregator.SendMessage<OrderInsertedEvent>(new OrderInsertedEvent() { Order = this });
+            _eventAggregator.SendMessage<OrderInsertedEvent>(new OrderInsertedEvent { Order = this });
         }
 
         protected override void OnUpdateSuccess(Facile.Core.ExecutionResult<Order> result)
@@ -182,14 +182,16 @@ namespace Orders.com.WPF.VM
                 _orderItems.Remove(SelectedOrderItem);
                 OnPropertyChanged("Total");
                 _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
-                SelectedOrderItem = null;
             };
             item.PropertyChanged += (s, e) => OnPropertyChanged("Total");
         }
 
         private async Task DeleteSelectedItem()
         {
-            await SelectedOrderItem.DeleteAsync();
+            if (SelectedOrderItem.IsNew)
+                _orderItems.Remove(SelectedOrderItem);
+            else
+                await SelectedOrderItem.DeleteAsync();
         }
 
     }
