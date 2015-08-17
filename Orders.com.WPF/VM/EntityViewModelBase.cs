@@ -3,6 +3,7 @@ using Facile.Core;
 using Orders.com.Core;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -65,7 +66,7 @@ namespace Orders.com.WPF.VM
                     CurrentEntity = result.Value;
                     IsDirty = false;
                     IsValid = true;
-                    Errors = null;
+                    Errors = Enumerable.Empty<ValidationResult>();
                     if (IsNew)
                     {
                         IsNew = false;
