@@ -149,7 +149,7 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource visibilityConverter}}">
+                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Image.ToolTip>
                                                 <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" /> 
                                             </Image.ToolTip>
