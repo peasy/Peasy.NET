@@ -5,7 +5,6 @@ using Orders.com.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Orders.com.WPF.VM
@@ -15,7 +14,6 @@ namespace Orders.com.WPF.VM
         private long _currentCategoryID;
         private ProductVM _currentProduct;
         private MainWindowVM _mainVM;
-        private DateTime? _submittedOn;
 
         public OrderItemVM(OrderItemService service, MainWindowVM mainVM)
             : base(service)
@@ -39,10 +37,7 @@ namespace Orders.com.WPF.VM
 
         public long CurrentCategoryID
         {
-            get
-            {
-                return _currentCategoryID;
-            }
+            get { return _currentCategoryID; }
             set
             {
                 _currentCategoryID = value;
@@ -161,6 +156,5 @@ namespace Orders.com.WPF.VM
         {
             return CurrentEntity.OrderStatus().CanSubmit;
         }
-
     }
 }
