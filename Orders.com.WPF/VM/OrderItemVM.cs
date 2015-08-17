@@ -136,12 +136,7 @@ namespace Orders.com.WPF.VM
 
         public DateTime? SubmittedOn
         {
-            get { return _submittedOn; }
-            set
-            {
-                _submittedOn = value;
-                OnPropertyChanged("SubmittedOn");
-            }
+            get { return CurrentEntity.SubmittedDate; }
         }
 
         protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
@@ -158,6 +153,7 @@ namespace Orders.com.WPF.VM
                 var result = await service.SubmitCommand(ID).ExecuteAsync();
                 CurrentEntity = result.Value;
                 OnPropertyChanged("Status");
+                OnPropertyChanged("SubmittedOn");
             }
         }
 

@@ -75,6 +75,5 @@ namespace Orders.com.WPF.VM
                 OnPropertyChanged("Status");
             }
         }
-        
     }
 }

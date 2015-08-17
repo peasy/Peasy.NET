@@ -36,7 +36,6 @@ namespace Orders.com.WPF
             remove { CommandManager.RequerySuggested -= value; }
         }
 
-
         public void Execute(object parameter)
         {
             _action();
