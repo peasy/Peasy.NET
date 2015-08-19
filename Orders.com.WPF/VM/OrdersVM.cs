@@ -1,9 +1,7 @@
 ﻿using Orders.com.BLL;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -22,8 +20,8 @@ namespace Orders.com.WPF.VM
         {
             _ordersService = categoryService;
             _mainVM = mainVM;
-            _loadOrdersCommand = new Command(() => LoadOrders());
-            _deleteSelectedCommand = new Command(() => DeleteSelectedVM());
+            _loadOrdersCommand = new Command(async () => await LoadOrdersAsync());
+            _deleteSelectedCommand = new Command(async () => await DeleteSelectedVMAsync());
             _eventAggregator = eventAggregator;
             _eventAggregator.AddListener<OrderInsertedEvent>(this, true);
         }
@@ -54,14 +52,14 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        private async Task LoadOrders()
+        private async Task LoadOrdersAsync()
         {
             var result = await _ordersService.GetAllCommand(0, 10).ExecuteAsync();
             var vms = result.Value.Select(c => new OrderVM(c, _ordersService));
             Orders = vms.ToArray();
         }
 
-        private async Task DeleteSelectedVM()
+        private async Task DeleteSelectedVMAsync()
         {
             if (SelectedOrder != null && !SelectedOrder.IsNew)
             {
