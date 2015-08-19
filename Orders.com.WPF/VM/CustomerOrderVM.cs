@@ -43,10 +43,10 @@ namespace Orders.com.WPF.VM
             _mainVM = mainVM;
             _eventAggregator = eventAggregator;
             _orderItems = new ObservableCollection<OrderItemVM>();
-            _saveOrderCommand = new Command(() => SaveAsync());
+            _saveOrderCommand = new Command(async () => await SaveAsync());
             _addOrderItemCommand = new Command(() => AddOrderItem(), CanAdd);
-            _deleteSelectedItemCommand = new Command(() => DeleteSelectedItem());
-            _submitOrderCommand = new Command(() => SubmitAsync());
+            _deleteSelectedItemCommand = new Command(async () => await DeleteSelectedItemAsync());
+            _submitOrderCommand = new Command(async () => await SubmitAsync());
         }
 
         public IEnumerable<CustomerVM> Customers
@@ -222,7 +222,7 @@ namespace Orders.com.WPF.VM
             };
         }
 
-        private async Task DeleteSelectedItem()
+        private async Task DeleteSelectedItemAsync()
         {
             if (SelectedOrderItem.IsNew)
                 _orderItems.Remove(SelectedOrderItem);
