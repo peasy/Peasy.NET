@@ -134,10 +134,20 @@ namespace Orders.com.WPF.VM
             get { return CurrentEntity.SubmittedDate; }
         }
 
+        public DateTime? ShippedOn
+        {
+            get { return CurrentEntity.ShippedDate; }
+        }
+
         protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
         {
             OnPropertyChanged("ID");
             OnPropertyChanged("Status");
+        }
+
+        public bool CanSubmit()
+        {
+            return CurrentEntity.OrderStatus().CanSubmit;
         }
 
         public async Task SubmitAsync()
@@ -152,9 +162,21 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        public bool CanSubmit()
+        public bool CanShip()
         {
-            return CurrentEntity.OrderStatus().CanSubmit;
+            return CurrentEntity.OrderStatus().CanShip;
+        }
+
+        public async Task ShipAsync()
+        {
+            if (CanShip())
+            {
+                var service = _service as OrderItemService;
+                var result = await service.ShipCommand(ID).ExecuteAsync();
+                CurrentEntity = result.Value;
+                OnPropertyChanged("Status");
+                OnPropertyChanged("ShippedOn");
+            }
         }
     }
 }

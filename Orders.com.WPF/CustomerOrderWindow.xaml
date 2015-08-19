@@ -103,7 +103,7 @@
         </GroupBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Margin="5" Content="Save" Command="{Binding SaveOrderCommand}" />
-            <Button Margin="5" Content="Place Order" Command="{Binding SubmitOrderCommand}" />
+            <Button Margin="5" Content="Submit Order" Command="{Binding SubmitOrderCommand}" />
             <Button Margin="5" Content="Done" Click="CloseWindowClick"/>
         </StackPanel>
     </Grid>

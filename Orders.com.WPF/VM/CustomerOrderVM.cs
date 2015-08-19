@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace Orders.com.WPF.VM
 {
@@ -46,7 +47,7 @@ namespace Orders.com.WPF.VM
             _eventAggregator = eventAggregator;
             _orderItems = new ObservableCollection<OrderItemVM>();
             _saveOrderCommand = new Command(() => SaveAsync(), CanSave);
-            _addOrderItemCommand = new Command(() => AddOrderItem(), CanSave);
+            _addOrderItemCommand = new Command(() => AddOrderItem(), CanAdd);
             _deleteSelectedItemCommand = new Command(() => DeleteSelectedItem());
             _submitOrderCommand = new Command(() => SubmitAsync(), CanSubmit);
         }
@@ -116,11 +117,6 @@ namespace Orders.com.WPF.VM
             get { return _submitOrderCommand; }
         }
 
-        public bool CanSubmit()
-        {
-            return CanSave() && _orderItems.All(i => i.CanSave());
-        }
-
         public ICommand DeleteSelectedItemCommand
         {
             get { return _deleteSelectedItemCommand; }
@@ -144,6 +140,24 @@ namespace Orders.com.WPF.VM
             _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
         }
 
+        public bool CanAdd()
+        {
+            return base.CanSave();
+        }
+
+        public override bool CanSave()
+        {
+            return base.CanSave() && OrderItems.Any(i => i.IsDirty);
+        }
+
+        public bool CanSubmit()
+        {
+            System.Diagnostics.Debug.WriteLine("CanSubmit fired");
+            // allow submission when the order can be saved and all order items have been saved and are submittable
+            return OrderItems.Any(i => i.Status == null || i.Status.CanSubmit) &&
+                   OrderItems.All(i => (!i.IsDirty && !i.IsNew));
+        }
+
         public override async Task SaveAsync()
         {
             await base.SaveAsync();
@@ -151,12 +165,12 @@ namespace Orders.com.WPF.VM
                                     .Select(vm => vm.SaveAsync())
                                     .ToArray();
             await Task.WhenAll(results);
-        }
+        } 
 
         public async Task SubmitAsync()
         {
-            var x = OrderItems.Select(i => i.SubmitAsync()).ToArray();
-            await Task.WhenAll(x);
+            var submitTasks = OrderItems.Select(i => i.SubmitAsync()).ToArray();
+            await Task.WhenAll(submitTasks);
             _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
         }
 
