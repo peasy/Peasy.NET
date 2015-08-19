@@ -1,12 +1,9 @@
 ﻿using Orders.com.BLL;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Facile.Core.Extensions;
 
 namespace Orders.com.WPF.VM
 {
@@ -25,9 +22,9 @@ namespace Orders.com.WPF.VM
             _productsService = productsService;
             _mainVM = mainVM;
             _addProductCommand = new Command(() => AddProduct());
-            _saveProductsCommand = new Command(() => SaveProducts());
-            _loadProductsCommand = new Command(() => LoadProducts());
-            _deleteSelectedCommand = new Command(() => DeleteSelectedVM());
+            _saveProductsCommand = new Command(async () => await SaveProductsAsync());
+            _loadProductsCommand = new Command(async () => await LoadProductsAsync());
+            _deleteSelectedCommand = new Command(async () => await DeleteSelectedVMAsync());
         }
 
         public ProductVM SelectedProduct
@@ -66,14 +63,14 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        private async Task LoadProducts()
+        private async Task LoadProductsAsync()
         {
             var result = await _productsService.GetAllCommand().ExecuteAsync();
             var vms = result.Value.Select(c => new ProductVM(c, _productsService, _mainVM));
             Products = vms.ToArray();
         }
 
-        private async Task SaveProducts()
+        private async Task SaveProductsAsync()
         {
             var results = Products.Select(vm => vm.SaveAsync()).ToArray();
             await Task.WhenAll(results);
@@ -84,7 +81,7 @@ namespace Orders.com.WPF.VM
             _products.Add(new ProductVM(_productsService, _mainVM));
         }
 
-        private async Task DeleteSelectedVM()
+        private async Task DeleteSelectedVMAsync()
         {
             if (SelectedProduct != null && !SelectedProduct.IsNew)
             {
