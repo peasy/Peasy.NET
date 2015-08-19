@@ -44,26 +44,5 @@ namespace Orders.com.BLL
             //TODO: create a DeleteOrderCommand that takes OrderService and OrderItemService, and return that command here
             return base.DeleteCommand(id);
         }
-
-        public ICommand SubmitCommand(long id)
-        {
-            var proxy = DataProxy as IOrderDataProxy;
-            return new ServiceCommand
-            (
-                executeMethod: () =>
-                {
-                    var items = _orderItemService.GetByOrderCommand(id).Execute().Value;
-                    var results = items.Select(i => _orderItemService.SubmitCommand(i.ID).Execute().Value);
-                },
-                executeAsyncMethod: async () =>
-                {
-                    var items = await _orderItemService.GetByOrderCommand(id).ExecuteAsync();
-                    //var results = items.Value.Select(i => _orderItemService.SubmitCommand(i.ID).ExecuteAsync()).ToArray();
-                    //var results = items.Value.Select(async i => await _orderItemService.SubmitCommand(i.ID).ExecuteAsync()).ToArray();
-                    foreach (var item in items.Value)
-                        await _orderItemService.SubmitCommand(item.ID).ExecuteAsync();
-                }
-            );
-        }
     }
 }
