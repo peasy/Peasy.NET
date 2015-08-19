@@ -1,15 +1,9 @@
 ﻿using Facile.Core;
-using Orders.com.BLL.Rules;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
-using Orders.com.Core.Extensions;
 using Orders.com.Core.QueryData;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
