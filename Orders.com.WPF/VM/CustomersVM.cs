@@ -1,12 +1,9 @@
 ﻿using Orders.com.BLL;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Facile.Core.Extensions;
 
 namespace Orders.com.WPF.VM
 {
@@ -23,9 +20,9 @@ namespace Orders.com.WPF.VM
         {
             _customersService = customersService;
             _addCustomerCommand = new Command(() => AddCustomer());
-            _saveCustomersCommand = new Command(() => SaveCustomers());
-            _loadCustomersCommand = new Command(() => LoadCustomers());
-            _deleteSelectedCommand = new Command(() => DeleteSelectedVM());
+            _saveCustomersCommand = new Command(async () => await SaveCustomersAsync());
+            _loadCustomersCommand = new Command(async () => await LoadCustomersAsync());
+            _deleteSelectedCommand = new Command(async () => await DeleteSelectedVMAsync());
         }
 
         public CustomerVM SelectedCustomer
@@ -64,14 +61,14 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        private async Task LoadCustomers()
+        private async Task LoadCustomersAsync()
         {
             var result = await _customersService.GetAllCommand().ExecuteAsync();
             var vms = result.Value.Select(c => new CustomerVM(c, _customersService));
             Customers = vms.ToArray();
         }
 
-        private async Task SaveCustomers()
+        private async Task SaveCustomersAsync()
         {
             var results = Customers.Select(vm => vm.SaveAsync()).ToArray();
             await Task.WhenAll(results);
@@ -82,7 +79,7 @@ namespace Orders.com.WPF.VM
             _customers.Add(new CustomerVM(_customersService));
         }
 
-        private async Task DeleteSelectedVM()
+        private async Task DeleteSelectedVMAsync()
         {
             if (SelectedCustomer != null && !SelectedCustomer.IsNew)
             {
