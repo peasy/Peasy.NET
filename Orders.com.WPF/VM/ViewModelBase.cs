@@ -14,6 +14,12 @@ namespace Orders.com.WPF.VM
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        protected virtual void OnPropertiesChanged(params string[] propertyNames)
+        {
+            foreach (var propertyName in propertyNames)
+                OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
