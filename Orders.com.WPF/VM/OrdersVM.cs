@@ -21,7 +21,7 @@ namespace Orders.com.WPF.VM
             _ordersService = categoryService;
             _mainVM = mainVM;
             _loadOrdersCommand = new Command(async () => await LoadOrdersAsync());
-            _deleteSelectedCommand = new Command(async () => await DeleteSelectedVMAsync());
+            _deleteSelectedCommand = new Command(async () => await DeleteSelectedItemAsync());
             _eventAggregator = eventAggregator;
             _eventAggregator.AddListener<OrderInsertedEvent>(this, true);
         }
@@ -59,7 +59,7 @@ namespace Orders.com.WPF.VM
             Orders = vms.ToArray();
         }
 
-        private async Task DeleteSelectedVMAsync()
+        private async Task DeleteSelectedItemAsync()
         {
             if (SelectedOrder != null && !SelectedOrder.IsNew)
             {

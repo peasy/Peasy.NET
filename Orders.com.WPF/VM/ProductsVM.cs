@@ -24,7 +24,7 @@ namespace Orders.com.WPF.VM
             _addProductCommand = new Command(() => AddProduct());
             _saveProductsCommand = new Command(async () => await SaveProductsAsync());
             _loadProductsCommand = new Command(async () => await LoadProductsAsync());
-            _deleteSelectedCommand = new Command(async () => await DeleteSelectedVMAsync());
+            _deleteSelectedCommand = new Command(async () => await DeleteSelectedItemAsync());
         }
 
         public ProductVM SelectedProduct
@@ -81,13 +81,14 @@ namespace Orders.com.WPF.VM
             _products.Add(new ProductVM(_productsService, _mainVM));
         }
 
-        private async Task DeleteSelectedVMAsync()
+        private async Task DeleteSelectedItemAsync()
         {
-            if (SelectedProduct != null && !SelectedProduct.IsNew)
+            if (SelectedProduct.IsNew)
+                _products.Remove(SelectedProduct);
+            else
             {
                 await _productsService.DeleteCommand(SelectedProduct.ID).ExecuteAsync();
                 _products.Remove(SelectedProduct);
-                SelectedProduct = null;
             }
         }
     }

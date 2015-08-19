@@ -22,7 +22,7 @@ namespace Orders.com.WPF.VM
             _addCustomerCommand = new Command(() => AddCustomer());
             _saveCustomersCommand = new Command(async () => await SaveCustomersAsync());
             _loadCustomersCommand = new Command(async () => await LoadCustomersAsync());
-            _deleteSelectedCommand = new Command(async () => await DeleteSelectedVMAsync());
+            _deleteSelectedCommand = new Command(async () => await DeleteSelectedItemAsync());
         }
 
         public CustomerVM SelectedCustomer
@@ -79,13 +79,14 @@ namespace Orders.com.WPF.VM
             _customers.Add(new CustomerVM(_customersService));
         }
 
-        private async Task DeleteSelectedVMAsync()
+        private async Task DeleteSelectedItemAsync()
         {
-            if (SelectedCustomer != null && !SelectedCustomer.IsNew)
+            if (SelectedCustomer.IsNew)
+                _customers.Remove(SelectedCustomer);
+            else
             {
                 await _customersService.DeleteCommand(SelectedCustomer.ID).ExecuteAsync();
                 _customers.Remove(SelectedCustomer);
-                SelectedCustomer = null;
             }
         }
     }

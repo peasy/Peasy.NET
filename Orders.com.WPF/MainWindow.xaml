@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Orders.com" Height="350" Width="721"
-        xmlns:converters="clr-namespace:Orders.com.WPF.Converters" WindowStartupLocation="CenterScreen"> 
+        xmlns:converters="clr-namespace:Orders.com.WPF.Converters" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <converters:VisibilityConverter x:Key="visibilityConverter" />
         <converters:VisibilityConverter x:Key="reverseVisibilityConverter" Reverse="true" />
@@ -38,12 +38,22 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="deleteButton" Width="25" Height="25" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
+                                            <Button.Content>
+                                                <Image Source="delete.png" ></Image>
+                                            </Button.Content>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button Margin="5" Content="Reload" Command="{Binding LoadCategoriesCommand}"/>
                         <Button Margin="5" Content="Add" Click="addCustomerOrderClick" />
-                        <Button Margin="5" Content="Delete" Command="{Binding DeleteSelectedCommand}"/>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -60,7 +70,7 @@
                                     <DataTemplate>
                                         <TextBlock Text="{Binding ID}" />
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate> 
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                             <DataGridTemplateColumn>
@@ -68,18 +78,28 @@
                                     <DataTemplate>
                                         <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Image.ToolTip>
-                                                <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" /> 
+                                                <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                             </Image.ToolTip>
                                         </Image>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate> 
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="deleteButton" Width="25" Height="25" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
+                                            <Button.Content>
+                                                <Image Source="delete.png" ></Image>
+                                            </Button.Content>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button Margin="5" Content="Reload" Command="{Binding LoadCustomersCommand}"/>
                         <Button Margin="5" Content="Add" Command="{Binding AddCustomerCommand}"/>
-                        <Button Margin="5" Content="Delete" Command="{Binding DeleteSelectedCommand}"/>
                         <Button Margin="5" Content="Save" Command="{Binding SaveCustomersCommand}"/>
                     </StackPanel>
                 </Grid>
@@ -120,12 +140,22 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="deleteButton" Width="25" Height="25" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
+                                            <Button.Content>
+                                                <Image Source="delete.png" ></Image>
+                                            </Button.Content>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button Margin="5" Content="Reload" Command="{Binding LoadProductsCommand}"/>
                         <Button Margin="5" Content="Add" Command="{Binding AddProductCommand}" />
-                        <Button Margin="5" Content="Delete" Command="{Binding DeleteSelectedCommand}"/>
                         <Button Margin="5" Content="Save" Command="{Binding SaveProductsCommand}"/>
                     </StackPanel>
                 </Grid>
@@ -143,7 +173,7 @@
                                     <DataTemplate>
                                         <TextBlock Text="{Binding ID}" />
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate> 
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                             <DataGridTemplateColumn>
@@ -151,18 +181,28 @@
                                     <DataTemplate>
                                         <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Image.ToolTip>
-                                                <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" /> 
+                                                <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                             </Image.ToolTip>
                                         </Image>
                                     </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate> 
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="deleteButton" Width="25" Height="25" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
+                                            <Button.Content>
+                                                <Image Source="delete.png" ></Image>
+                                            </Button.Content>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
                         <Button Margin="5" Content="Reload" Command="{Binding LoadCategoriesCommand}"/>
                         <Button Margin="5" Content="Add" Command="{Binding AddCategoryCommand}"/>
-                        <Button Margin="5" Content="Delete" Command="{Binding DeleteSelectedCommand}"/>
                         <Button Margin="5" Content="Save" Command="{Binding SaveCategoriesCommand}"/>
                     </StackPanel>
                 </Grid>
