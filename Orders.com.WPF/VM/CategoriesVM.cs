@@ -23,9 +23,9 @@ namespace Orders.com.WPF.VM
         {
             _categoriesService = categoryService;
             _addCategoryCommand = new Command(() => AddCategory());
-            _saveCategoriesCommand = new Command(() => SaveCategories());
-            _loadCategoriesCommand = new Command(() => LoadCategories());
-            _deleteSelectedCommand = new Command(() => DeleteSelectedVM());
+            _saveCategoriesCommand = new Command(async () => await SaveCategoriesAsync());
+            _loadCategoriesCommand = new Command(async () => await LoadCategoriesAsync());
+            _deleteSelectedCommand = new Command(async () => await DeleteSelectedVMAsync());
         }
 
         public CategoryVM SelectedCategory
@@ -64,14 +64,14 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        private async Task LoadCategories()
+        private async Task LoadCategoriesAsync()
         {
             var result = await _categoriesService.GetAllCommand().ExecuteAsync();
             var vms = result.Value.Select(c => new CategoryVM(c, _categoriesService));
             Categories = vms.ToArray();
         }
 
-        private async Task SaveCategories()
+        private async Task SaveCategoriesAsync()
         {
             var results = Categories.Select(vm => vm.SaveAsync()).ToArray();
             await Task.WhenAll(results);
@@ -82,7 +82,7 @@ namespace Orders.com.WPF.VM
             _categories.Add(new CategoryVM(_categoriesService));
         }
 
-        private async Task DeleteSelectedVM()
+        private async Task DeleteSelectedVMAsync()
         {
             if (SelectedCategory != null && !SelectedCategory.IsNew)
             {
