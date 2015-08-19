@@ -102,8 +102,8 @@
             </Grid>
         </GroupBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Margin="5" Content="Save" Command="{Binding SaveOrderCommand}" />
-            <Button Margin="5" Content="Submit Order" Command="{Binding SubmitOrderCommand}" />
+            <Button Margin="5" Content="Save" Command="{Binding SaveOrderCommand}" IsEnabled="{Binding IsSavable}" />
+            <Button Margin="5" Content="Submit Order" Command="{Binding SubmitOrderCommand}" IsEnabled="{Binding IsSubmittable}" />
             <Button Margin="5" Content="Done" Click="CloseWindowClick"/>
         </StackPanel>
     </Grid>

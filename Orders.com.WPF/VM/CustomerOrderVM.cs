@@ -2,14 +2,11 @@
 using Orders.com.BLL;
 using Orders.com.Core.Domain;
 using Orders.com.Core.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace Orders.com.WPF.VM
 {
@@ -46,10 +43,10 @@ namespace Orders.com.WPF.VM
             _mainVM = mainVM;
             _eventAggregator = eventAggregator;
             _orderItems = new ObservableCollection<OrderItemVM>();
-            _saveOrderCommand = new Command(() => SaveAsync(), CanSave);
+            _saveOrderCommand = new Command(() => SaveAsync());
             _addOrderItemCommand = new Command(() => AddOrderItem(), CanAdd);
             _deleteSelectedItemCommand = new Command(() => DeleteSelectedItem());
-            _submitOrderCommand = new Command(() => SubmitAsync(), CanSubmit);
+            _submitOrderCommand = new Command(() => SubmitAsync());
         }
 
         public IEnumerable<CustomerVM> Customers
@@ -145,40 +142,59 @@ namespace Orders.com.WPF.VM
             return base.CanSave();
         }
 
+        public bool IsSavable
+        {
+           get { return CanSave(); } 
+        }
+
         public override bool CanSave()
         {
             return base.CanSave() && OrderItems.Any(i => i.IsDirty);
         }
 
+        public bool IsSubmittable
+        {
+           get { return CanSubmit(); } 
+        }
+
         public bool CanSubmit()
         {
-            System.Diagnostics.Debug.WriteLine("CanSubmit fired");
-            // allow submission when the order can be saved and all order items have been saved and are submittable
             return OrderItems.Any(i => i.Status == null || i.Status.CanSubmit) &&
                    OrderItems.All(i => (!i.IsDirty && !i.IsNew));
         }
 
         public override async Task SaveAsync()
         {
-            await base.SaveAsync();
-            var results = OrderItems.ForEach(item => item.OrderID = CurrentEntity.OrderID)
-                                    .Select(vm => vm.SaveAsync())
-                                    .ToArray();
-            await Task.WhenAll(results);
-        } 
+            if (CanSave())
+            {
+                await base.SaveAsync();
+                var results = OrderItems.ForEach(item => item.OrderID = CurrentEntity.OrderID)
+                                        .Select(vm => vm.SaveAsync())
+                                        .ToArray();
+                await Task.WhenAll(results);
+            }
+            OnPropertiesChanged("IsSavable", "IsSubmittable");
+        }
 
         public async Task SubmitAsync()
         {
-            var submitTasks = OrderItems.Select(i => i.SubmitAsync()).ToArray();
-            await Task.WhenAll(submitTasks);
-            _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
+            if (CanSubmit())
+            {
+                var submitTasks = OrderItems.Select(i => i.SubmitAsync()).ToArray();
+                await Task.WhenAll(submitTasks);
+                _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
+            }
+            OnPropertyChanged("IsSubmittable");
         }
 
         private void AddOrderItem()
         {
-            var item = new OrderItemVM(_orderItemService, _mainVM);
-            SubscribeHandlers(item);
-            _orderItems.Add(item);
+            if (CanAdd())
+            {
+                var item = new OrderItemVM(_orderItemService, _mainVM);
+                SubscribeHandlers(item);
+                _orderItems.Add(item);
+            }
         }
 
         private void LoadOrderItem(OrderItem orderItem)
@@ -190,14 +206,20 @@ namespace Orders.com.WPF.VM
 
         private void SubscribeHandlers(OrderItemVM item)
         {
-            item.EntitySaved += (s, e) => _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
+            item.EntitySaved += (s, e) =>
+            {
+                _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
+            };
             item.EntityDeleted += (s, e) =>
             {
                 _orderItems.Remove(SelectedOrderItem);
                 OnPropertyChanged("Total");
                 _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
             };
-            item.PropertyChanged += (s, e) => OnPropertyChanged("Total");
+            item.PropertyChanged += (s, e) =>
+            {
+                OnPropertiesChanged("Total", "IsSavable");
+            };
         }
 
         private async Task DeleteSelectedItem()
@@ -207,6 +229,5 @@ namespace Orders.com.WPF.VM
             else
                 await SelectedOrderItem.DeleteAsync();
         }
-
     }
 }
