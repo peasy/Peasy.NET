@@ -25,11 +25,7 @@ namespace Orders.com.WPF.VM
             _deleteSelectedCommand = new Command(async () => await DeleteSelectedItemAsync());
         }
 
-        public CustomerVM SelectedCustomer
-        {
-            get;
-            set;
-        }
+        public CustomerVM SelectedCustomer { get; set; }
 
         public ICommand AddCustomerCommand
         {

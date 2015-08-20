@@ -41,8 +41,7 @@ namespace Orders.com.WPF.VM
             set
             {
                 _currentCategoryID = value;
-                OnPropertyChanged("CurrentCategoryID");
-                OnPropertyChanged("Products");
+                OnPropertiesChanged("CurrentCategoryID", "Products");
             }
         }
 
@@ -54,9 +53,7 @@ namespace Orders.com.WPF.VM
                 _currentProduct = Products.First(p => p.ID == value);
                 CurrentEntity.ProductID = value;
                 IsDirty = true;
-                OnPropertyChanged("CurrentProductID");
-                OnPropertyChanged("Price");
-                OnPropertyChanged("Amount");
+                OnPropertiesChanged("CurrentProductID", "Price", "Amount");
             }
         }
 
@@ -104,8 +101,7 @@ namespace Orders.com.WPF.VM
             {
                 CurrentEntity.Quantity = value;
                 IsDirty = true;
-                OnPropertyChanged("Quantity");
-                OnPropertyChanged("Amount");
+                OnPropertiesChanged("Quantity", "Amount");
             }
         }
 
@@ -141,8 +137,7 @@ namespace Orders.com.WPF.VM
 
         protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
         {
-            OnPropertyChanged("ID");
-            OnPropertyChanged("Status");
+            OnPropertiesChanged("ID", "Status");
         }
 
         public bool CanSubmit()
@@ -157,8 +152,7 @@ namespace Orders.com.WPF.VM
                 var service = _service as OrderItemService;
                 var result = await service.SubmitCommand(ID).ExecuteAsync();
                 CurrentEntity = result.Value;
-                OnPropertyChanged("Status");
-                OnPropertyChanged("SubmittedOn");
+                OnPropertiesChanged("Status", "SubmittedOn");
             }
         }
 
@@ -174,8 +168,7 @@ namespace Orders.com.WPF.VM
                 var service = _service as OrderItemService;
                 var result = await service.ShipCommand(ID).ExecuteAsync();
                 CurrentEntity = result.Value;
-                OnPropertyChanged("Status");
-                OnPropertyChanged("ShippedOn");
+                OnPropertiesChanged("Status", "SubmittedOn");
             }
         }
     }
