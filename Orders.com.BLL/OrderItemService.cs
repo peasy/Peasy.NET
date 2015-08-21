@@ -5,21 +5,52 @@ using Orders.com.Core.Extensions;
 using System.Collections.Generic;
 using System;
 using Orders.com.BLL.Rules;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
     public class OrderItemService : OrdersDotComServiceBase<OrderItem>
     {
         private InventoryItemService _inventoryService;
+        private IProductDataProxy _productDataProxy;
 
-        public OrderItemService(IOrderItemDataProxy dataProxy, InventoryItemService inventoryService) : base(dataProxy)
+        public OrderItemService(IOrderItemDataProxy dataProxy, IProductDataProxy productDataProxy, InventoryItemService inventoryService) : base(dataProxy)
         {
+            _productDataProxy = productDataProxy;
             _inventoryService = inventoryService;
         }
 
         protected override void OnBeforeInsertCommandExecuted(OrderItem entity)
         {
             entity.OrderStatusID = OrderStatusConstants.PENDING_STATUS;
+        }
+
+        protected override OrderItem Insert(OrderItem entity)
+        {
+            var product = _productDataProxy.GetByID(entity.ProductID);
+            entity.SetPrice(product.Price.Value).ThenSetAmount();
+            return base.Insert(entity);
+        }
+
+        protected override async Task<OrderItem> InsertAsync(OrderItem entity)
+        {
+            var product = await _productDataProxy.GetByIDAsync(entity.ProductID);
+            entity.SetPrice(product.Price.Value).ThenSetAmount();
+            return await base.InsertAsync(entity);
+        }
+
+        protected override OrderItem Update(OrderItem entity)
+        {
+            var product = _productDataProxy.GetByID(entity.ProductID);
+            entity.SetPrice(product.Price.Value).ThenSetAmount();
+            return base.Update(entity);
+        }
+
+        protected override async Task<OrderItem> UpdateAsync(OrderItem entity)
+        {
+            var product = await _productDataProxy.GetByIDAsync(entity.ProductID);
+            entity.SetPrice(product.Price.Value).ThenSetAmount();
+            return await base.UpdateAsync(entity);
         }
 
         public ICommand<IEnumerable<OrderItem>> GetByOrderCommand(long orderID)

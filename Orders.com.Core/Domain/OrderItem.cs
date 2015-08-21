@@ -18,15 +18,18 @@ namespace Orders.com.Core.Domain
         [Range(1, double.MaxValue, ErrorMessage = "Quantity must be greater than 0")]
         public decimal Quantity { get; set; }
 
-        //[Editable(false)] -> TODO: create a rule that looks up current price for product id and ensure that totals match to avoid price changes or amount hijacking
+        [Editable(false)]
         public decimal Amount { get; set; }
+
+        [Editable(false)]
+        public decimal LockedInPrice { get; set; }
 
         [Editable(false)]
         public DateTime? ShippedDate { get; set; }
 
         [Editable(false)]
         public DateTime? SubmittedDate { get; set; }
-
+        
         [Editable(false)]
         public long OrderStatusID { get; set; }
 
