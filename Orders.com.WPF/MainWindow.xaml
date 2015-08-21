@@ -1,7 +1,8 @@
-﻿<Window x:Class="Orders.com.WPF.MainWindow"
+﻿<Controls:MetroWindow x:Class="Orders.com.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Orders.com" Height="350" Width="721"
+        Title="Orders.com" Height="350" Width="900"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:converters="clr-namespace:Orders.com.WPF.Converters" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <converters:VisibilityConverter x:Key="visibilityConverter" />
@@ -209,4 +210,4 @@
             </TabItem>
         </TabControl>
     </Grid>
-</Window>
+</Controls:MetroWindow>

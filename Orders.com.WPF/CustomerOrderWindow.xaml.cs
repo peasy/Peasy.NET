@@ -21,7 +21,7 @@ namespace Orders.com.WPF
     /// <summary>
     /// Interaction logic for CustomerOrderWindow.xaml
     /// </summary>
-    public partial class CustomerOrderWindow : Window
+    public partial class CustomerOrderWindow 
     {
         public CustomerOrderWindow()
         {

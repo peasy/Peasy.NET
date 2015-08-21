@@ -1,8 +1,9 @@
-﻿<Window x:Class="Orders.com.WPF.CustomerOrderWindow"
+﻿<Controls:MetroWindow x:Class="Orders.com.WPF.CustomerOrderWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="clr-namespace:Orders.com.WPF.Converters"
-        Title="Customer Order" Height="350" Width="721" WindowStartupLocation="CenterOwner">
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Title="Customer Order" Height="450" Width="900" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <converters:VisibilityConverter x:Key="reverseVisibilityConverter" Reverse="true" />
         <converters:ErrorsConverter x:Key="errorsConverter" />
@@ -107,4 +108,4 @@
             <Button Margin="5" Content="Done" Click="CloseWindowClick"/>
         </StackPanel>
     </Grid>
-</Window>
+</Controls:MetroWindow>
