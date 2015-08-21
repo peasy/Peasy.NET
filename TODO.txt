@@ -1,20 +1,16 @@
 CustomerOrderView - Handle case where a product price changes after an orderItem has been submitted.  Need to keep the orderItem price and not clobber it with the new product price.
 
-CustomerOrderView - Filter products based on availability
+CustomerOrderView - Add an quantity on hand column and disallow adding items that exceed the QoH. 
 
 Inventory functionality
 
 Order State History - OrderStateHistory dto, service, etc.  Maybe remove order state change dates from OrderItem?
 
-Backorder Functionality - Handle case where two orders are place with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
+Backorder Functionality - Handle case where two orders are placed with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
 
 Handle orderItem amount check - Always pull the product price, unless the orderItem has been created.  This is to allow updates to a saved orderedItem after a price has been changed, but disallows a hacker to attempt to change the price of an ordered item if it has not yet been saved.
 
-CustomerOrderView - Close view on succesful save of order and all order items. Throw exception for testing purposes.
-
 Shipping functionality
-
-Submit functionality - prevent a submit from happening if it's in the submitted state
 
 Add async support for business and validation rules
 
@@ -24,12 +20,13 @@ Business Rule - There must be one or more items on an order to be submittable/sh
 
 Complete delete order functionality
 
-Create way to view order that has been shipped, but do not allow addition/modification of ordered items
-
-Complete status functionality on customer order view for individual items as they can have differing statuses due to inventory issues
+Create way to view order that has been shipped, but do not allow addition/modification of ordered items. Add Add/Edit on customer order title appropriately
 
 Add concurrency support to repos and handle in UI accordingly
 
 Add command execution context support.  This will allow loading and sharing of objects to be passed from rules to execution methods (both async and sync) which will eliminate redundant proxy calls.
 
-Add Add/Edit on customer order title appropriately
+When an order item is created, it should use the current price of the product.  The amount should be set on the backend as to prevent hijacking of the price.
+
+
+Add price override functionality?
