@@ -39,6 +39,10 @@
     <Reference Include="Ploeh.AutoFixture">
       <HintPath>..\packages\AutoFixture.3.24.3\lib\net40\Ploeh.AutoFixture.dll</HintPath>
     </Reference>
+    <Reference Include="Shouldly, Version=2.5.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.2.5.0\lib\net40\Shouldly.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />

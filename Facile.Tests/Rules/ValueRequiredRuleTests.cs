@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Shouldly;
 
 namespace Facile.Tests.Rules
 {
@@ -14,63 +15,63 @@ namespace Facile.Tests.Rules
         public void ReturnsTrueWhenIntegerGreaterThanZeroSupplied()
         {
             var rule = new ValueRequiredRule(1, "id").Validate();
-            Assert.True(rule.IsValid);
+            rule.IsValid.ShouldBe(true);
         }
 
         [Fact]
         public void ReturnsFalseWhenIntegerLessThanOneSupplied()
         {
             var rule = new ValueRequiredRule(0, "id").Validate();
-            Assert.False(rule.IsValid);
+            rule.IsValid.ShouldBe(false);
         }
 
         [Fact]
         public void SetsErrorMessageWhenIntegerLessThanOneSupplied()
         {
             var rule = new ValueRequiredRule(0, "id").Validate();
-            Assert.Equal("id must be greater than 0", rule.ErrorMessage);
+            rule.ErrorMessage.ShouldBe("id must be greater than 0");
         }
 
         [Fact]
         public void ReturnsTrueWhenStringNonEmptyIsSupplied()
         {
             var rule = new ValueRequiredRule("123", "id").Validate();
-            Assert.True(rule.IsValid);
+            rule.IsValid.ShouldBe(true);
         }
 
         [Fact]
         public void ReturnsFalseWhenStringEmptyIsSupplied()
         {
             var rule = new ValueRequiredRule("", "id").Validate();
-            Assert.False(rule.IsValid);
+            rule.IsValid.ShouldBe(false);
         }
 
         [Fact]
         public void SetsErrorMessageWhenStringEmptyIsSupplied()
         {
             var rule = new ValueRequiredRule("", "id").Validate();
-            Assert.Equal("id must be supplied", rule.ErrorMessage);
+            rule.ErrorMessage.ShouldBe("id must be supplied");
         }
 
         [Fact]
         public void ReturnsTrueWhenGuidNonEmptyIsSupplied()
         {
             var rule = new ValueRequiredRule(Guid.NewGuid(), "id").Validate();
-            Assert.True(rule.IsValid);
+            rule.IsValid.ShouldBe(true);
         }
 
         [Fact]
         public void ReturnsFalseWhenGuidEmptyIsSupplied()
         {
             var rule = new ValueRequiredRule(new Guid(), "id").Validate();
-            Assert.False(rule.IsValid);
+            rule.IsValid.ShouldBe(false);
         }
 
         [Fact]
         public void SetsErrorMessageWhenGuidEmptyIsSupplied()
         {
             var rule = new ValueRequiredRule(new Guid(), "id").Validate();
-            Assert.Equal("id must be supplied", rule.ErrorMessage);
+            rule.ErrorMessage.ShouldBe("id must be supplied");
         }
     }
 }
