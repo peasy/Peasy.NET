@@ -28,5 +28,8 @@ Add command execution context support.  This will allow loading and sharing of o
 
 When an order item is created, it should use the current price of the product.  The amount should be set on the backend as to prevent hijacking of the price.
 
+Need to add order item update rule that prevents changing if the order has shipped.
+
+Add a rule or noneditable attribute to Order.CustomerID that prevents changing on update
 
 Add price override functionality?
