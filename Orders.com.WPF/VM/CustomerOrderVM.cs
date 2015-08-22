@@ -123,7 +123,7 @@ namespace Orders.com.WPF.VM
         {
             var result = await _orderItemService.GetByOrderCommand(CurrentEntity.OrderID).ExecuteAsync();
             result.Value.ForEach(i => LoadOrderItem(i));
-            OnPropertyChanged("Total");
+            OnPropertiesChanged("Total", "IsSubmittable");
         }
 
         protected override void OnInsertSuccess(Facile.Core.ExecutionResult<Order> result)
