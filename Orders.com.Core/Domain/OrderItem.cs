@@ -12,17 +12,15 @@ namespace Orders.com.Core.Domain
         [FacileForeignKey, FacileRequired]
         public long OrderID { get; set; }
 
-        [FacileForeignKey, FacileRequired]
+        [FacileForeignKey, FacileRequired, Editable(false)]
         public long ProductID { get; set; }
 
         [Range(1, double.MaxValue, ErrorMessage = "Quantity must be greater than 0")]
         public decimal Quantity { get; set; }
 
-        [Editable(false)]
         public decimal Amount { get; set; }
 
-        [Editable(false)]
-        public decimal LockedInPrice { get; set; }
+        public decimal Price { get; set; }
 
         [Editable(false)]
         public DateTime? ShippedDate { get; set; }

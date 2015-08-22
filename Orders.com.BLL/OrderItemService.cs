@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System;
 using Orders.com.BLL.Rules;
 using System.Threading.Tasks;
+using Facile.Rules;
+using System.Linq;
 
 namespace Orders.com.BLL
 {
@@ -25,32 +27,24 @@ namespace Orders.com.BLL
             entity.OrderStatusID = OrderStatusConstants.PENDING_STATUS;
         }
 
-        protected override OrderItem Insert(OrderItem entity)
+        protected override IEnumerable<IRule> GetBusinessRulesForInsert(OrderItem entity)
         {
-            var product = _productDataProxy.GetByID(entity.ProductID);
-            entity.SetPrice(product.Price.Value).ThenSetAmount();
-            return base.Insert(entity);
+            var currentProduct = _productDataProxy.GetByID(entity.ProductID);
+            return base.GetBusinessRulesForInsert(entity)
+                       .Concat(new IRule[] { 
+                           new OrderItemPriceValidityRule(entity, currentProduct),
+                           new OrderItemAmountValidityRule(entity, currentProduct) 
+                       });
         }
 
-        protected override async Task<OrderItem> InsertAsync(OrderItem entity)
+        protected override IEnumerable<IRule> GetBusinessRulesForUpdate(OrderItem entity)
         {
-            var product = await _productDataProxy.GetByIDAsync(entity.ProductID);
-            entity.SetPrice(product.Price.Value).ThenSetAmount();
-            return await base.InsertAsync(entity);
-        }
-
-        protected override OrderItem Update(OrderItem entity)
-        {
-            var product = _productDataProxy.GetByID(entity.ProductID);
-            entity.SetPrice(product.Price.Value).ThenSetAmount();
-            return base.Update(entity);
-        }
-
-        protected override async Task<OrderItem> UpdateAsync(OrderItem entity)
-        {
-            var product = await _productDataProxy.GetByIDAsync(entity.ProductID);
-            entity.SetPrice(product.Price.Value).ThenSetAmount();
-            return await base.UpdateAsync(entity);
+            var currentProduct = _productDataProxy.GetByID(entity.ProductID);
+            return base.GetBusinessRulesForUpdate(entity)
+                       .Concat(new IRule[] { 
+                           new OrderItemPriceValidityRule(entity, currentProduct),
+                           new OrderItemAmountValidityRule(entity, currentProduct) 
+                       });
         }
 
         public ICommand<IEnumerable<OrderItem>> GetByOrderCommand(long orderID)

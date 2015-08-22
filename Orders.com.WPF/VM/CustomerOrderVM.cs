@@ -19,6 +19,7 @@ namespace Orders.com.WPF.VM
         private ICommand _submitOrderCommand;
         private ICommand _addOrderItemCommand;
         private ICommand _deleteSelectedItemCommand;
+        private ICommand _refreshCommand;
         private EventAggregator _eventAggregator;
         private MainWindowVM _mainVM;
 
@@ -32,7 +33,6 @@ namespace Orders.com.WPF.VM
             : base(order, orderService)
         {
             Setup(eventAggregator, orderService, orderItemService, mainVM);
-            LoadOrderItems();
             OnPropertyChanged("CurrentCustomerID");
         }
 
@@ -43,10 +43,23 @@ namespace Orders.com.WPF.VM
             _mainVM = mainVM;
             _eventAggregator = eventAggregator;
             _orderItems = new ObservableCollection<OrderItemVM>();
-            _saveOrderCommand = new Command(async () => await SaveAsync());
+            _saveOrderCommand = new Command(async () =>
+            {
+                await SaveAsync();
+                OnPropertiesChanged("IsSavable", "IsSubmittable");
+            });
             _addOrderItemCommand = new Command(() => AddOrderItem(), CanAdd);
             _deleteSelectedItemCommand = new Command(async () => await DeleteSelectedItemAsync());
-            _submitOrderCommand = new Command(async () => await SubmitAsync());
+            _submitOrderCommand = new Command(async () =>
+            {
+                await SubmitAsync();
+                OnPropertyChanged("IsSubmittable");
+            });
+            _refreshCommand = new Command(async () =>
+            {
+                await LoadOrderItemsAsync();
+                OnPropertiesChanged("Total", "IsSavable", "IsSubmittable");
+            });
         }
 
         public IEnumerable<CustomerVM> Customers
@@ -119,11 +132,9 @@ namespace Orders.com.WPF.VM
             get { return _deleteSelectedItemCommand; }
         }
 
-        private async void LoadOrderItems()
+        public ICommand RefreshCommand
         {
-            var result = await _orderItemService.GetByOrderCommand(CurrentEntity.OrderID).ExecuteAsync();
-            result.Value.ForEach(i => LoadOrderItem(i));
-            OnPropertiesChanged("Total", "IsSubmittable");
+            get { return _refreshCommand; }
         }
 
         protected override void OnInsertSuccess(Facile.Core.ExecutionResult<Order> result)
@@ -144,7 +155,7 @@ namespace Orders.com.WPF.VM
 
         public bool IsSavable
         {
-           get { return CanSave(); } 
+            get { return CanSave(); }
         }
 
         public override bool CanSave()
@@ -154,7 +165,7 @@ namespace Orders.com.WPF.VM
 
         public bool IsSubmittable
         {
-           get { return CanSubmit(); } 
+            get { return CanSubmit(); }
         }
 
         public bool CanSubmit()
@@ -173,7 +184,6 @@ namespace Orders.com.WPF.VM
                                         .ToArray();
                 await Task.WhenAll(results);
             }
-            OnPropertiesChanged("IsSavable", "IsSubmittable");
         }
 
         public async Task SubmitAsync()
@@ -184,7 +194,6 @@ namespace Orders.com.WPF.VM
                 await Task.WhenAll(submitTasks);
                 _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
             }
-            OnPropertyChanged("IsSubmittable");
         }
 
         private void AddOrderItem()
@@ -195,6 +204,13 @@ namespace Orders.com.WPF.VM
                 SubscribeHandlers(item);
                 _orderItems.Add(item);
             }
+        }
+
+        private async Task LoadOrderItemsAsync()
+        {
+            var result = await _orderItemService.GetByOrderCommand(CurrentEntity.OrderID).ExecuteAsync();
+            _orderItems.Clear();
+            result.Value.ForEach(i => LoadOrderItem(i));
         }
 
         private void LoadOrderItem(OrderItem orderItem)

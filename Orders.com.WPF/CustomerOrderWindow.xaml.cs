@@ -54,18 +54,9 @@ namespace Orders.com.WPF
                 OrderDate = currentOrder.OrderDate,
             };
             var vm = new CustomerOrderVM(eventAggregator, order, orderService, orderItemService, mainVM);
+            vm.RefreshCommand.Execute(null);
             DataContext = vm;
         }
-
-        //private void SaveOrderButtonClick(object sender, RoutedEventArgs e)
-        //{
-        //    this.Close();
-        //}
-
-        //private void SubmitOrderButtonClick(object sender, RoutedEventArgs e)
-        //{
-        //    this.Close();
-        //}
 
         private void CloseWindowClick(object sender, RoutedEventArgs e)
         {

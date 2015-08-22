@@ -1,0 +1,32 @@
+﻿using Facile.Core;
+using Orders.com.Core;
+using Orders.com.Core.DataProxy;
+using Orders.com.Core.Domain;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Facile.Rules
+{
+    public class OrderItemPriceValidityRule : RuleBase
+    {
+        private OrderItem _item;
+        private Product _product;
+
+        public OrderItemPriceValidityRule(OrderItem item, Product product)
+        {
+            _item = item;
+            _product = product;
+        }
+
+        protected override void OnValidate()
+        {
+            if (_item.Price != _product.Price)
+            {
+                Invalidate(string.Format("The price for {0} no longer reflects the current price in our system", _product.Name));
+            }
+        }
+    }
+}

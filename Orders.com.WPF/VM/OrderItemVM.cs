@@ -52,9 +52,17 @@ namespace Orders.com.WPF.VM
             {
                 _currentProduct = Products.First(p => p.ID == value);
                 CurrentEntity.ProductID = value;
+                if (IsNew) 
+                    CurrentEntity.Price = _currentProduct.Price.Value;
+                CurrentEntity.SetAmount();
                 IsDirty = true;
                 OnPropertiesChanged("CurrentProductID", "Price", "Amount");
             }
+        }
+
+        public bool CanChangeCategoryAndProduct
+        {
+            get { return IsNew; }
         }
 
         public decimal Price
@@ -62,7 +70,7 @@ namespace Orders.com.WPF.VM
             get
             {
                 if (_currentProduct != null)
-                    return _currentProduct.Price.Value;
+                    return IsNew? _currentProduct.Price.Value : CurrentEntity.Price;
 
                 return 0;
             }
@@ -100,6 +108,7 @@ namespace Orders.com.WPF.VM
             set
             {
                 CurrentEntity.Quantity = value;
+                CurrentEntity.SetAmount();
                 IsDirty = true;
                 OnPropertiesChanged("Quantity", "Amount");
             }
@@ -137,7 +146,7 @@ namespace Orders.com.WPF.VM
 
         protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
         {
-            OnPropertiesChanged("ID", "Status");
+            OnPropertiesChanged("ID", "Status", "CanChangeCategoryAndProduct");
         }
 
         public bool CanSubmit()

@@ -11,14 +11,14 @@ namespace Orders.com.Core.Extensions
     {
         public static Tuple<OrderItem> SetPrice(this OrderItem item, decimal price)
         {
-            item.LockedInPrice = price;
+            item.Price = price;
             return new Tuple<OrderItem>(item);
         }
 
-        public static OrderItem ThenSetAmount(this Tuple<OrderItem> item)
+        public static OrderItem SetAmount(this OrderItem item)
         {
-            item.Item1.Amount = item.Item1.Quantity * item.Item1.LockedInPrice;
-            return item.Item1;
+            item.Amount = item.Quantity * item.Price;
+            return item;
         }
     }
 }

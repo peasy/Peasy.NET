@@ -49,14 +49,14 @@
                         <DataGridTemplateColumn Header="Category">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox Margin="1" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentCategoryID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <ComboBox Margin="1" IsEnabled="{Binding CanChangeCategoryAndProduct}" ItemsSource="{Binding Categories}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentCategoryID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Product" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <ComboBox Margin="1" ItemsSource="{Binding Products}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentProductID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <ComboBox Margin="1" IsEnabled="{Binding CanChangeCategoryAndProduct}" ItemsSource="{Binding Products}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentProductID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -104,6 +104,7 @@
         </GroupBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Margin="5" Content="Save" Command="{Binding SaveOrderCommand}" IsEnabled="{Binding IsSavable}" />
+            <Button Margin="5" Content="Undo Changes" Command="{Binding RefreshCommand}" IsEnabled="{Binding IsSavable}" />
             <Button Margin="5" Content="Submit Order" Command="{Binding SubmitOrderCommand}" IsEnabled="{Binding IsSubmittable}" />
             <Button Margin="5" Content="Done" Click="CloseWindowClick"/>
         </StackPanel>
