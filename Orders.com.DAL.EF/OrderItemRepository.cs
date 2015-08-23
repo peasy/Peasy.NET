@@ -52,7 +52,6 @@ namespace Orders.com.DAL.EF
 
         public IEnumerable<OrderItem> GetByOrder(long orderID)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("Executing EF OrderItem.GetByOrder");
             return OrderItems.Where(i => i.OrderID == orderID)
                              .Select(Mapper.Map<OrderItem, OrderItem>)

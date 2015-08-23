@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="clr-namespace:Orders.com.WPF.Converters"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="Customer Order" Height="450" Width="900" WindowStartupLocation="CenterOwner">
+        Title="Customer Order" Height="450" Width="900" WindowStartupLocation="CenterOwner" IsMinButtonEnabled="False" IsCloseButtonEnabled="False" IsMaxRestoreButtonEnabled="False" WindowStyle="ToolWindow">
     <Window.Resources>
         <converters:VisibilityConverter x:Key="reverseVisibilityConverter" Reverse="true" />
+        <converters:VisibilityConverter x:Key="visibilityConverter" />
         <converters:ErrorsConverter x:Key="errorsConverter" />
     </Window.Resources>
     <Grid>
@@ -69,7 +70,7 @@
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
+                                    <Image Source="Images\warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                         <Image.ToolTip>
                                             <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                         </Image.ToolTip>
@@ -77,36 +78,60 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" >
-                                        <Button Margin="1" Width="50" Content="Ship" Command="{Binding ShipCommand}" Visibility="{Binding OrderState.CanShip, Converter={StaticResource reverseVisibilityConverter}}"></Button>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Width="Auto">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Name="deleteButton" Width="25" Height="25" Command="{Binding DataContext.DeleteSelectedItemCommand, RelativeSource={RelativeSource AncestorType=Window}}" ToolTipService.ToolTip="Delete this row" >
+                                    <Button Name="deleteButton" Width="35" Height="35" Command="{Binding DataContext.DeleteSelectedItemCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
                                         <Button.Content>
-                                            <Image Source="delete.png" ></Image>
+                                            <Image Source="Images\delete.png" Stretch="UniformToFill"></Image>
                                         </Button.Content>
                                     </Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" >
+                                        <Button Width="35" Height="35" ToolTipService.ToolTip="Ship this item" IsEnabled="{Binding Status.CanShip}" Visibility="{Binding Status.CanShip, Converter={StaticResource visibilityConverter}}">
+                                            <Button.Content>
+                                                <Image Source="Images\next.png" Stretch="UniformToFill"></Image>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Grid.Row="1" Margin="5" Content="Add Item" HorizontalAlignment="Left" Command="{Binding AddOrderItemCommand}" />
+                <Button Grid.Row="1" Margin="5" Width="35" Height="35" Command="{Binding AddOrderItemCommand}" ToolTip="Add Item" HorizontalAlignment="Left">
+                    <Button.Content>
+                        <Image Source="Images\add.png" Stretch="UniformToFill" />
+                    </Button.Content>
+                </Button>
             </Grid>
         </GroupBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Margin="5" Content="Save" Command="{Binding SaveOrderCommand}" IsEnabled="{Binding IsSavable}" />
-            <Button Margin="5" Content="Undo Changes" Command="{Binding RefreshCommand}" IsEnabled="{Binding IsSavable}" />
-            <Button Margin="5" Content="Submit Order" Command="{Binding SubmitOrderCommand}" IsEnabled="{Binding IsSubmittable}" />
-            <Button Margin="5" Content="Done" Click="CloseWindowClick"/>
+            <Button Margin="5" Width="35" Height="35" Command="{Binding SaveOrderCommand}" IsEnabled="{Binding IsSavable}" ToolTip="Save">
+                <Button.Content>
+                    <Image Source="Images\save.png" Stretch="UniformToFill"></Image>
+                </Button.Content>
+            </Button>
+            <Button Margin="5" Width="35" Height="35" Command="{Binding RefreshCommand}" IsEnabled="{Binding IsSavable}" ToolTip="Undo Changes">
+                <Button.Content>
+                    <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
+                </Button.Content>
+            </Button>
+            <Button Margin="5" Width="35" Height="35" Command="{Binding SubmitOrderCommand}" IsEnabled="{Binding IsSubmittable}" ToolTip="Submit Order">
+                <Button.Content>
+                    <Image Source="Images\next.png" Stretch="UniformToFill"></Image>
+                </Button.Content>
+            </Button>
+            <Button Margin="5" Width="35" Height="35" Click="CloseWindowClick" ToolTip="Done">
+                <Button.Content>
+                    <Image Source="Images\cancel.png" Stretch="UniformToFill"></Image>
+                </Button.Content>
+            </Button>
         </StackPanel>
     </Grid>
 </Controls:MetroWindow>

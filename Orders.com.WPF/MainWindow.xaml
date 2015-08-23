@@ -3,14 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Orders.com" Height="350" Width="900"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        xmlns:converters="clr-namespace:Orders.com.WPF.Converters" WindowStartupLocation="CenterScreen">
+        xmlns:converters="clr-namespace:Orders.com.WPF.Converters" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
         <converters:VisibilityConverter x:Key="visibilityConverter" />
         <converters:VisibilityConverter x:Key="reverseVisibilityConverter" Reverse="true" />
         <converters:ErrorsConverter x:Key="errorsConverter" />
     </Window.Resources>
     <Grid>
-        <TabControl>
+        <TabControl Padding="0, 20, 0, 0">
             <TabItem Header="Orders" DataContext="{Binding OrdersVM}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -34,7 +34,11 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" >
-                                            <Button Margin="1" Width="50" Content="Edit" Click="editCustomerOrderClick"></Button>
+                                            <Button Margin="5" Width="35" Height="35" Click="editCustomerOrderClick" ToolTip="Edit Order">
+                                                <Button.Content>
+                                                    <Image Source="Images\edit.png" Stretch="UniformToFill" />
+                                                </Button.Content>
+                                            </Button>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -42,9 +46,9 @@
                             <DataGridTemplateColumn Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Name="deleteButton" Width="25" Height="25" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
+                                        <Button Name="deleteButton" Width="35" Height="35" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
                                             <Button.Content>
-                                                <Image Source="delete.png" ></Image>
+                                                <Image Source="Images\delete.png" Stretch="UniformToFill"></Image>
                                             </Button.Content>
                                         </Button>
                                     </DataTemplate>
@@ -53,8 +57,16 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Margin="5" Content="Reload" Command="{Binding LoadCategoriesCommand}"/>
-                        <Button Margin="5" Content="Add" Click="addCustomerOrderClick" />
+                        <Button Margin="5" Width="35" Height="35" Click="addCustomerOrderClick" ToolTip="New Order">
+                            <Button.Content>
+                                <Image Source="Images\add.png" Stretch="UniformToFill" />
+                            </Button.Content>
+                        </Button>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding LoadCategoriesCommand}" ToolTip="Refresh">
+                            <Button.Content>
+                                <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
+                            </Button.Content>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -77,7 +89,7 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
+                                        <Image Source="Images\warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Image.ToolTip>
                                                 <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                             </Image.ToolTip>
@@ -88,9 +100,9 @@
                             <DataGridTemplateColumn Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Name="deleteButton" Width="25" Height="25" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
+                                        <Button Name="deleteButton" Width="35" Height="35" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
                                             <Button.Content>
-                                                <Image Source="delete.png" ></Image>
+                                                <Image Source="Images\delete.png" Stretch="UniformToFill"></Image>
                                             </Button.Content>
                                         </Button>
                                     </DataTemplate>
@@ -99,9 +111,21 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Margin="5" Content="Reload" Command="{Binding LoadCustomersCommand}"/>
-                        <Button Margin="5" Content="Add" Command="{Binding AddCustomerCommand}"/>
-                        <Button Margin="5" Content="Save" Command="{Binding SaveCustomersCommand}"/>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding AddCustomerCommand}"  ToolTip="New Order">
+                            <Button.Content>
+                                <Image Source="Images\add.png" Stretch="UniformToFill" />
+                            </Button.Content>
+                        </Button>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding LoadCustomersCommand}" ToolTip="Refresh">
+                            <Button.Content>
+                                <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
+                            </Button.Content>
+                        </Button>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding SaveCustomersCommand}" ToolTip="Save">
+                            <Button.Content>
+                                <Image Source="Images\save.png" Stretch="UniformToFill"></Image>
+                            </Button.Content>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -133,7 +157,7 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
+                                        <Image Source="Images\warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Image.ToolTip>
                                                 <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                             </Image.ToolTip>
@@ -144,9 +168,9 @@
                             <DataGridTemplateColumn Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Name="deleteButton" Width="25" Height="25" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
+                                        <Button Name="deleteButton" Width="35" Height="35" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
                                             <Button.Content>
-                                                <Image Source="delete.png" ></Image>
+                                                <Image Source="Images\delete.png" Stretch="UniformToFill"></Image>
                                             </Button.Content>
                                         </Button>
                                     </DataTemplate>
@@ -155,9 +179,21 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Margin="5" Content="Reload" Command="{Binding LoadProductsCommand}"/>
-                        <Button Margin="5" Content="Add" Command="{Binding AddProductCommand}" />
-                        <Button Margin="5" Content="Save" Command="{Binding SaveProductsCommand}"/>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding AddProductCommand}"  ToolTip="New Order">
+                            <Button.Content>
+                                <Image Source="Images\add.png" Stretch="UniformToFill" />
+                            </Button.Content>
+                        </Button>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding LoadProductsCommand}" ToolTip="Refresh">
+                            <Button.Content>
+                                <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
+                            </Button.Content>
+                        </Button>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding SaveProductsCommand}" ToolTip="Save">
+                            <Button.Content>
+                                <Image Source="Images\save.png" Stretch="UniformToFill"></Image>
+                            </Button.Content>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </TabItem>
@@ -180,7 +216,7 @@
                             <DataGridTemplateColumn>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
+                                        <Image Source="Images\warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Image.ToolTip>
                                                 <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
                                             </Image.ToolTip>
@@ -191,9 +227,9 @@
                             <DataGridTemplateColumn Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Name="deleteButton" Width="25" Height="25" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
+                                        <Button Name="deleteButton" Width="35" Height="35" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" ToolTipService.ToolTip="Delete this row" >
                                             <Button.Content>
-                                                <Image Source="delete.png" ></Image>
+                                                <Image Source="Images\delete.png" Stretch="UniformToFill"></Image>
                                             </Button.Content>
                                         </Button>
                                     </DataTemplate>
@@ -202,9 +238,21 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="1" Orientation="Horizontal">
-                        <Button Margin="5" Content="Reload" Command="{Binding LoadCategoriesCommand}"/>
-                        <Button Margin="5" Content="Add" Command="{Binding AddCategoryCommand}"/>
-                        <Button Margin="5" Content="Save" Command="{Binding SaveCategoriesCommand}"/>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding AddCategoryCommand}"  ToolTip="New Order">
+                            <Button.Content>
+                                <Image Source="Images\add.png" Stretch="UniformToFill" />
+                            </Button.Content>
+                        </Button>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding LoadCategoriesCommand}" ToolTip="Refresh">
+                            <Button.Content>
+                                <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
+                            </Button.Content>
+                        </Button>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding SaveCategoriesCommand}" ToolTip="Save">
+                            <Button.Content>
+                                <Image Source="Images\save.png" Stretch="UniformToFill"></Image>
+                            </Button.Content>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </TabItem>

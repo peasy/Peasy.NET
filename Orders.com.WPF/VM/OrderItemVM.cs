@@ -122,11 +122,7 @@ namespace Orders.com.WPF.VM
 
         public OrderStateBase Status
         {
-            get
-            {
-                if (IsNew) return null;
-                return CurrentEntity.OrderStatus();
-            }
+            get { return CurrentEntity.OrderStatus(); }
         }
 
         public long StatusID

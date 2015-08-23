@@ -53,7 +53,8 @@ namespace Orders.com.WPF
             var currentOrder = VM.OrdersVM.SelectedOrder;
             var customerOrderWindow = new CustomerOrderWindow(currentOrder, _ordersService, _customersService, _orderItemsService, VM, _eventAggregator);
             customerOrderWindow.Owner = this;
-            customerOrderWindow.ShowDialog();
+            //customerOrderWindow.ShowDialog();
+            customerOrderWindow.Show();
         }
    }
 }

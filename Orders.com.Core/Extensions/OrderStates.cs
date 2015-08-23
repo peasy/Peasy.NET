@@ -22,7 +22,7 @@ namespace Orders.com.Core.Extensions
                 case OrderStatusConstants.SHIPPED_STATUS:
                     return new ShippedState(order);
                 default:
-                    return new PendingState(order);
+                    return new NoneState(order);
             }
         }
     }
@@ -65,6 +65,34 @@ namespace Orders.com.Core.Extensions
         public bool CanShip
         {
             get { return IsSubmitted; }
+        }
+    }
+
+    public class NoneState : OrderStateBase
+    {
+        private IOrderStatusIDContainer _order;
+
+        public NoneState(IOrderStatusIDContainer order) : base(order)
+        {
+            _order = order; 
+        }
+
+        public override string Name
+        {
+            get { return string.Empty; }
+        }
+
+        public override void SetPendingState()
+        {
+            _order.OrderStatusID = OrderStatusConstants.PENDING_STATUS;
+        }
+
+        public override void SetSubmittedState()
+        {
+        }
+
+        public override void SetShippedState()
+        {
         }
     }
 
