@@ -1,4 +1,3 @@
-CustomerOrderView - Handle case where a product price changes after an orderItem has been submitted.  Need to keep the orderItem price and not clobber it with the new product price.
 
 CustomerOrderView - Add an quantity on hand column and disallow adding items that exceed the QoH. 
 
@@ -8,15 +7,11 @@ Order State History - OrderStateHistory dto, service, etc.  Maybe remove order s
 
 Backorder Functionality - Handle case where two orders are placed with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
 
-Handle orderItem amount check - Always pull the product price, unless the orderItem has been created.  This is to allow updates to a saved orderedItem after a price has been changed, but disallows a hacker to attempt to change the price of an ordered item if it has not yet been saved.
-
 Shipping functionality
 
 Add async support for business and validation rules
 
 Add support to deny adding orderitems to an order that has been shipped
-
-Business Rule - There must be one or more items on an order to be submittable/shippable
 
 Complete delete order functionality
 
@@ -25,8 +20,6 @@ Create way to view order that has been shipped, but do not allow addition/modifi
 Add concurrency support to repos and handle in UI accordingly
 
 Add command execution context support.  This will allow loading and sharing of objects to be passed from rules to execution methods (both async and sync) which will eliminate redundant proxy calls.
-
-When an order item is created, it should use the current price of the product.  The amount should be set on the backend as to prevent hijacking of the price.
 
 Need to add order item update rule that prevents changing if the order has shipped.
 
