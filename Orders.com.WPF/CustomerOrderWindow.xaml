@@ -93,7 +93,7 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal" >
-                                        <Button Width="35" Height="35" ToolTipService.ToolTip="Ship this item" IsEnabled="{Binding Status.CanShip}" Visibility="{Binding Status.CanShip, Converter={StaticResource visibilityConverter}}">
+                                        <Button Width="35" Height="35" ToolTipService.ToolTip="Ship this item" Command="{Binding ShipCommand}" IsEnabled="{Binding Status.CanShip}" Visibility="{Binding Status.CanShip, Converter={StaticResource visibilityConverter}}">
                                             <Button.Content>
                                                 <Image Source="Images\next.png" Stretch="UniformToFill"></Image>
                                             </Button.Content>

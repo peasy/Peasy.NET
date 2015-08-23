@@ -76,6 +76,7 @@ namespace Orders.com.BLL
                 yield return new CanSubmitOrderItemRule(orderItem);        
             }
         }
+
         public ICommand<OrderItem> ShipCommand(long orderItemID)
         {
             //TODO: decrement inventory service

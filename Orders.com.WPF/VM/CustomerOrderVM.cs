@@ -83,7 +83,7 @@ namespace Orders.com.WPF.VM
             {
                 CurrentEntity.CustomerID = value;
                 IsDirty = true;
-                OnPropertiesChanged("CurrentCustomerID");
+                OnPropertiesChanged("CurrentCustomerID", "CanSave");
             }
         }
 
@@ -241,6 +241,8 @@ namespace Orders.com.WPF.VM
             item.PropertyChanged += (s, e) =>
             {
                 OnPropertiesChanged("Total", "CanSave");
+                if (e.PropertyName == "ShippedOn")
+                    _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
             };
         }
 

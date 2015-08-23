@@ -14,11 +14,13 @@ namespace Orders.com.WPF.VM
         private long _currentCategoryID;
         private ProductVM _currentProduct;
         private MainWindowVM _mainVM;
+        private System.Windows.Input.ICommand _shipCommand;
 
         public OrderItemVM(OrderItemService service, MainWindowVM mainVM)
             : base(service)
         {
             _mainVM = mainVM;
+            _shipCommand = new Orders.com.WPF.Command(async () => await ShipAsync());
         }
 
         public OrderItemVM(OrderItem customer, OrderItemService service, MainWindowVM mainVM)
@@ -28,6 +30,12 @@ namespace Orders.com.WPF.VM
             CurrentProductID = CurrentEntity.ProductID;
             CurrentCategoryID = _currentProduct.CurrentCategoryID;
             IsDirty = false;
+            _shipCommand = new Orders.com.WPF.Command(async () => await ShipAsync());
+        }
+
+        public System.Windows.Input.ICommand ShipCommand
+        {
+            get { return _shipCommand; }
         }
 
         public long ID
@@ -145,14 +153,14 @@ namespace Orders.com.WPF.VM
             OnPropertiesChanged("ID", "Status", "CanChangeCategoryAndProduct");
         }
 
-        public bool CanSubmit()
+        public bool CanSubmit
         {
-            return CurrentEntity.OrderStatus().CanSubmit;
+            get { return CurrentEntity.OrderStatus().CanSubmit; }
         }
 
         public async Task SubmitAsync()
         {
-            if (CanSubmit())
+            if (CanSubmit)
             {
                 var service = _service as OrderItemService;
                 var result = await service.SubmitCommand(ID).ExecuteAsync();
@@ -161,14 +169,14 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        public bool CanShip()
+        public bool CanShip
         {
-            return CurrentEntity.OrderStatus().CanShip;
+            get { return CurrentEntity.OrderStatus().CanShip; }
         }
 
         public async Task ShipAsync()
         {
-            if (CanShip())
+            if (CanShip)
             {
                 var service = _service as OrderItemService;
                 var result = await service.ShipCommand(ID).ExecuteAsync();

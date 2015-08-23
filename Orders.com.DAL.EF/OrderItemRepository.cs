@@ -104,7 +104,7 @@ namespace Orders.com.DAL.EF
             var existing = OrderItems.First(c => c.ID == orderItemID);
             existing.OrderStatus().SetShippedState();
             existing.ShippedDate = shippedOn;
-            return Mapper.Map(new OrderItem(), existing);
+            return Mapper.Map(existing, new OrderItem());
         }
 
         public Task<IEnumerable<OrderItem>> GetAllAsync()
