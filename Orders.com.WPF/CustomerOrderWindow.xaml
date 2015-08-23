@@ -112,17 +112,17 @@
             </Grid>
         </GroupBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button Margin="5" Width="35" Height="35" Command="{Binding SaveOrderCommand}" IsEnabled="{Binding IsSavable}" ToolTip="Save">
+            <Button Margin="5" Width="35" Height="35" Command="{Binding SaveOrderCommand}" IsEnabled="{Binding CanSave}" ToolTip="Save">
                 <Button.Content>
                     <Image Source="Images\save.png" Stretch="UniformToFill"></Image>
                 </Button.Content>
             </Button>
-            <Button Margin="5" Width="35" Height="35" Command="{Binding RefreshCommand}" IsEnabled="{Binding IsSavable}" ToolTip="Undo Changes">
+            <Button Margin="5" Width="35" Height="35" Command="{Binding RefreshCommand}" IsEnabled="{Binding CanSave}" ToolTip="Undo Changes">
                 <Button.Content>
                     <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
                 </Button.Content>
             </Button>
-            <Button Margin="5" Width="35" Height="35" Command="{Binding SubmitOrderCommand}" IsEnabled="{Binding IsSubmittable}" ToolTip="Submit Order">
+            <Button Margin="5" Width="35" Height="35" Command="{Binding SubmitOrderCommand}" IsEnabled="{Binding CanSubmit}" ToolTip="Submit Order">
                 <Button.Content>
                     <Image Source="Images\next.png" Stretch="UniformToFill"></Image>
                 </Button.Content>

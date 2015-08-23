@@ -104,9 +104,9 @@ namespace Orders.com.WPF.VM
                 return _service.UpdateCommand(CurrentEntity);
         }
 
-        public virtual bool CanSave()
+        public virtual bool CanSave
         {
-            return CreateCommand().CanExecute;
+            get { return CreateCommand().CanExecute; }
         }
 
     }
