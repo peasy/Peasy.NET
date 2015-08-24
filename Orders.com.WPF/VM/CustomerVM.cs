@@ -31,7 +31,7 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        protected override void OnInsertSuccess(ExecutionResult<Customer> result)
+        protected override void OnInsertSuccess(Customer result)
         {
             OnPropertyChanged("ID");
         }

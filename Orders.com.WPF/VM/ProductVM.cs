@@ -79,7 +79,7 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        protected override void OnInsertSuccess(ExecutionResult<Product> result)
+        protected override void OnInsertSuccess(Product result)
         {
             OnPropertyChanged("ID");
         }

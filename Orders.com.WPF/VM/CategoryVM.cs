@@ -31,7 +31,7 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        protected override void OnInsertSuccess(ExecutionResult<Category> result)
+        protected override void OnInsertSuccess(Category result)
         {
             OnPropertyChanged("ID");
         }

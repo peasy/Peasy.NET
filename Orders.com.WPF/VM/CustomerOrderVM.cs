@@ -131,13 +131,13 @@ namespace Orders.com.WPF.VM
             get { return _refreshCommand; }
         }
 
-        protected override void OnInsertSuccess(Facile.Core.ExecutionResult<Order> result)
+        protected override void OnInsertSuccess(Order result)
         {
             OnPropertyChanged("ID");
             _eventAggregator.SendMessage<OrderInsertedEvent>(new OrderInsertedEvent { Order = this });
         }
 
-        protected override void OnUpdateSuccess(Facile.Core.ExecutionResult<Order> result)
+        protected override void OnUpdateSuccess(Order result)
         {
             _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
         }

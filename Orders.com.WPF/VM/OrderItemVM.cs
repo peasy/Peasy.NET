@@ -1,11 +1,11 @@
-﻿using Facile.Core;
-using Orders.com.BLL;
+﻿using Orders.com.BLL;
 using Orders.com.Core.Domain;
 using Orders.com.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Orders.com.WPF.VM
 {
@@ -14,23 +14,23 @@ namespace Orders.com.WPF.VM
         private long _currentCategoryID;
         private ProductVM _currentProduct;
         private MainWindowVM _mainVM;
-        private System.Windows.Input.ICommand _shipCommand;
+        private ICommand _shipCommand;
 
         public OrderItemVM(OrderItemService service, MainWindowVM mainVM)
             : base(service)
         {
             _mainVM = mainVM;
-            _shipCommand = new Orders.com.WPF.Command(async () => await ShipAsync());
+            _shipCommand = new Command(async () => await ShipAsync());
         }
 
         public OrderItemVM(OrderItem customer, OrderItemService service, MainWindowVM mainVM)
             : base(customer, service)
         {
             _mainVM = mainVM;
+            _shipCommand = new Command(async () => await ShipAsync());
             CurrentProductID = CurrentEntity.ProductID;
             CurrentCategoryID = _currentProduct.CurrentCategoryID;
             IsDirty = false;
-            _shipCommand = new Orders.com.WPF.Command(async () => await ShipAsync());
         }
 
         public System.Windows.Input.ICommand ShipCommand
@@ -148,7 +148,7 @@ namespace Orders.com.WPF.VM
             get { return CurrentEntity.ShippedDate; }
         }
 
-        protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
+        protected override void OnInsertSuccess(OrderItem result)
         {
             OnPropertyChanged("ID", "Status", "CanChangeCategoryAndProduct");
         }

@@ -43,15 +43,15 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        protected virtual void OnInsertSuccess(ExecutionResult<T> result)
+        protected virtual void OnInsertSuccess(T result)
         {
         }
 
-        protected virtual void OnUpdateSuccess(ExecutionResult<T> result)
+        protected virtual void OnUpdateSuccess(T result)
         {
         }
 
-        protected virtual void OnDeleteSuccess(ExecutionResult result)
+        protected virtual void OnDeleteSuccess()
         {
         }
         
@@ -70,11 +70,11 @@ namespace Orders.com.WPF.VM
                     if (IsNew)
                     {
                         IsNew = false;
-                        OnInsertSuccess(result);
+                        OnInsertSuccess(result.Value);
                     }
                     else
                     {
-                        OnUpdateSuccess(result);
+                        OnUpdateSuccess(result.Value);
                     }
                     if (EntitySaved != null) EntitySaved(this, EventArgs.Empty);
                 }
@@ -91,7 +91,7 @@ namespace Orders.com.WPF.VM
             if (!IsNew)
             {
                 var result = await _service.DeleteCommand(CurrentEntity.ID).ExecuteAsync();
-                OnDeleteSuccess(result);
+                OnDeleteSuccess();
                 if (EntityDeleted != null) EntityDeleted(this, EventArgs.Empty);
             }
         }
