@@ -83,7 +83,7 @@ namespace Orders.com.WPF.VM
             {
                 CurrentEntity.CustomerID = value;
                 IsDirty = true;
-                OnPropertiesChanged("CurrentCustomerID", "CanSave");
+                OnPropertyChanged("CurrentCustomerID", "CanSave");
             }
         }
 
@@ -175,7 +175,7 @@ namespace Orders.com.WPF.VM
                                         .Select(vm => vm.SaveAsync())
                                         .ToArray();
                 await Task.WhenAll(results);
-                OnPropertiesChanged("CanSave", "CanSubmit", "CanShip");
+                OnPropertyChanged("CanSave", "CanSubmit", "CanShip");
             }
         }
 
@@ -216,7 +216,7 @@ namespace Orders.com.WPF.VM
             var result = await _orderItemService.GetByOrderCommand(CurrentEntity.OrderID).ExecuteAsync();
             _orderItems.Clear();
             result.Value.ForEach(i => LoadOrderItem(i));
-            OnPropertiesChanged("CurrentCustomerID", "CanSave", "CanSubmit", "CanShip", "Total");
+            OnPropertyChanged("CurrentCustomerID", "CanSave", "CanSubmit", "CanShip", "Total");
         }
 
         private void LoadOrderItem(OrderItem orderItem)
@@ -240,7 +240,7 @@ namespace Orders.com.WPF.VM
             };
             item.PropertyChanged += (s, e) =>
             {
-                OnPropertiesChanged("Total", "CanSave");
+                OnPropertyChanged("Total", "CanSave");
                 if (e.PropertyName == "ShippedOn")
                     _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
             };
@@ -252,7 +252,7 @@ namespace Orders.com.WPF.VM
                 _orderItems.Remove(SelectedOrderItem);
             else
                 await SelectedOrderItem.DeleteAsync();
-            OnPropertiesChanged("CanSubmit", "CanShip");
+            OnPropertyChanged("CanSubmit", "CanShip");
         }
     }
 }

@@ -24,27 +24,21 @@ namespace Orders.com.BLL
 
         protected override void OnBeforeInsertCommandExecuted(OrderItem entity)
         {
-            entity.OrderStatusID = OrderStatusConstants.PENDING_STATUS;
+            entity.OrderStatus().SetPendingState();
         }
 
         protected override IEnumerable<IRule> GetBusinessRulesForInsert(OrderItem entity)
         {
             var currentProduct = _productDataProxy.GetByID(entity.ProductID);
-            return base.GetBusinessRulesForInsert(entity)
-                       .Concat(new IRule[] { 
-                           new OrderItemPriceValidityRule(entity, currentProduct),
-                           new OrderItemAmountValidityRule(entity, currentProduct) 
-                       });
+            yield return new OrderItemPriceValidityRule(entity, currentProduct);
+            yield return new OrderItemAmountValidityRule(entity, currentProduct);
         }
 
         protected override IEnumerable<IRule> GetBusinessRulesForUpdate(OrderItem entity)
         {
             var currentProduct = _productDataProxy.GetByID(entity.ProductID);
-            return base.GetBusinessRulesForUpdate(entity)
-                       .Concat(new IRule[] { 
-                           new OrderItemPriceValidityRule(entity, currentProduct),
-                           new OrderItemAmountValidityRule(entity, currentProduct) 
-                       });
+            yield return new OrderItemPriceValidityRule(entity, currentProduct);
+            yield return new OrderItemAmountValidityRule(entity, currentProduct);
         }
 
         public ICommand<IEnumerable<OrderItem>> GetByOrderCommand(long orderID)

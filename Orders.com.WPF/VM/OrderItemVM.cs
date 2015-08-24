@@ -49,7 +49,7 @@ namespace Orders.com.WPF.VM
             set
             {
                 _currentCategoryID = value;
-                OnPropertiesChanged("CurrentCategoryID", "Products");
+                OnPropertyChanged("CurrentCategoryID", "Products");
             }
         }
 
@@ -64,7 +64,7 @@ namespace Orders.com.WPF.VM
                     CurrentEntity.Price = _currentProduct.Price.Value;
                 CurrentEntity.SetAmount();
                 IsDirty = true;
-                OnPropertiesChanged("CurrentProductID", "Price", "Amount");
+                OnPropertyChanged("CurrentProductID", "Price", "Amount");
             }
         }
 
@@ -118,7 +118,7 @@ namespace Orders.com.WPF.VM
                 CurrentEntity.Quantity = value;
                 CurrentEntity.SetAmount();
                 IsDirty = true;
-                OnPropertiesChanged("Quantity", "Amount");
+                OnPropertyChanged("Quantity", "Amount");
             }
         }
 
@@ -150,7 +150,7 @@ namespace Orders.com.WPF.VM
 
         protected override void OnInsertSuccess(ExecutionResult<OrderItem> result)
         {
-            OnPropertiesChanged("ID", "Status", "CanChangeCategoryAndProduct");
+            OnPropertyChanged("ID", "Status", "CanChangeCategoryAndProduct");
         }
 
         public bool CanSubmit
@@ -165,7 +165,7 @@ namespace Orders.com.WPF.VM
                 var service = _service as OrderItemService;
                 var result = await service.SubmitCommand(ID).ExecuteAsync();
                 CurrentEntity = result.Value;
-                OnPropertiesChanged("Status", "SubmittedOn");
+                OnPropertyChanged("Status", "SubmittedOn");
             }
         }
 
@@ -181,7 +181,7 @@ namespace Orders.com.WPF.VM
                 var service = _service as OrderItemService;
                 var result = await service.ShipCommand(ID).ExecuteAsync();
                 CurrentEntity = result.Value;
-                OnPropertiesChanged("Status", "ShippedOn");
+                OnPropertyChanged("Status", "ShippedOn");
             }
         }
     }
