@@ -29,3 +29,5 @@ Add async support for business and validation rules
 
 Add command execution context support.  This will allow loading and sharing of objects to be passed from rules to execution methods (both async and sync) which will eliminate redundant proxy calls.
 
+
+Perhaps skip showing quantity on hand.  When you submit an order, it can change to ba:ck order state so that the order taker can notify the customer on submission.  Further, if attempting to ship an order item and the quanity on hand is zero, the state can be changed to back order as well.
