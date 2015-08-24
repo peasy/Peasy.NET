@@ -13,13 +13,11 @@ namespace Orders.com.BLL
 {
     public class OrderItemService : OrdersDotComServiceBase<OrderItem>
     {
-        private InventoryItemService _inventoryService;
         private IProductDataProxy _productDataProxy;
 
-        public OrderItemService(IOrderItemDataProxy dataProxy, IProductDataProxy productDataProxy, InventoryItemService inventoryService) : base(dataProxy)
+        public OrderItemService(IOrderItemDataProxy dataProxy, IProductDataProxy productDataProxy) : base(dataProxy)
         {
             _productDataProxy = productDataProxy;
-            _inventoryService = inventoryService;
         }
 
         protected override void OnBeforeInsertCommandExecuted(OrderItem entity)
@@ -82,7 +80,6 @@ namespace Orders.com.BLL
                 executeMethod: () =>
                 {
                     var orderItem = _dataProxy.GetByID(orderItemID);
-                    var inventoryItem = _inventoryService.GetByProductCommand(orderItem.ProductID);
                     return proxy.Ship(orderItemID, DateTime.Now);
                 },
                 executeAsyncMethod: () => proxy.ShipAsync(orderItemID, DateTime.Now) 
