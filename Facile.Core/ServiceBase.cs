@@ -31,7 +31,7 @@ namespace Facile.Core
         {
             return Enumerable.Empty<IRule>();
         }
-        
+
         /// <summary>
         /// Override this method to supply custom business rules to InsertCommand()
         /// </summary>
