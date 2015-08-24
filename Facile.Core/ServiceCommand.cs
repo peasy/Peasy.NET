@@ -52,11 +52,20 @@ namespace Facile.Core
 
         public override IEnumerable<ValidationResult> GetErrors()
         {
+            var failedValidationRules = false;
+            
             foreach (var result in _getValidationRulesMethod())
+            {
                 yield return result;
+                failedValidationRules = true;
+            }
 
-            foreach (var result in _getBusinessRulesMethod().GetBusinessRulesResults(this.GetType().Name))
-                yield return result;
+            // Don't bother executing potentially expensive business rules if validation errors exist
+            if (failedValidationRules)
+            {
+                foreach (var result in _getBusinessRulesMethod().GetBusinessRulesResults(this.GetType().Name))
+                    yield return result;
+            }
         }
     }
 
@@ -116,11 +125,20 @@ namespace Facile.Core
 
         public override IEnumerable<ValidationResult> GetErrors()
         {
+            var failedValidationRules = false;
+            
             foreach (var result in _getValidationRulesMethod())
+            {
                 yield return result;
+                failedValidationRules = true;
+            }
 
-            foreach (var result in _getBusinessRulesMethod().GetBusinessRulesResults(this.GetType().Name))
-                yield return result;
+            // Don't bother executing potentially expensive business rules if validation errors exist
+            if (!failedValidationRules)
+            {
+                foreach (var result in _getBusinessRulesMethod().GetBusinessRulesResults(this.GetType().Name))
+                    yield return result;
+            }
         }
     }
 }
