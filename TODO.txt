@@ -23,6 +23,13 @@ Add a rule or noneditable attribute to Order.CustomerID that prevents changing o
 
 Add price override functionality?
 
+Refactor OrderItemsService.ShipCommand by putting logic in a command class and returning the command
+
+Disable quantity from being changed if the order item is backordered or shipped.
+
+The ship button should be enabled for backordered products -> unless currently displayed QOH is 0?
+
+
 
 
 Add async support for business and validation rules
@@ -31,3 +38,5 @@ Add command execution context support.  This will allow loading and sharing of o
 
 
 Perhaps skip showing quantity on hand.  When you submit an order, it can change to ba:ck order state so that the order taker can notify the customer on submission.  Further, if attempting to ship an order item and the quanity on hand is zero, the state can be changed to back order as well.
+
+Change RuleBase.IfValidThenValidate to accept array of IRule to support multiple rules being executed should the result of the parent rule pass
