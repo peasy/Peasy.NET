@@ -2,7 +2,9 @@
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using Facile.Core;
+using Facile.Extensions;
 using System.Collections.Generic;
+using Facile.Core.Extensions;
 
 namespace Orders.com.BLL
 {
@@ -28,7 +30,8 @@ namespace Orders.com.BLL
             return new ServiceCommand<InventoryItem>
             (
                 executeMethod: () => proxy.DecrementQuantityOnHand(productID, quantity),
-                executeAsyncMethod: () => proxy.DecrementQuantityOnHandAsync(productID, quantity)
+                executeAsyncMethod: () => proxy.DecrementQuantityOnHandAsync(productID, quantity),
+                getValidationRulesMethod: () => new[] { quantity.CreateValueRequiredRule("quantity") }.GetBusinessRulesResults(this.GetType().Name)
             );
         }
 
