@@ -17,18 +17,15 @@ Create way to view order that has been shipped, but do not allow addition/modifi
 
 Add concurrency support to repos and handle in UI accordingly
 
-Need to add order item update rule that prevents changing if the order has shipped.
-
 Add a rule or noneditable attribute to Order.CustomerID that prevents changing on update
 
 Add price override functionality?
-
-Refactor OrderItemsService.ShipCommand by putting logic in a command class and returning the command
 
 Disable quantity from being changed if the order item is backordered or shipped.
 
 The ship button should be enabled for backordered products -> unless currently displayed QOH is 0?
 
+Add sorting in category / product drop downs
 
 
 
