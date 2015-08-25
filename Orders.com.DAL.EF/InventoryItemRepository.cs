@@ -96,8 +96,8 @@ namespace Orders.com.DAL.EF
         {
             lock (_lockObject)
             {
-                var existing = InventoryItems.First(c => c.ID == inventoryID);
-                if (quantity > existing.QuantityOnHand)
+                var existing = InventoryItems.FirstOrDefault(c => c.ID == inventoryID);
+                if (existing == null || quantity > existing.QuantityOnHand)
                     throw new InsufficientStockAmountException(string.Format("There is not enough in stock to fullfill the request"));
 
                 existing.QuantityOnHand -= quantity;
