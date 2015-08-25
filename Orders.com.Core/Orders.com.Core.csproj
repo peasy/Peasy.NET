@@ -73,7 +73,8 @@
     <Compile Include="Rules\DomainObjectMustContainIDRule.cs" />
     <Compile Include="Rules\OrderItemAmountValidityRule.cs" />
     <Compile Include="Rules\OrderItemPriceValidityRule.cs" />
-    <Compile Include="Rules\ValidOrderItemStateRule.cs" />
+    <Compile Include="Rules\ValidOrderItemStatusForDeleteRule.cs" />
+    <Compile Include="Rules\ValidOrderItemStatusForUpdateRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Service\" />

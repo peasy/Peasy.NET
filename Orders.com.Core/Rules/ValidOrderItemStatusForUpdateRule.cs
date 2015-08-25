@@ -4,11 +4,11 @@ using Orders.com.Core.Extensions;
 
 namespace Facile.Rules
 {
-    public class ValidOrderItemStateRule : RuleBase
+    public class ValidOrderItemStatusForUpdateRule : RuleBase
     {
         private OrderItem _item;
 
-        public ValidOrderItemStateRule(OrderItem item)
+        public ValidOrderItemStatusForUpdateRule(OrderItem item)
         {
             _item = item;
         }

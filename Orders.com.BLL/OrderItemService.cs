@@ -36,9 +36,15 @@ namespace Orders.com.BLL
         protected override IEnumerable<IRule> GetBusinessRulesForUpdate(OrderItem entity)
         {
             var currentProduct = _productDataProxy.GetByID(entity.ProductID);
-            yield return new ValidOrderItemStateRule(entity);
+            yield return new ValidOrderItemStatusForUpdateRule(entity);
             yield return new OrderItemPriceValidityRule(entity, currentProduct);
             yield return new OrderItemAmountValidityRule(entity, currentProduct);
+        }
+
+        protected override IEnumerable<IRule> GetBusinessRulesForDelete(long id)
+        {
+            var currentOrderItem = _dataProxy.GetByID(id);
+            yield return new ValidOrderItemStatusForDeleteRule(currentOrderItem);
         }
 
         public ICommand<IEnumerable<OrderItem>> GetByOrderCommand(long orderID)
