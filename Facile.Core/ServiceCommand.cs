@@ -96,6 +96,11 @@ namespace Facile.Core
         {
         }
 
+        public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationRulesMethod)
+            : this(() => { }, executeMethod, executeAsyncMethod, getValidationRulesMethod, () => Enumerable.Empty<IRule>())
+        {
+        }
+
         public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod, Func<IEnumerable<ValidationResult>> getValidationRulesMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
             : this(() => {}, executeMethod, executeAsyncMethod, getValidationRulesMethod, getBusinessRulesMethod)
         {
