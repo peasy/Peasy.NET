@@ -31,7 +31,7 @@ namespace Orders.com.WPF
             _orderItemsService = new OrderItemService(new OrderItemRepository(), productsDataProxy, inventoryService);
             _ordersService = new OrderService(new OrderRepository(), _orderItemsService);
             _customersService = new CustomerService(new CustomerRepository());
-            _productsService = new ProductService(productsDataProxy);
+            _productsService = new ProductService(productsDataProxy, inventoryService, new DTCTransactionContext());
             _categoriesService = new CategoryService(new CategoryRepository());
             this.DataContext = new MainWindowVM(_eventAggregator, _customersService, _productsService, _categoriesService, _ordersService);
         }

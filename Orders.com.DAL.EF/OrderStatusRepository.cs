@@ -52,7 +52,7 @@ namespace Orders.com.DAL.EF
         {
             Thread.Sleep(1000);
             Debug.WriteLine("INSERTING orderStatus into database");
-            var nextID = _orderStatuses.Max(c => c.ID) + 1;
+            var nextID = OrderStatuses.Max(c => c.ID) + 1;
             entity.ID = nextID;
             OrderStatuses.Add(Mapper.Map(entity, new OrderStatus()));
             return entity;

@@ -11,7 +11,7 @@ using Orders.com.Core.DataProxy;
 using Orders.com.Core.Exceptions;
 using Orders.com.BLL.Rules;
 
-namespace Orders.com.BLL
+namespace Orders.com.BLL.Commands
 {
     public class ShipOrderItemCommand : Command<OrderItem>
     {

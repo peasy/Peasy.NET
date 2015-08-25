@@ -7,7 +7,8 @@ namespace Orders.com.Core.Domain
     {
         public long InventoryItemID { get; set; }
 
-        [FacileRequired, Display(Name = "Quantity on Hand")]
+        [Range(0, double.MaxValue, ErrorMessage = "Quantity on Hand must be a non-negative value")]
+        [Display(Name = "Quantity on Hand")]
         public decimal QuantityOnHand { get; set; }
 
         public long ProductID { get; set; }

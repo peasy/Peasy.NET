@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.EF
 {
-    public class ProductRepository : IProductDataProxy 
+    public class ProductRepository : IProductDataProxy
     {
+        private object _lockObject = new object();
+
         public ProductRepository()
         {
             Mapper.CreateMap<Product, Product>();
@@ -24,7 +26,7 @@ namespace Orders.com.DAL.EF
             {
                 if (_products == null)
                 {
-                    _products = new List<Product>() 
+                    _products = new List<Product>()
                     {
                         new Product() { ProductID = 1, Name = "Led Zeppelin I", Description = "Best album ever", Price=10, CategoryID=3 },
                         new Product() { ProductID = 2, Name = "Fender Strat", Description = "Blue guitar", Price=1000, CategoryID=1 },
@@ -57,12 +59,13 @@ namespace Orders.com.DAL.EF
 
         public Product Insert(Product entity)
         {
-            Thread.Sleep(1000);
-            Debug.WriteLine("INSERTING product into database");
-            var nextID = _products.Max(c => c.ID) + 1;
-            entity.ID = nextID;
-            Products.Add(entity);
-            return entity;
+            lock (_lockObject)
+            {
+                var nextID = Products.Max(c => c.ID) + 1;
+                entity.ID = nextID;
+                Products.Add(entity);
+                return entity;
+            }
         }
 
         public Product Update(Product entity)

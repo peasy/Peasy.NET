@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.EF
 {
-    public class CustomerRepository : ICustomerDataProxy 
+    public class CustomerRepository : ICustomerDataProxy
     {
+        private object _lockObject = new object();
+
         public CustomerRepository()
         {
             Mapper.CreateMap<Customer, Customer>();
@@ -23,7 +25,7 @@ namespace Orders.com.DAL.EF
             {
                 if (_customers == null)
                 {
-                    _customers = new List<Customer>() 
+                    _customers = new List<Customer>()
                     {
                         new Customer() { CustomerID = 1, Name = "Jimi Hendrix" },
                         new Customer() { CustomerID = 2, Name = "David Gilmour" },
@@ -49,12 +51,14 @@ namespace Orders.com.DAL.EF
 
         public Customer Insert(Customer entity)
         {
-            //Thread.Sleep(1000);
-            Debug.WriteLine("INSERTING customer into database");
-            var nextID = _customers.Max(c => c.ID) + 1;
-            entity.ID = nextID;
-            Customers.Add(Mapper.Map(entity, new Customer()));
-            return entity;
+            lock (_lockObject)
+            {
+                Debug.WriteLine("INSERTING customer into database");
+                var nextID = Customers.Max(c => c.ID) + 1;
+                entity.ID = nextID;
+                Customers.Add(Mapper.Map(entity, new Customer()));
+                return entity;
+            }
         }
 
         public Customer Update(Customer entity)
@@ -94,7 +98,7 @@ namespace Orders.com.DAL.EF
 
         public Task DeleteAsync(long id)
         {
-            return Task.Run(() => Delete(id)); 
+            return Task.Run(() => Delete(id));
         }
 
         public bool SupportsTransactions

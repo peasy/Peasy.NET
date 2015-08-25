@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\SubmitOrderCommand.cs" />
+    <Compile Include="Commands\CreateProductCommand.cs" />
     <Compile Include="IntentoryItemService.cs" />
     <Compile Include="OrderStatusService.cs" />
     <Compile Include="Commands\DeleteOrderCommand.cs" />
@@ -63,7 +64,7 @@
     <Compile Include="Rules\CanShipOrderItemRule.cs" />
     <Compile Include="Rules\CanSubmitOrderItemRule.cs" />
     <Compile Include="Rules\MinProductsRequiredRule.cs" />
-    <Compile Include="ShipOrderItemCommand.cs" />
+    <Compile Include="Commands\ShipOrderItemCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

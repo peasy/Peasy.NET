@@ -11,7 +11,7 @@ using Orders.com.Core.Exceptions;
 
 namespace Orders.com.DAL.EF
 {
-    public class InventoryItemRepository : IInventoryItemDataProxy 
+    public class InventoryItemRepository : IInventoryItemDataProxy
     {
         private object _lockObject = new object();
 
@@ -28,7 +28,7 @@ namespace Orders.com.DAL.EF
             {
                 if (_inventoryItems == null)
                 {
-                    _inventoryItems = new List<InventoryItem>() 
+                    _inventoryItems = new List<InventoryItem>()
                     {
                         new InventoryItem() { InventoryItemID = 1, ProductID = 1, QuantityOnHand = 10 },
                         new InventoryItem() { InventoryItemID = 2, ProductID = 2, QuantityOnHand = 1 },
@@ -68,12 +68,14 @@ namespace Orders.com.DAL.EF
 
         public InventoryItem Insert(InventoryItem entity)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("INSERTING inventoryItem into database");
-            var nextID = _inventoryItems.Max(c => c.ID) + 1;
-            entity.ID = nextID;
-            InventoryItems.Add(Mapper.Map(entity, new InventoryItem()));
-            return entity;
+            lock (_lockObject)
+            {
+                var nextID = InventoryItems.Max(c => c.ID) + 1;
+                entity.ID = nextID;
+                InventoryItems.Add(Mapper.Map(entity, new InventoryItem()));
+                return entity;
+            }
         }
 
         public InventoryItem Update(InventoryItem entity)
@@ -131,7 +133,7 @@ namespace Orders.com.DAL.EF
         {
             return Task.Run(() => Insert(entity));
         }
-        
+
         public Task<InventoryItem> UpdateAsync(InventoryItem entity)
         {
             return Task.Run(() => Update(entity));

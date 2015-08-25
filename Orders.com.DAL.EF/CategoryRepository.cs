@@ -11,6 +11,8 @@ namespace Orders.com.DAL.EF
 {
     public class CategoryRepository : ICategoryDataProxy 
     {
+        private object _lockObject = new object();
+
         public CategoryRepository()
         {
             Mapper.CreateMap<Category, Category>();
@@ -50,12 +52,14 @@ namespace Orders.com.DAL.EF
 
         public Category Insert(Category entity)
         {
-            Thread.Sleep(1000);
-            Debug.WriteLine("INSERTING category into database");
-            var nextID = _categories.Max(c => c.ID) + 1;
-            entity.ID = nextID;
-            Categories.Add(Mapper.Map(entity, new Category()));
-            return entity;
+            lock (_lockObject)
+            {
+                Debug.WriteLine("INSERTING category into database");
+                var nextID = Categories.Max(c => c.ID) + 1;
+                entity.ID = nextID;
+                Categories.Add(Mapper.Map(entity, new Category()));
+                return entity;
+            }
         }
 
         public Category Update(Category entity)
