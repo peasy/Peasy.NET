@@ -7,8 +7,8 @@ namespace Orders.com.Core.Extensions
     {
         public const long PENDING_STATUS = 1;
         public const long SUBMITTED_STATUS = 2;
-        public const long SHIPPED_STATUS = 3;
-        public const long BACK_statusIDContainerED_STATE = 4;
+        public const long BACK_ORDERED_STATE = 3;
+        public const long SHIPPED_STATUS = 4;
     }
 
     public static class OrderStatusExtensions
@@ -23,8 +23,8 @@ namespace Orders.com.Core.Extensions
                     return new SubmittedState(order);
                 case OrderStatusConstants.SHIPPED_STATUS:
                     return new ShippedState(order);
-                case OrderStatusConstants.BACK_statusIDContainerED_STATE:
-                    return new BackOrderedState(order);
+                case OrderStatusConstants.BACK_ORDERED_STATE:
+                    return new BackorderedState(order);
                 default:
                     return new NoneState(order);
             }
@@ -44,11 +44,11 @@ namespace Orders.com.Core.Extensions
         public abstract void SetPendingState();
         public abstract void SetSubmittedState();
         public abstract void SetShippedState();
-        public abstract void SetBackOrderedState();
+        public abstract void SetBackorderedState();
 
-        public bool IsBackOrdered
+        public bool IsBackordered
         {
-            get { return _statusIDContainer.OrderStatusID == OrderStatusConstants.BACK_statusIDContainerED_STATE; }
+            get { return _statusIDContainer.OrderStatusID == OrderStatusConstants.BACK_ORDERED_STATE; }
         }
 
         public bool IsPending
@@ -92,7 +92,7 @@ namespace Orders.com.Core.Extensions
             get { return string.Empty; }
         }
 
-        public override void SetBackOrderedState()
+        public override void SetBackorderedState()
         {
         }
 
@@ -110,11 +110,11 @@ namespace Orders.com.Core.Extensions
         }
     }
 
-    public class BackOrderedState : OrderStateBase
+    public class BackorderedState : OrderStateBase
     {
         private IOrderStatusIDContainer _statusIDContainer;
 
-        public BackOrderedState(IOrderStatusIDContainer order) : base(order)
+        public BackorderedState(IOrderStatusIDContainer order) : base(order)
         {
             _statusIDContainer = order; 
         }
@@ -123,7 +123,7 @@ namespace Orders.com.Core.Extensions
         {
         }
 
-        public override void SetBackOrderedState()
+        public override void SetBackorderedState()
         {
         }
 
@@ -138,7 +138,7 @@ namespace Orders.com.Core.Extensions
 
         public override string Name
         {
-            get { return "BackOrdered"; }
+            get { return "Backordered"; }
         }
     }
 
@@ -155,7 +155,7 @@ namespace Orders.com.Core.Extensions
         {
         }
 
-        public override void SetBackOrderedState()
+        public override void SetBackorderedState()
         {
         }
 
@@ -183,8 +183,9 @@ namespace Orders.com.Core.Extensions
             _statusIDContainer = order; 
         }
 
-        public override void SetBackOrderedState()
+        public override void SetBackorderedState()
         {
+            _statusIDContainer.OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE;
         }
 
         public override void SetPendingState()
@@ -216,7 +217,7 @@ namespace Orders.com.Core.Extensions
             _statusIDContainer = order; 
         }
 
-        public override void SetBackOrderedState()
+        public override void SetBackorderedState()
         {
         }
 

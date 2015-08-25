@@ -87,6 +87,15 @@ namespace Orders.com.DAL.EF
             OrderItems.Remove(orderItem);
         }
 
+        public OrderItem BackOrder(long orderItemID, DateTime backOrderedOn)
+        {
+            Debug.WriteLine("UPDATING orderItem in database - backordered state");
+            var existing = OrderItems.First(c => c.ID == orderItemID);
+            existing.OrderStatus().SetBackorderedState();
+            existing.BackorderedDate = backOrderedOn;
+            return Mapper.Map(existing, new OrderItem());
+        }
+
         public OrderItem Submit(long orderItemID, DateTime submittedOn)
         {
             Thread.Sleep(1000);
@@ -135,6 +144,11 @@ namespace Orders.com.DAL.EF
         public Task DeleteAsync(long id)
         {
             return Task.Run(() => Delete(id));
+        }
+
+        public Task<OrderItem> BackOrderAsync(long orderItemID, DateTime backOrderedOn)
+        {
+            return Task.Run(() => BackOrder(orderItemID, backOrderedOn));
         }
 
         public Task<OrderItem> SubmitAsync(long orderItemID, DateTime shippedOn)

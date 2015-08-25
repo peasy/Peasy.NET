@@ -1,4 +1,5 @@
 ﻿using Facile.Attributes;
+using System.ComponentModel.DataAnnotations;
 
 namespace Orders.com.Core.Domain
 {
@@ -6,7 +7,7 @@ namespace Orders.com.Core.Domain
     {
         public long InventoryItemID { get; set; }
 
-        [FacileRequired]
+        [FacileRequired, Display(Name = "Quantity on Hand")]
         public decimal QuantityOnHand { get; set; }
 
         public long ProductID { get; set; }

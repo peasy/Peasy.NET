@@ -1,13 +1,12 @@
 ﻿using Facile.Core;
+using Facile.Rules;
+using Orders.com.BLL.Rules;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
+using Orders.com.Core.Exceptions;
 using Orders.com.Core.Extensions;
-using System.Collections.Generic;
 using System;
-using Orders.com.BLL.Rules;
-using System.Threading.Tasks;
-using Facile.Rules;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Orders.com.BLL
 {
@@ -37,6 +36,7 @@ namespace Orders.com.BLL
         protected override IEnumerable<IRule> GetBusinessRulesForUpdate(OrderItem entity)
         {
             var currentProduct = _productDataProxy.GetByID(entity.ProductID);
+            yield return new ValidOrderItemStateRule(entity);
             yield return new OrderItemPriceValidityRule(entity, currentProduct);
             yield return new OrderItemAmountValidityRule(entity, currentProduct);
         }
@@ -73,7 +73,6 @@ namespace Orders.com.BLL
 
         public ICommand<OrderItem> ShipCommand(long orderItemID)
         {
-            //TODO: decrement inventory service
             //TODO: create a ShipOrderCommand that requires OrderService and Inventory Service, and return that command here
             // perform auth check?
             var proxy = DataProxy as IOrderItemDataProxy;
@@ -82,10 +81,31 @@ namespace Orders.com.BLL
                 executeMethod: () =>
                 {
                     var orderItem = _dataProxy.GetByID(orderItemID);
-                    var inventoryItem = _inventoryService.GetByProductCommand(orderItem.ProductID);
+                    try
+                    {
+                        _inventoryService.DecrementQuantityOnHandCommand(orderItem.ProductID, orderItem.Quantity).Execute();
+                    }
+                    catch (System.Exception)
+                    {
+                        return proxy.BackOrder(orderItemID, DateTime.Now);
+                    }
+
                     return proxy.Ship(orderItemID, DateTime.Now);
                 },
-                executeAsyncMethod: () => proxy.ShipAsync(orderItemID, DateTime.Now) 
+                executeAsyncMethod: async () =>
+                {
+                    var orderItem = _dataProxy.GetByID(orderItemID);
+                    try
+                    {
+                        await _inventoryService.DecrementQuantityOnHandCommand(orderItem.ProductID, orderItem.Quantity).ExecuteAsync();
+                    }
+                    catch (InsufficientStockAmountException)
+                    {
+                        return await proxy.BackOrderAsync(orderItemID, DateTime.Now);
+                    }
+
+                    return await proxy.ShipAsync(orderItemID, DateTime.Now);
+                }
             );
         }
     }

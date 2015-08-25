@@ -23,6 +23,9 @@ namespace Orders.com.Core.Domain
         public decimal Price { get; set; }
 
         [Editable(false)]
+        public DateTime? BackorderedDate { get; set; }
+
+        [Editable(false)]
         public DateTime? ShippedDate { get; set; }
 
         [Editable(false)]
@@ -36,5 +39,6 @@ namespace Orders.com.Core.Domain
             get { return OrderItemID; }
             set { OrderItemID = value; }
         }
+
     }
 }

@@ -6,11 +6,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
+using Orders.com.Core.Exceptions;
 
 namespace Orders.com.DAL.EF
 {
     public class InventoryItemRepository : IInventoryItemDataProxy 
     {
+        private object _lockObject = new object();
+
         public InventoryItemRepository()
         {
             Mapper.CreateMap<InventoryItem, InventoryItem>();
@@ -74,11 +78,31 @@ namespace Orders.com.DAL.EF
 
         public InventoryItem Update(InventoryItem entity)
         {
-            Thread.Sleep(1000);
-            Debug.WriteLine("UPDATING inventoryItem in database");
-            var existing = InventoryItems.First(c => c.ID == entity.ID);
-            Mapper.Map(entity, existing);
-            return entity;
+            // Updates not supported
+            throw new NotImplementedException();
+        }
+
+        public InventoryItem IncrementQuantityOnHand(long inventoryID, decimal quantity)
+        {
+            lock (_lockObject)
+            {
+                var existing = InventoryItems.First(c => c.ID == inventoryID);
+                existing.QuantityOnHand += quantity;
+                return Mapper.Map(existing, new InventoryItem());
+            }
+        }
+
+        public InventoryItem DecrementQuantityOnHand(long inventoryID, decimal quantity)
+        {
+            lock (_lockObject)
+            {
+                var existing = InventoryItems.First(c => c.ID == inventoryID);
+                if (quantity > existing.QuantityOnHand)
+                    throw new InsufficientStockAmountException(string.Format("There is not enough in stock to fullfill the request"));
+
+                existing.QuantityOnHand -= quantity;
+                return Mapper.Map(existing, new InventoryItem());
+            }
         }
 
         public void Delete(long id)
@@ -107,7 +131,7 @@ namespace Orders.com.DAL.EF
         {
             return Task.Run(() => Insert(entity));
         }
-
+        
         public Task<InventoryItem> UpdateAsync(InventoryItem entity)
         {
             return Task.Run(() => Update(entity));
@@ -116,6 +140,16 @@ namespace Orders.com.DAL.EF
         public Task DeleteAsync(long id)
         {
             return Task.Run(() => Delete(id));
+        }
+
+        public Task<InventoryItem> IncrementQuantityOnHandAsync(long inventoryID, decimal quantity)
+        {
+            return Task.Run(() => IncrementQuantityOnHand(inventoryID, quantity));
+        }
+
+        public Task<InventoryItem> DecrementQuantityOnHandAsync(long inventoryID, decimal quantity)
+        {
+            return Task.Run(() => DecrementQuantityOnHand(inventoryID, quantity));
         }
 
         public bool SupportsTransactions

@@ -92,7 +92,15 @@ namespace Orders.com.WPF.VM
             get
             {
                 if (!OrderItems.Any()) return null;
-                return OrderItems.First(i => i.StatusID == OrderItems.Min(o => o.StatusID)).Status;
+
+                if (OrderItems.Any(i => i.Status is BackorderedState))
+                    return (OrderItems.First(i => i.Status is BackorderedState)).Status;
+
+                var relevantItems = OrderItems.Where(i => i.Status is NoneState == false);
+                if (relevantItems.Any())
+                    return relevantItems.First(i => i.StatusID == relevantItems.Min(o => o.StatusID)).Status;
+
+                return OrderItems.First().Status;
             }
         }
 

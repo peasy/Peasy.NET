@@ -62,6 +62,7 @@
     <Compile Include="Domain\OrderItem.cs" />
     <Compile Include="Domain\OrderStatus.cs" />
     <Compile Include="Domain\Product.cs" />
+    <Compile Include="Exceptions\InsufficientStockAmountException.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
     <Compile Include="Extensions\OrderExtensions.cs" />
     <Compile Include="Extensions\OrderItemExtensions.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Rules\DomainObjectMustContainIDRule.cs" />
     <Compile Include="Rules\OrderItemAmountValidityRule.cs" />
     <Compile Include="Rules\OrderItemPriceValidityRule.cs" />
+    <Compile Include="Rules\ValidOrderItemStateRule.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Service\" />
