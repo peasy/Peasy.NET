@@ -45,7 +45,7 @@ namespace Orders.com.WPF
         {
             var customerOrderWindow = new CustomerOrderWindow(_ordersService, _customersService, _orderItemsService, VM, _eventAggregator);
             customerOrderWindow.Owner = this;
-            var result = customerOrderWindow.ShowDialog();
+            customerOrderWindow.Show();
         }
 
         private void editCustomerOrderClick(object sender, RoutedEventArgs e)
@@ -53,7 +53,6 @@ namespace Orders.com.WPF
             var currentOrder = VM.OrdersVM.SelectedOrder;
             var customerOrderWindow = new CustomerOrderWindow(currentOrder, _ordersService, _customersService, _orderItemsService, VM, _eventAggregator);
             customerOrderWindow.Owner = this;
-            //customerOrderWindow.ShowDialog();
             customerOrderWindow.Show();
         }
    }

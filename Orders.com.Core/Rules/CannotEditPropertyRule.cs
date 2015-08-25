@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Reflection;
 using Facile.Core;
 using Orders.com.Core;
+using Orders.com.Core.Extensions;
 
 namespace Facile.Rules
 {

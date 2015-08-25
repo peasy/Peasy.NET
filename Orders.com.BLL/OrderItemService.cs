@@ -73,40 +73,9 @@ namespace Orders.com.BLL
 
         public ICommand<OrderItem> ShipCommand(long orderItemID)
         {
-            //TODO: create a ShipOrderCommand that requires OrderService and Inventory Service, and return that command here
             // perform auth check?
             var proxy = DataProxy as IOrderItemDataProxy;
-            return new ServiceCommand<OrderItem>
-            (
-                executeMethod: () =>
-                {
-                    var orderItem = _dataProxy.GetByID(orderItemID);
-                    try
-                    {
-                        _inventoryService.DecrementQuantityOnHandCommand(orderItem.ProductID, orderItem.Quantity).Execute();
-                    }
-                    catch (System.Exception)
-                    {
-                        return proxy.BackOrder(orderItemID, DateTime.Now);
-                    }
-
-                    return proxy.Ship(orderItemID, DateTime.Now);
-                },
-                executeAsyncMethod: async () =>
-                {
-                    var orderItem = _dataProxy.GetByID(orderItemID);
-                    try
-                    {
-                        await _inventoryService.DecrementQuantityOnHandCommand(orderItem.ProductID, orderItem.Quantity).ExecuteAsync();
-                    }
-                    catch (InsufficientStockAmountException)
-                    {
-                        return await proxy.BackOrderAsync(orderItemID, DateTime.Now);
-                    }
-
-                    return await proxy.ShipAsync(orderItemID, DateTime.Now);
-                }
-            );
+            return new ShipOrderItemCommand(orderItemID, proxy, _inventoryService);
         }
     }
 }

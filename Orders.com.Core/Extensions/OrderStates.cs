@@ -73,7 +73,7 @@ namespace Orders.com.Core.Extensions
 
         public bool CanShip
         {
-            get { return IsSubmitted; }
+            get { return IsSubmitted || IsBackordered; }
         }
 
     }
