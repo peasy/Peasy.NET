@@ -33,7 +33,6 @@ Add async support for business and validation rules
 
 Add command execution context support.  This will allow loading and sharing of objects to be passed from rules to execution methods (both async and sync) which will eliminate redundant proxy calls.
 
-
-Perhaps skip showing quantity on hand.  When you submit an order, it can change to ba:ck order state so that the order taker can notify the customer on submission.  Further, if attempting to ship an order item and the quanity on hand is zero, the state can be changed to back order as well.
-
 Change RuleBase.IfValidThenValidate to accept array of IRule to support multiple rules being executed should the result of the parent rule pass
+
+The validation and business rules infrastructure is a bit smelly.  Figure out how to more easily create business rules and validation rules, or unify the interface and no longer expose ValidationResult, but use IRule and ValidationResult under the hood.
