@@ -91,8 +91,16 @@ namespace Orders.com.WPF.VM
             if (!IsNew)
             {
                 var result = await _service.DeleteCommand(CurrentEntity.ID).ExecuteAsync();
-                OnDeleteSuccess();
-                if (EntityDeleted != null) EntityDeleted(this, EventArgs.Empty);
+                if (result.Success)
+                {
+                    OnDeleteSuccess();
+                    if (EntityDeleted != null) EntityDeleted(this, EventArgs.Empty);
+                }
+                else
+                {
+                    IsValid = false;
+                    Errors = result.Errors.ToArray();
+                }               
             }
         }
 
