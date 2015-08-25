@@ -61,7 +61,7 @@ namespace Facile.Core
             }
 
             // Don't bother executing potentially expensive business rules if validation errors exist
-            if (failedValidationRules)
+            if (!failedValidationRules)
             {
                 foreach (var result in _getBusinessRulesMethod().GetBusinessRulesResults(this.GetType().Name))
                     yield return result;
