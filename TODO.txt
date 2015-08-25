@@ -7,8 +7,6 @@ Order State History - OrderStateHistory dto, service, etc.  Maybe remove order s
 
 Backorder Functionality - Handle case where two orders are placed with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
 
-Add support to deny adding orderitems to an order that has been shipped
-
 Complete delete order functionality
 
 Add concurrency support to repos and handle in UI accordingly
@@ -23,9 +21,8 @@ The ship button should be enabled for backordered products -> unless currently d
 
 Add sorting in category / product drop downs
 
-Need to ensure that invententory item exists before invoking IncrementQOH.  Should the ProductService create an inventory item on Insert to ensure this?
-
 Do not allow deletion of shipped order items
+
 
 
 Add async support for business and validation rules
