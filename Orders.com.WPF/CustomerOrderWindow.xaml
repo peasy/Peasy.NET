@@ -104,22 +104,24 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Grid.Row="1" Margin="5" Width="35" Height="35" Command="{Binding AddOrderItemCommand}" ToolTip="Add Item" HorizontalAlignment="Left">
-                    <Button.Content>
-                        <Image Source="Images\add.png" Stretch="UniformToFill" />
-                    </Button.Content>
-                </Button>
+                <StackPanel Grid.Row="1" HorizontalAlignment="Left" Orientation="Horizontal">
+                    <Button Margin="5" Width="35" Height="35" Command="{Binding AddOrderItemCommand}" ToolTip="Add Item">
+                        <Button.Content>
+                            <Image Source="Images\add.png" Stretch="UniformToFill" />
+                        </Button.Content>
+                    </Button>
+                    <Button Margin="5" Width="35" Height="35" Command="{Binding RefreshCommand}" IsEnabled="{Binding CanSave}" ToolTip="Undo Changes">
+                        <Button.Content>
+                            <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
             </Grid>
         </GroupBox>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Margin="5" Width="35" Height="35" Command="{Binding SaveOrderCommand}" IsEnabled="{Binding CanSave}" ToolTip="Save">
                 <Button.Content>
                     <Image Source="Images\save.png" Stretch="UniformToFill"></Image>
-                </Button.Content>
-            </Button>
-            <Button Margin="5" Width="35" Height="35" Command="{Binding RefreshCommand}" IsEnabled="{Binding CanSave}" ToolTip="Undo Changes">
-                <Button.Content>
-                    <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
                 </Button.Content>
             </Button>
             <Button Margin="5" Width="35" Height="35" Command="{Binding SubmitOrderCommand}" IsEnabled="{Binding CanSubmit}" ToolTip="Submit Order">
