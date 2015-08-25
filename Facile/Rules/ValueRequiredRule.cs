@@ -1,9 +1,5 @@
 ﻿using Facile.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Facile.Rules
 {
@@ -13,6 +9,12 @@ namespace Facile.Rules
         private Func<bool> _validate;
 
         public ValueRequiredRule(long value, string fieldName)
+        {
+            _errorMessage = string.Format("{0} must be greater than 0", fieldName);
+            _validate = () => value > 0;                        
+        }
+
+        public ValueRequiredRule(decimal value, string fieldName)
         {
             _errorMessage = string.Format("{0} must be greater than 0", fieldName);
             _validate = () => value > 0;                        

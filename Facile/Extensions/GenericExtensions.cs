@@ -1,10 +1,6 @@
 ﻿using Facile.Core;
 using Facile.Rules;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Facile.Extensions
 {
@@ -16,6 +12,8 @@ namespace Facile.Extensions
                 return new ValueRequiredRule(value as string, fieldName);
             else if (value is long)
                 return new ValueRequiredRule(Convert.ToInt64(value), fieldName);
+            else if (value is decimal)
+                return new ValueRequiredRule(Convert.ToDecimal(value), fieldName);
             else if (value is int)
                 return new ValueRequiredRule(Convert.ToInt32(value), fieldName);
             else if (value is Guid)
