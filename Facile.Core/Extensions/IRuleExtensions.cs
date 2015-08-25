@@ -11,8 +11,6 @@ namespace Facile.Core.Extensions
     {
         public static IEnumerable<ValidationResult> GetBusinessRulesResults(this IEnumerable<IRule> businessRules, string entityName)
         {
-            //string entityName = typeof(T).Name;
-
             var invalidRules = businessRules.ToArray()
                                             .ForEach(rule => rule.Validate())
                                             .Where(rule => !rule.IsValid);
