@@ -86,16 +86,18 @@ namespace Orders.com.WPF.VM
 
         public IEnumerable<CategoryVM> Categories
         {
-            get { return _mainVM.CategoriesVM.Categories; }
+            get { return _mainVM.CategoriesVM.Categories.OrderBy(c => c.Name); }
         }
 
         public IEnumerable<ProductVM> Products
         {
             get
             {
-                if (CurrentCategoryID > 0) return _mainVM.ProductsVM.Products.Where(p => p.CurrentCategoryID == CurrentCategoryID).ToArray();
+                var products = _mainVM.ProductsVM.Products;
+                if (CurrentCategoryID > 0)
+                    products = products.Where(p => p.CurrentCategoryID == CurrentCategoryID).ToArray();
 
-                return _mainVM.ProductsVM.Products;
+                return products.OrderBy(p => p.Name);
             }
         }
 
