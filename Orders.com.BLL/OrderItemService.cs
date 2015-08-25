@@ -12,8 +12,8 @@ namespace Orders.com.BLL
 {
     public class OrderItemService : OrdersDotComServiceBase<OrderItem>
     {
-        private InventoryItemService _inventoryService;
         private IProductDataProxy _productDataProxy;
+        private InventoryItemService _inventoryService;
 
         public OrderItemService(IOrderItemDataProxy dataProxy, IProductDataProxy productDataProxy, InventoryItemService inventoryService) : base(dataProxy)
         {

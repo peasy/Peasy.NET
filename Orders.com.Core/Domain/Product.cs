@@ -17,6 +17,9 @@ namespace Orders.com.Core.Domain
         [Required]
         public decimal? Price { get; set; }
 
+        [FacileRequired]
+        public decimal QuantityOnHand { get; set; }
+
         [FacileForeignKey, FacileRequired, Display(Name="Category")]
         public long CategoryID { get; set; }
 

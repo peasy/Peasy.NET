@@ -9,12 +9,10 @@ namespace Orders.com.BLL
 {
     public class OrderService : OrdersDotComServiceBase<Order>
     {
-        private InventoryItemService _inventoryService;
         private OrderItemService _orderItemService;
 
-        public OrderService(IOrderDataProxy dataProxy, OrderItemService orderItemService, InventoryItemService inventoryService) : base(dataProxy)
+        public OrderService(IOrderDataProxy dataProxy, OrderItemService orderItemService) : base(dataProxy)
         {
-            _inventoryService = inventoryService;
             _orderItemService = orderItemService;
         }
 

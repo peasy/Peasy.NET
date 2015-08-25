@@ -16,7 +16,6 @@ namespace Orders.com.WPF
         private ProductService _productsService;
         private CategoryService _categoriesService;
         private EventAggregator _eventAggregator = new EventAggregator();
-        private InventoryItemService _inventoryService;
 
         public MainWindow()
         {
@@ -27,9 +26,10 @@ namespace Orders.com.WPF
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             var productsDataProxy = new ProductRepository();
-            _inventoryService = new InventoryItemService(new InventoryItemRepository());
-            _orderItemsService = new OrderItemService(new OrderItemRepository(), productsDataProxy, _inventoryService);
-            _ordersService = new OrderService(new OrderRepository(), _orderItemsService, _inventoryService);
+            var inventoryDataProxy = new InventoryItemRepository();
+            var inventoryService = new InventoryItemService(inventoryDataProxy);
+            _orderItemsService = new OrderItemService(new OrderItemRepository(), productsDataProxy, inventoryService);
+            _ordersService = new OrderService(new OrderRepository(), _orderItemsService);
             _customersService = new CustomerService(new CustomerRepository());
             _productsService = new ProductService(productsDataProxy);
             _categoriesService = new CategoryService(new CategoryRepository());
