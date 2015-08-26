@@ -24,7 +24,7 @@ namespace Orders.com.BLL
 
         protected override IEnumerable<IRule> GetBusinessRulesForUpdate(Order entity)
         {
-            yield return new CanChangeNameOnUpdateRule(entity.ID, _orderItemService);
+            yield return new ValidOrderStatusForUpdateRule(entity.ID, _orderItemService);
         }
 
         public ICommand<IEnumerable<OrderInfo>> GetAllCommand(int start, int pageSize)
