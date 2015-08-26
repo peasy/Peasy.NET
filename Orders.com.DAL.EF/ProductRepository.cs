@@ -70,7 +70,6 @@ namespace Orders.com.DAL.EF
 
         public Product Update(Product entity)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("UPDATING product in database");
             var existing = Products.First(c => c.ID == entity.ID);
             Mapper.Map(entity, existing);

@@ -64,7 +64,6 @@ namespace Orders.com.DAL.EF
 
         public Category Update(Category entity)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("UPDATING category in database");
             var existing = Categories.First(c => c.ID == entity.ID);
             Mapper.Map(entity, existing);

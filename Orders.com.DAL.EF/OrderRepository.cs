@@ -77,7 +77,6 @@ namespace Orders.com.DAL.EF
 
         public Order Insert(Order entity)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("INSERTING order into database");
             var nextID = Orders.Any() ? Orders.Max(c => c.ID) + 1 : 1;
             entity.ID = nextID;
@@ -87,7 +86,6 @@ namespace Orders.com.DAL.EF
 
         public Order Update(Order entity)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("UPDATING order in database");
             var existing = Orders.First(c => c.ID == entity.ID);
             Mapper.Map(entity, existing);

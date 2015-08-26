@@ -60,7 +60,6 @@ namespace Orders.com.DAL.EF
 
         public OrderItem Insert(OrderItem entity)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("INSERTING orderItem into database");
             lock (_lock)
             {
@@ -73,7 +72,6 @@ namespace Orders.com.DAL.EF
 
         public OrderItem Update(OrderItem entity)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("UPDATING orderItem in database");
             var existing = OrderItems.First(c => c.ID == entity.ID);
             Mapper.Map(entity, existing);
@@ -98,7 +96,6 @@ namespace Orders.com.DAL.EF
 
         public OrderItem Submit(long orderItemID, DateTime submittedOn)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("UPDATING orderItem in database - submitted state");
             var existing = OrderItems.First(c => c.ID == orderItemID);
             existing.OrderStatus().SetSubmittedState();
@@ -108,7 +105,6 @@ namespace Orders.com.DAL.EF
 
         public OrderItem Ship(long orderItemID, DateTime shippedOn)
         {
-            Thread.Sleep(1000);
             Debug.WriteLine("UPDATING orderItem in database - shipped state");
             var existing = OrderItems.First(c => c.ID == orderItemID);
             existing.OrderStatus().SetShippedState();
