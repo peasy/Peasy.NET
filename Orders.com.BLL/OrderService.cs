@@ -1,4 +1,6 @@
-﻿using Facile.Core;
+﻿using Facile;
+using Facile.Core;
+using Orders.com.BLL.Commands;
 using Orders.com.BLL.Rules;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
@@ -11,10 +13,17 @@ namespace Orders.com.BLL
     public class OrderService : OrdersDotComServiceBase<Order>
     {
         private OrderItemService _orderItemService;
+        private ITransactionContext _transactionContext;
 
-        public OrderService(IOrderDataProxy dataProxy, OrderItemService orderItemService) : base(dataProxy)
+        public OrderService(IOrderDataProxy dataProxy, OrderItemService orderItemService, ITransactionContext transactionContext) : base(dataProxy)
         {
             _orderItemService = orderItemService;
+            _transactionContext = transactionContext;
+        }
+
+        private IOrderDataProxy OrdersDataProxy
+        {
+            get { return DataProxy as IOrderDataProxy; }
         }
 
         protected override void OnBeforeInsertCommandExecuted(Order entity)
@@ -29,18 +38,16 @@ namespace Orders.com.BLL
 
         public ICommand<IEnumerable<OrderInfo>> GetAllCommand(int start, int pageSize)
         {
-            var proxy = DataProxy as IOrderDataProxy;
             return new ServiceCommand<IEnumerable<OrderInfo>>
             (
-                executeMethod: () => proxy.GetAll(start, pageSize),
-                executeAsyncMethod: () => proxy.GetAllAsync(start, pageSize)
+                executeMethod: () => OrdersDataProxy.GetAll(start, pageSize),
+                executeAsyncMethod: () => OrdersDataProxy.GetAllAsync(start, pageSize)
             );
         }
 
         public override ICommand DeleteCommand(long id)
         {
-            //TODO: create a DeleteOrderCommand that takes OrderService and OrderItemService, and return that command here
-            return base.DeleteCommand(id);
+            return new DeleteOrderCommand(id, OrdersDataProxy, _orderItemService, _transactionContext);
         }
     }
 }

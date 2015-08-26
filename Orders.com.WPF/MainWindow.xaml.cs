@@ -29,7 +29,7 @@ namespace Orders.com.WPF
             var inventoryDataProxy = new InventoryItemRepository();
             var inventoryService = new InventoryItemService(inventoryDataProxy);
             _orderItemsService = new OrderItemService(new OrderItemRepository(), productsDataProxy, inventoryService);
-            _ordersService = new OrderService(new OrderRepository(), _orderItemsService);
+            _ordersService = new OrderService(new OrderRepository(), _orderItemsService, new DTCTransactionContext());
             _customersService = new CustomerService(new CustomerRepository());
             _productsService = new ProductService(productsDataProxy, inventoryService, new DTCTransactionContext());
             _categoriesService = new CategoryService(new CategoryRepository());
