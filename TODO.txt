@@ -7,7 +7,7 @@ Order State History - OrderStateHistory dto, service, etc.  Maybe remove order s
 
 Backorder Functionality - Handle case where two orders are placed with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
 
-Complete delete order functionality
+Complete delete order functionality - disallow deletion of an order if it has associated order items?
 
 Add concurrency support to repos and handle in UI accordingly
 
@@ -19,10 +19,9 @@ Disable quantity from being changed if the order item is backordered or shipped.
 
 The ship button should be enabled for backordered products -> unless currently displayed QOH is 0?
 
-Add sorting in category / product drop downs
+Support a cancel state?  This state would also replenish inventory in the case where the item is shipped
 
-Do not allow deletion of shipped order items
-
+Does having Orders.com.Core and BLL serve any value.  Integrate all into BLL?
 
 
 Add async support for business and validation rules
@@ -32,3 +31,25 @@ Add command execution context support.  This will allow loading and sharing of o
 Change RuleBase.IfValidThenValidate to accept array of IRule to support multiple rules being executed should the result of the parent rule pass
 
 The validation and business rules infrastructure is a bit smelly.  Figure out how to more easily create business rules and validation rules, or unify the interface and no longer expose ValidationResult, but use IRule and ValidationResult under the hood.
+
+Add ability to opt in for all rule checking or short circuit business rules if validation rules don't succeed
+
+
+
+Rename EF to Mock
+
+Create true EF project
+
+Create Web API project
+
+Create Restful Proxies
+
+Create Nuget packages
+
+Create SPA web app consumer
+
+Create tests for VM's and other framework - adding tests around VM's will ensure that future contributors who change the framework won't break the WPF app, revealing flawed logic
+
+Add dynamic DI support to consumer projects
+
+
