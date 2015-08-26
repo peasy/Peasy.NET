@@ -150,6 +150,11 @@ namespace Orders.com.WPF.VM
             _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
         }
 
+        public bool CanChangeCustomer
+        {
+            get { return OrderItems.All(i => i.Status is ShippedState == false); }
+        }
+
         public bool CanAdd
         {
             get { return !IsNew || IsDirty; }
@@ -205,7 +210,7 @@ namespace Orders.com.WPF.VM
                 var shipTasks = OrderItems.Select(i => i.SubmitAsync()).ToArray();
                 await Task.WhenAll(shipTasks);
                 _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
-                OnPropertyChanged("CanShip");
+                OnPropertyChanged("CanShip", "CanChangeCustomer");
             }
         }
 
@@ -243,14 +248,17 @@ namespace Orders.com.WPF.VM
             item.EntityDeleted += (s, e) =>
             {
                 _orderItems.Remove(SelectedOrderItem);
-                OnPropertyChanged("Total");
+                OnPropertyChanged("Total", "CanChangeCustomer");
                 _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
             };
             item.PropertyChanged += (s, e) =>
             {
                 OnPropertyChanged("Total", "CanSave");
                 if (e.PropertyName == "ShippedOn")
+                {
                     _eventAggregator.SendMessage<OrderUpdatedEvent>(new OrderUpdatedEvent(this));
+                    OnPropertyChanged("CanChangeCustomer");
+                }
             };
         }
 
