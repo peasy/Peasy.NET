@@ -61,6 +61,7 @@
     <Compile Include="CategoryService.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\CanChangeNameOnUpdateRule.cs" />
     <Compile Include="Rules\CanShipOrderItemRule.cs" />
     <Compile Include="Rules\CanSubmitOrderItemRule.cs" />
     <Compile Include="Rules\MinProductsRequiredRule.cs" />

@@ -152,12 +152,12 @@ namespace Orders.com.WPF.VM
 
         public bool CanAdd
         {
-            get { return base.CanSave; }
+            get { return !IsNew || IsDirty; }
         }
-
+        
         public override bool CanSave
         {
-            get { return IsDirty && base.CanSave || OrderItems.Any(i => i.IsDirty); }
+            get { return IsDirty || OrderItems.Any(i => i.IsDirty); }
         }
 
         public bool CanSubmit

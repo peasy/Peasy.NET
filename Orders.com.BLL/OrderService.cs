@@ -1,4 +1,5 @@
 ﻿using Facile.Core;
+using Orders.com.BLL.Rules;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using Orders.com.Core.QueryData;
@@ -20,7 +21,12 @@ namespace Orders.com.BLL
         {
             entity.OrderDate = DateTime.Now;
         }
-        
+
+        protected override IEnumerable<IRule> GetBusinessRulesForUpdate(Order entity)
+        {
+            yield return new CanChangeNameOnUpdateRule(entity.ID, _orderItemService);
+        }
+
         public ICommand<IEnumerable<OrderInfo>> GetAllCommand(int start, int pageSize)
         {
             var proxy = DataProxy as IOrderDataProxy;
