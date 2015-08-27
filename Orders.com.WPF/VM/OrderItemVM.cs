@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Orders.com.WPF.VM
 {
-    public class OrderItemVM : OrdersDotComVMBase<OrderItem>
+    public class OrderItemVM : OrdersDotComVMBase<OrderItem>, IOrderStatusIDContainer
     {
         private long _currentCategoryID;
         private ProductVM _currentProduct;
@@ -174,6 +174,12 @@ namespace Orders.com.WPF.VM
         public bool CanShip
         {
             get { return CurrentEntity.OrderStatus().CanShip; }
+        }
+
+        public long OrderStatusID
+        {
+            get { return StatusID; }
+            set { }
         }
 
         public async Task ShipAsync()

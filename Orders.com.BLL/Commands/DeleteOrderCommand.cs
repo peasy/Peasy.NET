@@ -1,5 +1,6 @@
 ﻿using Facile.Core;
 using Facile.Core.Extensions;
+using Facile.Extensions;
 using Orders.com.Core.Domain;
 using System;
 using System.Collections.Generic;
@@ -56,15 +57,16 @@ namespace Orders.com.BLL.Commands
 
         public override IEnumerable<ValidationResult> GetErrors()
         {
-            //var rule = id.CreateValueRequiredRule("id").Validate();
-            //if (!rule.IsValid)
-            //    yield return new ValidationResult(rule.ErrorMessage, new string[] { typeof(T).Name });
-
-
-            CurrentOrderItems = _orderItemService.GetByOrderCommand(_orderID).Execute().Value;
-            var errors = CurrentOrderItems.SelectMany(i => _orderItemService.DeleteCommand(i.ID).GetErrors());
-            foreach (var error in errors)
-                yield return error;
+            var rule = _orderID.CreateValueRequiredRule("id").Validate();
+            if (!rule.IsValid)
+                yield return new ValidationResult(rule.ErrorMessage);
+            else
+            {
+                CurrentOrderItems = _orderItemService.GetByOrderCommand(_orderID).Execute().Value;
+                var errors = CurrentOrderItems.SelectMany(i => _orderItemService.DeleteCommand(i.ID).GetErrors());
+                foreach (var error in errors)
+                    yield return error;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Facile.Core.Extensions;
+using Facile.Extensions;
 using Orders.com.BLL;
 using Orders.com.Core.Domain;
 using Orders.com.Core.Extensions;
@@ -89,19 +90,7 @@ namespace Orders.com.WPF.VM
 
         public OrderStateBase Status
         {
-            get
-            {
-                if (!OrderItems.Any()) return null;
-
-                if (OrderItems.Any(i => i.Status is BackorderedState))
-                    return (OrderItems.First(i => i.Status is BackorderedState)).Status;
-
-                var relevantItems = OrderItems.Where(i => i.Status is NoneState == false);
-                if (relevantItems.Any())
-                    return relevantItems.First(i => i.StatusID == relevantItems.Min(o => o.StatusID)).Status;
-
-                return OrderItems.First().Status;
-            }
+            get { return OrderItems.OrderStatus(); }
         }
 
         public IEnumerable<OrderItemVM> OrderItems

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Orders.com.Core.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,6 @@ namespace Orders.com.Core.QueryData
         public long CustomerID { get; set; }
         public decimal Total { get; set; }
         public string Status { get; set; }
+        public bool HasShippedItems { get; set; }
     }
 }

@@ -43,22 +43,31 @@ namespace Orders.com.DAL.EF
             var orderItems = new OrderItemRepository().GetAll().ToArray();
             var results = orders.Skip(start)
                                 .Take(pageSize)
-                                .Select(o => new OrderInfo()
+                                .Select(o => new
                                 {
                                     OrderID = o.OrderID,
                                     OrderDate = o.OrderDate,
                                     CustomerName = customers[o.CustomerID].Name,
                                     CustomerID = o.CustomerID,
-                                    Total = orderItems.Where(i => i.OrderID == o.OrderID).Sum(i => i.Amount * i.Quantity),
-                                    Status = BuildStatusName(orderItems)
+                                    OrderItems = orderItems.Where(i => i.OrderID == o.OrderID)
+                                })
+                                .Select(o => new OrderInfo()
+                                {
+                                    OrderID = o.OrderID,
+                                    OrderDate = o.OrderDate,
+                                    CustomerName = o.CustomerName,
+                                    CustomerID = o.CustomerID,
+                                    Total = o.OrderItems.Sum(i => i.Amount),
+                                    Status = BuildStatusName(o.OrderItems),
+                                    HasShippedItems = o.OrderItems.Any(i => i.OrderStatus() is ShippedState)
                                 });
             return results.ToArray();
         }
 
-        private static string BuildStatusName(OrderItem[] orderItems)
+        private static string BuildStatusName(IEnumerable<OrderItem> orderItems)
         {
-            if (!orderItems.Any()) return string.Empty; 
-            return orderItems.First(i => i.OrderStatusID == orderItems.Min(oi => oi.OrderStatusID)).OrderStatus().Name;
+            if (!orderItems.Any()) return string.Empty;
+            return orderItems.OrderStatus().Name;
         }
 
         public IEnumerable<Order> GetAll()

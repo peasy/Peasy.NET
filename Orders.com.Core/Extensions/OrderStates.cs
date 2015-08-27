@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Orders.com.Core.Domain;
+using System.Collections.Generic;
 
 namespace Orders.com.Core.Extensions
 {
@@ -28,6 +30,20 @@ namespace Orders.com.Core.Extensions
                 default:
                     return new NoneState(order);
             }
+        }
+
+        public static OrderStateBase OrderStatus(this IEnumerable<IOrderStatusIDContainer> items)
+        {
+            if (!items.Any()) return null;
+
+            if (items.Any(i => i.OrderStatus() is BackorderedState))
+                return (items.First(i => i.OrderStatus() is BackorderedState)).OrderStatus();
+
+            var relevantItems = items.Where(i => i.OrderStatus() is NoneState == false);
+            if (relevantItems.Any())
+                return relevantItems.First(i => i.OrderStatusID == relevantItems.Min(o => o.OrderStatusID)).OrderStatus();
+
+            return items.First().OrderStatus();
         }
     }
 

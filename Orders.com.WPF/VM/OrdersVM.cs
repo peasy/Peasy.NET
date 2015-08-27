@@ -61,9 +61,9 @@ namespace Orders.com.WPF.VM
 
         private async Task DeleteSelectedItemAsync()
         {
-            if (SelectedOrder != null && !SelectedOrder.IsNew)
+            var result = await _ordersService.DeleteCommand(SelectedOrder.ID).ExecuteAsync();
+            if (result.Success)
             {
-                await _ordersService.DeleteCommand(SelectedOrder.ID).ExecuteAsync();
                 _orders.Remove(SelectedOrder);
                 SelectedOrder = null;
             }
@@ -77,6 +77,7 @@ namespace Orders.com.WPF.VM
             order.Customer = updatedOrder.Customers.First(c => c.ID == order.CustomerID).Name;
             order.Total = updatedOrder.OrderItems.Sum(i => i.Amount.Value);
             order.Status = updatedOrder.Status == null ? string.Empty : updatedOrder.Status.Name;
+            LoadOrdersAsync();
         }
 
         public void Handle(OrderInsertedEvent message)
