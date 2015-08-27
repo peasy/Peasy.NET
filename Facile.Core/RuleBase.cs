@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Facile.Core
 {
@@ -37,7 +38,7 @@ namespace Facile.Core
         /// <value>
         /// The successor <see cref="RuleBase"/>.
         /// </value>
-        private IRule Successor { get; set; }
+        private IRule[] Successor { get; set; }
 
         /// <summary>
         /// Validates this rule.
@@ -50,9 +51,15 @@ namespace Facile.Core
             {
                 if (Successor != null)
                 {
-                    Successor.Validate();
-                    IsValid = Successor.IsValid;
-                    ErrorMessage = Successor.ErrorMessage;
+                    foreach (var rule in Successor)
+                    {
+                        rule.Validate();
+                        if (!rule.IsValid)
+                        {
+                            IsValid = rule.IsValid;
+                            ErrorMessage = rule.ErrorMessage;
+                        }
+                    }
                 }
 
                 if (_ifValidThenExecute != null)
@@ -74,9 +81,9 @@ namespace Facile.Core
         /// </summary>
         /// <param name="rule">The <see cref="RuleBase"/>.</param>
         /// <returns>The supplied <see cref="RuleBase"/>.</returns>
-        public IRule IfValidThenValidate(IRule rule)
+        public IRule IfValidThenValidate(params IRule[] rules)
         {
-            Successor = rule;
+            Successor = rules;
             return this;
         }
 

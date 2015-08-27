@@ -7,7 +7,7 @@ namespace Facile.Core
         string ErrorMessage { get; }
         IRule IfInvalidThenExecute(Action<IRule> method);
         IRule IfValidThenExecute(Action<IRule> method);
-        IRule IfValidThenValidate(IRule rule);
+        IRule IfValidThenValidate(params IRule[] rule);
         bool IsValid { get; }
         IRule Validate();
     }
