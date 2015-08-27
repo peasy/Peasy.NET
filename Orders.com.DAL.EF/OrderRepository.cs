@@ -19,9 +19,9 @@ namespace Orders.com.DAL.EF
             Mapper.CreateMap<Order, Order>();
         }
 
-        private List<Order> _orders;
+        private static List<Order> _orders;
 
-        private List<Order> Orders
+        private static List<Order> Orders
         {
             get
             {

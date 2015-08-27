@@ -20,9 +20,9 @@ namespace Orders.com.DAL.EF
             Mapper.CreateMap<InventoryItem, InventoryItem>();
         }
 
-        private List<InventoryItem> _inventoryItems;
+        private static List<InventoryItem> _inventoryItems;
 
-        private List<InventoryItem> InventoryItems
+        private static List<InventoryItem> InventoryItems
         {
             get
             {

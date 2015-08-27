@@ -16,9 +16,9 @@ namespace Orders.com.DAL.EF
             Mapper.CreateMap<OrderStatus, OrderStatus>();
         }
 
-        private List<OrderStatus> _orderStatuses;
+        private static List<OrderStatus> _orderStatuses;
 
-        private List<OrderStatus> OrderStatuses
+        private static List<OrderStatus> OrderStatuses
         {
             get
             {

@@ -18,9 +18,9 @@ namespace Orders.com.DAL.EF
             Mapper.CreateMap<Product, Product>();
         }
 
-        private List<Product> _products;
+        private static List<Product> _products;
 
-        private List<Product> Products
+        private static List<Product> Products
         {
             get
             {
