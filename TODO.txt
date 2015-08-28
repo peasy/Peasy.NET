@@ -7,8 +7,6 @@ Order State History - OrderStateHistory dto, service, etc.  Maybe remove order s
 
 Backorder Functionality - Handle case where two orders are placed with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
 
-Complete delete order functionality - disallow deletion of an order if it has associated order items?
-
 Add concurrency support to repos and handle in UI accordingly
 
 Add price override functionality?
@@ -18,6 +16,11 @@ The ship button should be enabled for backordered products -> unless currently d
 Support a cancel state?  This state would also replenish inventory in the case where the item is shipped and offered as an override feature for admin use
 
 Does having Orders.com.Core and BLL serve any value.  Integrate all into BLL?
+
+Change OrderVM CanDelete to HasShippedItems and refactor accordingly.  You'll need to create a boolValueConverter for your xaml binding.
+
+
+
 
 
 Add async support for business and validation rules
