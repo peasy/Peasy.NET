@@ -218,7 +218,7 @@ namespace Orders.com.WPF.VM
             var result = await _orderItemService.GetByOrderCommand(CurrentEntity.OrderID).ExecuteAsync();
             _orderItems.Clear();
             result.Value.ForEach(i => LoadOrderItem(i));
-            OnPropertyChanged("CurrentCustomerID", "CanSave", "CanSubmit", "CanShip", "Total");
+            OnPropertyChanged("CurrentCustomerID", "CanSave", "CanSubmit", "CanShip", "CanChangeCustomer", "Total");
         }
 
         private void LoadOrderItem(OrderItem orderItem)
