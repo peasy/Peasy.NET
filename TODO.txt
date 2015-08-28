@@ -1,15 +1,11 @@
 
 CustomerOrderView - Add an quantity on hand column and disallow adding items that exceed the QoH. 
 
-Inventory functionality
-
 Order State History - OrderStateHistory dto, service, etc.  Maybe remove order state change dates from OrderItem?
 
 Backorder Functionality - Handle case where two orders are placed with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
 
 Add concurrency support to repos and handle in UI accordingly
-
-Add price override functionality?
 
 The ship button should be enabled for backordered products -> unless currently displayed QOH is 0?
 
@@ -17,17 +13,12 @@ Support a cancel state?  This state would also replenish inventory in the case w
 
 Does having Orders.com.Core and BLL serve any value.  Integrate all into BLL?
 
-Change OrderVM CanDelete to HasShippedItems and refactor accordingly.  You'll need to create a boolValueConverter for your xaml binding.
-
-
 
 
 
 Add async support for business and validation rules
 
 Add command execution context support.  This will allow loading and sharing of objects to be passed from rules to execution methods (both async and sync) which will eliminate redundant proxy calls.
-
-Change RuleBase.IfValidThenValidate to accept array of IRule to support multiple rules being executed should the result of the parent rule pass
 
 The validation and business rules infrastructure is a bit smelly.  Figure out how to more easily create business rules and validation rules, or unify the interface and no longer expose ValidationResult, but use IRule and ValidationResult under the hood.
 
