@@ -26,7 +26,7 @@ namespace Orders.com.WPF.VM
             CustomerID = order.CustomerID;
             Total = order.Total;
             Status = order.Status;
-            CanDelete = !order.HasShippedItems;
+            HasShippedItems = order.HasShippedItems;
             _orderService = orderService;
         }
 
@@ -38,7 +38,7 @@ namespace Orders.com.WPF.VM
             CustomerID = order.CurrentCustomerID;
             Total = order.OrderItems.Sum(i => i.Amount.Value);
             Status = order.Status == null ? string.Empty : order.Status.Name;
-            CanDelete = !order.OrderItems.Any(i => i.Status is ShippedState);
+            HasShippedItems = order.OrderItems.Any(i => i.Status is ShippedState);
             _orderService = orderService;
         }
 
@@ -78,7 +78,7 @@ namespace Orders.com.WPF.VM
             }
         }
 
-        public bool CanDelete
+        public bool HasShippedItems
         {
             get; private set;
         }

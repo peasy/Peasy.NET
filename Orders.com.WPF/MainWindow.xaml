@@ -46,7 +46,7 @@
                             <DataGridTemplateColumn Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Name="deleteButton" Width="35" Height="35" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"  ToolTipService.ToolTip="Delete this row" IsEnabled="{Binding CanDelete}" >
+                                        <Button Name="deleteButton" Width="35" Height="35" Command="{Binding DataContext.DeleteSelectedCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"  ToolTipService.ToolTip="Delete this row" Visibility="{Binding HasShippedItems, Converter={StaticResource reverseVisibilityConverter}}">
                                             <Button.Content>
                                                 <Image Source="Images\delete.png" Stretch="UniformToFill"></Image>
                                             </Button.Content>
