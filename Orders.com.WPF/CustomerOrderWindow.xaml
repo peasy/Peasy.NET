@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:converters="clr-namespace:Orders.com.WPF.Converters"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        Title="Customer Order" Height="450" Width="900" WindowStartupLocation="CenterOwner" IsMinButtonEnabled="False" IsCloseButtonEnabled="False" IsMaxRestoreButtonEnabled="False" WindowStyle="ToolWindow">
+        Title="Customer Order" Height="450" Width="1000" WindowStartupLocation="CenterOwner" IsMinButtonEnabled="False" IsCloseButtonEnabled="False" IsMaxRestoreButtonEnabled="False" WindowStyle="ToolWindow">
     <Window.Resources>
         <converters:VisibilityConverter x:Key="reverseVisibilityConverter" Reverse="true" />
         <converters:VisibilityConverter x:Key="visibilityConverter" />
@@ -61,6 +61,7 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding QuantityOnHand}" IsReadOnly="True" Header="In Stock" ></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Price, StringFormat=C}" IsReadOnly="True" Header="Price" ></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="Quantity"></DataGridTextColumn>
                         <DataGridTextColumn Binding="{Binding Amount, StringFormat=C}" IsReadOnly="True" Header="Amount"></DataGridTextColumn>

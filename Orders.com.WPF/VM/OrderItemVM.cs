@@ -15,19 +15,22 @@ namespace Orders.com.WPF.VM
         private ProductVM _currentProduct;
         private MainWindowVM _mainVM;
         private ICommand _shipCommand;
+        private InventoryItemService _inventoryService;
 
-        public OrderItemVM(OrderItemService service, MainWindowVM mainVM)
+        public OrderItemVM(OrderItemService service, InventoryItemService inventoryService, MainWindowVM mainVM)
             : base(service)
         {
             _mainVM = mainVM;
             _shipCommand = new Command(async () => await ShipAsync());
+            _inventoryService = inventoryService;
         }
 
-        public OrderItemVM(OrderItem customer, OrderItemService service, MainWindowVM mainVM)
+        public OrderItemVM(OrderItem customer, OrderItemService service, InventoryItemService inventoryService, MainWindowVM mainVM)
             : base(customer, service)
         {
             _mainVM = mainVM;
             _shipCommand = new Command(async () => await ShipAsync());
+            _inventoryService = inventoryService;
             CurrentProductID = CurrentEntity.ProductID;
             CurrentCategoryID = _currentProduct.CurrentCategoryID;
             IsDirty = false;
@@ -60,12 +63,22 @@ namespace Orders.com.WPF.VM
             {
                 _currentProduct = Products.First(p => p.ID == value);
                 CurrentEntity.ProductID = value;
+                LoadInventoryItemAsync();
                 if (IsNew) 
                     CurrentEntity.Price = _currentProduct.Price.Value;
                 CurrentEntity.SetAmount();
                 IsDirty = true;
                 OnPropertyChanged("CurrentProductID", "Price", "Amount");
             }
+        }
+
+        private InventoryItem _currentInventoryItem; 
+
+        private async Task LoadInventoryItemAsync()
+        {
+            var result = await _inventoryService.GetByProductCommand(CurrentProductID).ExecuteAsync();
+            _currentInventoryItem = result.Value;
+            OnPropertyChanged("QuantityOnHand");
         }
 
         public bool CanChangeCategoryAndProduct
@@ -130,6 +143,17 @@ namespace Orders.com.WPF.VM
             set { CurrentEntity.OrderID = value; }
         }
 
+        public decimal? QuantityOnHand
+        {
+            get
+            {
+                if (_currentInventoryItem != null)
+                    return _currentInventoryItem.QuantityOnHand;
+
+                return null; 
+            }
+        }
+
         public OrderStateBase Status
         {
             get { return CurrentEntity.OrderStatus(); }
@@ -188,6 +212,7 @@ namespace Orders.com.WPF.VM
             {
                 var service = _service as OrderItemService;
                 var result = await service.ShipCommand(ID).ExecuteAsync();
+                LoadInventoryItemAsync();
                 CurrentEntity = result.Value;
                 OnPropertyChanged("Status", "ShippedOn");
             }

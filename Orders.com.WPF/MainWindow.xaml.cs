@@ -27,11 +27,11 @@ namespace Orders.com.WPF
         {
             var productsDataProxy = new ProductRepository();
             var inventoryDataProxy = new InventoryItemRepository();
-            var inventoryService = new InventoryItemService(inventoryDataProxy);
-            _orderItemsService = new OrderItemService(new OrderItemRepository(), productsDataProxy, inventoryService);
+            _inventoryService = new InventoryItemService(inventoryDataProxy);
+            _orderItemsService = new OrderItemService(new OrderItemRepository(), productsDataProxy, _inventoryService);
             _ordersService = new OrderService(new OrderRepository(), _orderItemsService, new DTCTransactionContext());
             _customersService = new CustomerService(new CustomerRepository());
-            _productsService = new ProductService(productsDataProxy, inventoryService, new DTCTransactionContext());
+            _productsService = new ProductService(productsDataProxy, _inventoryService, new DTCTransactionContext());
             _categoriesService = new CategoryService(new CategoryRepository());
             this.DataContext = new MainWindowVM(_eventAggregator, _customersService, _productsService, _categoriesService, _ordersService);
         }
@@ -41,9 +41,11 @@ namespace Orders.com.WPF
             get { return this.DataContext as MainWindowVM; }
         }
 
+        public InventoryItemService _inventoryService { get; private set; }
+
         private void addCustomerOrderClick(object sender, RoutedEventArgs e)
         {
-            var customerOrderWindow = new CustomerOrderWindow(_ordersService, _customersService, _orderItemsService, VM, _eventAggregator);
+            var customerOrderWindow = new CustomerOrderWindow(_ordersService, _customersService, _orderItemsService, _inventoryService, VM, _eventAggregator);
             customerOrderWindow.Owner = this;
             customerOrderWindow.Show();
         }
@@ -51,7 +53,7 @@ namespace Orders.com.WPF
         private void editCustomerOrderClick(object sender, RoutedEventArgs e)
         {
             var currentOrder = VM.OrdersVM.SelectedOrder;
-            var customerOrderWindow = new CustomerOrderWindow(currentOrder, _ordersService, _customersService, _orderItemsService, VM, _eventAggregator);
+            var customerOrderWindow = new CustomerOrderWindow(currentOrder, _ordersService, _customersService, _orderItemsService, _inventoryService, VM, _eventAggregator);
             customerOrderWindow.Owner = this;
             customerOrderWindow.Show();
         }

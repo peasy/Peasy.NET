@@ -86,6 +86,7 @@ namespace Orders.com.DAL.EF
 
         public InventoryItem IncrementQuantityOnHand(long inventoryID, decimal quantity)
         {
+            Debug.WriteLine("INCREMENTING inventoryItem.QuantityOnHand in database");
             lock (_lockObject)
             {
                 var existing = InventoryItems.First(c => c.ID == inventoryID);
@@ -96,6 +97,7 @@ namespace Orders.com.DAL.EF
 
         public InventoryItem DecrementQuantityOnHand(long inventoryID, decimal quantity)
         {
+            Debug.WriteLine("DECREMENTING inventoryItem.QuantityOnHand in database");
             lock (_lockObject)
             {
                 var existing = InventoryItems.FirstOrDefault(c => c.ID == inventoryID);

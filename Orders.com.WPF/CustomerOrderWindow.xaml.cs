@@ -21,7 +21,7 @@ namespace Orders.com.WPF
     /// <summary>
     /// Interaction logic for CustomerOrderWindow.xaml
     /// </summary>
-    public partial class CustomerOrderWindow 
+    public partial class CustomerOrderWindow
     {
         public CustomerOrderWindow()
         {
@@ -31,11 +31,12 @@ namespace Orders.com.WPF
         public CustomerOrderWindow(OrderService orderService,
                                    CustomerService customerService,
                                    OrderItemService orderItemService,
+                                   InventoryItemService inventoryService,
                                    MainWindowVM mainVM,
                                    EventAggregator eventAggregator)
             : this()
         {
-            var vm = new CustomerOrderVM(eventAggregator, orderService, orderItemService, mainVM);
+            var vm = new CustomerOrderVM(eventAggregator, orderService, orderItemService, inventoryService, mainVM);
             DataContext = vm;
         }
 
@@ -43,6 +44,7 @@ namespace Orders.com.WPF
                                    OrderService orderService,
                                    CustomerService customerService,
                                    OrderItemService orderItemService,
+                                   InventoryItemService inventoryService,
                                    MainWindowVM mainVM,
                                    EventAggregator eventAggregator)
             : this()
@@ -53,7 +55,7 @@ namespace Orders.com.WPF
                 CustomerID = currentOrder.CustomerID,
                 OrderDate = currentOrder.OrderDate,
             };
-            var vm = new CustomerOrderVM(eventAggregator, order, orderService, orderItemService, mainVM);
+            var vm = new CustomerOrderVM(eventAggregator, order, orderService, orderItemService, inventoryService, mainVM);
             vm.RefreshCommand.Execute(null);
             DataContext = vm;
         }

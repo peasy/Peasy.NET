@@ -24,23 +24,25 @@ namespace Orders.com.WPF.VM
         private ICommand _refreshCommand;
         private EventAggregator _eventAggregator;
         private MainWindowVM _mainVM;
+        private InventoryItemService _inventoryService;
 
-        public CustomerOrderVM(EventAggregator eventAggregator, OrderService orderService, OrderItemService orderItemService, MainWindowVM mainVM)
+        public CustomerOrderVM(EventAggregator eventAggregator, OrderService orderService, OrderItemService orderItemService, InventoryItemService inventoryService, MainWindowVM mainVM)
             : base(orderService)
         {
-            Setup(eventAggregator, orderService, orderItemService, mainVM);
+            Setup(eventAggregator, orderService, orderItemService, inventoryService, mainVM);
         }
 
-        public CustomerOrderVM(EventAggregator eventAggregator, Order order, OrderService orderService, OrderItemService orderItemService, MainWindowVM mainVM)
+        public CustomerOrderVM(EventAggregator eventAggregator, Order order, OrderService orderService, OrderItemService orderItemService, InventoryItemService inventoryService, MainWindowVM mainVM)
             : base(order, orderService)
         {
-            Setup(eventAggregator, orderService, orderItemService, mainVM);
+            Setup(eventAggregator, orderService, orderItemService, inventoryService, mainVM);
         }
 
-        private void Setup(EventAggregator eventAggregator, OrderService orderService, OrderItemService orderItemService, MainWindowVM mainVM)
+        private void Setup(EventAggregator eventAggregator, OrderService orderService, OrderItemService orderItemService, InventoryItemService inventoryService, MainWindowVM mainVM)
         {
             _orderService = orderService;
             _orderItemService = orderItemService;
+            _inventoryService = inventoryService;
             _mainVM = mainVM;
             _eventAggregator = eventAggregator;
             _orderItems = new ObservableCollection<OrderItemVM>();
@@ -148,7 +150,7 @@ namespace Orders.com.WPF.VM
         {
             get { return !IsNew || IsDirty; }
         }
-        
+
         public override bool CanSave
         {
             get { return IsDirty || OrderItems.Any(i => i.IsDirty); }
@@ -156,15 +158,19 @@ namespace Orders.com.WPF.VM
 
         public bool CanSubmit
         {
-            get { return OrderItems.Any(i => i.Status == null || i.Status.CanSubmit) &&
-                         OrderItems.All(i => (!i.IsDirty && !i.IsNew));
+            get
+            {
+                return OrderItems.Any(i => i.Status == null || i.Status.CanSubmit) &&
+                       OrderItems.All(i => (!i.IsDirty && !i.IsNew));
             }
         }
 
         public bool CanShip
         {
-            get { return OrderItems.Any(i => i.Status == null || i.Status.CanShip) &&
-                          OrderItems.All(i => (!i.IsDirty && !i.IsNew));
+            get
+            {
+                return OrderItems.Any(i => i.Status == null || i.Status.CanShip) &&
+                        OrderItems.All(i => (!i.IsDirty && !i.IsNew));
             }
         }
 
@@ -207,7 +213,7 @@ namespace Orders.com.WPF.VM
         {
             if (CanAdd)
             {
-                var item = new OrderItemVM(_orderItemService, _mainVM);
+                var item = new OrderItemVM(_orderItemService, _inventoryService, _mainVM);
                 SubscribeHandlers(item);
                 _orderItems.Add(item);
             }
@@ -223,7 +229,7 @@ namespace Orders.com.WPF.VM
 
         private void LoadOrderItem(OrderItem orderItem)
         {
-            var item = new OrderItemVM(orderItem, _orderItemService, _mainVM);
+            var item = new OrderItemVM(orderItem, _orderItemService, _inventoryService, _mainVM);
             SubscribeHandlers(item);
             _orderItems.Add(item);
         }
