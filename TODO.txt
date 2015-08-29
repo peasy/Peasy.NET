@@ -1,13 +1,9 @@
 
-CustomerOrderView - Add an quantity on hand column and disallow adding items that exceed the QoH. 
-
 Order State History - OrderStateHistory dto, service, etc.  Maybe remove order state change dates from OrderItem?
 
 Backorder Functionality - Handle case where two orders are placed with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
 
 Add concurrency support to repos and handle in UI accordingly
-
-The ship button should be enabled for backordered products -> unless currently displayed QOH is 0?
 
 Support a cancel state?  This state would also replenish inventory in the case where the item is shipped and offered as an override feature for admin use
 
