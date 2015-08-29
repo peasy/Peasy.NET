@@ -1,9 +1,11 @@
-﻿using Facile.Attributes;
+﻿using Facile;
+using Facile.Attributes;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace Orders.com.Core.Domain
 {
-    public class InventoryItem : DomainBase
+    public class InventoryItem : DomainBase, IVersionContainer
     {
         public long InventoryItemID { get; set; }
 
@@ -17,6 +19,12 @@ namespace Orders.com.Core.Domain
         {
             get { return InventoryItemID; }
             set { InventoryItemID = value; }
+        }
+
+        [Editable(false)]
+        public string Version
+        {
+            get; set;
         }
     }
 }

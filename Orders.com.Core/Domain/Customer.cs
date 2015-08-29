@@ -1,9 +1,10 @@
 ﻿using Facile;
 using System.ComponentModel.DataAnnotations;
+using System;
 
 namespace Orders.com.Core.Domain
 {
-    public class Customer : DomainBase, IVersionContainer
+    public class Customer : DomainBase
     {
         public long CustomerID { get; set; }
 
@@ -16,8 +17,5 @@ namespace Orders.com.Core.Domain
             set { CustomerID = value; }
             get { return CustomerID; }
         }
-
-        //[Required] - TODO: require on update only
-        public byte[] Version { get; set; }
     }
 }
