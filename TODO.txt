@@ -9,7 +9,9 @@ Support a cancel state?  This state would also replenish inventory in the case w
 
 Does having Orders.com.Core and BLL serve any value.  Integrate all into BLL?
 
+Prevent deletes for items with associations (customers, products, categories, etc.)
 
+Increment inventory functionality
 
 
 Add async support for business and validation rules
