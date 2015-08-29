@@ -1,4 +1,5 @@
-﻿using Facile.Core;
+﻿using Facile;
+using Facile.Core;
 using Facile.Rules;
 using Orders.com.BLL.Commands;
 using Orders.com.BLL.Rules;
@@ -14,11 +15,16 @@ namespace Orders.com.BLL
     {
         private IProductDataProxy _productDataProxy;
         private InventoryItemService _inventoryService;
+        private ITransactionContext _transactionContext;
 
-        public OrderItemService(IOrderItemDataProxy dataProxy, IProductDataProxy productDataProxy, InventoryItemService inventoryService) : base(dataProxy)
+        public OrderItemService(IOrderItemDataProxy dataProxy, 
+                                IProductDataProxy productDataProxy, 
+                                InventoryItemService inventoryService, 
+                                ITransactionContext transactionContext) : base(dataProxy)
         {
             _productDataProxy = productDataProxy;
             _inventoryService = inventoryService;
+            _transactionContext = transactionContext;
         }
 
         protected override void OnBeforeInsertCommandExecuted(OrderItem entity)
@@ -81,7 +87,7 @@ namespace Orders.com.BLL
         {
             // perform auth check?
             var proxy = DataProxy as IOrderItemDataProxy;
-            return new ShipOrderItemCommand(orderItemID, proxy, _inventoryService);
+            return new ShipOrderItemCommand(orderItemID, proxy, _inventoryService, _transactionContext);
         }
     }
 }

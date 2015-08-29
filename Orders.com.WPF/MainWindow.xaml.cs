@@ -28,7 +28,7 @@ namespace Orders.com.WPF
             var productsDataProxy = new ProductRepository();
             var inventoryDataProxy = new InventoryItemRepository();
             _inventoryService = new InventoryItemService(inventoryDataProxy);
-            _orderItemsService = new OrderItemService(new OrderItemRepository(), productsDataProxy, _inventoryService);
+            _orderItemsService = new OrderItemService(new OrderItemRepository(), productsDataProxy, _inventoryService, new DTCTransactionContext());
             _ordersService = new OrderService(new OrderRepository(), _orderItemsService, new DTCTransactionContext());
             _customersService = new CustomerService(new CustomerRepository());
             _productsService = new ProductService(productsDataProxy, _inventoryService, new DTCTransactionContext());
