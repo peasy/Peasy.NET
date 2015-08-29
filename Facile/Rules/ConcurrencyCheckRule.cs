@@ -21,7 +21,7 @@ namespace Facile.Rules
 
         protected override void OnValidate()
         {
-            if (!_originalEntity.Version.SequenceEqual(_newEntity.Version))
+            if (_originalEntity.Version != _newEntity.Version)
             {
                 Invalidate(string.Format("{0} was changed by another user and cannot be changed.", _newEntity.ClassName()));
             }

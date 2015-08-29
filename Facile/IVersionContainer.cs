@@ -8,6 +8,6 @@ namespace Facile
 {
     public interface IVersionContainer
     {
-        byte[] Version { get; }
+        string Version { get; }
     }
 }
