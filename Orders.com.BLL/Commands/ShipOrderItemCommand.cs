@@ -1,16 +1,14 @@
-﻿using Facile.Core;
+﻿using Facile;
+using Facile.Core;
 using Facile.Core.Extensions;
+using Orders.com.BLL.Rules;
+using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
+using Orders.com.Core.Exceptions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using Orders.com.Core.DataProxy;
-using Orders.com.Core.Exceptions;
-using Orders.com.BLL.Rules;
-using Facile;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL.Commands
 {
@@ -35,20 +33,6 @@ namespace Orders.com.BLL.Commands
         {
             return _transactionContext.Execute(() =>
             {
-                //var orderItem = _orderItemDataProxy.GetByID(_orderItemID);
-                //var inventoryItem = _inventoryService.GetByProductCommand(orderItem.ID).Execute().Value;
-                //inventoryItem.QuantityOnHand -= orderItem.Quantity;
-
-                //try
-                //{
-                //    _inventoryService.UpdateCommand(inventoryItem); // This will throw a concurrency exception
-                //}
-                //catch (InsufficientStockAmountException)
-                //{
-                //    return _orderItemDataProxy.BackOrder(_orderItemID, DateTime.Now);
-                //}
-
-                //return _orderItemDataProxy.Ship(_orderItemID, DateTime.Now);
                 try
                 {
                     _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).Execute();
