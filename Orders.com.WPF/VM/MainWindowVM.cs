@@ -17,32 +17,30 @@ namespace Orders.com.WPF.VM
         private ProductsVM _productsVM;
         private CategoriesVM _categoriesVM;
         private OrdersVM _ordersVM;
-        private CategoryService _categoryService;
-        private ProductService _productService;
-        private CustomerService _customerService;
+        private InventoryItemsVM _inventoryItemsVM;
 
         public MainWindowVM(EventAggregator eventAggregator,
                             CustomerService customerService, 
                             ProductService productService, 
                             CategoryService categoryService,
-                            OrderService orderService)
+                            OrderService orderService,
+                            InventoryItemService inventoryService)
         {
-            _customerService = customerService;
-            _categoryService = categoryService;
-            _productService = productService;
             _customersVM = new CustomersVM(customerService);
             _customersVM.LoadCustomersCommand.Execute(null);
             _productsVM = new ProductsVM(productService, this);
             _productsVM.LoadProductsCommand.Execute(null);
             _categoriesVM = new CategoriesVM(categoryService);
-            _categoriesVM.LoadCategoriesCommand.Execute(null);
+            _categoriesVM.LoadCategoriesCommand.Execute(null);  
             _ordersVM = new OrdersVM(orderService, this, eventAggregator);
             _ordersVM.LoadOrdersCommand.Execute(null);
-        }
+            _inventoryItemsVM = new InventoryItemsVM(inventoryService, this);
+            _inventoryItemsVM.LoadInventoryCommand.Execute(null);
+        }               
 
         public CustomersVM CustomersVM
         {
-            get { return _customersVM; }
+            get { return _customersVM; }                
         }
 
         public ProductsVM ProductsVM
@@ -58,6 +56,11 @@ namespace Orders.com.WPF.VM
         public OrdersVM OrdersVM
         {
             get { return _ordersVM; }
+        }
+
+        public InventoryItemsVM InventoryItemsVM
+        {
+            get { return _inventoryItemsVM; }
         }
     }
 }

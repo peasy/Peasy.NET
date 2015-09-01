@@ -64,6 +64,7 @@
     <Compile Include="Domain\Product.cs" />
     <Compile Include="Exceptions\InsufficientStockAmountException.cs" />
     <Compile Include="Extensions\DateExtensions.cs" />
+    <Compile Include="Extensions\IVersionContainerExtensions.cs" />
     <Compile Include="Extensions\OrderExtensions.cs" />
     <Compile Include="Extensions\OrderItemExtensions.cs" />
     <Compile Include="Extensions\OrderStates.cs" />

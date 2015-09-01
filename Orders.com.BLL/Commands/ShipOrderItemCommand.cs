@@ -35,23 +35,13 @@ namespace Orders.com.BLL.Commands
         {
             return _transactionContext.Execute(() =>
             {
-                var orderItem = _orderItemDataProxy.GetByID(_orderItemID);
-                var inventoryItem = _inventoryService.GetByProductCommand(orderItem.ID).Execute().Value;
-                inventoryItem.QuantityOnHand -= orderItem.Quantity;
+                //var orderItem = _orderItemDataProxy.GetByID(_orderItemID);
+                //var inventoryItem = _inventoryService.GetByProductCommand(orderItem.ID).Execute().Value;
+                //inventoryItem.QuantityOnHand -= orderItem.Quantity;
 
-                try
-                {
-                    _inventoryService.UpdateCommand(inventoryItem); // This will throw a concurrency exception
-                }
-                catch (InsufficientStockAmountException)
-                {
-                    return _orderItemDataProxy.BackOrder(_orderItemID, DateTime.Now);
-                }
-
-                return _orderItemDataProxy.Ship(_orderItemID, DateTime.Now);
                 //try
                 //{
-                //    _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).Execute();
+                //    _inventoryService.UpdateCommand(inventoryItem); // This will throw a concurrency exception
                 //}
                 //catch (InsufficientStockAmountException)
                 //{
@@ -59,21 +49,34 @@ namespace Orders.com.BLL.Commands
                 //}
 
                 //return _orderItemDataProxy.Ship(_orderItemID, DateTime.Now);
+                try
+                {
+                    _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).Execute();
+                }
+                catch (InsufficientStockAmountException)
+                {
+                    return _orderItemDataProxy.BackOrder(_orderItemID, DateTime.Now);
+                }
+
+                return _orderItemDataProxy.Ship(_orderItemID, DateTime.Now);
             });
         }
 
         protected override async Task<OrderItem> OnExecuteAsync()
         {
-            try
+            return await _transactionContext.ExecuteAsync(async () =>
             {
-                await _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).ExecuteAsync();
-            }
-            catch (InsufficientStockAmountException)
-            {
-                return await _orderItemDataProxy.BackOrderAsync(_orderItemID, DateTime.Now);
-            }
+                try
+                {
+                    await _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).ExecuteAsync();
+                }
+                catch (InsufficientStockAmountException)
+                {
+                    return await _orderItemDataProxy.BackOrderAsync(_orderItemID, DateTime.Now);
+                }
 
-            return await _orderItemDataProxy.ShipAsync(_orderItemID, DateTime.Now);
+                return await _orderItemDataProxy.ShipAsync(_orderItemID, DateTime.Now);
+            });
         }
 
         public IEnumerable<IRule> GetRules()

@@ -256,6 +256,43 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
+            <TabItem Header="Inventory" DataContext="{Binding InventoryItemsVM}" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid ItemsSource="{Binding InventoryItems}" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" AutoGenerateColumns="False" >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" IsReadOnly="True" Header="Name" />
+                            <DataGridTextColumn Binding="{Binding QuantityOnHand}" Header="In Stock"></DataGridTextColumn>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="Images\warning.png" Height="20" Width="20" Visibility="{Binding IsValid, Converter={StaticResource reverseVisibilityConverter}}">
+                                            <Image.ToolTip>
+                                                <ToolTip Content="{Binding Errors, Converter={StaticResource errorsConverter}}" />
+                                            </Image.ToolTip>
+                                        </Image>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding LoadInventoryCommand}" ToolTip="Refresh">
+                            <Button.Content>
+                                <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
+                            </Button.Content>
+                        </Button>
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding SaveInventoryCommand}" ToolTip="Save">
+                            <Button.Content>
+                                <Image Source="Images\save.png" Stretch="UniformToFill"></Image>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Controls:MetroWindow>

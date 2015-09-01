@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
+using Orders.com.Core.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -30,16 +31,16 @@ namespace Orders.com.DAL.EF
                 {
                     _inventoryItems = new List<InventoryItem>()
                     {
-                        new InventoryItem() { InventoryItemID = 1, ProductID = 1, QuantityOnHand = 10 },
-                        new InventoryItem() { InventoryItemID = 2, ProductID = 2, QuantityOnHand = 1 },
-                        new InventoryItem() { InventoryItemID = 3, ProductID = 3, QuantityOnHand = 4 },
-                        new InventoryItem() { InventoryItemID = 4, ProductID = 4, QuantityOnHand = 3 },
-                        new InventoryItem() { InventoryItemID = 5, ProductID = 5, QuantityOnHand = 20 },
-                        new InventoryItem() { InventoryItemID = 6, ProductID = 6, QuantityOnHand = 54 },
-                        new InventoryItem() { InventoryItemID = 7, ProductID = 7, QuantityOnHand = 12 },
-                        new InventoryItem() { InventoryItemID = 8, ProductID = 8, QuantityOnHand = 10 },
-                        new InventoryItem() { InventoryItemID = 9, ProductID = 9, QuantityOnHand = 34 },
-                        new InventoryItem() { InventoryItemID = 10, ProductID = 10, QuantityOnHand = 11 }
+                        new InventoryItem() { InventoryItemID = 1, ProductID = 1, QuantityOnHand = 10 , Version = "1" },
+                        new InventoryItem() { InventoryItemID = 2, ProductID = 2, QuantityOnHand = 1 , Version = "1" },
+                        new InventoryItem() { InventoryItemID = 3, ProductID = 3, QuantityOnHand = 4 , Version = "1" },
+                        new InventoryItem() { InventoryItemID = 4, ProductID = 4, QuantityOnHand = 3 , Version = "1" },
+                        new InventoryItem() { InventoryItemID = 5, ProductID = 5, QuantityOnHand = 20 , Version = "1" },
+                        new InventoryItem() { InventoryItemID = 6, ProductID = 6, QuantityOnHand = 54 , Version = "1" },
+                        new InventoryItem() { InventoryItemID = 7, ProductID = 7, QuantityOnHand = 12 , Version = "1" },
+                        new InventoryItem() { InventoryItemID = 8, ProductID = 8, QuantityOnHand = 10 , Version = "1" },
+                        new InventoryItem() { InventoryItemID = 9, ProductID = 9, QuantityOnHand = 34 , Version = "1" },
+                        new InventoryItem() { InventoryItemID = 10, ProductID = 10, QuantityOnHand = 11 , Version = "1" }
                     };
                 }
                 return _inventoryItems;
@@ -73,6 +74,7 @@ namespace Orders.com.DAL.EF
             {
                 var nextID = InventoryItems.Max(c => c.ID) + 1;
                 entity.ID = nextID;
+                entity.IncrementVersionByOne();
                 InventoryItems.Add(Mapper.Map(entity, new InventoryItem()));
                 return entity;
             }
@@ -80,8 +82,13 @@ namespace Orders.com.DAL.EF
 
         public InventoryItem Update(InventoryItem entity)
         {
-            // Updates not supported
-            throw new NotImplementedException();
+            lock (_lockObject)
+            {
+                var existing = InventoryItems.First(c => c.ID == entity.ID && c.Version == entity.Version);
+                entity.IncrementVersionByOne();
+                Mapper.Map(entity, existing);
+                return entity;
+            }
         }
 
         public InventoryItem IncrementQuantityOnHand(long inventoryID, decimal quantity)
@@ -105,6 +112,7 @@ namespace Orders.com.DAL.EF
                     throw new InsufficientStockAmountException(string.Format("There is not enough in stock to fullfill the request"));
 
                 existing.QuantityOnHand -= quantity;
+                existing.IncrementVersionByOne();
                 return Mapper.Map(existing, new InventoryItem());
             }
         }

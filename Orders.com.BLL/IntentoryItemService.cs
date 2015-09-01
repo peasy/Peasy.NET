@@ -14,16 +14,6 @@ namespace Orders.com.BLL
         {
         }
 
-        /// <summary>
-        /// Not supported.  All updates to inventory must be made via Increment and Decrement commands
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        public override ICommand<InventoryItem> UpdateCommand(InventoryItem entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public ICommand<InventoryItem> DecrementQuantityOnHandCommand(long productID, decimal quantity)
         {
             var proxy = DataProxy as IInventoryItemDataProxy;
