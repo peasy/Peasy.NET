@@ -91,17 +91,6 @@ namespace Orders.com.DAL.EF
             }
         }
 
-        public InventoryItem IncrementQuantityOnHand(long inventoryID, decimal quantity)
-        {
-            Debug.WriteLine("INCREMENTING inventoryItem.QuantityOnHand in database");
-            lock (_lockObject)
-            {
-                var existing = InventoryItems.First(c => c.ID == inventoryID);
-                existing.QuantityOnHand += quantity;
-                return Mapper.Map(existing, new InventoryItem());
-            }
-        }
-
         public InventoryItem DecrementQuantityOnHand(long inventoryID, decimal quantity)
         {
             Debug.WriteLine("DECREMENTING inventoryItem.QuantityOnHand in database");
@@ -152,11 +141,6 @@ namespace Orders.com.DAL.EF
         public Task DeleteAsync(long id)
         {
             return Task.Run(() => Delete(id));
-        }
-
-        public Task<InventoryItem> IncrementQuantityOnHandAsync(long inventoryID, decimal quantity)
-        {
-            return Task.Run(() => IncrementQuantityOnHand(inventoryID, quantity));
         }
 
         public Task<InventoryItem> DecrementQuantityOnHandAsync(long inventoryID, decimal quantity)

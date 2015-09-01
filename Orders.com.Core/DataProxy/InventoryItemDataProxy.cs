@@ -7,8 +7,6 @@ namespace Orders.com.Core.DataProxy
     {
         InventoryItem GetByProduct(long productID);
         Task<InventoryItem> GetByProductAsync(long productID);
-        InventoryItem IncrementQuantityOnHand(long inventoryID, decimal quantity);
-        Task<InventoryItem> IncrementQuantityOnHandAsync(long inventoryID, decimal quantity);
         /// <exception cref="Orders.com.Core.Exceptions.InsufficientStockAmountException">Exception thrown when requested quantity is greater than current quantity</exception>
         InventoryItem DecrementQuantityOnHand(long inventoryID, decimal quantity);
         /// <exception cref="Orders.com.Core.Exceptions.InsufficientStockAmountException">Exception thrown when requested quantity is greater than current quantity</exception>
