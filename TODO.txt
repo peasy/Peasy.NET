@@ -22,6 +22,7 @@ The validation and business rules infrastructure is a bit smelly.  Figure out ho
 
 Add ability to opt in for all rule checking or short circuit business rules if validation rules don't succeed
 
+BusinessBase - add concurrency business rule in update rather than throw concurrency exception?
 
 
 Rename EF to Mock
