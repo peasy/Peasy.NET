@@ -2,7 +2,7 @@
 using Orders.com.Core.Domain;
 using Orders.com.Core.Extensions;
 
-namespace Facile.Rules
+namespace Orders.com.BLL.Rules
 {
     public class ValidOrderItemStatusForUpdateRule : RuleBase
     {

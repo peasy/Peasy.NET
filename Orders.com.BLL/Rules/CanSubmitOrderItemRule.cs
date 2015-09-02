@@ -1,12 +1,6 @@
 ﻿using Facile.Core;
-using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using Orders.com.Core.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Orders.com.BLL.Rules
 {

@@ -1,16 +1,12 @@
-﻿using Facile.Extensions;
+﻿using Facile.Core;
+using Facile.Extensions;
+using Orders.com.Core;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
-using Facile.Core;
-using Orders.com.Core;
-using Orders.com.Core.Extensions;
 
-namespace Facile.Rules
+namespace Orders.com.BLL.Rules
 {
     public class CannotEditPropertyRule : RuleBase
     {

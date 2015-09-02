@@ -61,10 +61,15 @@
     <Compile Include="CategoryService.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\CannotEditPropertyRule.cs" />
+    <Compile Include="Rules\DomainObjectMustContainIDRule.cs" />
+    <Compile Include="Rules\OrderItemAmountValidityRule.cs" />
+    <Compile Include="Rules\OrderItemPriceValidityRule.cs" />
+    <Compile Include="Rules\ValidOrderItemStatusForDeleteRule.cs" />
+    <Compile Include="Rules\ValidOrderItemStatusForUpdateRule.cs" />
     <Compile Include="Rules\ValidOrderStatusForUpdateRule.cs" />
     <Compile Include="Rules\CanShipOrderItemRule.cs" />
     <Compile Include="Rules\CanSubmitOrderItemRule.cs" />
-    <Compile Include="Rules\MinProductsRequiredRule.cs" />
     <Compile Include="Commands\ShipOrderItemCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
