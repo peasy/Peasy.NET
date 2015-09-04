@@ -12,5 +12,7 @@ namespace Orders.com.Core.DataProxy
         Task<IEnumerable<OrderInfo>> GetAllAsync(int start, int pageSize);
         IEnumerable<Order> GetByCustomer(long customerID);
         Task<IEnumerable<Order>> GetByCustomerAsync(long customerID);
+        IEnumerable<Order> GetByProduct(long productID);
+        Task<IEnumerable<Order>> GetByProductAsync(long productID);
     }
 }

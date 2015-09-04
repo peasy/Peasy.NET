@@ -77,20 +77,35 @@ namespace Orders.com.DAL.EF
             return Orders.Select(Mapper.Map<Order, Order>).ToArray();
         }
 
-        public IEnumerable<Order> GetByCustomer(long customerID)
-        {
-            Debug.WriteLine("Executing EF Order.GetByCustomer");
-            // Simulate a SELECT against a database
-            return Orders.Where(o => o.CustomerID == customerID)
-                         .Select(Mapper.Map<Order, Order>).ToArray();
-        }
-
         public Order GetByID(long id)
         {
             Debug.WriteLine("Executing EF Order.GetByID");
             var order = Orders.First(c => c.ID == id);
             return Mapper.Map(order, new Order());
         }
+
+        public IEnumerable<Order> GetByCustomer(long customerID)
+        {
+            Debug.WriteLine("Executing EF Order.GetByCustomer");
+            return Orders.Where(o => o.CustomerID == customerID)
+                         .Select(Mapper.Map<Order, Order>).ToArray();
+        }
+
+        public IEnumerable<Order> GetByProduct(long productID)
+        {
+            Debug.WriteLine("Executing EF Order.GetByProduct");
+            var orderItems = new OrderItemRepository().GetAll().ToArray();
+
+            return Orders.Where(o => orderItems.Any(i => i.OrderID == o.OrderID &&
+                                                         i.ProductID == productID))
+                         .Select(Mapper.Map<Order, Order>).ToArray();
+        }
+
+        public Task<IEnumerable<Order>> GetByProductAsync(long productID)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public Order Insert(Order entity)
         {

@@ -1,4 +1,5 @@
-﻿using Orders.com.BLL;
+﻿using Facile.Core.Extensions;
+using Orders.com.BLL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Orders.com.WPF.VM
     public class ProductsVM : ViewModelBase
     {
         private ProductService _productsService;
-        private ObservableCollection<ProductVM> _products;
+        private ObservableCollection<ProductVM> _products = new ObservableCollection<ProductVM>();
         private ICommand _addProductCommand;
         private ICommand _saveProductsCommand;
         private ICommand _loadProductsCommand;
@@ -56,18 +57,18 @@ namespace Orders.com.WPF.VM
         public IEnumerable<ProductVM> Products
         {
             get { return _products; }
-            set
-            {
-                _products = new ObservableCollection<ProductVM>(value);
-                OnPropertyChanged("Products");
-            }
         }
 
         private async Task LoadProductsAsync()
         {
             var result = await _productsService.GetAllCommand().ExecuteAsync();
-            var vms = result.Value.Select(c => new ProductVM(c, _productsService, _mainVM));
-            Products = vms.ToArray();
+            _products.Clear();
+            var vms = result.Value.Select(p => new ProductVM(p, _productsService, _mainVM))
+                                  .ForEach(vm =>
+                                  {
+                                      SubscribeHandlers(vm);
+                                      _products.Add(vm);
+                                  });
         }
 
         private async Task SaveProductsAsync()
@@ -81,15 +82,17 @@ namespace Orders.com.WPF.VM
             _products.Add(new ProductVM(_productsService, _mainVM));
         }
 
+        private void SubscribeHandlers(ProductVM product)
+        {
+            product.EntityDeleted += (s, e) => _products.Remove(SelectedProduct);
+        }
+
         private async Task DeleteSelectedItemAsync()
         {
             if (SelectedProduct.IsNew)
                 _products.Remove(SelectedProduct);
             else
-            {
-                await _productsService.DeleteCommand(SelectedProduct.ID).ExecuteAsync();
-                _products.Remove(SelectedProduct);
-            }
+                await SelectedProduct.DeleteAsync();
         }
     }
 }
