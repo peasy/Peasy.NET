@@ -1,6 +1,4 @@
-﻿using Facile;
-using Facile.Core;
-using Orders.com.BLL;
+﻿using Orders.com.BLL;
 using Orders.com.Core.Domain;
 
 namespace Orders.com.WPF.VM
