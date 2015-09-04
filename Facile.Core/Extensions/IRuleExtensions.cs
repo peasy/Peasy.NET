@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Facile.Core.Extensions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Facile.Core.Extensions
+namespace Facile.Core
 {
     public static class IRuleExtensions
     {
@@ -19,6 +17,18 @@ namespace Facile.Core.Extensions
             {
                 yield return new ValidationResult(rule.ErrorMessage, new string[] {  entityName });
             }
+        }
+
+        public static IRule IfAllValidThenValidate(this IEnumerable<IRule> r, params IRule[] rules)
+        {
+            return new ValidRuleContainer().IfValidThenValidate(r.ToArray()).IfValidThenValidate(rules);
+        }
+    }
+
+    internal class ValidRuleContainer : RuleBase
+    {
+        protected override void OnValidate()
+        {
         }
     }
 }
