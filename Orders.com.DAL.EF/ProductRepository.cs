@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System;
 
 namespace Orders.com.DAL.EF
 {
@@ -57,6 +58,14 @@ namespace Orders.com.DAL.EF
             return Mapper.Map(product, new Product());
         }
 
+        public IEnumerable<Product> GetByCategory(long categoryID)
+        {
+            Debug.WriteLine("Executing EF Product.GetByCategory");
+            // Simulate a SELECT against a database
+            return Products.Where(p => p.CategoryID == categoryID)
+                           .Select(Mapper.Map<Product, Product>).ToArray();
+        }
+
         public Product Insert(Product entity)
         {
             lock (_lockObject)
@@ -91,6 +100,11 @@ namespace Orders.com.DAL.EF
         public Task<Product> GetByIDAsync(long id)
         {
             return Task.Run(() => GetByID(id));
+        }
+
+        public Task<IEnumerable<Product>> GetByCategoryAsync(long categoryID)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<Product> InsertAsync(Product entity)

@@ -13,7 +13,7 @@ namespace Orders.com.WPF.VM
     public class CategoriesVM : ViewModelBase
     {
         private CategoryService _categoriesService;
-        private ObservableCollection<CategoryVM> _categories;
+        private ObservableCollection<CategoryVM> _categories = new ObservableCollection<CategoryVM>();
         private ICommand _addCategoryCommand;
         private ICommand _saveCategoriesCommand;
         private ICommand _loadCategoriesCommand;
@@ -57,18 +57,18 @@ namespace Orders.com.WPF.VM
         public IEnumerable<CategoryVM> Categories
         {
             get { return _categories; }
-            set
-            {
-                _categories = new ObservableCollection<CategoryVM>(value);
-                OnPropertyChanged("Categories");
-            }
         }
 
         private async Task LoadCategoriesAsync()
         {
             var result = await _categoriesService.GetAllCommand().ExecuteAsync();
-            var vms = result.Value.Select(c => new CategoryVM(c, _categoriesService));
-            Categories = vms.ToArray();
+            _categories.Clear();
+            var vms = result.Value.Select(c => new CategoryVM(c, _categoriesService))
+                                  .ForEach(vm =>
+                                  {
+                                      SubscribeHandlers(vm);
+                                      _categories.Add(vm);
+                                  });
         }
 
         private async Task SaveCategoriesAsync()
@@ -79,7 +79,14 @@ namespace Orders.com.WPF.VM
 
         private void AddCategory()
         {
-            _categories.Add(new CategoryVM(_categoriesService));
+            var category = new CategoryVM(_categoriesService);
+            SubscribeHandlers(category);
+            _categories.Add(category);
+        }
+
+        private void SubscribeHandlers(CategoryVM category)
+        {
+            category.EntityDeleted += (s, e) => _categories.Remove(SelectedCategory);
         }
 
         private async Task DeleteSelectedItemAsync()
@@ -87,10 +94,7 @@ namespace Orders.com.WPF.VM
             if (SelectedCategory.IsNew)
                 _categories.Remove(SelectedCategory);
             else
-            {
-                await _categoriesService.DeleteCommand(SelectedCategory.ID).ExecuteAsync();
-                _categories.Remove(SelectedCategory);
-            }
+                await SelectedCategory.DeleteAsync(); 
         }
     }
 }

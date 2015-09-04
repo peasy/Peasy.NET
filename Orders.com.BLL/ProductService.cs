@@ -4,6 +4,7 @@ using Orders.com.Core.Domain;
 using Facile;
 using Facile.Core;
 using Orders.com.BLL.Commands;
+using System.Collections.Generic;
 
 namespace Orders.com.BLL
 {
@@ -22,6 +23,16 @@ namespace Orders.com.BLL
         {
             var dataProxy = DataProxy as IProductDataProxy;
             return new CreateProductCommand(entity, dataProxy, _inventoryService, _transactionContext);
+        }
+
+        public ICommand<IEnumerable<Product>> GetByCategoryCommand(long categoryID)
+        {
+            var dataProxy = DataProxy as IProductDataProxy;
+            return new ServiceCommand<IEnumerable<Product>>
+            (
+                executeMethod: () => dataProxy.GetByCategory(categoryID),
+                executeAsyncMethod: () => dataProxy.GetByCategoryAsync(categoryID)
+            );
         }
     }
 }
