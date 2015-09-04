@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 
-namespace Orders.com.DAL.EF
+namespace Orders.com.DAL.Mock
 {
     public class ProductRepository : IProductDataProxy
     {

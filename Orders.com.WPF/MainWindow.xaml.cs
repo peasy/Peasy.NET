@@ -1,5 +1,5 @@
 ﻿using Orders.com.BLL;
-using Orders.com.DAL.EF;
+using Orders.com.DAL.Mock;
 using Orders.com.WPF.VM;
 using System.Windows;
 
