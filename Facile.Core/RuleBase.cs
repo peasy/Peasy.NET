@@ -38,7 +38,7 @@ namespace Facile.Core
         /// <value>
         /// The successor <see cref="RuleBase"/>.
         /// </value>
-        private IRule[] Successor { get; set; }
+        private List<IRule[]> Successor = new List<IRule[]>();
 
         /// <summary>
         /// Validates this rule.
@@ -51,29 +51,44 @@ namespace Facile.Core
             {
                 if (Successor != null)
                 {
-                    foreach (var rule in Successor)
+                    foreach (var ruleList in Successor)
                     {
-                        rule.Validate();
-                        if (!rule.IsValid)
+                        foreach (var rule in ruleList)
                         {
-                            IsValid = rule.IsValid;
-                            ErrorMessage = rule.ErrorMessage;
+                            rule.Validate();
+                            if (!rule.IsValid)
+                            {
+                                IsValid = rule.IsValid;
+                                ErrorMessage = rule.ErrorMessage;
+                                HandleIfInvalidThenExecute();
+                                break; // early exit, don't bother further rule execution
+                            }
                         }
+                        if (!IsValid) break;
                     }
                 }
-
-                if (_ifValidThenExecute != null)
-                {
-                    _ifValidThenExecute(this);
-                    _ifValidThenExecute = null;
-                }
+                HandleIfValidThenExecute();
             }
-            else if (_ifInvalidThenExecute != null)
+            HandleIfInvalidThenExecute();
+            return this;
+        }
+
+        private void HandleIfValidThenExecute()
+        {
+            if (_ifValidThenExecute != null)
+            {
+                _ifValidThenExecute(this);
+                _ifValidThenExecute = null;
+            }
+        }
+
+        private void HandleIfInvalidThenExecute()
+        {
+            if (_ifInvalidThenExecute != null)
             {
                 _ifInvalidThenExecute(this);
                 _ifInvalidThenExecute = null;
             }
-            return this;
         }
 
         /// <summary>
@@ -83,7 +98,7 @@ namespace Facile.Core
         /// <returns>The supplied <see cref="RuleBase"/>.</returns>
         public IRule IfValidThenValidate(params IRule[] rules)
         {
-            Successor = rules;
+            Successor.Add(rules);
             return this;
         }
 
