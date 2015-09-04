@@ -46,6 +46,7 @@ namespace Orders.com.DAL.EF
                 return _inventoryItems;
             }
         }
+
         public IEnumerable<InventoryItem> GetAll()
         {
             Debug.WriteLine("Executing EF InventoryItem.GetAll");
@@ -157,6 +158,5 @@ namespace Orders.com.DAL.EF
         {
             get { return false; }
         }
-
     }
 }

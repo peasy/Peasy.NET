@@ -1,4 +1,5 @@
-﻿using Orders.com.BLL;
+﻿using Facile.Core.Extensions;
+using Orders.com.BLL;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Orders.com.WPF.VM
     public class CustomersVM : ViewModelBase
     {
         private CustomerService _customersService;
-        private ObservableCollection<CustomerVM> _customers;
+        private ObservableCollection<CustomerVM> _customers = new ObservableCollection<CustomerVM>();
         private ICommand _addCustomerCommand;
         private ICommand _saveCustomersCommand;
         private ICommand _loadCustomersCommand;
@@ -31,7 +32,7 @@ namespace Orders.com.WPF.VM
         {
             get { return _addCustomerCommand; }
         }
-        
+
         public ICommand SaveCustomersCommand
         {
             get { return _saveCustomersCommand; }
@@ -46,22 +47,22 @@ namespace Orders.com.WPF.VM
         {
             get { return _deleteSelectedCommand; }
         }
-        
+
         public IEnumerable<CustomerVM> Customers
         {
             get { return _customers; }
-            set
-            {
-                _customers = new ObservableCollection<CustomerVM>(value);
-                OnPropertyChanged("Customers");
-            }
         }
 
         private async Task LoadCustomersAsync()
         {
             var result = await _customersService.GetAllCommand().ExecuteAsync();
-            var vms = result.Value.Select(c => new CustomerVM(c, _customersService));
-            Customers = vms.ToArray();
+            _customers.Clear();
+            var vms = result.Value.Select(c => new CustomerVM(c, _customersService))
+                                  .ForEach(vm =>
+                                  {
+                                      SubscribeHandlers(vm);
+                                      _customers.Add(vm);
+                                  });
         }
 
         private async Task SaveCustomersAsync()
@@ -72,7 +73,14 @@ namespace Orders.com.WPF.VM
 
         private void AddCustomer()
         {
-            _customers.Add(new CustomerVM(_customersService));
+            var customer = new CustomerVM(_customersService);
+            SubscribeHandlers(customer);
+            _customers.Add(customer);
+        }
+
+        private void SubscribeHandlers(CustomerVM customer)
+        {
+            customer.EntityDeleted += (s, e) => _customers.Remove(SelectedCustomer);
         }
 
         private async Task DeleteSelectedItemAsync()
@@ -80,10 +88,7 @@ namespace Orders.com.WPF.VM
             if (SelectedCustomer.IsNew)
                 _customers.Remove(SelectedCustomer);
             else
-            {
-                await _customersService.DeleteCommand(SelectedCustomer.ID).ExecuteAsync();
-                _customers.Remove(SelectedCustomer);
-            }
+                await SelectedCustomer.DeleteAsync();
         }
     }
 }

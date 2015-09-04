@@ -45,6 +45,15 @@ namespace Orders.com.BLL
             );
         }
 
+        public ICommand<IEnumerable<Order>> GetByCustomerCommand(long customerID)
+        {
+            return new ServiceCommand<IEnumerable<Order>>
+            (
+                executeMethod: () => OrdersDataProxy.GetByCustomer(customerID),
+                executeAsyncMethod: () => OrdersDataProxy.GetByCustomerAsync(customerID)
+            );
+        }
+
         public override ICommand DeleteCommand(long id)
         {
             return new DeleteOrderCommand(id, OrdersDataProxy, _orderItemService, _transactionContext);

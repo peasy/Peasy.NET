@@ -61,6 +61,7 @@
     <Compile Include="CategoryService.cs" />
     <Compile Include="ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\CanDeleteCustomerRule.cs" />
     <Compile Include="Rules\CannotEditPropertyRule.cs" />
     <Compile Include="Rules\DomainObjectMustContainIDRule.cs" />
     <Compile Include="Rules\OrderItemAmountValidityRule.cs" />

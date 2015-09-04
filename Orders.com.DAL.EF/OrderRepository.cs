@@ -77,6 +77,14 @@ namespace Orders.com.DAL.EF
             return Orders.Select(Mapper.Map<Order, Order>).ToArray();
         }
 
+        public IEnumerable<Order> GetByCustomer(long customerID)
+        {
+            Debug.WriteLine("Executing EF Order.GetByCustomer");
+            // Simulate a SELECT against a database
+            return Orders.Where(o => o.CustomerID == customerID)
+                         .Select(Mapper.Map<Order, Order>).ToArray();
+        }
+
         public Order GetByID(long id)
         {
             Debug.WriteLine("Executing EF Order.GetByID");
@@ -108,7 +116,6 @@ namespace Orders.com.DAL.EF
             Orders.Remove(order);
         }
 
-
         public Task<IEnumerable<Order>> GetAllAsync()
         {
             return Task.Run(() => GetAll());
@@ -117,6 +124,11 @@ namespace Orders.com.DAL.EF
         public Task<IEnumerable<OrderInfo>> GetAllAsync(int start, int pageSize)
         {
             return Task.Run(() => GetAll(start, pageSize));
+        }
+
+        public Task<IEnumerable<Order>> GetByCustomerAsync(long customerID)
+        {
+            return Task.Run(() => GetByCustomer(customerID));
         }
 
         public Task<Order> GetByIDAsync(long id)
