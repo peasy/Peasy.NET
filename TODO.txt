@@ -1,17 +1,10 @@
 
 Order State History - OrderStateHistory dto, service, etc.  Maybe remove order state change dates from OrderItem?
 
-Backorder Functionality - Handle case where two orders are placed with the same item, but the first order to ship reduces inventory to that ordered item to zero.Need a way to notify system user and customer of backorder.
-
-Add concurrency support to repos and handle in UI accordingly
-
-Support a cancel state?  This state would also replenish inventory in the case where the item is shipped and offered as an override feature for admin use
-
-Does having Orders.com.Core and BLL serve any value.  Integrate all into BLL?
-
 Prevent deletes for items with associations (customers, products, categories, etc.)
 
-Increment inventory functionality
+
+
 
 
 Add async support for business and validation rules
@@ -23,6 +16,8 @@ The validation and business rules infrastructure is a bit smelly.  Figure out ho
 Add ability to opt in for all rule checking or short circuit business rules if validation rules don't succeed
 
 BusinessBase - add concurrency business rule in update rather than throw concurrency exception?
+
+
 
 
 Rename EF to Mock
