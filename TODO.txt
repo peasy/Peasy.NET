@@ -1,8 +1,6 @@
 
 Order State History - OrderStateHistory dto, service, etc.  Maybe remove order state change dates from OrderItem?
 
-Prevent deletes for items with associations (customers, products, categories, etc.)
-
 
 
 
