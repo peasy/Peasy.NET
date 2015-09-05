@@ -1,7 +1,9 @@
 
 Order State History - OrderStateHistory dto, service, etc.  Maybe remove order state change dates from OrderItem?
 
+Need to remove the associated inventory item when deleting a product
 
+Inventory screen refresh should work after removal of product - should we also do an auto refresh via event publisher
 
 
 
@@ -9,7 +11,7 @@ Add async support for business and validation rules
 
 Add command execution context support.  This will allow loading and sharing of objects to be passed from rules to execution methods (both async and sync) which will eliminate redundant proxy calls.
 
-The validation and business rules infrastructure is a bit smelly.  Figure out how to more easily create business rules and validation rules, or unify the interface and no longer expose ValidationResult, but use IRule and ValidationResult under the hood.
+The validation and business rules infrastructure is a bit smelly.  Figure out how to more easily create business rules and validation rules, or unify the interface and no longer expose ValidationResult, but use IRule and ValidationResult under the hood.  Look at some of the commands GetError() methods to see examples of why things are smelly.
 
 Add ability to opt in for all rule checking or short circuit business rules if validation rules don't succeed
 
