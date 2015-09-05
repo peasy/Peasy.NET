@@ -27,6 +27,7 @@ Create true EF project
 Create Web API project
 
 Create Restful Proxies
+	-Ensure that the error message displays properly in WPF app when an item no longer exists
 
 Create Nuget packages
 
