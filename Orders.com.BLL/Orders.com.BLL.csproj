@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\DeleteProductCommand.cs" />
-    <Compile Include="Commands\SubmitOrderCommand.cs" />
     <Compile Include="Commands\CreateProductCommand.cs" />
     <Compile Include="IntentoryItemService.cs" />
     <Compile Include="OrderStatusService.cs" />

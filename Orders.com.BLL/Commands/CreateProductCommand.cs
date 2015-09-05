@@ -3,8 +3,6 @@ using Facile.Core;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Orders.com.BLL.Commands
 {

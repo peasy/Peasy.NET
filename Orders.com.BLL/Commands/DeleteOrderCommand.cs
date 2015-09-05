@@ -1,18 +1,13 @@
-﻿using Facile.Core;
+﻿using Facile;
+using Facile.Core;
 using Facile.Core.Extensions;
 using Facile.Extensions;
-using Orders.com.Core.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
 using Orders.com.Core.DataProxy;
-using Orders.com.Core.Exceptions;
-using Orders.com.BLL.Rules;
-using Facile;
-using Facile.Rules;
+using Orders.com.Core.Domain;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL.Commands
 {
