@@ -4,6 +4,7 @@ using Orders.com.BLL.Commands;
 using Orders.com.BLL.Rules;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
+using Products.com.BLL.Commands;
 using System.Collections.Generic;
 
 namespace Orders.com.BLL
@@ -37,13 +38,10 @@ namespace Orders.com.BLL
             );
         }
 
-        protected override IEnumerable<IRule> GetBusinessRulesForDelete(long id)
+        public override ICommand DeleteCommand(long id)
         {
-            yield return base.GetBusinessRulesForDelete(id)
-                             .IfAllValidThenValidate
-                             (
-                                new CanDeleteProductRule(id, _orderService)
-                             );
+            var dataProxy = DataProxy as IProductDataProxy;
+            return new DeleteProductCommand(id, dataProxy, _inventoryService, _orderService, _transactionContext);
         }
     }
 }
