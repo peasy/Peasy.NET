@@ -20,8 +20,11 @@ namespace Orders.com.WPF
 
         void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            string errorMessage = string.Format("An unhandled exception occurred: {0}", e.Exception.Message);
-            MessageBox.Show(errorMessage, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            var message = e.Exception.Message;
+            if (e.Exception is InvalidOperationException && e.Exception.Message == "Sequence contains no matching element")
+                message = "This item no longer exists.  Try refreshing your list";
+
+            MessageBox.Show(message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             e.Handled = true;
         }
     }

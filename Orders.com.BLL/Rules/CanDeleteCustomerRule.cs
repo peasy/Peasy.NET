@@ -1,6 +1,4 @@
 ﻿using Facile.Core;
-using Orders.com.Core.Domain;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Orders.com.BLL.Rules
