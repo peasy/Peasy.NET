@@ -1,10 +1,6 @@
 
 Order State History - OrderStateHistory dto, service, etc.  Maybe remove order state change dates from OrderItem?
 
-Need to remove the associated inventory item when deleting a product
-
-Inventory screen refresh should work after removal of product - should we also do an auto refresh via event publisher
-
 
 
 Add async support for business and validation rules
