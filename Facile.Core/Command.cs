@@ -1,93 +1,127 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading.Tasks;
 
 namespace Facile.Core
 {
+    /// <summary>
+    /// Defines a base command responsible for the execution of a logical unit of code
+    /// </summary>
     public abstract class Command : CommandBase, ICommand
     {
+        /// <summary>
+        /// Synchronously orchestrates command initialization, rule execution, and command execution
+        /// </summary>
         public ExecutionResult Execute()
-        //public ExecutionResult Execute(bool yieldAllRules = true)
         {
             OnInitialization();
 
             var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
-                return new ExecutionResult() { Success = false, Errors = validationResults };
+                return new ExecutionResult { Success = false, Errors = validationResults };
 
             OnExecute();
 
-            return new ExecutionResult() { Success = true };
+            return new ExecutionResult { Success = true };
         }
 
-        protected virtual void OnInitialization() { }
-
-        protected abstract void OnExecute();
-
+        /// <summary>
+        /// Asynchronously orchestrates command initialization, rule execution, and command execution
+        /// </summary>
         public async Task<ExecutionResult> ExecuteAsync()
         {
             await OnInitializationAsync();
 
             var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
-                return new ExecutionResult() { Success = false, Errors = validationResults };
+                return new ExecutionResult { Success = false, Errors = validationResults };
 
             await OnExecuteAsync();
 
-            return new ExecutionResult() { Success = true };
+            return new ExecutionResult { Success = true };
         }
 
+        /// <summary>
+        /// Invoked synchronously if rule executions are successful
+        /// </summary>
+        protected abstract void OnExecute();
+
+        /// <summary>
+        /// Invoked asynchronously if rule executions are successful
+        /// </summary>
+        protected abstract Task OnExecuteAsync();
+
+        /// <summary>
+        /// Invoked synchronously before rule execution
+        /// </summary>
+        protected virtual void OnInitialization() { }
+
+        /// <summary>
+        /// Invoked asynchronously before rule execution
+        /// </summary>
         protected virtual async Task OnInitializationAsync()
         {
             await Task.Yield();
-            //await Task.Run(() => { });
         }
-
-        protected abstract Task OnExecuteAsync();
     }
 
+    /// <summary>
+    /// Defines a base command responsible for the execution of a logical unit of code
+    /// </summary>
     public abstract class Command<T> : CommandBase, ICommand<T>
     {
-        //public ExecutionResult<T> Execute(bool yieldAllRules = true)
+        /// <summary>
+        /// Synchronously orchestrates command initialization, rule execution, and command execution
+        /// </summary>
         public ExecutionResult<T> Execute()
         {
             OnInitialization();
 
             var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
-                return new ExecutionResult<T>() { Success = false, Errors = validationResults };
+                return new ExecutionResult<T> { Success = false, Errors = validationResults };
 
             var result = OnExecute();
 
-            return new ExecutionResult<T>() { Success = true, Value = result };
+            return new ExecutionResult<T> { Success = true, Value = result };
         }
 
-        protected virtual void OnInitialization() { }
-
-        protected abstract T OnExecute();
-
+        /// <summary>
+        /// Asynchronously orchestrates command initialization, rule execution, and command execution
+        /// </summary>
         public async Task<ExecutionResult<T>> ExecuteAsync()
         {
             await OnInitializationAsync();
 
             var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
-                return new ExecutionResult<T>() { Success = false, Errors = validationResults };
+                return new ExecutionResult<T> { Success = false, Errors = validationResults };
 
             var result = await OnExecuteAsync();
 
-            return new ExecutionResult<T>() { Success = true, Value = result };
+            return new ExecutionResult<T> { Success = true, Value = result };
         }
 
+        /// <summary>
+        /// Invoked synchronously if rule executions are successful
+        /// </summary>
+        protected abstract T OnExecute();
+
+        /// <summary>
+        /// Invoked asynchronously if rule executions are successful
+        /// </summary>
+        protected abstract Task<T> OnExecuteAsync();
+
+        /// <summary>
+        /// Invoked synchronously before rule execution
+        /// </summary>
+        protected virtual void OnInitialization() { }
+
+        /// <summary>
+        /// Invoked asynchronously before rule execution
+        /// </summary>
         protected virtual async Task OnInitializationAsync()
         {
             await Task.Yield();
-            //await Task.Run(() => { });
         }
-
-        protected abstract Task<T> OnExecuteAsync();
     }
 }
