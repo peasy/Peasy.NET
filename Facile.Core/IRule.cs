@@ -9,7 +9,6 @@ namespace Facile.Core
         IRule IfValidThenExecute(Action<IRule> method);
         IRule IfValidThenValidate(params IRule[] rule);
         bool IsValid { get; }
-        bool IsInvalid { get; }
         IRule Validate();
     }
 }
