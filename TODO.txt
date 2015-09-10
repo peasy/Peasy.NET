@@ -1,6 +1,8 @@
 
 Order State History - OrderStateHistory dto, service, etc.  Maybe remove order state change dates from OrderItem?
 
+Fix Inventory view bug - go to product view, delete a product, go to the inventory view, an exception is raised
+
 
 
 Add async support for business and validation rules
