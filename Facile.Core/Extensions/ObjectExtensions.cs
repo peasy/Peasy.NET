@@ -7,12 +7,13 @@ using System.Reflection;
 using System.Text;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using Facile.Core;
 
 namespace Facile.Core.Extensions
 {
     public static class ObjectExtensions
     {
-        public static IEnumerable<ValidationResult> GetValidationErrors<T>(this T domainObject)
+        public static IEnumerable<ValidationResult> GetValidationErrors<T>(this T domainObject) where T : IDomainObject
         {
             var validationResults = new List<ValidationResult>();
             var context = new ValidationContext(domainObject);
