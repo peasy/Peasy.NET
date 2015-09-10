@@ -31,12 +31,6 @@ namespace Facile.Core
 
     public interface ISupportUpdateAsync<T> 
     {
-        /// <summary>
-        /// Performs an update
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        /// <exception cref="FACConcurrencyException"
         Task<T> UpdateAsync(T entity);
     }
 

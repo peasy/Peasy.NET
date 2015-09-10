@@ -32,12 +32,6 @@ namespace Facile.Core
 
     public interface ISupportUpdate<T> 
     {
-        /// <summary>
-        /// Performs an update
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        /// <exception cref="FACConcurrencyException"
         T Update(T entity);
     }
 
