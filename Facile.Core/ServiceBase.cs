@@ -1,5 +1,4 @@
-﻿using Facile;
-using Facile.Core.Extensions;
+﻿using Facile.Core.Extensions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -27,7 +26,7 @@ namespace Facile.Core
         /// <summary>
         /// Override this method to supply custom business rules to GetAllCommand() and GetByIDCommand()
         /// </summary>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForRetrieve(TKey id)
+        protected virtual IEnumerable<IRule> GetBusinessRulesForRetrieve(TKey id, ExecutionContext context)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -35,7 +34,7 @@ namespace Facile.Core
         /// <summary>
         /// Override this method to supply custom business rules to InsertCommand()
         /// </summary>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForInsert(T entity)
+        protected virtual IEnumerable<IRule> GetBusinessRulesForInsert(T entity, ExecutionContext context)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -43,7 +42,7 @@ namespace Facile.Core
         /// <summary>
         /// Override this method to supply custom business rules to UpdateCommand()
         /// </summary>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForUpdate(T entity)
+        protected virtual IEnumerable<IRule> GetBusinessRulesForUpdate(T entity, ExecutionContext context)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -51,7 +50,7 @@ namespace Facile.Core
         /// <summary>
         /// Override this method to supply custom business rules to DeleteCommand() 
         /// </summary>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForDelete(TKey id)
+        protected virtual IEnumerable<IRule> GetBusinessRulesForDelete(TKey id, ExecutionContext context)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -78,7 +77,7 @@ namespace Facile.Core
         /// <summary>
         /// Supplies validation results to InsertCommand()
         /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForInsert(T entity)
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForInsert(T entity, ExecutionContext context)
         {
             foreach (var error in entity.GetValidationErrors())
                 yield return error;
@@ -87,7 +86,7 @@ namespace Facile.Core
         /// <summary>
         /// Supplies validation results to UpdateCommand()
         /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForUpdate(T entity)
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForUpdate(T entity, ExecutionContext context)
         {
             foreach (var error in entity.GetValidationErrors())
                 yield return error;
@@ -97,7 +96,7 @@ namespace Facile.Core
         /// Supplies validation results to DeleteCommand()
         /// </summary>
 
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id)
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id, ExecutionContext context)
         {
             yield break;
         }
@@ -105,7 +104,7 @@ namespace Facile.Core
         /// <summary>
         /// Supplies validation results to GetByIDCommand()
         /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id)
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id, ExecutionContext context)
         {
             yield break;
         }
@@ -113,7 +112,7 @@ namespace Facile.Core
         /// <summary>
         /// Supplies validation results to GetAllCommand()
         /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetAll()
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetAll(ExecutionContext context)
         {
             yield break;
         }
@@ -123,17 +122,18 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand<T> GetByIDCommand(TKey id)
         {
+            var context = new ExecutionContext();
             return new ServiceCommand<T>
             (
-                beforeExecuteMethod: () => OnBeforeGetByIDCommandExecuted(id),
-                executeMethod: () => GetByID(id),
-                executeAsyncMethod: () => GetByIDAsync(id),
-                getValidationRulesMethod: () => GetValidationResultsForGetByID(id),
-                getBusinessRulesMethod: () => GetBusinessRulesForRetrieve(id)
+                beforeExecuteMethod: () => OnBeforeGetByIDCommandExecuted(id, context),
+                executeMethod: () => GetByID(id, context),
+                executeAsyncMethod: () => GetByIDAsync(id, context),
+                getValidationRulesMethod: () => GetValidationResultsForGetByID(id, context),
+                getBusinessRulesMethod: () => GetBusinessRulesForRetrieve(id, context)
             );
         }
 
-        protected void OnBeforeGetByIDCommandExecuted(TKey id)
+        protected void OnBeforeGetByIDCommandExecuted(TKey id, ExecutionContext context)
         {
         }
 
@@ -142,17 +142,18 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand<IEnumerable<T>> GetAllCommand()
         {
+            var context = new ExecutionContext();
             return new ServiceCommand<IEnumerable<T>>
             (
-                beforeExecuteMethod: () => OnBeforeGetAllCommandExecuted(),
-                executeMethod: () => GetAll(),
-                executeAsyncMethod: () => GetAllAsync(),
-                getValidationRulesMethod: () => GetValidationResultsForGetAll(),
+                beforeExecuteMethod: () => OnBeforeGetAllCommandExecuted(context),
+                executeMethod: () => GetAll(context),
+                executeAsyncMethod: () => GetAllAsync(context),
+                getValidationRulesMethod: () => GetValidationResultsForGetAll(context),
                 getBusinessRulesMethod: () => new IRule[] { }
             );
         }
 
-        protected void OnBeforeGetAllCommandExecuted()
+        protected void OnBeforeGetAllCommandExecuted(ExecutionContext context)
         {
         }
 
@@ -161,17 +162,18 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand<T> InsertCommand(T entity)
         {
+            var context = new ExecutionContext();
             return new ServiceCommand<T>
             (
-                beforeExecuteMethod: () => OnBeforeInsertCommandExecuted(entity),
-                executeMethod: () => Insert(entity),
-                executeAsyncMethod: () => InsertAsync(entity),
-                getValidationRulesMethod: () => GetValidationResultsForInsert(entity),
-                getBusinessRulesMethod: () => GetBusinessRulesForInsert(entity)
+                beforeExecuteMethod: () => OnBeforeInsertCommandExecuted(entity, context),
+                executeMethod: () => Insert(entity, context),
+                executeAsyncMethod: () => InsertAsync(entity, context),
+                getValidationRulesMethod: () => GetValidationResultsForInsert(entity, context),
+                getBusinessRulesMethod: () => GetBusinessRulesForInsert(entity, context)
             );
         }
 
-        protected virtual void OnBeforeInsertCommandExecuted(T entity)
+        protected virtual void OnBeforeInsertCommandExecuted(T entity, ExecutionContext context)
         {
         }
         
@@ -181,17 +183,18 @@ namespace Facile.Core
         /// <param name="entity"></param>
         public virtual ICommand<T> UpdateCommand(T entity)
         {
+            var context = new ExecutionContext();
             return new ServiceCommand<T>
             (
-                beforeExecuteMethod: () => OnBeforeUpdateCommandExecuted(entity),
-                executeMethod: () => Update(entity),
-                executeAsyncMethod: () => UpdateAsync(entity),
-                getValidationRulesMethod: () => GetValidationResultsForUpdate(entity),
-                getBusinessRulesMethod: () => GetBusinessRulesForUpdate(entity)
+                beforeExecuteMethod: () => OnBeforeUpdateCommandExecuted(entity, context),
+                executeMethod: () => Update(entity, context),
+                executeAsyncMethod: () => UpdateAsync(entity, context),
+                getValidationRulesMethod: () => GetValidationResultsForUpdate(entity, context),
+                getBusinessRulesMethod: () => GetBusinessRulesForUpdate(entity, context)
             );
         }
 
-        protected void OnBeforeUpdateCommandExecuted(T entity)
+        protected void OnBeforeUpdateCommandExecuted(T entity, ExecutionContext context)
         {
         }
 
@@ -200,24 +203,25 @@ namespace Facile.Core
         /// </summary>
         public virtual ICommand DeleteCommand(TKey id)
         {
+            var context = new ExecutionContext();
             return new ServiceCommand
             (
-                beforeExecuteMethod: () => OnBeforeDeleteCommandExecuted(id),
-                executeMethod: () => Delete(id),
-                executeAsyncMethod: () => DeleteAsync(id),
-                getValidationRulesMethod: () => GetValidationResultsForDelete(id),
-                getBusinessRulesMethod: () => GetBusinessRulesForDelete(id)
+                beforeExecuteMethod: () => OnBeforeDeleteCommandExecuted(id, context),
+                executeMethod: () => Delete(id, context),
+                executeAsyncMethod: () => DeleteAsync(id, context),
+                getValidationRulesMethod: () => GetValidationResultsForDelete(id, context),
+                getBusinessRulesMethod: () => GetBusinessRulesForDelete(id, context)
             );
         }
 
-        protected void OnBeforeDeleteCommandExecuted(TKey id)
+        protected void OnBeforeDeleteCommandExecuted(TKey id, ExecutionContext context)
         {
         }
 
         /// <summary>
         /// Invoked by GetAllCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual IEnumerable<T> GetAll()
+        protected virtual IEnumerable<T> GetAll(ExecutionContext context)
         {
             return _dataProxy.GetAll();
         }
@@ -225,7 +229,7 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by GetByIDCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual T GetByID(TKey id)
+        protected virtual T GetByID(TKey id, ExecutionContext context)
         {
             return _dataProxy.GetByID(id);
         }
@@ -233,7 +237,7 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by InsertCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual T Insert(T entity)
+        protected virtual T Insert(T entity, ExecutionContext context)
         {
             return _dataProxy.Insert(entity);
         }
@@ -241,7 +245,7 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by UpdateCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual T Update(T entity)
+        protected virtual T Update(T entity, ExecutionContext context)
         {
             return _dataProxy.Update(entity);
         }
@@ -249,7 +253,7 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by DeleteCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual void Delete(TKey id)
+        protected virtual void Delete(TKey id, ExecutionContext context)
         {
             _dataProxy.Delete(id);
         }
@@ -257,7 +261,7 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by GetAllCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual async Task<IEnumerable<T>> GetAllAsync()
+        protected virtual async Task<IEnumerable<T>> GetAllAsync(ExecutionContext context)
         {
             return await _dataProxy.GetAllAsync();
         }
@@ -265,7 +269,7 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by GetByIDCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual async Task<T> GetByIDAsync(TKey id)
+        protected virtual async Task<T> GetByIDAsync(TKey id, ExecutionContext context)
         {
             return await _dataProxy.GetByIDAsync(id);
         }
@@ -273,7 +277,7 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by InsertCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual async Task<T> InsertAsync(T entity)
+        protected virtual async Task<T> InsertAsync(T entity, ExecutionContext context)
         {
             return await _dataProxy.InsertAsync(entity);
         }
@@ -281,7 +285,7 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by UpdateCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual async Task<T> UpdateAsync(T entity)
+        protected virtual async Task<T> UpdateAsync(T entity, ExecutionContext context)
         {
             return await _dataProxy.UpdateAsync(entity);
         }
@@ -289,9 +293,14 @@ namespace Facile.Core
         /// <summary>
         /// Invoked by DeleteCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual Task DeleteAsync(TKey id)
+        protected virtual Task DeleteAsync(TKey id, ExecutionContext context)
         {
             return _dataProxy.DeleteAsync(id);
         }
+    }
+
+    public class ExecutionContext
+    {
+        public Dictionary<string, object> Data { get; set; }
     }
 }

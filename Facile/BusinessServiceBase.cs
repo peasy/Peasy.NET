@@ -21,7 +21,7 @@ namespace Facile
         /// <summary>
         /// Supplies validation results to DeleteCommand()
         /// </summary>
-        protected override IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id)
+        protected override IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id, ExecutionContext context)
         {
             var rule = id.CreateValueRequiredRule("id").Validate();
             if (!rule.IsValid)
@@ -31,7 +31,7 @@ namespace Facile
         /// <summary>
         /// Supplies validation results to GetByIDCommand()
         /// </summary>
-        protected override IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id)
+        protected override IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id, ExecutionContext context)
         {
             var rule = id.CreateValueRequiredRule("id").Validate();
             if (!rule.IsValid)
@@ -43,12 +43,12 @@ namespace Facile
         /// </summary>
         /// <exception cref="Facile.Exception.DomainObjectNotFoundException" />
         /// <exception cref="Facile.Exception.ConcurrencyException" />
-        protected override T Update(T entity)
+        protected override T Update(T entity, ExecutionContext context)
         {
             // only perform this if we're not latency prone - keep it close to the server, no need to do this more than once
             if (!this.IsLatencyProne)
             {
-                T current = GetByID(entity.ID);
+                T current = GetByID(entity.ID, context);
                 if (current == null)
                 {
                     throw new DomainObjectNotFoundException(BuildNotFoundError(entity.ID));
@@ -69,12 +69,12 @@ namespace Facile
         /// <summary>
         /// Invoked by UpdateCommand() if validation and business rules execute successfully
         /// </summary>
-        protected override async Task<T> UpdateAsync(T entity)
+        protected override async Task<T> UpdateAsync(T entity, ExecutionContext context)
         {
             // only perform this if we're not latency prone - keep it close to the server, no need to do this more than once
             if (!this.IsLatencyProne)
             {
-                T current = await GetByIDAsync(entity.ID);
+                T current = await GetByIDAsync(entity.ID, context);
                 if (current == null)
                 {
                     throw new DomainObjectNotFoundException(BuildNotFoundError(entity.ID));

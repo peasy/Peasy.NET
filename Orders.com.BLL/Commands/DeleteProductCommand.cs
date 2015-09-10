@@ -63,7 +63,7 @@ namespace Products.com.BLL.Commands
             if (!rule.IsValid)
                 yield return new ValidationResult(rule.ErrorMessage);
 
-            foreach (var error in GetRules().GetValidationErrors())
+            foreach (var error in GetRules().GetBusinessRulesResults())
                 yield return error;
         }
     }

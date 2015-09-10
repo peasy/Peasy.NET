@@ -72,7 +72,7 @@ namespace Orders.com.BLL.Commands
         {
             CurrentOrderItem = _orderItemDataProxy.GetByID(_orderItemID);
 
-            foreach (var error in GetRules().GetValidationErrors())
+            foreach (var error in GetRules().GetBusinessRulesResults())
                 yield return error;
 
             foreach (var error in _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).GetErrors())
