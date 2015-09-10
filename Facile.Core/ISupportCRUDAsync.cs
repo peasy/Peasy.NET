@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Facile.Core 
+namespace Facile.Core
 {
-    public interface ISupportCRUDAsync<T, TKey> : ISupportGetAllAsync<T>,
+    public interface ISupportCRUDAsync<T, TKey> :
+                                   ISupportGetAllAsync<T>,
                                    ISupportGetByIDAsync<T, TKey>,
                                    ISupportInsertAsync<T>,
                                    ISupportUpdateAsync<T>,
@@ -14,7 +12,7 @@ namespace Facile.Core
     {
     }
 
-    public interface ISupportGetAllAsync<T> 
+    public interface ISupportGetAllAsync<T>
     {
         Task<IEnumerable<T>> GetAllAsync();
     }
@@ -23,13 +21,13 @@ namespace Facile.Core
     {
         Task<T> GetByIDAsync(TKey id);
     }
-    
-    public interface ISupportInsertAsync<T> 
+
+    public interface ISupportInsertAsync<T>
     {
         Task<T> InsertAsync(T entity);
     }
 
-    public interface ISupportUpdateAsync<T> 
+    public interface ISupportUpdateAsync<T>
     {
         Task<T> UpdateAsync(T entity);
     }

@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Facile.Core
 {
-    public interface ISupportCRUD<T, TKey> : ISupportGetAll<T>,
+    public interface ISupportCRUD<T, TKey> :
+                                       ISupportGetAll<T>,
                                        ISupportGetByID<T, TKey>,
                                        ISupportInsert<T>,
                                        ISupportUpdate<T>,
                                        ISupportDelete<TKey>
- 
+
     {
     }
 
-    public interface ISupportGetAll<T> 
+    public interface ISupportGetAll<T>
     {
         IEnumerable<T> GetAll();
     }
@@ -25,12 +22,12 @@ namespace Facile.Core
         T GetByID(TKey id);
     }
 
-    public interface ISupportInsert<T> 
+    public interface ISupportInsert<T>
     {
         T Insert(T entity);
     }
 
-    public interface ISupportUpdate<T> 
+    public interface ISupportUpdate<T>
     {
         T Update(T entity);
     }
