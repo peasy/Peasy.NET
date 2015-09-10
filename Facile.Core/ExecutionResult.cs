@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Facile.Core
 {
+    /// <summary>
+    /// Defines the result of a command's execution
+    /// </summary>
     public class ExecutionResult
     {
         public bool Success { get; set; }
         public IEnumerable<ValidationResult> Errors { get; set; }
     }
 
+    /// <summary>
+    /// Defines the result of a command's execution and returns a value of T
+    /// </summary>
     public class ExecutionResult<T> : ExecutionResult
     {
         public T Value { get; set; }
