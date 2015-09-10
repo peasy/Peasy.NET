@@ -33,6 +33,17 @@ namespace Facile.Core
         public bool IsValid { get; protected set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this rule is valid.
+        /// </summary>
+        /// <value>
+        /// <c>True</c> if this instance is invalid; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsInvalid
+        {
+            get { return !IsValid; }
+        }
+
+        /// <summary>
         /// Gets or sets the <see cref="RuleBase"/> that should be evaluated after this instance.
         /// </summary>
         /// <value>
