@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Facile.Core
+﻿namespace Facile.Core
 {
-    public interface IDomainObject<TKey>
+    public interface IDomainObject {} 
+
+    public interface IDomainObject<TKey> : IDomainObject
     {
         TKey ID { get; set; }
     }
