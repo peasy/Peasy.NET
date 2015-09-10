@@ -19,6 +19,12 @@ namespace Facile.Core
             }
         }
 
+        public static IEnumerable<ValidationResult> GetBusinessRulesResults(this IEnumerable<IRule> businessRules)
+        {
+            return IRuleExtensions.GetBusinessRulesResults(businessRules, string.Empty);
+        }
+
+
         public static IRule IfAllValidThenValidate(this IEnumerable<IRule> r, params IRule[] rules)
         {
             return new ValidRuleContainer().IfValidThenValidate(r.ToArray()).IfValidThenValidate(rules);
