@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Facile.Core
 {
@@ -33,11 +32,8 @@ namespace Facile.Core
         public bool IsValid { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="RuleBase"/> that should be evaluated after this instance.
+        /// Gets or sets the list of <see cref="IRule"/> that should be evaluated upon successful validation.
         /// </summary>
-        /// <value>
-        /// The successor <see cref="RuleBase"/>.
-        /// </value>
         private List<IRule[]> Successor = new List<IRule[]>();
 
         /// <summary>
@@ -58,8 +54,7 @@ namespace Facile.Core
                             rule.Validate();
                             if (!rule.IsValid)
                             {
-                                IsValid = rule.IsValid;
-                                ErrorMessage = rule.ErrorMessage;
+                                Invalidate(rule.ErrorMessage);
                                 HandleIfInvalidThenExecute();
                                 break; // early exit, don't bother further rule execution
                             }
@@ -69,7 +64,10 @@ namespace Facile.Core
                 }
                 HandleIfValidThenExecute();
             }
-            HandleIfInvalidThenExecute();
+            else
+            {
+                HandleIfInvalidThenExecute();
+            }
             return this;
         }
 
@@ -92,9 +90,9 @@ namespace Facile.Core
         }
 
         /// <summary>
-        /// Validates the supplied <see cref="RuleBase"/> if this rule passes validation.
+        /// Validates the supplied list of <see cref="IRule"/> upon successful validation. 
         /// </summary>
-        /// <param name="rule">The <see cref="RuleBase"/>.</param>
+        /// <param name="rules">The <see cref="IRule"/>.</param>
         /// <returns>The supplied <see cref="RuleBase"/>.</returns>
         public IRule IfValidThenValidate(params IRule[] rules)
         {
@@ -103,7 +101,7 @@ namespace Facile.Core
         }
 
         /// <summary>
-        /// Execute an action if the rule passes validation.
+        /// Executes the supplied action upon successful validation.
         /// </summary>
         /// <param name="method">The action to perform.</param>
         public IRule IfValidThenExecute(Action<IRule> method)
@@ -113,7 +111,7 @@ namespace Facile.Core
         }
 
         /// <summary>
-        /// Execute an action if the rule fails validation.
+        /// Executes the supplied action upon failed validation.
         /// </summary>
         /// <param name="method">The action to perform.</param>
         public IRule IfInvalidThenExecute(Action<IRule> method)
@@ -130,6 +128,10 @@ namespace Facile.Core
         /// </returns>
         protected abstract void OnValidate();
 
+        /// <summary>
+        /// Invalidates the rule 
+        /// </summary>
+        /// <param name="errorMessage">The error message to associate with the broken rule</param>
         protected virtual void Invalidate(string errorMessage)
         {
             ErrorMessage = errorMessage;

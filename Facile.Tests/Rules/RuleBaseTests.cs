@@ -8,142 +8,275 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Moq.Protected;
+using Shouldly;
 
 namespace Facile.Tests.Rules
 {
+
     [Trait("Rules", "RuleBase")]
     public class RuleBaseTests
     {
-        //[Fact] 
-        //public void SuccessorExecutesOnTrue()
-        //{
-        //    var entity = new Mock<DomainBase<int>>().Object;
-        //    var rule = new GreaterThanZeroRule(1, "foo")
-        //                       .IfValidThenValidate(new DomainObjectMustContainIDRule(entity));
-        //    Assert.Equal("Domain object must contain an id value greater than 0", rule.Validate().ErrorMessage);
-        //}
+        [Fact]
+        public void ValidRuleIsValidAfterValidation()
+        {
+            var rule = new TrueRule().Validate();
+            rule.IsValid.ShouldBe(true);
+        }
 
-        //[Fact] 
-        //public void SuccessorDoesNotExecuteOnFalse()
-        //{
-        //    var entity = new Mock<DomainBase>().Object;
-        //    var rule = new GreaterThanZeroRule(0, "field must be greater than zero")
-        //                       .IfValidThenValidate(new DomainObjectMustContainIDRule(entity));
-        //    Assert.Equal("field must be greater than zero", rule.Validate().ErrorMessage);
-        //}
-        
-        //[Fact] 
-        //public void ThreeRuleChainExecutesSuccessfully()
-        //{
-        //    var entity = BuildEntityMock(1, new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
-        //    var entity2 = BuildEntityMock(2, new byte[] { 1, 2, 3, 4, 5, 6, 7, 8 });
+        [Fact]
+        public void ValidRuleDoesNotContainAnErrorMessageAfterValidation()
+        {
+            var rule = new TrueRule().Validate();
+            rule.ErrorMessage.ShouldBe(null);
+        }
 
-        //    var rule = new GreaterThanZeroRule(1, "foo")
-        //                   .IfValidThenValidate(new DomainObjectMustContainIDRule(entity)
-        //                                            .IfValidThenValidate(new ConcurrencyCheckRule(entity, entity2)));
+        [Fact]
+        public void InvalidRuleIsInvalidAfterValidation()
+        {
+            var rule = new FalseRule1().Validate();
+            rule.IsValid.ShouldBe(false);
+        }
 
-        //    Assert.True(rule.Validate().IsValid);
-        //}
-        
-        //[Fact] 
-        //public void InvokesIfValidThenExecute()
-        //{
-        //    var output = string.Empty;
-        //    new GreaterThanZeroRule(1, "foo")
-        //           .IfValidThenExecute(rule => output = "pass")
-        //           .Validate();
+        [Fact]
+        public void InvalidRuleContainsAnErrorMessageAfterValidation()
+        {
+            var rule = new FalseRule1().Validate();
+            rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
 
-        //    Assert.Equal("pass", output);
-        //}
+        [Fact]
+        public void ValidParentFailsWhenSuccessorFailsValidation()
+        {
+            var rule1 = new TrueRule().IfValidThenValidate(new FalseRule1()).Validate();
+            rule1.IsValid.ShouldBe(false);
+            rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
 
-        //[Fact] 
-        //public void DoesNotInvokeIfValidThenExecute()
-        //{
-        //    var output = string.Empty;
-        //    new GreaterThanZeroRule(0, "foo")
-        //           .IfValidThenExecute(rule => output = "pass")
-        //           .Validate();
+        [Fact]
+        public void SuccessorDoesNotExecuteWhenParentFails()
+        {
+            var rule1 = new FalseRule1().IfValidThenValidate(new FalseRule2()).Validate();
+            rule1.IsValid.ShouldBe(false);
+            rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
 
-        //    Assert.Equal("", output);
-        //}
+        [Fact]
+        public void AllRemainingSuccessorsSkipValidationWhenFirstSuccessorFails()
+        {
+            var rule1 = new TrueRule()
+                                .IfValidThenValidate(new FalseRule1(), new FalseRule2(), new FalseRule3())
+                                .Validate();
+            rule1.IsValid.ShouldBe(false);
+            rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
 
-        //[Fact] 
-        //public void InvokesIfInvalidThenExecute()
-        //{
-        //    var output = string.Empty;
-        //    new GreaterThanZeroRule(0, "foo")
-        //           .IfInvalidThenExecute(rule => output = "pass")
-        //           .Validate();
+        [Fact]
+        public void LastSuccessorValidatesWhenFirstSuccessorsPass()
+        {
+            var rule1 = new TrueRule()
+                                .IfValidThenValidate(new TrueRule(), new TrueRule(), new FalseRule1())
+                                .Validate();
+            rule1.IsValid.ShouldBe(false);
+            rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
 
-        //    Assert.Equal("pass", output);
-        //}
+        [Fact]
+        public void LastSuccessorsInSuccessorChainAreSkippedWhenFirstSuccessorsFail()
+        {
+            var rule = new TrueRule()
+                              .IfValidThenValidate(new TrueRule(), new FalseRule1())
+                              .IfValidThenValidate(new FalseRule2(), new FalseRule3())
+                              .Validate();
+            rule.IsValid.ShouldBe(false);
+            rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        } 
 
-        //[Fact] 
-        //public void DoesNotInvokeIfInvalidThenExecute()
-        //{
-        //    var output = string.Empty;
-        //    new GreaterThanZeroRule(1, "foo")
-        //           .IfInvalidThenExecute(rule => output = "pass")
-        //           .Validate();
+        [Fact]
+        public void LastSuccessorInSuccessorChainIsSkippedWhenFirstSuccessorsPass()
+        {
+            var rule = new TrueRule()
+                              .IfValidThenValidate(new TrueRule(), new TrueRule())
+                              .IfValidThenValidate(new FalseRule2(), new FalseRule3())
+                              .Validate();
+            rule.IsValid.ShouldBe(false);
+            rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
+        } 
 
-        //    Assert.Equal("", output);
-        //}
+        [Fact]
+        public void ParentFailsWhenLastSuccessorInChainsFailsValidation()
+        {
+            var rule = new TrueRule()
+                              .IfValidThenValidate(new TrueRule(), new TrueRule())
+                              .IfValidThenValidate(new TrueRule(), new FalseRule3())
+                              .Validate();
+            rule.IsValid.ShouldBe(false);
+            rule.ErrorMessage.ShouldBe("FalseRule3 failed validation");
+        }
 
-        //[Fact] 
-        //public void SuccessorInvokesExecuteIfValidThenExecute()
-        //{
-        //    var output = string.Empty;
-        //    var entity = BuildEntityMock(1, null);
-        //    var rule = new GreaterThanZeroRule(1, "foo")
-        //                       .IfValidThenValidate(new DomainObjectMustContainIDRule(entity)
-        //                                                    .IfValidThenExecute(r => output = "pass"));
-        //    rule.Validate();
-        //    Assert.Equal("pass", output);
-        //}
-        
-        //[Fact] 
-        //public void SuccessorDoesNotInvokeExecuteIfValidThenExecute()
-        //{
-        //    var output = string.Empty;
-        //    var entity = BuildEntityMock(0, null);
-        //    var rule = new GreaterThanZeroRule(1, "foo")
-        //                       .IfValidThenValidate(new DomainObjectMustContainIDRule(entity)
-        //                                                    .IfValidThenExecute(r => output = "pass"));
-        //    rule.Validate();
-        //    Assert.Equal("", output);
-        //}
+        [Fact]
+        public void ThreeRuleChainExecutesSuccessfully()
+        {
+            var rule = new TrueRule()
+                            .IfValidThenValidate(new TrueRule()
+                                                      .IfValidThenValidate(new TrueRule())).Validate();
 
-        //[Fact] 
-        //public void SuccessorInvokesExecuteIfInvalidThenExecute()
-        //{
-        //    var output = string.Empty;
-        //    var entity = BuildEntityMock(0, null);
-        //    var rule = new GreaterThanZeroRule(1, "foo")
-        //                       .IfValidThenValidate(new DomainObjectMustContainIDRule(entity)
-        //                                                    .IfInvalidThenExecute(r => output = "pass"));
-        //    rule.Validate();
-        //    Assert.Equal("pass", output);
-        //}
-        
-        //[Fact] 
-        //public void SuccessorDoesNotInvokeExecuteIfInvalidThenExecute()
-        //{
-        //    var output = string.Empty;
-        //    var entity = BuildEntityMock(1, null);
-        //    var rule = new GreaterThanZeroRule(1, "foo")
-        //                       .IfValidThenValidate(new DomainObjectMustContainIDRule(entity)
-        //                                                    .IfInvalidThenExecute(r => output = "pass"));
-        //    rule.Validate();
-        //    Assert.Equal("", output);
-        //}
+            rule.IsValid.ShouldBe(true);
+        }
 
-        //private static DomainBase BuildEntityMock(int domainID, byte[] version)
-        //{
-        //    var mock = new Mock<DomainBase>();
-        //    mock.Setup(e => e.ID).Returns(domainID);
-        //    var entity = mock.Object;
-        //    entity.Version = version;
-        //    return entity;
-        //}
+        [Fact]
+        public void ThreeRuleChainFailSkipsThirdInChainWhenSecondFails()
+        {
+            var rule = new TrueRule()
+                            .IfValidThenValidate(new FalseRule1()
+                                                      .IfValidThenValidate(new FalseRule2())).Validate();
+            rule.IsValid.ShouldBe(false);
+            rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
+
+        [Fact]
+        public void ThreeRuleChainHitsThirdInChainAndFailsParent()
+        {
+            var rule = new TrueRule()
+                            .IfValidThenValidate(new TrueRule()
+                                                      .IfValidThenValidate(new FalseRule1())).Validate();
+            rule.IsValid.ShouldBe(false);
+            rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
+
+        [Fact]
+        public void InvokesIfValidThenExecute()
+        {
+            var output = string.Empty;
+            new TrueRule()
+                    .IfValidThenExecute(rule => output = "pass")
+                    .Validate();
+
+            output.ShouldBe("pass");
+        }
+
+        [Fact]
+        public void DoesNotInvokeIfValidThenExecute()
+        {
+            var output = string.Empty;
+            new FalseRule1()
+                    .IfValidThenExecute(rule => output = "pass")
+                    .Validate();
+
+            output.ShouldBe(string.Empty);
+        }
+
+        [Fact]
+        public void InvokesIfInvalidThenExecute()
+        {
+            var output = string.Empty;
+            new FalseRule1()
+                    .IfInvalidThenExecute(rule => output = "pass")
+                    .Validate();
+
+            output.ShouldBe("pass");
+        }
+
+        [Fact]
+        public void DoesNotInvokeIfInvalidThenExecute()
+        {
+            var output = string.Empty;
+            new TrueRule() 
+                   .IfInvalidThenExecute(rule => output = "pass")
+                   .Validate();
+
+            output.ShouldBe(string.Empty);
+        }
+
+        [Fact]
+        public void SuccessorInvokesExecuteIfValidThenExecute()
+        {
+            var output = string.Empty;
+            new TrueRule()
+                    .IfValidThenValidate(new TrueRule()
+                                                .IfValidThenExecute(r => output = "pass")).Validate();
+
+            output.ShouldBe("pass");
+        }
+
+        [Fact]
+        public void SuccessorDoesNotInvokeExecuteIfValidThenExecute()
+        {
+            var output = string.Empty;
+            new TrueRule()
+                .IfValidThenValidate(new FalseRule1()
+                                         .IfValidThenExecute(r => output = "pass")).Validate();
+
+            output.ShouldBe(string.Empty);
+        }
+
+        [Fact]
+        public void SuccessorInvokesExecuteIfInvalidThenExecute()
+        {
+            var output = string.Empty;
+            new TrueRule()
+                .IfValidThenValidate(new FalseRule1()
+                                         .IfInvalidThenExecute(r => output = "pass")).Validate();
+
+            output.ShouldBe("pass");
+        }
+
+        [Fact]
+        public void SuccessorDoesNotInvokeExecuteIfInvalidThenExecute()
+        {
+            var output = string.Empty;
+            new TrueRule()
+                .IfValidThenValidate(new TrueRule()
+                                         .IfInvalidThenExecute(r => output = "pass")).Validate();
+
+            output.ShouldBe(string.Empty);
+        }
+    }
+
+    public class TrueRule : RuleBase
+    {
+        protected override void OnValidate() { }
+    }
+
+    public class FalseRule1 : RuleBase
+    {
+        protected override void OnValidate()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule1 failed validation";
+        }
+    }
+    public class FalseRule2 : RuleBase
+    {
+        protected override void OnValidate()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule2 failed validation";
+        }
+    }
+    public class FalseRule3 : RuleBase
+    {
+        protected override void OnValidate()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule3 failed validation";
+        }
+    }
+    
+    public class ChangeStateAndFailRule : RuleBase
+    {
+        private int _value;
+
+        public ChangeStateAndFailRule(ref int value)
+        {
+            _value = value;
+        }
+
+        protected override void OnValidate()
+        {
+            _value = 42;
+            IsValid = false;
+            ErrorMessage = "ChangeStateAndFailRule failed validation";
+        }
+
     }
 }
