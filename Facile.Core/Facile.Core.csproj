@@ -40,7 +40,6 @@
     <Compile Include="CommandBase.cs" />
     <Compile Include="Extensions\IDomainObjectExtensions.cs" />
     <Compile Include="ExecutionResult.cs" />
-    <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="ICommand.cs" />
