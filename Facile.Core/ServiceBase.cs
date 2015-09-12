@@ -63,15 +63,7 @@ namespace Facile.Core
         protected virtual IEnumerable<ValidationResult> GetBusinessRulesResults(IEnumerable<IRule> businessRules)
         {
             string entityName = typeof(T).Name;
-
-            var invalidRules = businessRules.ToArray()
-                                            .ForEach(rule => rule.Validate())
-                                            .Where(rule => !rule.IsValid);
-
-            foreach (var rule in invalidRules)
-            {
-                yield return new ValidationResult(rule.ErrorMessage, new string[] {  entityName });
-            }
+            return businessRules.GetBusinessRulesResults(entityName);
         }
 
         /// <summary>
