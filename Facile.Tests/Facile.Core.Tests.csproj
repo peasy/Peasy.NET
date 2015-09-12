@@ -9,8 +9,8 @@
     <ProjectGuid>{F01AB2B6-A595-4FDB-AE8C-8B65278F9B9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Facile.Tests</RootNamespace>
-    <AssemblyName>Facile.Tests</AssemblyName>
+    <RootNamespace>Facile.Core.Tests</RootNamespace>
+    <AssemblyName>Facile.Core.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>4da5ac6b</NuGetPackageImportStamp>
@@ -67,8 +67,8 @@
     <Compile Include="Rules\ConcurrencyCheckRuleTests.cs" />
     <Compile Include="Rules\DomainObjectMustContainIDRuleTests.cs" />
     <Compile Include="Rules\GreaterThanZeroRuleTests.cs" />
-    <Compile Include="Rules\CommandTests.cs" />
-    <Compile Include="Rules\RuleBaseTests.cs" />
+    <Compile Include="CommandTests.cs" />
+    <Compile Include="RuleBaseTests.cs" />
     <Compile Include="Rules\ValueRequiredRuleTests.cs" />
   </ItemGroup>
   <ItemGroup>
