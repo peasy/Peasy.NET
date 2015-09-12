@@ -1,14 +1,6 @@
 ﻿using Facile.Core;
-using Facile.Rules;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using Moq.Protected;
 using Shouldly;
+using Xunit;
 
 namespace Facile.Tests.Rules
 {
@@ -230,6 +222,64 @@ namespace Facile.Tests.Rules
 
             output.ShouldBe(string.Empty);
         }
+
+        [Fact]
+        public void FirstValidRuleInFirstSuccessorChainShouldExecute()
+        {
+            var output = string.Empty;
+            var rule = new TrueRule()
+                              .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new TrueRule())
+                              .IfValidThenValidate(new TrueRule(), new FalseRule3())
+                              .Validate();
+            output.ShouldBe("pass");
+        }
+
+        [Fact]
+        public void SecondValidRuleInFirstSuccessorChainShouldExecute()
+        {
+            var output = string.Empty;
+            var rule = new TrueRule()
+                              .IfValidThenValidate(new TrueRule(), new TrueRule().IfValidThenExecute(r => output = "pass"))
+                              .IfValidThenValidate(new TrueRule(), new FalseRule3())
+                              .Validate();
+            output.ShouldBe("pass");
+        }
+
+        [Fact]
+        public void FirstValidRuleInSecondSuccessorChainShouldExecute()
+        {
+            var output = string.Empty;
+            var rule = new TrueRule()
+                              .IfValidThenValidate(new TrueRule(), new TrueRule())
+                              .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new FalseRule3())
+                              .Validate();
+            output.ShouldBe("pass");
+        }
+
+        [Fact]
+        public void SecondInvalidRuleInSecondSuccessorChainShouldExecute()
+        {
+            var output = string.Empty;
+            var rule = new TrueRule()
+                              .IfValidThenValidate(new TrueRule(), new TrueRule())
+                              .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenExecute(r => output = "pass"))
+                              .Validate();
+            output.ShouldBe("pass");
+        }
+
+        [Fact]
+        public void FirstValidRuleInSecondSuccessorChainShouldExecuteButThirdFalseRuleShouldNot()
+        {
+            var output = string.Empty;
+            var output2 = string.Empty;
+            var rule = new TrueRule()
+                              .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new TrueRule())
+                              .IfValidThenValidate(new FalseRule2().IfValidThenExecute(r => output2 = "pass"), new FalseRule3())
+                              .Validate();
+            output.ShouldBe("pass");
+            output2.ShouldBe(string.Empty);
+            rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
+        }
     }
 
     public class TrueRule : RuleBase
@@ -260,23 +310,5 @@ namespace Facile.Tests.Rules
             IsValid = false;
             ErrorMessage = "FalseRule3 failed validation";
         }
-    }
-    
-    public class ChangeStateAndFailRule : RuleBase
-    {
-        private int _value;
-
-        public ChangeStateAndFailRule(ref int value)
-        {
-            _value = value;
-        }
-
-        protected override void OnValidate()
-        {
-            _value = 42;
-            IsValid = false;
-            ErrorMessage = "ChangeStateAndFailRule failed validation";
-        }
-
     }
 }
