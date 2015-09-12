@@ -67,6 +67,7 @@
     <Compile Include="Rules\ConcurrencyCheckRuleTests.cs" />
     <Compile Include="Rules\DomainObjectMustContainIDRuleTests.cs" />
     <Compile Include="Rules\GreaterThanZeroRuleTests.cs" />
+    <Compile Include="Rules\CommandTests.cs" />
     <Compile Include="Rules\RuleBaseTests.cs" />
     <Compile Include="Rules\ValueRequiredRuleTests.cs" />
   </ItemGroup>
