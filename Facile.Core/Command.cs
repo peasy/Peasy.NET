@@ -13,7 +13,7 @@ namespace Facile.Core
         /// </summary>
         public ExecutionResult Execute()
         {
-            OnInitialization();
+            OnInitialization(); // Allow subclass to rectify any errors before rules execution begins
 
             var validationResults = GetErrors().ToArray();
             if (validationResults.Any())

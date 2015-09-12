@@ -15,16 +15,32 @@ namespace Facile.Tests.Rules
         public void OnInitializationIsInvoked()
         {
             var mock = new MockCommand();
-            mock.Execute();
-            mock.OnInitializationInvoked.ShouldBe(true);
+            var result = mock.Execute();
+            mock.OnInitializationWasInvoked.ShouldBe(true);
         }
 
         [Fact]
         public void OnExecuteIsInvokedWhenNoErrorsExist()
         {
             var mock = new MockCommand();
-            mock.Execute();
-            mock.OnExecuteInvoked.ShouldBe(true);
+            var result = mock.Execute();
+            mock.OnExecuteWasInvoked.ShouldBe(true);
+        }
+
+        [Fact]
+        public void ExecutionResultIsSuccessfulWhenValidationIsSuccessful()
+        {
+            var mock = new MockCommand();
+            var result = mock.Execute();
+            result.Success.ShouldBe(true); 
+        }
+
+        [Fact]
+        public void ExecutionResultShouldContainNoErrorsWhenValidationIsSuccessful()
+        {
+            var mock = new MockCommand();
+            var result = mock.Execute();
+            result.Errors.ShouldBe(null);
         }
 
         [Fact]
@@ -33,7 +49,25 @@ namespace Facile.Tests.Rules
             var mock = new MockCommand();
             mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
             mock.Execute();
-            mock.OnExecuteInvoked.ShouldBe(false);
+            mock.OnExecuteWasInvoked.ShouldBe(false);
+        }
+
+        [Fact]
+        public void ExecutionResultIsNotSuccessfulWhenValidationIsNotSuccessful()
+        {
+            var mock = new MockCommand();
+            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var result = mock.Execute();
+            result.Success.ShouldBe(false); 
+        }
+
+        [Fact]
+        public void ExecutionResultShouldContainErrorsWhenValidationIsNotSuccessful()
+        {
+            var mock = new MockCommand();
+            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var result = mock.Execute();
+            result.Errors.Count().ShouldBe(1);
         }
 
         [Fact]
@@ -41,7 +75,7 @@ namespace Facile.Tests.Rules
         {
             var mock = new MockCommand();
             mock.ExecuteAsync().Wait();
-            mock.OnInitializationAsyncInvoked.ShouldBe(true);
+            mock.OnInitializationAsyncWasInvoked.ShouldBe(true);
         }
 
         [Fact]
@@ -49,7 +83,7 @@ namespace Facile.Tests.Rules
         {
             var mock = new MockCommand();
             mock.ExecuteAsync().Wait();
-            mock.OnExecuteAsyncInvoked.ShouldBe(true);
+            mock.OnExecuteAsyncWasInvoked.ShouldBe(true);
         }
 
         [Fact]
@@ -58,7 +92,7 @@ namespace Facile.Tests.Rules
             var mock = new MockCommand();
             mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
             mock.ExecuteAsync().Wait();
-            mock.OnExecuteAsyncInvoked.ShouldBe(false);
+            mock.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }
     }
 
@@ -70,19 +104,19 @@ namespace Facile.Tests.Rules
         }
 
         public IEnumerable<ValidationResult> Errors { get; set; }
-        public bool OnInitializationInvoked { get; set; }
-        public bool OnExecuteInvoked { get; set; }
-        public bool OnInitializationAsyncInvoked { get; set; }
-        public bool OnExecuteAsyncInvoked { get; set; }
+        public bool OnInitializationWasInvoked { get; set; }
+        public bool OnExecuteWasInvoked { get; set; }
+        public bool OnInitializationAsyncWasInvoked { get; set; }
+        public bool OnExecuteAsyncWasInvoked { get; set; }
 
         protected override void OnInitialization()
         {
-            OnInitializationInvoked = true;
+            OnInitializationWasInvoked = true;
         }
 
         protected override Task OnInitializationAsync()
         {
-            OnInitializationAsyncInvoked = true;
+            OnInitializationAsyncWasInvoked = true;
             return Task.Delay(0);
         }
 
@@ -93,12 +127,12 @@ namespace Facile.Tests.Rules
 
         protected override void OnExecute()
         {
-            OnExecuteInvoked = true;
+            OnExecuteWasInvoked = true;
         }
 
         protected override Task OnExecuteAsync()
         {
-            OnExecuteAsyncInvoked = true;
+            OnExecuteAsyncWasInvoked = true;
             return Task.Delay(0);
         }
     }
