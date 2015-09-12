@@ -27,19 +27,19 @@ namespace Orders.com.BLL
             _transactionContext = transactionContext;
         }
 
-        protected override void OnBeforeInsertCommandExecuted(OrderItem entity, ExecutionContext context)
+        protected override void OnBeforeInsertCommandExecuted(OrderItem entity, ExecutionContext<OrderItem> context)
         {
             entity.OrderStatus().SetPendingState();
         }
 
-        protected override IEnumerable<IRule> GetBusinessRulesForInsert(OrderItem entity, ExecutionContext context)
+        protected override IEnumerable<IRule> GetBusinessRulesForInsert(OrderItem entity, ExecutionContext<OrderItem> context)
         {
             var currentProduct = _productDataProxy.GetByID(entity.ProductID);
             yield return new OrderItemPriceValidityRule(entity, currentProduct);
             yield return new OrderItemAmountValidityRule(entity, currentProduct);
         }
 
-        protected override IEnumerable<IRule> GetBusinessRulesForUpdate(OrderItem entity, ExecutionContext context)
+        protected override IEnumerable<IRule> GetBusinessRulesForUpdate(OrderItem entity, ExecutionContext<OrderItem> context)
         {
             var currentProduct = _productDataProxy.GetByID(entity.ProductID);
             yield return new ValidOrderItemStatusForUpdateRule(entity)
@@ -50,7 +50,7 @@ namespace Orders.com.BLL
                                 );
         }
 
-        protected override IEnumerable<IRule> GetBusinessRulesForDelete(long id, ExecutionContext context)
+        protected override IEnumerable<IRule> GetBusinessRulesForDelete(long id, ExecutionContext<OrderItem> context)
         {
             var currentOrderItem = _dataProxy.GetByID(id);
             yield return new ValidOrderItemStatusForDeleteRule(currentOrderItem);

@@ -15,7 +15,7 @@ namespace Orders.com.BLL
             _orderService = orderService;
         }
 
-        protected override IEnumerable<IRule> GetBusinessRulesForDelete(long id, ExecutionContext context)
+        protected override IEnumerable<IRule> GetBusinessRulesForDelete(long id, ExecutionContext<Customer> context)
         {
             yield return base.GetBusinessRulesForDelete(id, context)
                              .IfAllValidThenValidate
