@@ -71,8 +71,7 @@ namespace Facile.Core
         /// </summary>
         protected virtual IEnumerable<ValidationResult> GetValidationResultsForInsert(T entity, ExecutionContext<T> context)
         {
-            foreach (var error in entity.GetValidationErrors())
-                yield return error;
+            return entity.GetValidationErrors();
         }
         
         /// <summary>
@@ -80,8 +79,7 @@ namespace Facile.Core
         /// </summary>
         protected virtual IEnumerable<ValidationResult> GetValidationResultsForUpdate(T entity, ExecutionContext<T> context)
         {
-            foreach (var error in entity.GetValidationErrors())
-                yield return error;
+            return entity.GetValidationErrors();
         }
 
         /// <summary>
