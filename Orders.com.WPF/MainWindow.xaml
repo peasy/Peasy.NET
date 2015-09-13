@@ -10,7 +10,7 @@
         <converters:ErrorsConverter x:Key="errorsConverter" />
     </Window.Resources>
     <Grid>
-        <TabControl Padding="0, 20, 0, 0">
+        <TabControl Padding="0, 20, 0, 0" >
             <TabItem Header="Orders" DataContext="{Binding OrdersVM}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -256,7 +256,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Inventory" DataContext="{Binding InventoryItemsVM}" >
+            <TabItem Header="Inventory" DataContext="{Binding InventoryItemsVM}" MouseUp="InventoryTab_MouseUp">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />

@@ -2,6 +2,7 @@
 using Orders.com.DAL.Mock;
 using Orders.com.WPF.VM;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Orders.com.WPF
 {
@@ -57,5 +58,10 @@ namespace Orders.com.WPF
             customerOrderWindow.Owner = this;
             customerOrderWindow.Show();
         }
-   }
+
+        private void InventoryTab_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            VM.InventoryItemsVM.LoadInventoryCommand.Execute(null);
+        }
+    }
 }
