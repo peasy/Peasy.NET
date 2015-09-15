@@ -92,8 +92,8 @@ namespace Facile.Core
         {
             await OnInitializationAsync();
 
-            var validationResults = GetErrors().ToArray();
-            if (validationResults.Any())
+            var validationResults = await GetErrorsAsync();
+            if (validationResults.ToArray().Any())
                 return new ExecutionResult<T> { Success = false, Errors = validationResults };
 
             var result = await OnExecuteAsync();

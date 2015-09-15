@@ -8,6 +8,8 @@ using Orders.com.Core.Domain;
 using Orders.com.Core.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
@@ -73,7 +75,8 @@ namespace Orders.com.BLL
             (
                 executeMethod: () => proxy.Submit(orderItemID, DateTime.Now),
                 executeAsyncMethod: () => proxy.SubmitAsync(orderItemID, DateTime.Now),
-                getBusinessRulesMethod: () => GetBusinessRulesForSubmit(orderItemID)
+                getBusinessRulesMethod: () => GetBusinessRulesForSubmit(orderItemID),
+                getBusinessRulesAsyncMethod: () => GetBusinessRulesForSubmitAsync(orderItemID)
             );
         }
 
@@ -84,6 +87,16 @@ namespace Orders.com.BLL
                 var orderItem = DataProxy.GetByID(orderItemID);
                 yield return new CanSubmitOrderItemRule(orderItem);        
             }
+        }
+
+        private async Task<IEnumerable<IRule>> GetBusinessRulesForSubmitAsync(long orderItemID)
+        {
+            if (!IsLatencyProne)
+            {
+                var orderItem = await DataProxy.GetByIDAsync(orderItemID);
+                return new[] { new CanSubmitOrderItemRule(orderItem) };
+            }
+            return Enumerable.Empty<IRule>();
         }
 
         public ICommand<OrderItem> ShipCommand(long orderItemID)

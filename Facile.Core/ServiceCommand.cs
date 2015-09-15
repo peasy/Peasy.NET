@@ -1,9 +1,7 @@
-﻿using Facile.Core.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Facile.Core
@@ -65,8 +63,7 @@ namespace Facile.Core
 
         public override async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            var validationResults = await _getErrorsAsyncMethod();
-            return validationResults;
+            return await _getErrorsAsyncMethod();
         }
     }
 
@@ -75,8 +72,6 @@ namespace Facile.Core
         private Action _beforeExecuteMethod;
         private Func<T> _executeMethod;
         private Func<Task<T>> _executeAsyncMethod;
-        private Func<IEnumerable<ValidationResult>> _getValidationRulesMethod;
-        private Func<IEnumerable<IRule>> _getBusinessRulesMethod;
         private Func<IEnumerable<ValidationResult>> _getErrorsMethod;
         private Func<Task<IEnumerable<ValidationResult>>> _getErrorsAsyncMethod;
 
@@ -93,12 +88,72 @@ namespace Facile.Core
             _getErrorsAsyncMethod = getErrorsAsyncMethod;
         }
 
+        public ServiceCommand(Func<T> executeMethod, 
+                              Func<Task<T>> executeAsyncMethod, 
+                              Func<IEnumerable<ValidationResult>> getErrorsMethod, 
+                              Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod)
+            : this(() => {}, executeMethod, executeAsyncMethod, getErrorsMethod, getErrorsAsyncMethod)
+        {
+        }
+
         public ServiceCommand(Func<T> executeMethod, Func<Task<T>> executeAsyncMethod)
             : this(() => {}, 
                   executeMethod, 
                   executeAsyncMethod, 
                   () => Enumerable.Empty<ValidationResult>(), 
                   () => Task.Run(() => Enumerable.Empty<ValidationResult>()))
+        {
+        }
+
+        public ServiceCommand(Func<T> executeMethod, Func<IEnumerable<ValidationResult>> getErrorsMethod)
+            : this(() => {}, 
+                  executeMethod, 
+                  () => Task.Run(() => default(T) ),
+                  getErrorsMethod, 
+                  () => Task.Run(() => Enumerable.Empty<ValidationResult>()))
+        {
+        }
+
+        public ServiceCommand(Func<Task<T>> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod)
+            : this(() => {}, () => default(T), executeAsyncMethod, () => Enumerable.Empty<ValidationResult>(), getErrorsAsyncMethod) 
+        {
+        }
+
+        public ServiceCommand(Func<T> executeMethod, 
+                              Func<Task<T>> executeAsyncMethod, 
+                              Func<IEnumerable<IRule>> getBusinessRulesMethod, 
+                              Func<Task<IEnumerable<IRule>>> getBusinessRulesAsyncMethod)
+            : this(beforeExecuteMethod: () => {}, 
+                   executeMethod: executeMethod, 
+                   executeAsyncMethod: executeAsyncMethod, 
+                   getErrorsMethod: () => getBusinessRulesMethod().GetBusinessRulesResults(), 
+                   getErrorsAsyncMethod: async () =>
+                  {
+                      var rules = await getBusinessRulesAsyncMethod();
+                      return rules.GetBusinessRulesResults();
+                  })
+        {
+        }
+
+        public ServiceCommand(Func<T> executeMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
+            : this(beforeExecuteMethod: () => {}, 
+                   executeMethod: executeMethod, 
+                   executeAsyncMethod: () => Task.Run(() => default(T) ),
+                   getErrorsMethod: () => getBusinessRulesMethod().GetBusinessRulesResults(), 
+                   getErrorsAsyncMethod: () => Task.Run(() => Enumerable.Empty<ValidationResult>()))
+        {
+        }
+
+        public ServiceCommand(Func<Task<T>> executeAsyncMethod, Func<Task<IEnumerable<IRule>>> getBusinessRulesAsyncMethod)
+            : this(beforeExecuteMethod: () => {}, 
+                   executeMethod: () => default(T), 
+                   executeAsyncMethod: executeAsyncMethod, 
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(), 
+                   getErrorsAsyncMethod: async () =>
+                  {
+                      var rules = await getBusinessRulesAsyncMethod();
+                      return rules.GetBusinessRulesResults();
+                  })
         {
         }
 
