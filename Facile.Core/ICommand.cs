@@ -8,6 +8,7 @@ namespace Facile.Core
     public interface IValidationErrorsContainer
     {
         IEnumerable<ValidationResult> GetErrors();
+        Task<IEnumerable<ValidationResult>> GetErrorsAsync();
     }
 
     public interface ICommandBase : IValidationErrorsContainer

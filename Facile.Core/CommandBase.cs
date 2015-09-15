@@ -17,6 +17,11 @@ namespace Facile.Core
         {
             return Enumerable.Empty<ValidationResult>();
         }
+
+        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return Task.Run(() => Enumerable.Empty<ValidationResult>());
+        }
     }
 
     public interface IAsyncCommand
