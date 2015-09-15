@@ -15,7 +15,11 @@ BusinessBase - add concurrency business rule in update rather than throw concurr
 
 Comment all Facile libs
 
+Do we need GetValidationResult methods for get, getall, and delete?  IE, look at InventoryService.DecrementQOH and the usage of creating a validation rule.  Does this even make sense?  Seems like an exception should be thrown if supplied values aren't correct?  Think about this one....  maybe i originally designed it this way to support binding values?
 
+Add nuget references for compilers to support vs 2012/13
+
+Update code to c# 6
 
 
 Create true EF project
