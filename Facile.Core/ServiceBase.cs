@@ -167,8 +167,7 @@ namespace Facile.Core
         {
             var validationErrors = entity.GetValidationErrors();
             var rules = await errorsAsyncMethod(entity, context);
-            var businessRuleErrors = GetBusinessRulesForInsert(entity, context).GetBusinessRulesResults();
-            return validationErrors.Concat(businessRuleErrors);
+            return validationErrors.Concat(rules.GetBusinessRulesResults());
         }
 
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetAll(ExecutionContext<T> context)
