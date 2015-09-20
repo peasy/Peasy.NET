@@ -11,18 +11,13 @@ namespace Facile.Core
         Task<IEnumerable<ValidationResult>> GetErrorsAsync();
     }
 
-    public interface ICommandBase : IValidationErrorsContainer
-    {
-        bool CanExecute { get; }
-    }
-
-    public interface ICommand : ICommandBase
+    public interface ICommand : IValidationErrorsContainer
     {
         ExecutionResult Execute();
         Task<ExecutionResult> ExecuteAsync();
     }
 
-    public interface ICommand<T> : ICommandBase 
+    public interface ICommand<T> : IValidationErrorsContainer 
     {
         ExecutionResult<T> Execute();
         Task<ExecutionResult<T>> ExecuteAsync();

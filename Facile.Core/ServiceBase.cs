@@ -116,6 +116,22 @@ namespace Facile.Core
         }
 
         /// <summary>
+        /// Supplies validation results to GetAllCommand()
+        /// </summary>
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetAll(ExecutionContext<T> context)
+        {
+            yield break;
+        }
+
+        /// <summary>
+        /// Supplies validation results to GetByIDCommand()
+        /// </summary>
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id, ExecutionContext<T> context)
+        {
+            yield break;
+        }
+
+        /// <summary>
         /// Supplies validation results to InsertCommand()
         /// </summary>
         protected virtual IEnumerable<ValidationResult> GetValidationResultsForInsert(T entity, ExecutionContext<T> context)
@@ -140,22 +156,6 @@ namespace Facile.Core
             yield break;
         }
         
-        /// <summary>
-        /// Supplies validation results to GetByIDCommand()
-        /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id, ExecutionContext<T> context)
-        {
-            yield break;
-        }
-
-        /// <summary>
-        /// Supplies validation results to GetAllCommand()
-        /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetAll(ExecutionContext<T> context)
-        {
-            yield break;
-        }
-
         protected virtual IEnumerable<ValidationResult> GetAllErrors(T entity, ExecutionContext<T> context, Func<T, ExecutionContext<T>, IEnumerable<IRule>> errorsMethod)
         {
             var validationErrors = entity.GetValidationErrors();
@@ -226,7 +226,7 @@ namespace Facile.Core
 
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForDelete(TKey id, ExecutionContext<T> context)
         {
-            return GetValidationResultsForGetAll(context).Concat(GetBusinessRulesForDelete(id, context).GetBusinessRulesResults());
+            return GetValidationResultsForDelete(id, context).Concat(GetBusinessRulesForDelete(id, context).GetBusinessRulesResults());
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace Facile.Core
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForDeleteAsync(TKey id, ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForDeleteAsync(id, context);
-            return GetValidationResultsForGetByID(id, context).Concat(await rules.GetBusinessRulesResultsAsync());
+            return GetValidationResultsForDelete(id, context).Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
         /// <summary>

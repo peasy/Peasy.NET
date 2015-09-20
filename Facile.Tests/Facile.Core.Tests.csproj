@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\FacileRequiredAttributeTests.cs" />
-    <Compile Include="CommandBaseTests.cs" />
     <Compile Include="Extensions\IDomainObjectExtensionsTests.cs" />
     <Compile Include="Extensions\IRuleExtensionsTests.cs" />
     <Compile Include="MockRules.cs" />
