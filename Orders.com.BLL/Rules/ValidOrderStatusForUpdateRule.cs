@@ -25,7 +25,7 @@ namespace Orders.com.BLL.Rules
             }
         }
 
-        protected async Task OnValidateAsync()
+        protected override async Task OnValidateAsync()
         {
             var items = await _orderItemDataProxy.GetByOrderCommand(_orderID).ExecuteAsync();
             if (items.Value.Any(i => i.OrderStatus() is ShippedState))

@@ -1,10 +1,10 @@
 ﻿using Facile.Core;
+using Facile.Core.Tests;
 using Shouldly;
 using Xunit;
 
 namespace Facile.Tests.Rules
 {
-
     [Trait("Rules", "RuleBase")]
     public class RuleBaseTests
     {
@@ -282,33 +282,4 @@ namespace Facile.Tests.Rules
         }
     }
 
-    public class TrueRule : RuleBase
-    {
-        protected override void OnValidate() { }
-    }
-
-    public class FalseRule1 : RuleBase
-    {
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = "FalseRule1 failed validation";
-        }
-    }
-    public class FalseRule2 : RuleBase
-    {
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = "FalseRule2 failed validation";
-        }
-    }
-    public class FalseRule3 : RuleBase
-    {
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = "FalseRule3 failed validation";
-        }
-    }
 }

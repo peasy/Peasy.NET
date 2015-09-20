@@ -1,5 +1,6 @@
 ﻿using Facile.Core;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL.Rules
 {
@@ -18,6 +19,15 @@ namespace Orders.com.BLL.Rules
         {
             var orders = _orderService.GetByCustomerCommand(_customerID).Execute().Value;
             if (orders.Any())
+            {
+                Invalidate("This customer is associated with one or more orders and cannot be deleted.");
+            }
+        }
+
+        protected override async Task OnValidateAsync()
+        {
+            var orders = await _orderService.GetByCustomerCommand(_customerID).ExecuteAsync();
+            if (orders.Value.Any())
             {
                 Invalidate("This customer is associated with one or more orders and cannot be deleted.");
             }

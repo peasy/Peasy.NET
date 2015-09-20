@@ -125,6 +125,11 @@ namespace Facile.Tests.Rules
             return Errors;
         }
 
+        public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return Task.Run(() => GetErrors());
+        }
+
         protected override void OnExecute()
         {
             OnExecuteWasInvoked = true;

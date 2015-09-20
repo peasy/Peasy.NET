@@ -167,7 +167,7 @@ namespace Facile.Core
         {
             var validationErrors = entity.GetValidationErrors();
             var rules = await errorsAsyncMethod(entity, context);
-            return validationErrors.Concat(rules.GetBusinessRulesResults());
+            return validationErrors.Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetAll(ExecutionContext<T> context)
@@ -181,7 +181,7 @@ namespace Facile.Core
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForGetAllAsync(ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForGetAllAsync(context);
-            return GetValidationResultsForGetAll(context).Concat(rules.GetBusinessRulesResults());
+            return GetValidationResultsForGetAll(context).Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetByID(TKey id, ExecutionContext<T> context)
@@ -195,7 +195,7 @@ namespace Facile.Core
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForGetByIDAsync(TKey id, ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForGetByIDAsync(id, context);
-            return GetValidationResultsForGetByID(id, context).Concat(rules.GetBusinessRulesResults());
+            return GetValidationResultsForGetByID(id, context).Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForInsert(T entity, ExecutionContext<T> context)
@@ -235,7 +235,7 @@ namespace Facile.Core
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForDeleteAsync(TKey id, ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForDeleteAsync(id, context);
-            return GetValidationResultsForGetByID(id, context).Concat(rules.GetBusinessRulesResults());
+            return GetValidationResultsForGetByID(id, context).Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
         /// <summary>

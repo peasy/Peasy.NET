@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL.Rules
 {
@@ -20,6 +21,11 @@ namespace Orders.com.BLL.Rules
         protected override void OnValidate()
         {
             Invalidate(string.Format("{0} cannot be changed.", _propertyName));
+        }
+
+        protected override Task OnValidateAsync()
+        {
+            return Task.Run(() => OnValidate());
         }
     }
 

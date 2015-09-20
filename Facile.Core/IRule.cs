@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Facile.Core
 {
@@ -10,5 +11,6 @@ namespace Facile.Core
         IRule IfValidThenValidate(params IRule[] rule);
         bool IsValid { get; }
         IRule Validate();
+        Task<IRule> ValidateAsync();
     }
 }

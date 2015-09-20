@@ -52,6 +52,18 @@ namespace Orders.com.BLL
                                 );
         }
 
+        protected override async Task<IEnumerable<IRule>> GetBusinessRulesForUpdateAsync(OrderItem entity, ExecutionContext<OrderItem> context)
+        {
+            var currentProduct = await _productDataProxy.GetByIDAsync(entity.ProductID);
+            var x = new ValidOrderItemStatusForUpdateRule(entity)
+                                .IfValidThenValidate
+                                (
+                                    new OrderItemPriceValidityRule(entity, currentProduct),
+                                    new OrderItemAmountValidityRule(entity, currentProduct)
+                                );
+            return new[] { x };
+        }
+
         protected override IEnumerable<IRule> GetBusinessRulesForDelete(long id, ExecutionContext<OrderItem> context)
         {
             var currentOrderItem = _dataProxy.GetByID(id);

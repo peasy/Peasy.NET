@@ -212,7 +212,7 @@ namespace Orders.com.WPF.VM
             {
                 var service = _service as OrderItemService;
                 var result = await service.ShipCommand(ID).ExecuteAsync();
-                LoadInventoryItemAsync();
+                await LoadInventoryItemAsync();
                 CurrentEntity = result.Value;
                 OnPropertyChanged("Status", "ShippedOn");
             }

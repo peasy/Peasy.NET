@@ -64,6 +64,9 @@
   <ItemGroup>
     <Compile Include="Attributes\FacileRequiredAttributeTests.cs" />
     <Compile Include="CommandBaseTests.cs" />
+    <Compile Include="Extensions\IDomainObjectExtensionsTests.cs" />
+    <Compile Include="Extensions\IRuleExtensionsTests.cs" />
+    <Compile Include="MockRules.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\ConcurrencyCheckRuleTests.cs" />
     <Compile Include="Rules\DomainObjectMustContainIDRuleTests.cs" />

@@ -130,7 +130,7 @@ namespace Facile.Core
                    getErrorsAsyncMethod: async () =>
                   {
                       var rules = await getBusinessRulesAsyncMethod();
-                      return rules.GetBusinessRulesResults();
+                      return await rules.GetBusinessRulesResultsAsync();
                   })
         {
         }
@@ -152,7 +152,7 @@ namespace Facile.Core
                    getErrorsAsyncMethod: async () =>
                   {
                       var rules = await getBusinessRulesAsyncMethod();
-                      return rules.GetBusinessRulesResults();
+                      return await rules.GetBusinessRulesResultsAsync();
                   })
         {
         }
