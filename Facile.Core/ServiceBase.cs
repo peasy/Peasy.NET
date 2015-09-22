@@ -186,7 +186,7 @@ namespace Facile.Core
 
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetByID(TKey id, ExecutionContext<T> context)
         {
-            return GetValidationResultsForGetAll(context).Concat(GetBusinessRulesForGetByID(id, context).GetBusinessRulesResults());
+            return GetValidationResultsForGetByID(id, context).Concat(GetBusinessRulesForGetByID(id, context).GetBusinessRulesResults());
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace Facile.Core
             );
         }
 
-        protected void OnBeforeGetByIDCommandExecuted(TKey id, ExecutionContext<T> context)
+        protected virtual void OnBeforeGetByIDCommandExecuted(TKey id, ExecutionContext<T> context)
         {
         }
 
@@ -274,7 +274,7 @@ namespace Facile.Core
             );
         }
 
-        protected void OnBeforeGetAllCommandExecuted(ExecutionContext<T> context)
+        protected virtual void OnBeforeGetAllCommandExecuted(ExecutionContext<T> context)
         {
         }
 
@@ -315,7 +315,7 @@ namespace Facile.Core
             );
         }
 
-        protected void OnBeforeUpdateCommandExecuted(T entity, ExecutionContext<T> context)
+        protected virtual void OnBeforeUpdateCommandExecuted(T entity, ExecutionContext<T> context)
         {
         }
 
@@ -335,7 +335,7 @@ namespace Facile.Core
             );
         }
 
-        protected void OnBeforeDeleteCommandExecuted(TKey id, ExecutionContext<T> context)
+        protected virtual void OnBeforeDeleteCommandExecuted(TKey id, ExecutionContext<T> context)
         {
         }
 
