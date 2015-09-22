@@ -1,5 +1,6 @@
 ﻿using Facile.Core;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL.Rules
 {
@@ -18,6 +19,15 @@ namespace Orders.com.BLL.Rules
         {
             var products = _productService.GetByCategoryCommand(_categoryID).Execute().Value;
             if (products.Any())
+            {
+                Invalidate("This category is associated with one or more products and cannot be deleted.");
+            }
+        }
+
+        protected override async Task OnValidateAsync()
+        {
+            var products = await _productService.GetByCategoryCommand(_categoryID).ExecuteAsync();
+            if (products.Value.Any())
             {
                 Invalidate("This category is associated with one or more products and cannot be deleted.");
             }

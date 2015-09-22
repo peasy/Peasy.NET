@@ -1,42 +1,42 @@
 ﻿using Facile.Core;
+using Facile.Core.Tests;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
-using Xunit;
 
-namespace Facile.Tests.Rules
+namespace Facile.Core.Tests
 {
-
-    [Trait("Rules", "RuleBase")]
+    [TestClass]
     public class RuleBaseTests
     {
-        [Fact]
+        [TestMethod]
         public void ValidRuleIsValidAfterValidation()
         {
             var rule = new TrueRule().Validate();
             rule.IsValid.ShouldBe(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void ValidRuleDoesNotContainAnErrorMessageAfterValidation()
         {
             var rule = new TrueRule().Validate();
             rule.ErrorMessage.ShouldBe(null);
         }
 
-        [Fact]
+        [TestMethod]
         public void InvalidRuleIsInvalidAfterValidation()
         {
             var rule = new FalseRule1().Validate();
             rule.IsValid.ShouldBe(false);
         }
 
-        [Fact]
+        [TestMethod]
         public void InvalidRuleContainsAnErrorMessageAfterValidation()
         {
             var rule = new FalseRule1().Validate();
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [Fact]
+        [TestMethod]
         public void ValidParentFailsWhenSuccessorFailsValidation()
         {
             var rule1 = new TrueRule().IfValidThenValidate(new FalseRule1()).Validate();
@@ -44,7 +44,7 @@ namespace Facile.Tests.Rules
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessorDoesNotExecuteWhenParentFails()
         {
             var rule1 = new FalseRule1().IfValidThenValidate(new FalseRule2()).Validate();
@@ -52,7 +52,7 @@ namespace Facile.Tests.Rules
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [Fact]
+        [TestMethod]
         public void AllRemainingSuccessorsSkipValidationWhenFirstSuccessorFails()
         {
             var rule1 = new TrueRule()
@@ -62,7 +62,7 @@ namespace Facile.Tests.Rules
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [Fact]
+        [TestMethod]
         public void LastSuccessorValidatesWhenFirstSuccessorsPass()
         {
             var rule1 = new TrueRule()
@@ -72,7 +72,7 @@ namespace Facile.Tests.Rules
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [Fact]
+        [TestMethod]
         public void LastSuccessorsInSuccessorChainAreSkippedWhenFirstSuccessorsFail()
         {
             var rule = new TrueRule()
@@ -83,7 +83,7 @@ namespace Facile.Tests.Rules
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         } 
 
-        [Fact]
+        [TestMethod]
         public void LastSuccessorInSuccessorChainIsSkippedWhenFirstSuccessorsPass()
         {
             var rule = new TrueRule()
@@ -94,7 +94,7 @@ namespace Facile.Tests.Rules
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         } 
 
-        [Fact]
+        [TestMethod]
         public void ParentFailsWhenLastSuccessorInChainsFailsValidation()
         {
             var rule = new TrueRule()
@@ -105,7 +105,7 @@ namespace Facile.Tests.Rules
             rule.ErrorMessage.ShouldBe("FalseRule3 failed validation");
         }
 
-        [Fact]
+        [TestMethod]
         public void ThreeRuleChainExecutesSuccessfully()
         {
             var rule = new TrueRule()
@@ -115,7 +115,7 @@ namespace Facile.Tests.Rules
             rule.IsValid.ShouldBe(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void ThreeRuleChainFailSkipsThirdInChainWhenSecondFails()
         {
             var rule = new TrueRule()
@@ -125,7 +125,7 @@ namespace Facile.Tests.Rules
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [Fact]
+        [TestMethod]
         public void ThreeRuleChainHitsThirdInChainAndFailsParent()
         {
             var rule = new TrueRule()
@@ -135,7 +135,7 @@ namespace Facile.Tests.Rules
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [Fact]
+        [TestMethod]
         public void InvokesIfValidThenExecute()
         {
             var output = string.Empty;
@@ -146,7 +146,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe("pass");
         }
 
-        [Fact]
+        [TestMethod]
         public void DoesNotInvokeIfValidThenExecute()
         {
             var output = string.Empty;
@@ -157,7 +157,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe(string.Empty);
         }
 
-        [Fact]
+        [TestMethod]
         public void InvokesIfInvalidThenExecute()
         {
             var output = string.Empty;
@@ -168,7 +168,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe("pass");
         }
 
-        [Fact]
+        [TestMethod]
         public void DoesNotInvokeIfInvalidThenExecute()
         {
             var output = string.Empty;
@@ -179,7 +179,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe(string.Empty);
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessorInvokesExecuteIfValidThenExecute()
         {
             var output = string.Empty;
@@ -190,7 +190,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe("pass");
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessorDoesNotInvokeExecuteIfValidThenExecute()
         {
             var output = string.Empty;
@@ -201,7 +201,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe(string.Empty);
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessorInvokesExecuteIfInvalidThenExecute()
         {
             var output = string.Empty;
@@ -212,7 +212,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe("pass");
         }
 
-        [Fact]
+        [TestMethod]
         public void SuccessorDoesNotInvokeExecuteIfInvalidThenExecute()
         {
             var output = string.Empty;
@@ -223,7 +223,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe(string.Empty);
         }
 
-        [Fact]
+        [TestMethod]
         public void FirstValidRuleInFirstSuccessorChainShouldExecute()
         {
             var output = string.Empty;
@@ -234,7 +234,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe("pass");
         }
 
-        [Fact]
+        [TestMethod]
         public void SecondValidRuleInFirstSuccessorChainShouldExecute()
         {
             var output = string.Empty;
@@ -245,7 +245,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe("pass");
         }
 
-        [Fact]
+        [TestMethod]
         public void FirstValidRuleInSecondSuccessorChainShouldExecute()
         {
             var output = string.Empty;
@@ -256,7 +256,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe("pass");
         }
 
-        [Fact]
+        [TestMethod]
         public void SecondInvalidRuleInSecondSuccessorChainShouldExecute()
         {
             var output = string.Empty;
@@ -267,7 +267,7 @@ namespace Facile.Tests.Rules
             output.ShouldBe("pass");
         }
 
-        [Fact]
+        [TestMethod]
         public void FirstValidRuleInSecondSuccessorChainShouldExecuteButThirdFalseRuleShouldNot()
         {
             var output = string.Empty;
@@ -282,33 +282,4 @@ namespace Facile.Tests.Rules
         }
     }
 
-    public class TrueRule : RuleBase
-    {
-        protected override void OnValidate() { }
-    }
-
-    public class FalseRule1 : RuleBase
-    {
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = "FalseRule1 failed validation";
-        }
-    }
-    public class FalseRule2 : RuleBase
-    {
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = "FalseRule2 failed validation";
-        }
-    }
-    public class FalseRule3 : RuleBase
-    {
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = "FalseRule3 failed validation";
-        }
-    }
 }

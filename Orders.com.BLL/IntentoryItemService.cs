@@ -18,8 +18,8 @@ namespace Orders.com.BLL
             return new ServiceCommand<InventoryItem>
             (
                 executeMethod: () => proxy.DecrementQuantityOnHand(productID, quantity),
-                executeAsyncMethod: () => proxy.DecrementQuantityOnHandAsync(productID, quantity),
-                getValidationRulesMethod: () => new[] { quantity.CreateValueRequiredRule("quantity") }.GetBusinessRulesResults(this.GetType().Name)
+                executeAsyncMethod: () => proxy.DecrementQuantityOnHandAsync(productID, quantity)
+                //getErrorsMethod: () => new[] { quantity.CreateValueRequiredRule("quantity") }.GetBusinessRulesResults(this.GetType().Name)
             );
         }
 

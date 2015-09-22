@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Facile.Core
@@ -6,7 +8,7 @@ namespace Facile.Core
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of code
     /// </summary>
-    public abstract class Command : CommandBase, ICommand
+    public abstract class Command : ICommand
     {
         /// <summary>
         /// Synchronously orchestrates command initialization, rule execution, and command execution
@@ -31,8 +33,8 @@ namespace Facile.Core
         {
             await OnInitializationAsync();
 
-            var validationResults = GetErrors().ToArray();
-            if (validationResults.Any())
+            var validationResults = await GetErrorsAsync();
+            if (validationResults.ToArray().Any())
                 return new ExecutionResult { Success = false, Errors = validationResults };
 
             await OnExecuteAsync();
@@ -62,12 +64,22 @@ namespace Facile.Core
         {
             await Task.Yield();
         }
+
+        public virtual IEnumerable<ValidationResult> GetErrors()
+        {
+            return Enumerable.Empty<ValidationResult>();
+        }
+
+        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return Task.Run(() => Enumerable.Empty<ValidationResult>());
+        }
     }
 
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of code
     /// </summary>
-    public abstract class Command<T> : CommandBase, ICommand<T>
+    public abstract class Command<T> : ICommand<T>
     {
         /// <summary>
         /// Synchronously orchestrates command initialization, rule execution, and command execution
@@ -92,8 +104,8 @@ namespace Facile.Core
         {
             await OnInitializationAsync();
 
-            var validationResults = GetErrors().ToArray();
-            if (validationResults.Any())
+            var validationResults = await GetErrorsAsync();
+            if (validationResults.ToArray().Any())
                 return new ExecutionResult<T> { Success = false, Errors = validationResults };
 
             var result = await OnExecuteAsync();
@@ -122,6 +134,16 @@ namespace Facile.Core
         protected virtual async Task OnInitializationAsync()
         {
             await Task.Yield();
+        }
+
+        public virtual IEnumerable<ValidationResult> GetErrors()
+        {
+            return Enumerable.Empty<ValidationResult>();
+        }
+
+        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return Task.Run(() => Enumerable.Empty<ValidationResult>());
         }
     }
 }

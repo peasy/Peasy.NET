@@ -47,7 +47,7 @@ namespace Products.com.BLL.Commands
             await _transactionContext.ExecuteAsync(async () =>
             {
                 var result = await _inventoryService.GetByProductCommand(_productID).ExecuteAsync();
-                _inventoryService.DeleteCommand(result.Value.ID).Execute();
+                await _inventoryService.DeleteCommand(result.Value.ID).ExecuteAsync();
                 await _productDataProxy.DeleteAsync(_productID);
             });
         }
@@ -65,6 +65,11 @@ namespace Products.com.BLL.Commands
 
             foreach (var error in GetRules().GetBusinessRulesResults())
                 yield return error;
+        }
+
+        public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return Task.Run(() => GetErrors());
         }
     }
 }

@@ -153,7 +153,7 @@
       <Project>{ebb3a99a-5057-4f6a-bed7-43661d43fae9}</Project>
       <Name>Orders.com.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Orders.com.DAL.EF\Orders.com.DAL.Mock.csproj">
+    <ProjectReference Include="..\Orders.com.DAL.Mock\Orders.com.DAL.Mock.csproj">
       <Project>{0debee6b-3561-47b8-a622-d2407839123b}</Project>
       <Name>Orders.com.DAL.Mock</Name>
     </ProjectReference>

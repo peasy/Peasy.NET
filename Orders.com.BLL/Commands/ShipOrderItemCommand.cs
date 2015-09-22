@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Orders.com.BLL.Commands
 {
@@ -77,6 +78,16 @@ namespace Orders.com.BLL.Commands
 
             foreach (var error in _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).GetErrors())
                 yield return error;
+        }
+
+        public override async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            CurrentOrderItem = await _orderItemDataProxy.GetByIDAsync(_orderItemID);
+            
+            var rules = await GetRules().GetBusinessRulesResultsAsync();
+            var inventoryRules = await _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).GetErrorsAsync();
+
+            return rules.Concat(inventoryRules);
         }
     }
 }

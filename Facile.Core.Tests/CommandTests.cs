@@ -1,17 +1,17 @@
 ﻿using Facile.Core;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Xunit;
 
-namespace Facile.Tests.Rules
+namespace Facile.Core.Tests
 {
-    [Trait("Command", "Command")]
+    [TestClass]
     public class CommandTests
     {
-        [Fact]
+        [TestMethod]
         public void OnInitializationIsInvoked()
         {
             var mock = new MockCommand();
@@ -19,7 +19,7 @@ namespace Facile.Tests.Rules
             mock.OnInitializationWasInvoked.ShouldBe(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void OnExecuteIsInvokedWhenNoErrorsExist()
         {
             var mock = new MockCommand();
@@ -27,7 +27,7 @@ namespace Facile.Tests.Rules
             mock.OnExecuteWasInvoked.ShouldBe(true);
         }
 
-        [Fact]
+        [TestMethod]
         public void ExecutionResultIsSuccessfulWhenValidationIsSuccessful()
         {
             var mock = new MockCommand();
@@ -35,7 +35,7 @@ namespace Facile.Tests.Rules
             result.Success.ShouldBe(true); 
         }
 
-        [Fact]
+        [TestMethod]
         public void ExecutionResultShouldContainNoErrorsWhenValidationIsSuccessful()
         {
             var mock = new MockCommand();
@@ -43,7 +43,7 @@ namespace Facile.Tests.Rules
             result.Errors.ShouldBe(null);
         }
 
-        [Fact]
+        [TestMethod]
         public void OnExecuteIsNotInvokedWhenErrorsExist()
         {
             var mock = new MockCommand();
@@ -52,7 +52,7 @@ namespace Facile.Tests.Rules
             mock.OnExecuteWasInvoked.ShouldBe(false);
         }
 
-        [Fact]
+        [TestMethod]
         public void ExecutionResultIsNotSuccessfulWhenValidationIsNotSuccessful()
         {
             var mock = new MockCommand();
@@ -61,7 +61,7 @@ namespace Facile.Tests.Rules
             result.Success.ShouldBe(false); 
         }
 
-        [Fact]
+        [TestMethod]
         public void ExecutionResultShouldContainErrorsWhenValidationIsNotSuccessful()
         {
             var mock = new MockCommand();
@@ -70,28 +70,28 @@ namespace Facile.Tests.Rules
             result.Errors.Count().ShouldBe(1);
         }
 
-        [Fact]
-        public void OnInitializationAsyncIsInvoked()
+        [TestMethod]
+        public async Task OnInitializationAsyncIsInvoked()
         {
             var mock = new MockCommand();
-            mock.ExecuteAsync().Wait();
+            await mock.ExecuteAsync();
             mock.OnInitializationAsyncWasInvoked.ShouldBe(true);
         }
 
-        [Fact]
-        public void OnExecuteAsyncIsInvokedWhenNoErrorsExist()
+        [TestMethod]
+        public async Task OnExecuteAsyncIsInvokedWhenNoErrorsExist()
         {
             var mock = new MockCommand();
-            mock.ExecuteAsync().Wait();
+            await mock.ExecuteAsync();
             mock.OnExecuteAsyncWasInvoked.ShouldBe(true);
-        }
+       } 
 
-        [Fact]
-        public void OnExecuteAsyncIsNotInvokedWhenErrorsExist()
+        [TestMethod]
+        public async Task OnExecuteAsyncIsNotInvokedWhenErrorsExist()
         {
             var mock = new MockCommand();
             mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
-            mock.ExecuteAsync().Wait();
+            await mock.ExecuteAsync();
             mock.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }
     }
@@ -117,12 +117,17 @@ namespace Facile.Tests.Rules
         protected override Task OnInitializationAsync()
         {
             OnInitializationAsyncWasInvoked = true;
-            return Task.Delay(0);
+            return Task.FromResult(true);
         }
 
         public override IEnumerable<ValidationResult> GetErrors()
         {
             return Errors;
+        }
+
+        public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return Task.Run(() => GetErrors());
         }
 
         protected override void OnExecute()
@@ -133,7 +138,7 @@ namespace Facile.Tests.Rules
         protected override Task OnExecuteAsync()
         {
             OnExecuteAsyncWasInvoked = true;
-            return Task.Delay(0);
+            return Task.FromResult(true);
         }
     }
 }

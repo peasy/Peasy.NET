@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Facile.Core
 {
@@ -126,7 +127,12 @@ namespace Facile.Core
         /// <returns>
         /// <c>True</c> if validation succeeded; otherwise <c>false</c>.
         /// </returns>
-        protected abstract void OnValidate();
+        protected virtual void OnValidate() {}
+
+        protected virtual Task OnValidateAsync()
+        {
+            return Task.Run(() => OnValidate());
+        }
 
         /// <summary>
         /// Invalidates the rule 
@@ -136,6 +142,38 @@ namespace Facile.Core
         {
             ErrorMessage = errorMessage;
             IsValid = false;
+        }
+
+        public async Task<IRule> ValidateAsync()
+        {
+            IsValid = true;
+            await OnValidateAsync();
+            if (IsValid)
+            {
+                if (Successor != null)
+                {
+                    foreach (var ruleList in Successor)
+                    {
+                        foreach (var rule in ruleList)
+                        {
+                            await rule.ValidateAsync();
+                            if (!rule.IsValid)
+                            {
+                                Invalidate(rule.ErrorMessage);
+                                HandleIfInvalidThenExecute();
+                                break; // early exit, don't bother further rule execution
+                            }
+                        }
+                        if (!IsValid) break;
+                    }
+                }
+                HandleIfValidThenExecute();
+            }
+            else
+            {
+                HandleIfInvalidThenExecute();
+            }
+            return this;
         }
     }
 }

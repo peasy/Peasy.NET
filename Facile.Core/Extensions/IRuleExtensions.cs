@@ -1,7 +1,7 @@
-﻿using Facile.Core.Extensions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Facile.Core
 {
@@ -9,14 +9,10 @@ namespace Facile.Core
     {
         public static IEnumerable<ValidationResult> GetBusinessRulesResults(this IEnumerable<IRule> businessRules, string entityName)
         {
-            var invalidRules = businessRules.ToArray()
-                                            .ForEach(rule => rule.Validate())
-                                            .Where(rule => !rule.IsValid);
-
-            foreach (var rule in invalidRules)
-            {
-                yield return new ValidationResult(rule.ErrorMessage, new string[] {  entityName });
-            }
+            var rules = businessRules.Select(rule => rule.Validate())
+                                     .Where(rule => !rule.IsValid)
+                                     .Select(rule => new ValidationResult(rule.ErrorMessage, new string[] { entityName }));
+            return rules;
         }
 
         public static IEnumerable<ValidationResult> GetBusinessRulesResults(this IEnumerable<IRule> businessRules)
@@ -24,17 +20,30 @@ namespace Facile.Core
             return IRuleExtensions.GetBusinessRulesResults(businessRules, string.Empty);
         }
 
+        public static async Task<IEnumerable<ValidationResult>> GetBusinessRulesResultsAsync(this IEnumerable<IRule> businessRules, string entityName)
+        {
+            var rules  = await Task.WhenAll(businessRules.Select(r => r.ValidateAsync()));
+            return rules.Where(rule => !rule.IsValid)
+                        .Select(rule => new ValidationResult(rule.ErrorMessage, new string[] { entityName }));
+        }
+
+        public static Task<IEnumerable<ValidationResult>> GetBusinessRulesResultsAsync(this IEnumerable<IRule> businessRules)
+        {
+            return IRuleExtensions.GetBusinessRulesResultsAsync(businessRules, string.Empty);
+        }
 
         public static IRule IfAllValidThenValidate(this IEnumerable<IRule> r, params IRule[] rules)
         {
-            return new ValidRuleContainer().IfValidThenValidate(r.ToArray()).IfValidThenValidate(rules);
+            return new ValidRule().IfValidThenValidate(r.ToArray()).IfValidThenValidate(rules);
+        }
+
+        public static IEnumerable<IRule> ToArray(this IRule rule)
+        {
+            return new[] { rule };
         }
     }
 
-    internal class ValidRuleContainer : RuleBase
+    internal class ValidRule: RuleBase
     {
-        protected override void OnValidate()
-        {
-        }
     }
 }

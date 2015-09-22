@@ -110,7 +110,7 @@ namespace Orders.com.WPF.VM
 
         public virtual bool CanSave
         {
-            get { return CreateCommand().CanExecute; }
+            get { return !CreateCommand().GetErrors().Any(); }
         }
 
     }

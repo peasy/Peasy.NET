@@ -1,5 +1,6 @@
 ﻿using Facile.Core;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL.Rules
 {
@@ -7,6 +8,7 @@ namespace Orders.com.BLL.Rules
     {
         private OrderService _orderService;
         private long _productID;
+        private string _errorMessage = "This product is associated with one or more orders and cannot be deleted.";
 
         public CanDeleteProductRule(long productID, OrderService orderService)
         {
@@ -19,7 +21,16 @@ namespace Orders.com.BLL.Rules
             var products = _orderService.GetByProductCommand(_productID).Execute().Value;
             if (products.Any())
             {
-                Invalidate("This product is associated with one or more orders and cannot be deleted.");
+                Invalidate(_errorMessage);
+            }
+        }
+
+        protected override async Task OnValidateAsync()
+        {
+            var products = await _orderService.GetByProductCommand(_productID).ExecuteAsync();
+            if (products.Value.Any())
+            {
+                Invalidate(_errorMessage);
             }
         }
     }

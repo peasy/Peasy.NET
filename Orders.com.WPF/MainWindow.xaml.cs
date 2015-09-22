@@ -61,7 +61,8 @@ namespace Orders.com.WPF
 
         private void InventoryTab_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            VM.InventoryItemsVM.LoadInventoryCommand.Execute(null);
+            if (e.Source is TabItem)
+                VM.InventoryItemsVM.LoadInventoryCommand.Execute(null);
         }
     }
 }
