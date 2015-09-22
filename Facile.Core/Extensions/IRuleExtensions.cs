@@ -36,6 +36,11 @@ namespace Facile.Core
         {
             return new ValidRule().IfValidThenValidate(r.ToArray()).IfValidThenValidate(rules);
         }
+
+        public static IEnumerable<IRule> ToArray(this IRule rule)
+        {
+            return new[] { rule };
+        }
     }
 
     internal class ValidRule: RuleBase
