@@ -28,7 +28,8 @@
             <Label Content="Order ID:" Grid.Row="0" FontWeight="Bold"/>
             <Label Content="{Binding ID}" Grid.Row="0" Grid.Column="1" />
             <Label Content="Customer:" Grid.Row="1" FontWeight="Bold" />
-            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,5,0" ItemsSource="{Binding Customers}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentCustomerID}" Width="Auto" VerticalAlignment="Center" IsEnabled="{Binding CanChangeCustomer}"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,5,0" ItemsSource="{Binding Customers}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentCustomerID}" Width="Auto" VerticalAlignment="Center" />
+            <!--<ComboBox Grid.Row="1" Grid.Column="1" Margin="5,0,5,0" ItemsSource="{Binding Customers}" DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding CurrentCustomerID}" Width="Auto" VerticalAlignment="Center" IsEnabled="{Binding CanChangeCustomer}"/>-->
             <Label Content="Total:" Grid.Row="2" FontWeight="Bold" />
             <Label Content="{Binding Total}" ContentStringFormat="C" Grid.Row="2" Grid.Column="1" />
         </Grid>

@@ -104,7 +104,7 @@ namespace Orders.com.DAL.Mock
 
         public Task<IEnumerable<Product>> GetByCategoryAsync(long categoryID)
         {
-            throw new NotImplementedException();
+            return Task.Run(() => GetByCategory(categoryID));
         }
 
         public Task<Product> InsertAsync(Product entity)

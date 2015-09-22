@@ -7,6 +7,7 @@ using Orders.com.Core.Domain;
 using Orders.com.Core.QueryData;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
@@ -34,6 +35,11 @@ namespace Orders.com.BLL
         protected override IEnumerable<IRule> GetBusinessRulesForUpdate(Order entity, ExecutionContext<Order> context)
         {
             yield return new ValidOrderStatusForUpdateRule(entity.ID, _orderItemService);
+        }
+
+        protected override async Task<IEnumerable<IRule>> GetBusinessRulesForUpdateAsync(Order entity, ExecutionContext<Order> context)
+        {
+            return new ValidOrderStatusForUpdateRule(entity.ID, _orderItemService).ToArray();
         }
 
         public ICommand<IEnumerable<OrderInfo>> GetAllCommand(int start, int pageSize)

@@ -3,6 +3,7 @@ using Facile.Core;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using Orders.com.BLL.Rules;
+using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
@@ -22,6 +23,13 @@ namespace Orders.com.BLL
                              (
                                 new CanDeleteCategoryRule(id, _productService)
                              );
+        }
+
+        protected override async Task<IEnumerable<IRule>> GetBusinessRulesForDeleteAsync(long id, ExecutionContext<Category> context)
+        {
+            var baseRules = await base.GetBusinessRulesForDeleteAsync(id, context);
+            return baseRules.IfAllValidThenValidate(new CanDeleteCategoryRule(id, _productService))
+                            .ToArray();
         }
     }
 }
