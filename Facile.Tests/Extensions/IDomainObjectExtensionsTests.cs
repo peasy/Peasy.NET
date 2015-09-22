@@ -1,8 +1,6 @@
-﻿using Shouldly;
-using System.Collections.Generic;
+﻿using Facile.Core.Extensions;
+using Shouldly;
 using System.Linq;
-using Facile.Core.Extensions;
-using System.ComponentModel.DataAnnotations;
 using Xunit;
 
 namespace Facile.Core.Tests.Extensions
@@ -60,16 +58,6 @@ namespace Facile.Core.Tests.Extensions
             };
             var results = person.GetValidationErrors();
             results.Count().ShouldBe(3);
-        }
-
-        public class Person : IDomainObject
-        {
-            [Range(0, 50)]
-            public int ID { get; set; }
-            [MaxLength(15)]
-            public string First { get; set; }
-            [MaxLength(30)]
-            public string Last { get; set; }
         }
     }
 }

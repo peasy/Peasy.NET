@@ -1,4 +1,6 @@
-﻿namespace Facile.Core.Tests
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Facile.Core.Tests
 {
     public class TrueRule : RuleBase
     {
@@ -29,5 +31,15 @@
             IsValid = false;
             ErrorMessage = "FalseRule3 failed validation";
         }
+    }
+
+    public class Person : IDomainObject<long>
+    {
+        [Range(0, 50)]
+        public long ID { get; set; }
+        [MaxLength(15)]
+        public string First { get; set; }
+        [MaxLength(30)]
+        public string Last { get; set; }
     }
 }

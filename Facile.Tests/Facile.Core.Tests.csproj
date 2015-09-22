@@ -63,15 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\FacileRequiredAttributeTests.cs" />
+    <Compile Include="CommandTests.cs" />
+    <Compile Include="ServiceBaseTests.cs" />
     <Compile Include="ServiceCommandTests.cs" />
     <Compile Include="Extensions\IDomainObjectExtensionsTests.cs" />
     <Compile Include="Extensions\IRuleExtensionsTests.cs" />
-    <Compile Include="MockRules.cs" />
+    <Compile Include="SharedClasses.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\ConcurrencyCheckRuleTests.cs" />
     <Compile Include="Rules\DomainObjectMustContainIDRuleTests.cs" />
     <Compile Include="Rules\GreaterThanZeroRuleTests.cs" />
-    <Compile Include="CommandTests.cs" />
     <Compile Include="RuleBaseTests.cs" />
     <Compile Include="Rules\ValueRequiredRuleTests.cs" />
   </ItemGroup>
