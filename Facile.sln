@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facile", "Facile\Facile.csproj", "{0223227F-932F-4C63-8FA1-69840E63DF49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facile.Core.Tests", "Facile.Tests\Facile.Core.Tests.csproj", "{F01AB2B6-A595-4FDB-AE8C-8B65278F9B9D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.com.DAL.Mock", "Orders.com.DAL.EF\Orders.com.DAL.Mock.csproj", "{0DEBEE6B-3561-47B8-A622-D2407839123B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.com.WPF", "Orders.com.WPF\Orders.com.WPF.csproj", "{1FF92FD3-C3CD-48E7-93A1-624DEA8DC680}"
@@ -17,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.com.Core", "Orders.c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facile.Core", "Facile.Core\Facile.Core.csproj", "{034E1545-4697-4BC1-AA2A-3355E125B75F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{D0A21CFC-CC07-40DB-9E4F-756C5D375397}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facile.Core.Tests", "Facile.Core.Tests\Facile.Core.Tests.csproj", "{D0A21CFC-CC07-40DB-9E4F-756C5D375397}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{0223227F-932F-4C63-8FA1-69840E63DF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0223227F-932F-4C63-8FA1-69840E63DF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0223227F-932F-4C63-8FA1-69840E63DF49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F01AB2B6-A595-4FDB-AE8C-8B65278F9B9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F01AB2B6-A595-4FDB-AE8C-8B65278F9B9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F01AB2B6-A595-4FDB-AE8C-8B65278F9B9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F01AB2B6-A595-4FDB-AE8C-8B65278F9B9D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0DEBEE6B-3561-47B8-A622-D2407839123B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0DEBEE6B-3561-47B8-A622-D2407839123B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DEBEE6B-3561-47B8-A622-D2407839123B}.Release|Any CPU.ActiveCfg = Release|Any CPU
