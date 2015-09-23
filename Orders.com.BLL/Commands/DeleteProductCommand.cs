@@ -67,9 +67,9 @@ namespace Products.com.BLL.Commands
                 yield return error;
         }
 
-        public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        public override async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            return Task.Run(() => GetErrors());
+            return GetErrors();
         }
     }
 }

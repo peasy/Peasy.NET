@@ -156,20 +156,6 @@ namespace Facile.Core
             yield break;
         }
         
-        protected virtual IEnumerable<ValidationResult> GetAllErrors(T entity, ExecutionContext<T> context, Func<T, ExecutionContext<T>, IEnumerable<IRule>> errorsMethod)
-        {
-            var validationErrors = entity.GetValidationErrors();
-            var businessRuleErrors = errorsMethod(entity, context).GetBusinessRulesResults();
-            return validationErrors.Concat(businessRuleErrors);
-        }
-
-        protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsAsync(T entity, ExecutionContext<T> context, Func<T, ExecutionContext<T>, Task<IEnumerable<IRule>>> errorsAsyncMethod)
-        {
-            var validationErrors = entity.GetValidationErrors();
-            var rules = await errorsAsyncMethod(entity, context);
-            return validationErrors.Concat(await rules.GetBusinessRulesResultsAsync());
-        }
-
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetAll(ExecutionContext<T> context)
         {
             return GetValidationResultsForGetAll(context).Concat(GetBusinessRulesForGetAll(context).GetBusinessRulesResults());
@@ -200,7 +186,9 @@ namespace Facile.Core
 
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForInsert(T entity, ExecutionContext<T> context)
         {
-            return GetAllErrors(entity, context, GetBusinessRulesForInsert);
+            var validationErrors = GetValidationResultsForInsert(entity, context); 
+            var businessRuleErrors = GetBusinessRulesForInsert(entity, context).GetBusinessRulesResults();
+            return validationErrors.Concat(businessRuleErrors);
         }
 
         /// <summary>
@@ -208,12 +196,16 @@ namespace Facile.Core
         /// </summary>
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForInsertAsync(T entity, ExecutionContext<T> context)
         {
-            return await GetAllErrorsAsync(entity, context, GetBusinessRulesForInsertAsync);
+            var validationErrors = GetValidationResultsForInsert(entity, context);
+            var rules = await GetBusinessRulesForInsertAsync(entity, context); 
+            return validationErrors.Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForUpdate(T entity, ExecutionContext<T> context)
         {
-            return GetAllErrors(entity, context, GetBusinessRulesForUpdate);
+            var validationErrors = GetValidationResultsForUpdate(entity, context); 
+            var businessRuleErrors = GetBusinessRulesForUpdate(entity, context).GetBusinessRulesResults();
+            return validationErrors.Concat(businessRuleErrors);
         }
 
         /// <summary>
@@ -221,7 +213,9 @@ namespace Facile.Core
         /// </summary>
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForUpdateAsync(T entity, ExecutionContext<T> context)
         {
-            return await GetAllErrorsAsync(entity, context, GetBusinessRulesForUpdateAsync);
+            var validationErrors = GetValidationResultsForUpdate(entity, context);
+            var rules = await GetBusinessRulesForUpdateAsync(entity, context); 
+            return validationErrors.Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForDelete(TKey id, ExecutionContext<T> context)

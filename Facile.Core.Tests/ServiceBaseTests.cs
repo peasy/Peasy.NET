@@ -59,10 +59,84 @@ namespace Facile.Core.Tests
             service.GetAllErrorsForGetByIDAsyncWasInvoked.ShouldBe(true);
             service.GetByIDAsyncWasInvoked.ShouldBe(true);
         }
+
+        [TestMethod]
+        public void EnsureMethodInvocationsForInsertCommand()
+        {
+            var service = new ServiceBaseMock(new PersonProxyStub());
+            var result = service.InsertCommand(new Person()).Execute();
+            service.OnBeforeInsertCommandExecutedWasInvoked.ShouldBe(true);
+            service.GetValidationResultsForInsertWasInvoked.ShouldBe(true);
+            service.GetBusinessRulesForInsertWasInvoked.ShouldBe(true);
+            service.GetAllErrorsForInsertWasInvoked.ShouldBe(true);
+            service.InsertWasInvoked.ShouldBe(true);
+        }
+
+        [TestMethod]
+        public async Task EnsureMethodInvocationsForInsertCommandAsync()
+        {
+            var service = new ServiceBaseMock(new PersonProxyStub());
+            await service.InsertCommand(new Person()).ExecuteAsync();
+            service.OnBeforeInsertCommandExecutedWasInvoked.ShouldBe(true);
+            service.GetValidationResultsForInsertWasInvoked.ShouldBe(true);
+            service.GetBusinessRulesForInsertAsyncWasInvoked.ShouldBe(true);
+            service.GetAllErrorsForInsertAsyncWasInvoked.ShouldBe(true);
+            service.InsertAsyncWasInvoked.ShouldBe(true);
+        }
+
+        [TestMethod]
+        public void EnsureMethodInvocationsForUpdate()
+        {
+            var service = new ServiceBaseMock(new PersonProxyStub());
+            var result = service.UpdateCommand(new Person()).Execute();
+            service.OnBeforeUpdateCommandExecutedWasInvoked.ShouldBe(true);
+            service.GetValidationResultsForUpdateWasInvoked.ShouldBe(true);
+            service.GetBusinessRulesForUpdateWasInvoked.ShouldBe(true);
+            service.GetAllErrorsForUpdateWasInvoked.ShouldBe(true);
+            service.UpdateWasInvoked.ShouldBe(true);
+        }
+
+        [TestMethod]
+        public async Task EnsureMethodInvocationsForUpdateCommandAsync()
+        {
+            var service = new ServiceBaseMock(new PersonProxyStub());
+            await service.UpdateCommand(new Person()).ExecuteAsync();
+            service.OnBeforeUpdateCommandExecutedWasInvoked.ShouldBe(true);
+            service.GetValidationResultsForUpdateWasInvoked.ShouldBe(true);
+            service.GetBusinessRulesForUpdateAsyncWasInvoked.ShouldBe(true);
+            service.GetAllErrorsForUpdateAsyncWasInvoked.ShouldBe(true);
+            service.UpdateAsyncWasInvoked.ShouldBe(true);
+        }
+
+        [TestMethod]
+        public void EnsureMethodInvocationsForDelete()
+        {
+            var service = new ServiceBaseMock(new PersonProxyStub());
+            var result = service.DeleteCommand(1).Execute();
+            service.OnBeforeDeleteCommandExecutedWasInvoked.ShouldBe(true);
+            service.GetValidationResultsForDeleteWasInvoked.ShouldBe(true);
+            service.GetBusinessRulesForDeleteWasInvoked.ShouldBe(true);
+            service.GetAllErrorsForDeleteWasInvoked.ShouldBe(true);
+            service.DeleteWasInvoked.ShouldBe(true);
+        }
+
+        [TestMethod]
+        public async Task EnsureMethodInvocationsForDeleteCommandAsync()
+        {
+            var service = new ServiceBaseMock(new PersonProxyStub());
+            await service.DeleteCommand(1).ExecuteAsync();
+            service.OnBeforeDeleteCommandExecutedWasInvoked.ShouldBe(true);
+            service.GetValidationResultsForDeleteWasInvoked.ShouldBe(true);
+            service.GetBusinessRulesForDeleteAsyncWasInvoked.ShouldBe(true);
+            service.GetAllErrorsForDeleteAsyncWasInvoked.ShouldBe(true);
+            service.DeleteAsyncWasInvoked.ShouldBe(true);
+        }
     }
 
     public class ServiceBaseMock : ServiceBase<Person, long>
     {
+        #region Properties
+
         public bool GetValidationResultsForGetAllWasInvoked { get; private set; }
         public bool GetBusinessRulesForGetAllWasInvoked { get; private set; }
         public bool GetBusinessRulesForGetAllAsyncWasInvoked { get; private set; }
@@ -79,6 +153,32 @@ namespace Facile.Core.Tests
         public bool GetAllErrorsForGetByIDAsyncWasInvoked { get; private set; }
         public bool GetByIDWasInvoked { get; private set; }
         public bool GetByIDAsyncWasInvoked { get; private set; }
+        public bool OnBeforeInsertCommandExecutedWasInvoked { get; private set; }
+        public bool GetValidationResultsForInsertWasInvoked { get; private set; }
+        public bool GetBusinessRulesForInsertWasInvoked { get; private set; }
+        public bool GetBusinessRulesForInsertAsyncWasInvoked { get; private set; }
+        public bool GetAllErrorsForInsertWasInvoked { get; private set; }
+        public bool GetAllErrorsForInsertAsyncWasInvoked { get; private set; }
+        public bool InsertWasInvoked { get; private set; }
+        public bool InsertAsyncWasInvoked { get; private set; }
+        public bool OnBeforeUpdateCommandExecutedWasInvoked { get; private set; }
+        public bool GetValidationResultsForUpdateWasInvoked { get; private set; }
+        public bool GetBusinessRulesForUpdateWasInvoked { get; private set; }
+        public bool GetBusinessRulesForUpdateAsyncWasInvoked { get; private set; }
+        public bool GetAllErrorsForUpdateWasInvoked { get; private set; }
+        public bool GetAllErrorsForUpdateAsyncWasInvoked { get; private set; }
+        public bool UpdateWasInvoked { get; private set; }
+        public bool UpdateAsyncWasInvoked { get; private set; }
+        public bool OnBeforeDeleteCommandExecutedWasInvoked { get; private set; }
+        public bool GetValidationResultsForDeleteWasInvoked { get; private set; }
+        public bool GetBusinessRulesForDeleteWasInvoked { get; private set; }
+        public bool GetBusinessRulesForDeleteAsyncWasInvoked { get; private set; }
+        public bool GetAllErrorsForDeleteWasInvoked { get; private set; }
+        public bool GetAllErrorsForDeleteAsyncWasInvoked { get; private set; }
+        public bool DeleteWasInvoked { get; private set; }
+        public bool DeleteAsyncWasInvoked { get; private set; }
+
+        #endregion
 
         public ServiceBaseMock(IDataProxy<Person, long> dataProxy) : base(dataProxy)
         {
@@ -185,7 +285,163 @@ namespace Facile.Core.Tests
             GetByIDAsyncWasInvoked = true;
             return base.GetByIDAsync(id, context);
         }
-        
+
+        #endregion
+
+        #region Insert
+
+        protected override void OnBeforeInsertCommandExecuted(Person person, ExecutionContext<Person> context)
+        {
+            OnBeforeInsertCommandExecutedWasInvoked = true;
+            base.OnBeforeInsertCommandExecuted(person, context);
+        }
+
+        protected override IEnumerable<ValidationResult> GetValidationResultsForInsert(Person person, ExecutionContext<Person> context)
+        {
+            GetValidationResultsForInsertWasInvoked = true;
+            return base.GetValidationResultsForInsert(person, context);
+        }
+
+        protected override IEnumerable<IRule> GetBusinessRulesForInsert(Person person, ExecutionContext<Person> context)
+        {
+            GetBusinessRulesForInsertWasInvoked = true;
+            return base.GetBusinessRulesForInsert(person, context);
+        }
+
+        protected override Task<IEnumerable<IRule>> GetBusinessRulesForInsertAsync(Person person, ExecutionContext<Person> context)
+        {
+            GetBusinessRulesForInsertAsyncWasInvoked = true;
+            return base.GetBusinessRulesForInsertAsync(person, context);
+        }
+
+        protected override IEnumerable<ValidationResult> GetAllErrorsForInsert(Person person, ExecutionContext<Person> context)
+        {
+            GetAllErrorsForInsertWasInvoked = true;
+            return base.GetAllErrorsForInsert(person, context);
+        }
+
+        protected override Task<IEnumerable<ValidationResult>> GetAllErrorsForInsertAsync(Person person, ExecutionContext<Person> context)
+        {
+            GetAllErrorsForInsertAsyncWasInvoked = true;
+            return base.GetAllErrorsForInsertAsync(person, context);
+        }
+
+        protected override Person Insert(Person person, ExecutionContext<Person> context)
+        {
+            InsertWasInvoked = true;
+            return base.Insert(person, context);
+        }
+
+        protected override Task<Person> InsertAsync(Person person, ExecutionContext<Person> context)
+        {
+            InsertAsyncWasInvoked = true;
+            return base.InsertAsync(person, context);
+        }
+
+        #endregion
+
+        #region Update
+
+        protected override void OnBeforeUpdateCommandExecuted(Person person, ExecutionContext<Person> context)
+        {
+            OnBeforeUpdateCommandExecutedWasInvoked = true;
+            base.OnBeforeUpdateCommandExecuted(person, context);
+        }
+
+        protected override IEnumerable<ValidationResult> GetValidationResultsForUpdate(Person person, ExecutionContext<Person> context)
+        {
+            GetValidationResultsForUpdateWasInvoked = true;
+            return base.GetValidationResultsForUpdate(person, context);
+        }
+
+        protected override IEnumerable<IRule> GetBusinessRulesForUpdate(Person person, ExecutionContext<Person> context)
+        {
+            GetBusinessRulesForUpdateWasInvoked = true;
+            return base.GetBusinessRulesForUpdate(person, context);
+        }
+
+        protected override Task<IEnumerable<IRule>> GetBusinessRulesForUpdateAsync(Person person, ExecutionContext<Person> context)
+        {
+            GetBusinessRulesForUpdateAsyncWasInvoked = true;
+            return base.GetBusinessRulesForUpdateAsync(person, context);
+        }
+
+        protected override IEnumerable<ValidationResult> GetAllErrorsForUpdate(Person person, ExecutionContext<Person> context)
+        {
+            GetAllErrorsForUpdateWasInvoked = true;
+            return base.GetAllErrorsForUpdate(person, context);
+        }
+
+        protected override Task<IEnumerable<ValidationResult>> GetAllErrorsForUpdateAsync(Person person, ExecutionContext<Person> context)
+        {
+            GetAllErrorsForUpdateAsyncWasInvoked = true;
+            return base.GetAllErrorsForUpdateAsync(person, context);
+        }
+
+        protected override Person Update(Person person, ExecutionContext<Person> context)
+        {
+            UpdateWasInvoked = true;
+            return base.Update(person, context);
+        }
+
+        protected override Task<Person> UpdateAsync(Person person, ExecutionContext<Person> context)
+        {
+            UpdateAsyncWasInvoked = true;
+            return base.UpdateAsync(person, context);
+        }
+
+        #endregion
+
+        #region Delete
+
+        protected override void OnBeforeDeleteCommandExecuted(long id, ExecutionContext<Person> context)
+        {
+            OnBeforeDeleteCommandExecutedWasInvoked = true;
+            base.OnBeforeDeleteCommandExecuted(id, context);
+        }
+
+        protected override IEnumerable<ValidationResult> GetValidationResultsForDelete(long id, ExecutionContext<Person> context)
+        {
+            GetValidationResultsForDeleteWasInvoked = true;
+            return base.GetValidationResultsForDelete(id, context);
+        }
+
+        protected override IEnumerable<IRule> GetBusinessRulesForDelete(long id, ExecutionContext<Person> context)
+        {
+            GetBusinessRulesForDeleteWasInvoked = true;
+            return base.GetBusinessRulesForDelete(id, context);
+        }
+
+        protected override Task<IEnumerable<IRule>> GetBusinessRulesForDeleteAsync(long id, ExecutionContext<Person> context)
+        {
+            GetBusinessRulesForDeleteAsyncWasInvoked = true;
+            return base.GetBusinessRulesForDeleteAsync(id, context);
+        }
+
+        protected override IEnumerable<ValidationResult> GetAllErrorsForDelete(long id, ExecutionContext<Person> context)
+        {
+            GetAllErrorsForDeleteWasInvoked = true;
+            return base.GetAllErrorsForDelete(id, context);
+        }
+
+        protected override Task<IEnumerable<ValidationResult>> GetAllErrorsForDeleteAsync(long id, ExecutionContext<Person> context)
+        {
+            GetAllErrorsForDeleteAsyncWasInvoked = true;
+            return base.GetAllErrorsForDeleteAsync(id, context);
+        }
+
+        protected override void Delete(long id, ExecutionContext<Person> context)
+        {
+            DeleteWasInvoked = true;
+            base.Delete(id, context);
+        }
+
+        protected override Task DeleteAsync(long id, ExecutionContext<Person> context)
+        {
+            DeleteAsyncWasInvoked = true;
+            return base.DeleteAsync(id, context);
+        }
+
         #endregion
     }
 
