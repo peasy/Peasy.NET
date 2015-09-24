@@ -1,18 +1,15 @@
-﻿using System;
+﻿using Facile.Attributes;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-//using AutoMapper;
-using System.Collections.Concurrent;
-using System.Diagnostics;
-using Facile.Attributes;
 
 namespace Facile.Extensions
 {
-    public static class DomainBaseExtensions
+    public static class DomainObjectExtensions
     {
         private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedNonEditableProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
         private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedForeignKeyProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
@@ -30,7 +27,7 @@ namespace Facile.Extensions
         }
 
         /// <summary>
-        /// Changes property values from 0 to NULL for any Nullable<int> property marked with the FACForeignKeyAttribute
+        /// Changes property values from 0 to NULL for any Nullable<int> property marked with the FacileForeignKeyAttribute
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="domainObject"></param>

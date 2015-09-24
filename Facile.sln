@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facile.Core.Tests", "Facile
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.com.DAL.Mock", "Orders.com.DAL.Mock\Orders.com.DAL.Mock.csproj", "{0DEBEE6B-3561-47B8-A622-D2407839123B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Facile.Tests", "Facile.Tests\Facile.Tests.csproj", "{A0B714D4-4CE9-4628-B721-E93591CA5F84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{0DEBEE6B-3561-47B8-A622-D2407839123B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DEBEE6B-3561-47B8-A622-D2407839123B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DEBEE6B-3561-47B8-A622-D2407839123B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0B714D4-4CE9-4628-B721-E93591CA5F84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B714D4-4CE9-4628-B721-E93591CA5F84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B714D4-4CE9-4628-B721-E93591CA5F84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B714D4-4CE9-4628-B721-E93591CA5F84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
