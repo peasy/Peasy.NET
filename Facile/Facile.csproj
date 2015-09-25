@@ -41,8 +41,8 @@
     <Compile Include="Exception\DomainObjectNotFoundException.cs" />
     <Compile Include="Exception\FacileException.cs" />
     <Compile Include="Extensions\DomainObjectExtensions.cs" />
-    <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Attributes\FacileForeignKeyAttribute.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="IVersionContainer.cs" />
     <Compile Include="ILatencyProneStatusProvider.cs" />

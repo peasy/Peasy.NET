@@ -67,7 +67,7 @@ namespace Facile.Extensions
             }
         }
 
-        public static IEnumerable<PropertyInfo> GetCachedForeignKeyProperties<T>(this T domainObject) 
+        private static IEnumerable<PropertyInfo> GetCachedForeignKeyProperties<T>(this T domainObject) 
         {
             var type = typeof(T);
             if (!_cachedForeignKeyProperties.ContainsKey(type))
@@ -84,7 +84,7 @@ namespace Facile.Extensions
             return _cachedForeignKeyProperties[type];
         }
 
-        public static IEnumerable<PropertyInfo> GetCachedNonEditableProperties<T>(this T domainObject) 
+        private static IEnumerable<PropertyInfo> GetCachedNonEditableProperties<T>(this T domainObject) 
         {
             var type = typeof(T); 
             if (!_cachedNonEditableProperties.ContainsKey(type))
