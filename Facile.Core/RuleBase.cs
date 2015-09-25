@@ -129,9 +129,9 @@ namespace Facile.Core
         /// </returns>
         protected virtual void OnValidate() {}
 
-        protected virtual Task OnValidateAsync()
+        protected async virtual Task OnValidateAsync()
         {
-            return Task.Run(() => OnValidate());
+            OnValidate();
         }
 
         /// <summary>
