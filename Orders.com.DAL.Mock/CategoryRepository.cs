@@ -77,29 +77,29 @@ namespace Orders.com.DAL.Mock
             Categories.Remove(category);
         }
 
-        public Task<IEnumerable<Category>> GetAllAsync()
+        public async Task<IEnumerable<Category>> GetAllAsync()
         {
-            return Task.Run(() => GetAll());
+            return GetAll();
         }
 
-        public Task<Category> GetByIDAsync(long id)
+        public async Task<Category> GetByIDAsync(long id)
         {
-            return Task.Run(() => GetByID(id));
+            return GetByID(id);
         }
 
-        public Task<Category> InsertAsync(Category entity)
+        public async Task<Category> InsertAsync(Category entity)
         {
-            return Task.Run(() => Insert(entity));
+            return Insert(entity);
         }
 
-        public Task<Category> UpdateAsync(Category entity)
+        public async Task<Category> UpdateAsync(Category entity)
         {
-            return Task.Run(() => Update(entity));
+            return Update(entity);
         }
 
-        public Task DeleteAsync(long id)
+        public async Task DeleteAsync(long id)
         {
-            return Task.Run(() => Delete(id));
+            Delete(id);
         }
 
         public bool SupportsTransactions

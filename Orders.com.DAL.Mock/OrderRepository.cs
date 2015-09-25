@@ -131,39 +131,39 @@ namespace Orders.com.DAL.Mock
             Orders.Remove(order);
         }
 
-        public Task<IEnumerable<Order>> GetAllAsync()
+        public async Task<IEnumerable<Order>> GetAllAsync()
         {
-            return Task.Run(() => GetAll());
+            return GetAll();
         }
 
-        public Task<IEnumerable<OrderInfo>> GetAllAsync(int start, int pageSize)
+        public async Task<IEnumerable<OrderInfo>> GetAllAsync(int start, int pageSize)
         {
-            return Task.Run(() => GetAll(start, pageSize));
+            return GetAll(start, pageSize);
         }
 
-        public Task<IEnumerable<Order>> GetByCustomerAsync(long customerID)
+        public async Task<IEnumerable<Order>> GetByCustomerAsync(long customerID)
         {
-            return Task.Run(() => GetByCustomer(customerID));
+            return GetByCustomer(customerID);
         }
 
-        public Task<Order> GetByIDAsync(long id)
+        public async Task<Order> GetByIDAsync(long id)
         {
-            return Task.Run(() => GetByID(id));
+            return GetByID(id);
         }
 
-        public Task<Order> InsertAsync(Order entity)
+        public async Task<Order> InsertAsync(Order entity)
         {
-            return Task.Run(() => Insert(entity));
+            return Insert(entity);
         }
 
-        public Task<Order> UpdateAsync(Order entity)
+        public async Task<Order> UpdateAsync(Order entity)
         {
-            return Task.Run(() => Update(entity));
+            return Update(entity);
         }
 
-        public Task DeleteAsync(long id)
+        public async Task DeleteAsync(long id)
         {
-            return Task.Run(() => Delete(id));
+            Delete(id);
         }
 
         public bool SupportsTransactions

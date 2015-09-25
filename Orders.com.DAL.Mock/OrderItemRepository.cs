@@ -112,49 +112,49 @@ namespace Orders.com.DAL.Mock
             return Mapper.Map(existing, new OrderItem());
         }
 
-        public Task<IEnumerable<OrderItem>> GetAllAsync()
+        public async Task<IEnumerable<OrderItem>> GetAllAsync()
         {
-            return Task.Run(() => GetAll());
+            return GetAll();
         }
 
-        public Task<IEnumerable<OrderItem>> GetByOrderAsync(long orderID)
+        public async Task<IEnumerable<OrderItem>> GetByOrderAsync(long orderID)
         {
-            return Task.Run(() => GetByOrder(orderID));
+            return GetByOrder(orderID);
         }
 
-        public Task<OrderItem> GetByIDAsync(long id)
+        public async Task<OrderItem> GetByIDAsync(long id)
         {
-            return Task.Run(() => GetByID(id));
+            return GetByID(id);
         }
 
-        public Task<OrderItem> InsertAsync(OrderItem entity)
+        public async Task<OrderItem> InsertAsync(OrderItem entity)
         {
-            return Task.Run(() => Insert(entity));
+            return Insert(entity);
         }
 
-        public Task<OrderItem> UpdateAsync(OrderItem entity)
+        public async Task<OrderItem> UpdateAsync(OrderItem entity)
         {
-            return Task.Run(() => Update(entity));
+            return Update(entity);
         }
 
-        public Task DeleteAsync(long id)
+        public async Task DeleteAsync(long id)
         {
-            return Task.Run(() => Delete(id));
+            Delete(id);
         }
 
-        public Task<OrderItem> BackOrderAsync(long orderItemID, DateTime backOrderedOn)
+        public async Task<OrderItem> BackOrderAsync(long orderItemID, DateTime backOrderedOn)
         {
-            return Task.Run(() => BackOrder(orderItemID, backOrderedOn));
+            return BackOrder(orderItemID, backOrderedOn);
         }
 
-        public Task<OrderItem> SubmitAsync(long orderItemID, DateTime shippedOn)
+        public async Task<OrderItem> SubmitAsync(long orderItemID, DateTime shippedOn)
         {
-            return Task.Run(() => Submit(orderItemID, shippedOn));
+            return Submit(orderItemID, shippedOn);
         }
 
-        public Task<OrderItem> ShipAsync(long orderItemID, DateTime shippedOn)
+        public async Task<OrderItem> ShipAsync(long orderItemID, DateTime shippedOn)
         {
-            return Task.Run(() => Ship(orderItemID, shippedOn));
+            return Ship(orderItemID, shippedOn);
         }
 
         public bool SupportsTransactions

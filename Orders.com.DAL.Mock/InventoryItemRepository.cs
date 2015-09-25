@@ -114,39 +114,39 @@ namespace Orders.com.DAL.Mock
             InventoryItems.Remove(inventoryItem);
         }
 
-        public Task<IEnumerable<InventoryItem>> GetAllAsync()
+        public async Task<IEnumerable<InventoryItem>> GetAllAsync()
         {
-            return Task.Run(() => GetAll());
+            return GetAll();
         }
 
-        public Task<InventoryItem> GetByIDAsync(long id)
+        public async Task<InventoryItem> GetByIDAsync(long id)
         {
-            return Task.Run(() => GetByID(id));
+            return GetByID(id);
         }
 
-        public Task<InventoryItem> GetByProductAsync(long productID)
+        public async Task<InventoryItem> GetByProductAsync(long productID)
         {
-            return Task.Run(() => GetByProduct(productID));
+            return GetByProduct(productID);
         }
 
-        public Task<InventoryItem> InsertAsync(InventoryItem entity)
+        public async Task<InventoryItem> InsertAsync(InventoryItem entity)
         {
-            return Task.Run(() => Insert(entity));
+            return Insert(entity);
         }
 
-        public Task<InventoryItem> UpdateAsync(InventoryItem entity)
+        public async Task<InventoryItem> UpdateAsync(InventoryItem entity)
         {
-            return Task.Run(() => Update(entity));
+            return Update(entity);
         }
 
-        public Task DeleteAsync(long id)
+        public async Task DeleteAsync(long id)
         {
-            return Task.Run(() => Delete(id));
+            Delete(id);
         }
 
-        public Task<InventoryItem> DecrementQuantityOnHandAsync(long inventoryID, decimal quantity)
+        public async Task<InventoryItem> DecrementQuantityOnHandAsync(long inventoryID, decimal quantity)
         {
-            return Task.Run(() => DecrementQuantityOnHand(inventoryID, quantity));
+            return DecrementQuantityOnHand(inventoryID, quantity);
         }
 
         public bool SupportsTransactions

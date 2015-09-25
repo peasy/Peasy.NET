@@ -76,29 +76,29 @@ namespace Orders.com.DAL.Mock
             Customers.Remove(customer);
         }
 
-        public Task<IEnumerable<Customer>> GetAllAsync()
+        public async Task<IEnumerable<Customer>> GetAllAsync()
         {
-            return Task.Run(() => GetAll());
+            return GetAll();
         }
 
-        public Task<Customer> GetByIDAsync(long id)
+        public async Task<Customer> GetByIDAsync(long id)
         {
-            return Task.Run(() => GetByID(id));
+            return GetByID(id);
         }
 
-        public Task<Customer> InsertAsync(Customer entity)
+        public async Task<Customer> InsertAsync(Customer entity)
         {
-            return Task.Run(() => Insert(entity));
+            return Insert(entity);
         }
 
-        public Task<Customer> UpdateAsync(Customer entity)
+        public async Task<Customer> UpdateAsync(Customer entity)
         {
-            return Task.Run(() => Update(entity));
+            return Update(entity);
         }
 
-        public Task DeleteAsync(long id)
+        public async Task DeleteAsync(long id)
         {
-            return Task.Run(() => Delete(id));
+            Delete(id);
         }
 
         public bool SupportsTransactions
