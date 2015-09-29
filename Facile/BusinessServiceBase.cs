@@ -55,13 +55,14 @@ namespace Facile
                 {
                     throw new DomainObjectNotFoundException(BuildNotFoundError(entity.ID));
                 }
+
                 if (current is IVersionContainer)
                 {
                     var rule = new ConcurrencyCheckRule(current as IVersionContainer, entity as IVersionContainer).Validate();
                     if (!rule.IsValid)
                         throw new ConcurrencyException(rule.ErrorMessage);
-
                 }
+
                 entity.RevertNonEditableValues(current);
                 entity.RevertForeignKeysFromZeroToNull();
             }
@@ -107,8 +108,8 @@ namespace Facile
             get { return (_dataProxy as IServiceDataProxy<T, TKey>).IsLatencyProne; }
         }
 
-        public string BuildNotFoundError(TKey id)
-        {            
+        protected string BuildNotFoundError(TKey id)
+        {
             var message = string.Format("{0} ID {1} could not be found.", new T().ClassName(), id.ToString());
             return message;
         }

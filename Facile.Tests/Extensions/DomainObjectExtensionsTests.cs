@@ -46,7 +46,7 @@ namespace Facile.Tests.Extensions
         }
 
         [TestMethod]
-        public async Task ObjectWithNxxonEditableAttributeShouldRevertValuesToOriginal()
+        public async Task TenObjectsWithNonEditableAttributesShouldRevertValuesToOriginal()
         {
             var original = new MockClass2() { Name = "Jimi Hendrix" };
             var newMocks = 10.Times(i => new MockClass2() { Name = string.Format("Jim Morrison{0}", i) }).ToArray();

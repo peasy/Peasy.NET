@@ -58,17 +58,22 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Attributes\FacileRequiredAttributeTests.cs" />
+    <Compile Include="BusinessServiceBaseTests.cs" />
     <Compile Include="Extensions\DomainObjectExtensionsTests.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Rules\ConcurrencyCheckRuleTests.cs" />
+    <Compile Include="Rules\GreaterThanZeroRuleTests.cs" />
+    <Compile Include="Rules\ValueRequiredRuleTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Rules\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Facile.Core\Facile.Core.csproj">
+      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
+      <Name>Facile.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Facile\Facile.csproj">
       <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
       <Name>Facile</Name>
