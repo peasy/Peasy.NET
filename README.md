@@ -16,7 +16,7 @@ Looking for contributors for sample app consumers, framework improvements, and N
 
 # The simplest possible example
 
-Create your domain object (DTO) that implements IDomainObject<<T>>:
+Let's create a domain object (DTO) that implements IDomainObject<<T>>:
 
     public class Person : Peasy.Core.IDomainObject<int>
     {
@@ -25,20 +25,10 @@ Create your domain object (DTO) that implements IDomainObject<<T>>:
         public string City { get; set; }
     }
 
-Create your data proxy (aka repository) that implements IDataProxy<T, TKey> (most method implementations left out for brevity):
+Now we'll create a data proxy (aka repository) that implements IDataProxy<T, TKey> (most method implementations left out for brevity):
 
     public class PersonMockDataProxy : Peasy.Core.IDataProxy<Person, int>
     {
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<Person> GetAll()
         {
             return new[]
@@ -53,17 +43,7 @@ Create your data proxy (aka repository) that implements IDataProxy<T, TKey> (mos
         {
             return GetAll();
         }
-
-        public Person GetByID(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Person> GetByIDAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public Person Insert(Person entity)
         {
             return new Person() { ID = new Random(300).Next(), Name = entity.Name };
@@ -72,6 +52,26 @@ Create your data proxy (aka repository) that implements IDataProxy<T, TKey> (mos
         public async Task<Person> InsertAsync(Person entity)
         {
             return Insert(entity);
+        }
+        
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public Person GetByID(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Person> GetByIDAsync(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public Person Update(Person entity)
@@ -85,7 +85,7 @@ Create your data proxy (aka repository) that implements IDataProxy<T, TKey> (mos
         }
     }
 
-Create a service class, which exposes CRUD commands, responsible for subjecting IDataProxy invocations to business rules before execution:
+Finally, we'll create a service class, which exposes CRUD commands responsible for subjecting IDataProxy invocations to business rules before execution:
 
     public class PersonService : Peasy.Core.ServiceBase<Person, int>
     {
@@ -180,7 +180,7 @@ Now let's add one more rule, just for fun:
         }
     }
 
-We'll associate this one with inserts too too:
+We'll associate this one with inserts too:
 
     public class PersonService : Peasy.Core.ServiceBase<Person, int>
     {
@@ -227,7 +227,7 @@ And finally, let's pass in valid data and watch it be a success
 
 # Where's the async support??
 
-Note that we *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the method async and passing GetAll.  Normally, you would invoke and EntityFramework async call or make an out-of-band async call to an http service, etc.
+Note that we *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the method async and marshalling the call to GetAll.  Normally, you would invoke an EntityFramework async call or make an out-of-band async call to an http service, etc.
 
     private async Task GetMyDataAsync()
     {
@@ -240,7 +240,7 @@ Note that we *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the 
         }
     }
 
-Almost done -  Peasy supports "async all way", which means that we need to tell the PersonService that we'll need the insert command to participate in an async workflow:
+Almost done -  Peasy supports "async all the way", which means that we need to tell the PersonService that we'll need the insert command to participate in an async workflow:
 
     public class PersonService : Peasy.Core.ServiceBase<Person, int>
     {
@@ -260,9 +260,9 @@ Almost done -  Peasy supports "async all way", which means that we need to tell 
         }
     }
 
-Notice that we simply marked the InsertAsync override with async and simply marshalled the call to GetBusinessRulesForInsert. Usually you will need data from a DataProxy to pass into a rule(s) for validation, and it is within the InsertAsync override where you will invoke the DataProxy asynchronously for data to pass into said rule(s).
+Notice that we simply marked the InsertAsync override with async and simply marshalled the call to GetBusinessRulesForInsert. Sometimes you might want to asynchronously aquire data that can be shared among rules and it is within the InsertAsync override where this can be done.
 
-One final step - let's just add async support to the PersonNameRule for the sake of brevity:
+One final step - let's add async support to the PersonNameRule (skipping async support for the city rule for the sake of brevity):
 
     public class PersonNameRule : Peasy.Core.RuleBase
     {
