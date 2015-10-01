@@ -14,6 +14,12 @@ Peasy.net is a simple middle tier framework that offers/addresses the following:
 
 Looking for contributors for sample app consumers, framework improvements, and Nuget distributions!
 
+#Where can I get it?
+
+First, install NuGet. Then, install Peasy from the package manager console:
+
+PM> Install-Package Peasy
+
 # The simplest possible example
 
 Let's create a domain object (DTO) that implements IDomainObject<<T>>:
