@@ -16,7 +16,7 @@ Looking for contributors for sample app consumers, framework improvements, and N
 
 # The simplest possible example
 
-Create your domain object (DTO) that inherits from IDomainObject<T>:
+Create your domain object (DTO) that implements IDomainObject<T>:
 
     public class Person : Peasy.Core.IDomainObject<int>
     {
