@@ -18,7 +18,7 @@ Looking for contributors for sample app consumers, framework improvements, and N
 
 First, install NuGet. Then, install Peasy from the package manager console:
 
-``` PM> Install-Package Peasy
+``` PM> Install-Package Peasy ```
 
 You can also download and add the Facile and/or Facile.Core projects to your solution
 
