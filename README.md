@@ -41,9 +41,12 @@ Create your data proxy (aka repository) that implements IDataProxy<T, TKey> (mos
 
         public IEnumerable<Person> GetAll()
         {
-            yield return new Person() { ID = 1, Name = "Aaron Hanusa" };
-            yield return new Person() { ID = 2, Name = "Jimi Hendrix" };
-            yield return new Person() { ID = 3, Name = "Sam Jackson" };
+            return new[]
+            {
+                new Person() { ID = 1, Name = "Jimi Hendrix" },
+                new Person() { ID = 2, Name = "James Page" },
+                new Person() { ID = 3, Name = "David Gilmour" }
+            };
         }
 
         public async Task<IEnumerable<Person>> GetAllAsync()
@@ -82,5 +85,77 @@ Create your data proxy (aka repository) that implements IDataProxy<T, TKey> (mos
         }
     }
 
-Create a service class, which subjects operations to business rules before IDataProxy operations:
+Create a service class, which exposes CRUD commands, responsible for subjecting IDataProxy invocations to business rules before execution:
+
+    public class PersonService : Peasy.Core.ServiceBase<Person, int>
+    {
+        public PersonService(IDataProxy<Person, int> dataProxy) : base(dataProxy)
+        {
+        }
+    }
+
+Now let's consume our PersonService synchronously:
+
+    var service = new PersonService(new PersonDataProxy());
+    var getResult = service.GetAllCommand().Execute();
+    if (getResult.Success)
+    {
+        foreach (var person in getResult.Value)
+            Debug.WriteLine(person.Name);
+    }
+
+    var newPerson = new Person() { Name = "Freed Jones", City = "Madison" };
+    var insertResult = service.InsertCommand(newPerson).Execute();
+    if (insertResult.Success)
+    {
+        Debug.WriteLine(insertResult.Value.ID.ToString());
+    }
+
+Now let's add a business rule whose execution must be successful before the call to IDataProxy.Insert is invoked
+
+    public class PersonNameRule : Peasy.Core.RuleBase
+    {
+        private string _name;
+
+        public PersonNameRule(string name)
+        {
+            _name = name;
+        }
+
+        protected override void OnValidate()
+        {
+            if (_name == "Fred Jones")
+            {
+                Invalidate("Name cannot be fred jones");
+            }
+        }
+    }
+    
+And now let's hook it up:
+
+    public class PersonService : Peasy.Core.ServiceBase<Person, int>
+    {
+        public PersonService(IDataProxy<Person, int> dataProxy) : base(dataProxy)
+        {
+        }
+
+        protected override IEnumerable<IRule> GetBusinessRulesForInsert(Person entity, ExecutionContext<Person> context)
+        {
+            yield return new PersonNameRule(entity.Name);
+        }
+    }
+
+And test it out (being sure to add a System.ComponentModel.DataAnnotations)...
+
+    var newPerson = new Person() { Name = "Fred Jones", City = "Madison" };
+    var insertResult = service.InsertCommand(newPerson).Execute();
+    if (insertResult.Success)
+    {
+        Debug.WriteLine(insertResult.Value.ID.ToString());
+    }
+    else
+    {
+        // This line will execute and print 'Name cannot be fred jones' - also note that insertResult.Value will be NULL
+        Debug.WriteLine(insertResult.Errors.First()); 
+    }
 
