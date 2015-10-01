@@ -1,7 +1,7 @@
-# facile.net
+# Peasy.NET
 An easy to use middle tier framework for .net
 
-facile.net is a simple middle tier framework that offers/addresses the following:
+Peasy.net is a simple middle tier framework that offers/addresses the following:
 
 - Easy to use validation/business rules engine
 - Thread safety
