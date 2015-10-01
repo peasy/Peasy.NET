@@ -195,8 +195,6 @@ We'll associate this one with inserts too too:
         }
     }
 
-And test it out...
-
 And test it out (being sure to add a reference to System.ComponentModel.DataAnnotations)...
 
     var newPerson = new Person() { Name = "Fred Jones", City = "Nowhere" };
@@ -229,7 +227,7 @@ And finally, let's pass in valid data and watch it be a success
 
 # Where's the async support??
 
-Note that *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the method async and passing GetAll.  Normally, you would invoke and EntityFramework async call or make an out-of-band async call to an http service, etc.
+Note that we *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the method async and passing GetAll.  Normally, you would invoke and EntityFramework async call or make an out-of-band async call to an http service, etc.
 
     private async Task GetMyDataAsync()
     {
