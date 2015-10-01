@@ -34,7 +34,7 @@ Let's create a domain object (DTO) that implements IDomainObject<<T>>:
     }
 ```
 Now we'll create a data proxy (aka repository) that implements IDataProxy<T, TKey> (most method implementations left out for brevity):
-
+```c#
     public class PersonMockDataProxy : Peasy.Core.IDataProxy<Person, int>
     {
         public IEnumerable<Person> GetAll()
@@ -92,18 +92,18 @@ Now we'll create a data proxy (aka repository) that implements IDataProxy<T, TKe
             throw new NotImplementedException();
         }
     }
-
+```
 Finally, we'll create a service class, which exposes CRUD commands responsible for subjecting IDataProxy invocations to business rules before execution:
-
+```c#
     public class PersonService : Peasy.Core.ServiceBase<Person, int>
     {
         public PersonService(IDataProxy<Person, int> dataProxy) : base(dataProxy)
         {
         }
     }
-
+```
 Now let's consume our PersonService synchronously:
-
+```c#
     var service = new PersonService(new PersonDataProxy());
     var getResult = service.GetAllCommand().Execute();
     if (getResult.Success)
@@ -118,9 +118,9 @@ Now let's consume our PersonService synchronously:
     {
         Debug.WriteLine(insertResult.Value.ID.ToString()); // prints the id value assigned via PersonMockDataProxy.Insert
     }
-
+```
 Now let's add a business rule whose execution must be successful before the call to IDataProxy.Insert is invoked
-
+```c#
     public class PersonNameRule : Peasy.Core.RuleBase
     {
         private string _name;
@@ -138,9 +138,9 @@ Now let's add a business rule whose execution must be successful before the call
             }
         }
     }
-    
+``` 
 And now let's hook it up in our PersonService and ensure it gets fired before inserts:
-
+```c#
     public class PersonService : Peasy.Core.ServiceBase<Person, int>
     {
         public PersonService(IDataProxy<Person, int> dataProxy) : base(dataProxy)
@@ -152,9 +152,9 @@ And now let's hook it up in our PersonService and ensure it gets fired before in
             yield return new PersonNameRule(entity.Name);
         }
     }
-
+```
 And test it out (being sure to add a reference to System.ComponentModel.DataAnnotations)...
-
+```c#
     var newPerson = new Person() { Name = "Fred Jones", City = "Madison" };
     var insertResult = service.InsertCommand(newPerson).Execute();
     if (insertResult.Success)
@@ -167,9 +167,9 @@ And test it out (being sure to add a reference to System.ComponentModel.DataAnno
         // Note that insertResult.Value will be NULL as PersonMockDataProxy.Insert did not execute due to failed rule
         Debug.WriteLine(insertResult.Errors.First()); 
     }
-
+```
 Now let's add one more rule, just for fun:
-
+```c#
     public class ValidCityRule : Peasy.Core.RuleBase
     {
         private string _city;
@@ -187,9 +187,9 @@ Now let's add one more rule, just for fun:
             }
         }
     }
-
+```
 We'll associate this one with inserts too:
-
+```c#
     public class PersonService : Peasy.Core.ServiceBase<Person, int>
     {
         public PersonService(IDataProxy<Person, int> dataProxy) : base(dataProxy)
@@ -202,9 +202,9 @@ We'll associate this one with inserts too:
             yield return new ValidCityRule(entity.City);
         }
     }
-
+```
 And test it out (being sure to add a reference to System.ComponentModel.DataAnnotations)...
-
+```c#
     var newPerson = new Person() { Name = "Fred Jones", City = "Nowhere" };
     var insertResult = service.InsertCommand(newPerson).Execute();
     if (insertResult.Success)
@@ -218,9 +218,9 @@ And test it out (being sure to add a reference to System.ComponentModel.DataAnno
         foreach (var error in insertResult.Errors)
             Debug.WriteLine(error);
     }
-
+```
 And finally, let's pass in valid data and watch it be a success
-
+```c#
     var newPerson = new Person() { Name = "Freida Jones", City = "Madison" };
     var insertResult = service.InsertCommand(newPerson).Execute();
     if (insertResult.Success)
@@ -232,11 +232,11 @@ And finally, let's pass in valid data and watch it be a success
         foreach (var error in insertResult.Errors)
             Debug.WriteLine(error);
     }
-
+```
 # Where's the async support??
 
 Note that we *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the method async and marshalling the call to GetAll.  Normally, you would invoke an EntityFramework async call or make an out-of-band async call to an http service, etc.
-
+```c#
     private async Task GetMyDataAsync()
     {
         var service = new PersonService(new PersonDataProxy());
@@ -247,9 +247,9 @@ Note that we *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the 
                 Debug.WriteLine(person.Name);
         }
     }
-
+```
 Almost done -  Peasy supports "async all the way", which means that we need to tell the PersonService that we'll need the insert command to participate in an async workflow:
-
+```c#
     public class PersonService : Peasy.Core.ServiceBase<Person, int>
     {
         public PersonService(IDataProxy<Person, int> dataProxy) : base(dataProxy)
@@ -267,11 +267,11 @@ Almost done -  Peasy supports "async all the way", which means that we need to t
             return GetBusinessRulesForInsert(entity, context);
         }
     }
-
+```
 Notice that we simply marked the InsertAsync override with async and simply marshalled the call to GetBusinessRulesForInsert. Sometimes you might want to asynchronously aquire data that can be shared among rules and it is within the InsertAsync override where this can be done.
 
 One final step - let's add async support to the PersonNameRule (skipping async support for the city rule for the sake of brevity):
-
+```c#
     public class PersonNameRule : Peasy.Core.RuleBase
     {
         private string _name;
@@ -294,5 +294,5 @@ One final step - let's add async support to the PersonNameRule (skipping async s
             OnValidate();
         }
     }
-
+```
 Again, we simply marked OnValidateAsync() with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to pass a DataProxy into a rule and execute it asynchronously for data validation, which is when this async method will shine.
