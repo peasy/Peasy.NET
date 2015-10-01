@@ -1,5 +1,5 @@
-﻿using Facile;
-using Facile.Attributes;
+﻿using Peasy;
+using Peasy.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System;
 
@@ -9,10 +9,10 @@ namespace Orders.com.Core.Domain
     {
         public long OrderItemID { get; set; }
 
-        [FacileForeignKey, FacileRequired]
+        [PeasyForeignKey, PeasyRequired]
         public long OrderID { get; set; }
 
-        [FacileForeignKey, FacileRequired, Editable(false)]
+        [PeasyForeignKey, PeasyRequired, Editable(false)]
         public long ProductID { get; set; }
 
         [Range(1, double.MaxValue, ErrorMessage = "Quantity must be greater than 0")]

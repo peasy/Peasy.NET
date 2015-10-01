@@ -1,5 +1,5 @@
-﻿using Facile;
-using Facile.Attributes;
+﻿using Peasy;
+using Peasy.Attributes;
 using System.ComponentModel.DataAnnotations;
 
 namespace Orders.com.Core.Domain
@@ -17,7 +17,7 @@ namespace Orders.com.Core.Domain
         [Required]
         public decimal? Price { get; set; }
 
-        [FacileForeignKey, FacileRequired, Display(Name="Category")]
+        [PeasyForeignKey, PeasyRequired, Display(Name="Category")]
         public long CategoryID { get; set; }
 
         public override long ID

@@ -1,5 +1,5 @@
-﻿using Facile;
-using Facile.Attributes;
+﻿using Peasy;
+using Peasy.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -9,7 +9,7 @@ namespace Orders.com.Core.Domain
     {
         public long OrderID { get; set; }
 
-        [FacileForeignKey, FacileRequired]
+        [PeasyForeignKey, PeasyRequired]
         public long CustomerID { get; set; }
 
         [Editable(false)]

@@ -35,17 +35,17 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Facile.Core\Facile.Core.csproj">
-      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
-      <Name>Facile.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Facile\Facile.csproj">
-      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
-      <Name>Facile</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orders.com.Core\Orders.com.Core.csproj">
       <Project>{ebb3a99a-5057-4f6a-bed7-43661d43fae9}</Project>
       <Name>Orders.com.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
+      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
+      <Name>Peasy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy\Peasy.csproj">
+      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
+      <Name>Peasy</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

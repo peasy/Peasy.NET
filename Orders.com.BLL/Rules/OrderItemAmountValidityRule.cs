@@ -1,7 +1,7 @@
-﻿using Facile.Core;
+﻿using Peasy.Core;
 using Orders.com.Core.Domain;
 
-namespace Facile.Rules
+namespace Peasy.Rules
 {
     public class OrderItemAmountValidityRule : RuleBase
     {

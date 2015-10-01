@@ -137,14 +137,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Facile.Core\Facile.Core.csproj">
-      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
-      <Name>Facile.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Facile\Facile.csproj">
-      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
-      <Name>Facile</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Orders.com.BLL\Orders.com.BLL.csproj">
       <Project>{ce4be061-889b-4169-8403-82269e4ec7b9}</Project>
       <Name>Orders.com.BLL</Name>
@@ -156,6 +148,14 @@
     <ProjectReference Include="..\Orders.com.DAL.Mock\Orders.com.DAL.Mock.csproj">
       <Project>{0debee6b-3561-47b8-a622-d2407839123b}</Project>
       <Name>Orders.com.DAL.Mock</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
+      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
+      <Name>Peasy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy\Peasy.csproj">
+      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
+      <Name>Peasy</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
