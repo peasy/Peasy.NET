@@ -226,3 +226,67 @@ And finally, let's pass in valid data and watch it be a success
         foreach (var error in insertResult.Errors)
             Debug.WriteLine(error);
     }
+
+# Where's the async support??
+
+Note that *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the method async and passing GetAll.  Normally, you would invoke and EntityFramework async call or make an out-of-band async call to an http service, etc.
+
+    private async Task GetMyDataAsync()
+    {
+        var service = new PersonService(new PersonDataProxy());
+        var getResult = await service.GetAllCommand().ExecuteAsync();
+        if (getResult.Success)
+        {
+            foreach (var person in getResult.Value)
+                Debug.WriteLine(person.Name);
+        }
+    }
+
+Almost done -  Peasy supports "async all way", which means that we need to tell the PersonService that we'll need the insert command to participate in an async workflow:
+
+    public class PersonService : Peasy.Core.ServiceBase<Person, int>
+    {
+        public PersonService(IDataProxy<Person, int> dataProxy) : base(dataProxy)
+        {
+        }
+
+        protected override IEnumerable<IRule> GetBusinessRulesForInsert(Person entity, ExecutionContext<Person> context)
+        {
+            yield return new PersonNameRule(entity.Name);
+            yield return new ValidCityRule(entity.City);
+        }
+
+        protected override async Task<IEnumerable<IRule>> GetBusinessRulesForInsertAsync(Person entity, ExecutionContext<Person> context)
+        {
+            return GetBusinessRulesForInsert(entity, context);
+        }
+    }
+
+Notice that we simply marked the InsertAsync override with async and simply marshalled the call to GetBusinessRulesForInsert. Usually you will need data from a DataProxy to pass into a rule(s) for validation, and it is within the InsertAsync override where you will invoke the DataProxy asynchronously for data to pass into said rule(s).
+
+One final step - let's just add async support to the PersonNameRule for the sake of brevity:
+
+    public class PersonNameRule : Peasy.Core.RuleBase
+    {
+        private string _name;
+
+        public PersonNameRule(string name)
+        {
+            _name = name;
+        }
+
+        protected override void OnValidate()
+        {
+            if (_name == "Fred Jones")
+            {
+                Invalidate("Name cannot be fred jones");
+            }
+        }
+
+        protected async override Task OnValidateAsync()
+        {
+            OnValidate();
+        }
+    }
+
+Again, we simply marked OnValidateAsync() with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to pass a DataProxy into a rule and execute it asynchronously for data validation, which is when this async method will shine.
