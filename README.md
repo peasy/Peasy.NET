@@ -25,14 +25,14 @@ You can also download and add the Facile and/or Facile.Core projects to your sol
 # The simplest possible example
 
 Let's create a domain object (DTO) that implements IDomainObject<<T>>:
-
+```c#
     public class Person : Peasy.Core.IDomainObject<int>
     {
         public int ID { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
     }
-
+```
 Now we'll create a data proxy (aka repository) that implements IDataProxy<T, TKey> (most method implementations left out for brevity):
 
     public class PersonMockDataProxy : Peasy.Core.IDataProxy<Person, int>
