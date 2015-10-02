@@ -97,14 +97,14 @@ Finally, we'll create a service class, which exposes CRUD commands responsible f
 ```c#
     public class PersonService : Peasy.Core.ServiceBase<Person, int>
     {
-        public PersonService(IDataProxy<Person, int> dataProxy) : base(dataProxy)
+        public PersonService(Peasy.Core.IDataProxy<Person, int> dataProxy) : base(dataProxy)
         {
         }
     }
 ```
 Now let's consume our PersonService synchronously:
 ```c#
-    var service = new PersonService(new PersonDataProxy());
+    var service = new PersonService(new PersonMockDataProxy());
     var getResult = service.GetAllCommand().Execute();
     if (getResult.Success)
     {
@@ -155,6 +155,7 @@ And now let's hook it up in our PersonService and ensure it gets fired before in
 ```
 And test it out (being sure to add a reference to System.ComponentModel.DataAnnotations)...
 ```c#
+    var service = new PersonService(new PersonMockDataProxy());
     var newPerson = new Person() { Name = "Fred Jones", City = "Madison" };
     var insertResult = service.InsertCommand(newPerson).Execute();
     if (insertResult.Success)
@@ -205,6 +206,7 @@ We'll associate this one with inserts too:
 ```
 And test it out (being sure to add a reference to System.ComponentModel.DataAnnotations)...
 ```c#
+    var service = new PersonService(new PersonMockDataProxy());
     var newPerson = new Person() { Name = "Fred Jones", City = "Nowhere" };
     var insertResult = service.InsertCommand(newPerson).Execute();
     if (insertResult.Success)
@@ -221,6 +223,7 @@ And test it out (being sure to add a reference to System.ComponentModel.DataAnno
 ```
 And finally, let's pass in valid data and watch it be a success
 ```c#
+    var service = new PersonService(new PersonMockDataProxy());
     var newPerson = new Person() { Name = "Freida Jones", City = "Madison" };
     var insertResult = service.InsertCommand(newPerson).Execute();
     if (insertResult.Success)
@@ -239,7 +242,7 @@ Note that we *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the 
 ```c#
     private async Task GetMyDataAsync()
     {
-        var service = new PersonService(new PersonDataProxy());
+        var service = new PersonService(new PersonMockDataProxy());
         var getResult = await service.GetAllCommand().ExecuteAsync();
         if (getResult.Success)
         {
@@ -296,3 +299,15 @@ One final step - let's add async support to the PersonNameRule (skipping async s
     }
 ```
 Again, we simply marked OnValidateAsync() with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to pass a DataProxy into a rule and execute it asynchronously for data validation, which is when this async method will shine.
+
+And a final test...
+
+```c#
+    var service = new PersonService(new PersonMockDataProxy());
+    var newPerson = new Person() { Name = "Freed Jones", City = "Madison" };
+    var insertResult = await service.InsertCommand(newPerson).ExecuteAsync();
+    if (insertResult.Success)
+    {
+        Debug.WriteLine(insertResult.Value.ID.ToString()); // prints the id value assigned via PersonMockDataProxy.Insert
+    }
+```            
