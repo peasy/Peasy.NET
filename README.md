@@ -242,7 +242,7 @@ And finally, let's pass in valid data and watch it be a success
 
 Note that we *cheated* in PersonMockDataProxy.GetAllAsync by simply marking the method async and marshalling the call to GetAll.  Normally, you would invoke an EntityFramework async call or make an out-of-band async call to an http service, etc.
 ```c#
-    private async Task GetMyDataAsync()
+    public async Task GetMyDataAsync()
     {
         var service = new PersonService(new PersonMockDataProxy());
         var getResult = await service.GetAllCommand().ExecuteAsync();
@@ -305,11 +305,14 @@ Again, we simply marked OnValidateAsync() with the async keyword and marshalled 
 And a final test...
 
 ```c#
-    var service = new PersonService(new PersonMockDataProxy());
-    var newPerson = new Person() { Name = "Freed Jones", City = "Madison" };
-    var insertResult = await service.InsertCommand(newPerson).ExecuteAsync();
-    if (insertResult.Success)
+    public async Task SaveDataAsync()
     {
-        Debug.WriteLine(insertResult.Value.ID.ToString()); // prints the id value assigned via PersonMockDataProxy.Insert
+        var service = new PersonService(new PersonMockDataProxy());
+        var newPerson = new Person() { Name = "Freed Jones", City = "Madison" };
+        var insertResult = await service.InsertCommand(newPerson).ExecuteAsync();
+        if (insertResult.Success)
+        {
+            Debug.WriteLine(insertResult.Value.ID.ToString()); // prints the id value assigned via PersonMockDataProxy.Insert
+        }
     }
 ```            
