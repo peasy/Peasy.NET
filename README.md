@@ -141,6 +141,8 @@ Now let's add a business rule whose execution must be successful before the call
 ``` 
 And now let's hook it up in our PersonService and ensure it gets fired before inserts:
 ```c#
+    using Peasy.Core;
+    
     public class PersonService : Peasy.Core.ServiceBase<Person, int>
     {
         public PersonService(IDataProxy<Person, int> dataProxy) : base(dataProxy)
