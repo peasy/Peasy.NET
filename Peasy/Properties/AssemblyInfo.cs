@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Peasy")]
-[assembly: AssemblyDescription("An easy to use middle tier framework for .NET")]
+[assembly: AssemblyDescription("Opinionated extensions for the Peasy.Core middle tier framework, Peasy.Core")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Aaron Hanusa")]
 [assembly: AssemblyProduct("Peasy")]

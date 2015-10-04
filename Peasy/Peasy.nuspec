@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>1.0.0.2</version>
+    <title>Peasy</title>
+    <authors>Aaron Hanusa</authors>
+    <owners>Aaron Hanusa</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/ahanusa/Peasy.NET</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Opinionated extensions for the Peasy.Core middle tier framework</description>
+    <!--<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>-->
+    <copyright>Copyright 2015</copyright>
+    <tags>Middle Tier, Framework, Business Layer, Opinionated</tags>
+    <summary>There are few middle tier .NET frameworks in existence, and the ones that exist cost money and/or come with a HUGE learning curve.  Peasy is a middle tier framework that offers an extremely easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support, all without the huge learning curve!</summary>
+  </metadata>
+</package>  

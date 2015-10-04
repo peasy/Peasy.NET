@@ -14,5 +14,6 @@
     <!--<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>-->
     <copyright>Copyright 2015</copyright>
     <!--<tags>Tag1 Tag2</tags>-->
+    <summary>There are few middle tier .NET frameworks in existence, and the ones that exist cost money and/or come with a HUGE learning curve.  Peasy.Core is a middle tier framework that offers an extremely easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support, all without the huge learning curve!  Peasy.Core is a minimalist set of base class functionality.  Check out Peasy for more opinionated functionality.</summary>
   </metadata>
 </package>

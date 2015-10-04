@@ -56,7 +56,7 @@
     <Compile Include="ITransactionContext.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Facile.Core\Peasy.Core.csproj">
+    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
       <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
       <Name>Peasy.Core</Name>
     </ProjectReference>
