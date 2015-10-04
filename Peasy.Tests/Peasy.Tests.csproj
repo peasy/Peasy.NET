@@ -57,7 +57,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Attributes\FacileRequiredAttributeTests.cs" />
+    <Compile Include="Attributes\PeasyRequiredAttributeTests.cs" />
     <Compile Include="BusinessServiceBaseTests.cs" />
     <Compile Include="Extensions\DomainObjectExtensionsTests.cs" />
     <Compile Include="Rules\ConcurrencyCheckRuleTests.cs" />

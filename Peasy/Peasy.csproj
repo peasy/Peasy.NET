@@ -34,14 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Attributes\FacileDisplayNameAttribute.cs" />
-    <Compile Include="Attributes\FacileRequiredAttribute.cs" />
+    <Compile Include="Attributes\PeasyDisplayNameAttribute.cs" />
+    <Compile Include="Attributes\PeasyRequiredAttribute.cs" />
     <Compile Include="BusinessServiceBase.cs" />
     <Compile Include="Exception\ConcurrencyException.cs" />
     <Compile Include="Exception\DomainObjectNotFoundException.cs" />
-    <Compile Include="Exception\FacileException.cs" />
+    <Compile Include="Exception\PeasyException.cs" />
     <Compile Include="Extensions\DomainObjectExtensions.cs" />
-    <Compile Include="Attributes\FacileForeignKeyAttribute.cs" />
+    <Compile Include="Attributes\PeasyForeignKeyAttribute.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="IVersionContainer.cs" />
