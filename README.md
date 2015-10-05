@@ -202,7 +202,7 @@ public class PersonService : Peasy.Core.ServiceBase<Person, int>
     protected override IEnumerable<IRule> GetBusinessRulesForInsert(Person entity, ExecutionContext<Person> context)
     {
         yield return new PersonNameRule(entity.Name);
-        **yield return new ValidCityRule(entity.City);**
+        yield return new ValidCityRule(entity.City);
     }
 }
 ```
@@ -267,10 +267,10 @@ public class PersonService : Peasy.Core.ServiceBase<Person, int>
         yield return new ValidCityRule(entity.City);
     }
 
-    **protected override async Task<IEnumerable<IRule>> GetBusinessRulesForInsertAsync(Person entity, ExecutionContext<Person> context)
+    protected override async Task<IEnumerable<IRule>> GetBusinessRulesForInsertAsync(Person entity, ExecutionContext<Person> context)
     {
         return GetBusinessRulesForInsert(entity, context);
-    }**
+    }
 }
 ```
 Notice that we simply marked the InsertAsync override with async and simply marshalled the call to GetBusinessRulesForInsert. Sometimes you might want to asynchronously aquire data that can be shared among rules and it is within the InsertAsync override where this can be done.
@@ -294,10 +294,10 @@ public class PersonNameRule : Peasy.Core.RuleBase
         }
     }
 
-    **protected async override Task OnValidateAsync()
+    protected async override Task OnValidateAsync()
     {
         OnValidate();
-    }**
+    }
 }
 ```
 Again, we simply marked OnValidateAsync() with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to pass a [DataProxy](https://github.com/ahanusa/Peasy.NET/wiki/IDataProxy) into a rule and execute it asynchronously for data validation, which is when this async method will shine.
