@@ -3,7 +3,7 @@ An easy to use middle tier framework for .net
 
 Peasy.net is a simple middle tier framework that offers/addresses the following:
 
-- Easy to use validation/business rules engine
+- Easy to use [validation](https://github.com/ahanusa/Peasy.NET/wiki/Validation-Rules)/[business rules](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules) engine
 - Thread safety
 - Scalability
 - Concurrency
