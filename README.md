@@ -19,6 +19,7 @@ Looking for contributors for sample app consumers and general framework improvem
 First, install NuGet. Then, install Peasy from the package manager console:
 
 ``` PM> Install-Package Peasy ```
+
 You can also download and add the Facile and/or Facile.Core projects to your solution
 
 # The simplest possible example
@@ -32,7 +33,7 @@ public class Person : Peasy.Core.IDomainObject<int>
     public string City { get; set; }
 }
 ```
-Now we'll create a data proxy (aka repository) that implements IDataProxy<T, TKey> (most method implementations left out for brevity):
+Now we'll create a [data proxy](https://github.com/ahanusa/Peasy.NET/wiki/IDataProxy) (aka repository) that implements ```IDataProxy<T, TKey>``` (most method implementations left out for brevity):
 ```c#
 public class PersonMockDataProxy : Peasy.Core.IDataProxy<Person, int>
 {
@@ -92,7 +93,7 @@ public class PersonMockDataProxy : Peasy.Core.IDataProxy<Person, int>
     }
 }
 ```
-Finally, we'll create a service class, which exposes CRUD commands responsible for subjecting IDataProxy invocations to business rules before execution:
+Finally, we'll create a [service class](https://github.com/ahanusa/Peasy.NET/wiki/ServiceBase), which exposes CRUD commands responsible for subjecting IDataProxy invocations to business rules before execution:
 ```c#
 public class PersonService : Peasy.Core.ServiceBase<Person, int>
 {
@@ -118,7 +119,7 @@ if (insertResult.Success)
     Debug.WriteLine(insertResult.Value.ID.ToString()); // prints the id value assigned via PersonMockDataProxy.Insert
 }
 ```
-Now let's add a business rule whose execution must be successful before the call to IDataProxy.Insert is invoked
+Now let's add a [business rule](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules) whose execution must be successful before the call to IDataProxy.Insert is invoked
 ```c#
 public class PersonNameRule : Peasy.Core.RuleBase
 {
@@ -154,7 +155,7 @@ public class PersonService : Peasy.Core.ServiceBase<Person, int>
     }
 }
 ```
-And test it out (being sure to add a reference to System.ComponentModel.DataAnnotations)...
+And test it out (being sure to add a reference to [System.ComponentModel.DataAnnotations](https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations(v=vs.110).aspx))...
 ```c#
 var service = new PersonService(new PersonMockDataProxy());
 var newPerson = new Person() { Name = "Fred Jones", City = "Madison" };
@@ -170,7 +171,7 @@ else
     Debug.WriteLine(insertResult.Errors.First()); 
 }
 ```
-Now let's add one more rule, just for fun:
+Now let's add one more [rule](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules), just for fun:
 ```c#
 public class ValidCityRule : Peasy.Core.RuleBase
 {
@@ -205,7 +206,7 @@ public class PersonService : Peasy.Core.ServiceBase<Person, int>
     }
 }
 ```
-And test it out (being sure to add a reference to System.ComponentModel.DataAnnotations)...
+And test it out (being sure to add a reference to [System.ComponentModel.DataAnnotations](https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations(v=vs.110).aspx))...
 ```c#
 var service = new PersonService(new PersonMockDataProxy());
 var newPerson = new Person() { Name = "Fred Jones", City = "Nowhere" };
@@ -299,7 +300,7 @@ public class PersonNameRule : Peasy.Core.RuleBase
     }
 }
 ```
-Again, we simply marked OnValidateAsync() with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to pass a DataProxy into a rule and execute it asynchronously for data validation, which is when this async method will shine.
+Again, we simply marked OnValidateAsync() with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to pass a [DataProxy](https://github.com/ahanusa/Peasy.NET/wiki/IDataProxy) into a rule and execute it asynchronously for data validation, which is when this async method will shine.
 
 And a final test...
 
