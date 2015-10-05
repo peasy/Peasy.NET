@@ -20,7 +20,7 @@ First, install NuGet. Then, install Peasy from the package manager console:
 
 ``` PM> Install-Package Peasy ```
 
-You can also download and add the Facile and/or Facile.Core projects to your solution
+You can also download and add the Peasy and/or Peasy.Core projects to your solution
 
 # The simplest possible example
 
