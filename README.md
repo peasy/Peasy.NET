@@ -19,12 +19,11 @@ Looking for contributors for sample app consumers and general framework improvem
 First, install NuGet. Then, install Peasy from the package manager console:
 
 ``` PM> Install-Package Peasy ```
-https://github.com/ahanusa/Peasy.NET/wiki/Data-Transfer-Object-(DTO)----The-currency-of-exchange
 You can also download and add the Facile and/or Facile.Core projects to your solution
 
 # The simplest possible example
 
-Let's create a [domain object (DTO)](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules/#creating-a-business-rule) that implements ```IDomainObject<T>```:
+Let's create a [domain object (DTO)](https://github.com/ahanusa/Peasy.NET/wiki/Data-Transfer-Object-(DTO)----The-currency-of-exchange) that implements ```IDomainObject<T>```:
 ```c#
     public class Person : Peasy.Core.IDomainObject<int>
     {
