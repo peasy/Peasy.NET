@@ -119,7 +119,7 @@ if (insertResult.Success)
     Debug.WriteLine(insertResult.Value.ID.ToString()); // prints the id value assigned via PersonMockDataProxy.Insert
 }
 ```
-Now let's add a [business rule](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules) whose execution must be successful before the call to IDataProxy.Insert is invoked
+Let's add a [business rule](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules) whose execution must be successful before the call to IDataProxy.Insert is invoked
 ```c#
 public class PersonNameRule : Peasy.Core.RuleBase
 {
@@ -139,7 +139,7 @@ public class PersonNameRule : Peasy.Core.RuleBase
     }
 }
 ``` 
-And now let's hook it up in our PersonService and ensure it gets fired before inserts:
+And now we'll hook it up in our PersonService and ensure it gets fired before inserts:
 ```c#
 using Peasy.Core;
 
@@ -171,7 +171,7 @@ else
     Debug.WriteLine(insertResult.Errors.First()); 
 }
 ```
-Now let's add one more [rule](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules), just for fun:
+Let's add one more [rule](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules), just for fun:
 ```c#
 public class ValidCityRule : Peasy.Core.RuleBase
 {
@@ -223,7 +223,7 @@ else
         Debug.WriteLine(error);
 }
 ```
-And finally, let's pass in valid data and watch it be a success
+Finally, let's pass in valid data and watch it be a success
 ```c#
 var service = new PersonService(new PersonMockDataProxy());
 var newPerson = new Person() { Name = "Freida Jones", City = "Madison" };
