@@ -24,7 +24,7 @@ You can also download and add the Peasy and/or Peasy.Core projects to your solut
 
 # The simplest possible example
 
-Let's create a [domain object (DTO)](https://github.com/ahanusa/Peasy.NET/wiki/Data-Transfer-Object-(DTO)----The-currency-of-exchange) that implements ```IDomainObject<T>```:
+First create a [domain object (DTO)](https://github.com/ahanusa/Peasy.NET/wiki/Data-Transfer-Object-(DTO)----The-currency-of-exchange) that implements ```IDomainObject<T>```:
 ```c#
 public class Person : Peasy.Core.IDomainObject<int>
 {
@@ -33,7 +33,7 @@ public class Person : Peasy.Core.IDomainObject<int>
     public string City { get; set; }
 }
 ```
-Now we'll create a [data proxy](https://github.com/ahanusa/Peasy.NET/wiki/Data-Proxy) (aka repository) that implements ```IDataProxy<T, TKey>``` (most method implementations left out for brevity):
+Then create a [data proxy](https://github.com/ahanusa/Peasy.NET/wiki/Data-Proxy) (aka repository) that implements ```IDataProxy<T, TKey>``` (most method implementations left out for brevity):
 ```c#
 public class PersonMockDataProxy : Peasy.Core.IDataProxy<Person, int>
 {
@@ -93,7 +93,7 @@ public class PersonMockDataProxy : Peasy.Core.IDataProxy<Person, int>
     }
 }
 ```
-Finally, we'll create a [service class](https://github.com/ahanusa/Peasy.NET/wiki/ServiceBase), which exposes CRUD commands responsible for subjecting IDataProxy invocations to business rules before execution:
+Finally, create a [service class](https://github.com/ahanusa/Peasy.NET/wiki/ServiceBase), which exposes CRUD commands responsible for subjecting IDataProxy invocations to business rules before execution:
 ```c#
 public class PersonService : Peasy.Core.ServiceBase<Person, int>
 {
@@ -139,7 +139,7 @@ public class PersonNameRule : Peasy.Core.RuleBase
     }
 }
 ``` 
-And now we'll hook it up in our PersonService and ensure it gets fired before inserts:
+And hook it up in our PersonService and ensure it gets fired before inserts:
 ```c#
 using Peasy.Core;
 
@@ -155,7 +155,7 @@ public class PersonService : Peasy.Core.ServiceBase<Person, int>
     }
 }
 ```
-And test it out (being sure to add a reference to [System.ComponentModel.DataAnnotations](https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations(v=vs.110).aspx))...
+Testing it out (being sure to add a reference to [System.ComponentModel.DataAnnotations](https://msdn.microsoft.com/en-us/library/system.componentmodel.dataannotations(v=vs.110).aspx))...
 ```c#
 var service = new PersonService(new PersonMockDataProxy());
 var newPerson = new Person() { Name = "Fred Jones", City = "Madison" };
