@@ -33,7 +33,7 @@ public class Person : Peasy.Core.IDomainObject<int>
     public string City { get; set; }
 }
 ```
-Now we'll create a [data proxy](https://github.com/ahanusa/Peasy.NET/wiki/IDataProxy) (aka repository) that implements ```IDataProxy<T, TKey>``` (most method implementations left out for brevity):
+Now we'll create a [data proxy](https://github.com/ahanusa/Peasy.NET/wiki/Data-Proxy) (aka repository) that implements ```IDataProxy<T, TKey>``` (most method implementations left out for brevity):
 ```c#
 public class PersonMockDataProxy : Peasy.Core.IDataProxy<Person, int>
 {
