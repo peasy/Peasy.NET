@@ -12,8 +12,6 @@ Peasy.net is a simple middle tier framework that offers/addresses the following:
 - Multiple client support
 - Fault tolerance
 
-Looking for contributors for sample app consumers and general framework improvements!
-
 #Where can I get it?
 
 First, install NuGet. Then, install Peasy from the package manager console:
@@ -21,6 +19,10 @@ First, install NuGet. Then, install Peasy from the package manager console:
 ``` PM> Install-Package Peasy ```
 
 You can also download and add the Peasy and/or Peasy.Core projects to your solution
+
+#Can I contribute?
+
+Yes please.
 
 # The simplest possible example
 
