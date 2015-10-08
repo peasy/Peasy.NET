@@ -22,7 +22,7 @@ You can also download and add the Peasy and/or Peasy.Core projects to your solut
 
 # The simplest possible example
 
-First create a [domain object (DTO)](https://github.com/ahanusa/Peasy.NET/wiki/Data-Transfer-Object-(DTO)----The-currency-of-exchange) that implements ```IDomainObject<T>```:
+First create a [domain object (DTO)](https://github.com/ahanusa/Peasy.NET/wiki/Data-Transfer-Object-(DTO)----The-currency-of-exchange) that implements [```IDomainObject<T>```](https://github.com/ahanusa/Peasy.NET/blob/master/Peasy.Core/IDomainObject.cs):
 ```c#
 public class Person : Peasy.Core.IDomainObject<int>
 {
@@ -31,7 +31,7 @@ public class Person : Peasy.Core.IDomainObject<int>
     public string City { get; set; }
 }
 ```
-Then create a [data proxy](https://github.com/ahanusa/Peasy.NET/wiki/Data-Proxy) (aka repository) that implements ```IDataProxy<T, TKey>``` (most method implementations left out for brevity):
+Then create a [data proxy](https://github.com/ahanusa/Peasy.NET/wiki/Data-Proxy) (aka repository) that implements [```IDataProxy<T, TKey>```](https://github.com/ahanusa/Peasy.NET/blob/master/Peasy.Core/IDataProxy.cs) (most method implementations left out for brevity):
 ```c#
 public class PersonMockDataProxy : Peasy.Core.IDataProxy<Person, int>
 {
@@ -251,7 +251,7 @@ public async Task GetMyDataAsync()
     }
 }
 ```
-Almost done -  Peasy supports "async all the way", which means that we need to tell the PersonService that we'll need the insert command to participate in an async workflow:
+Almost done -  Peasy supports "async all the way", which means that we need inject our business rules for our insert command into the async pipeline:
 ```c#
 public class PersonService : Peasy.Core.ServiceBase<Person, int>
 {
@@ -271,7 +271,7 @@ public class PersonService : Peasy.Core.ServiceBase<Person, int>
     }
 }
 ```
-Notice that we simply marked the InsertAsync override with async and simply marshalled the call to GetBusinessRulesForInsert. Sometimes you might want to asynchronously aquire data that can be shared among rules and it is within the InsertAsync override where this can be done.
+Notice that we simply marked the [```GetBusinessRulesForInsertAsync```](https://github.com/ahanusa/Peasy.NET/blob/master/Peasy.Core/ServiceBase.cs#L70) override with the async keyword and simply marshalled the call to GetBusinessRulesForInsert.  Sometimes you might want to asynchronously [acquire data that can be shared among rules](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules#wiring-up-business-rules-that-consume-data-proxy-data) and it is within the InsertAsync override where this can be done.
 
 One final step - let's add async support to the PersonNameRule (skipping async support for the city rule for the sake of brevity):
 ```c#
@@ -298,7 +298,7 @@ public class PersonNameRule : Peasy.Core.RuleBase
     }
 }
 ```
-Again, we simply marked OnValidateAsync() with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to pass a [DataProxy](https://github.com/ahanusa/Peasy.NET/wiki/IDataProxy) into a rule and execute it asynchronously for data validation, which is when this async method will shine.
+Again, we simply marked [```OnValidateAsync```](https://github.com/ahanusa/Peasy.NET/blob/master/Peasy.Core/RuleBase.cs#L132) with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to pass a [DataProxy](https://github.com/ahanusa/Peasy.NET/wiki/IDataProxy) into a rule and execute it asynchronously for data validation.
 
 And a final test...
 
