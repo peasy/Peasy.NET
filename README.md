@@ -20,10 +20,6 @@ First, install NuGet. Then, install Peasy from the package manager console:
 
 You can also download and add the Peasy and/or Peasy.Core projects to your solution
 
-#Can I contribute?
-
-Yes please.
-
 # The simplest possible example
 
 First create a [domain object (DTO)](https://github.com/ahanusa/Peasy.NET/wiki/Data-Transfer-Object-(DTO)----The-currency-of-exchange) that implements ```IDomainObject<T>```:
