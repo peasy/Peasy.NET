@@ -298,7 +298,7 @@ public class PersonNameRule : Peasy.Core.RuleBase
     }
 }
 ```
-Again, we simply marked [```OnValidateAsync```](https://github.com/ahanusa/Peasy.NET/blob/master/Peasy.Core/RuleBase.cs#L132) with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to pass a [DataProxy](https://github.com/ahanusa/Peasy.NET/wiki/IDataProxy) into a rule and execute it asynchronously for data validation.
+Again, we simply marked [```OnValidateAsync```](https://github.com/ahanusa/Peasy.NET/blob/master/Peasy.Core/RuleBase.cs#L132) with the async keyword and marshalled the call to the synchronous OnValidate().  At times you will need to [pass a data proxy to a rule](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules#passing-lookup-data-to-a-business-rule) and execute it asynchronously for data validation.
 
 And a final test...
 
