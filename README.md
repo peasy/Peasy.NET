@@ -1,4 +1,4 @@
-![peasy](https://www.dropbox.com/s/7t1y1g035jexofp/peasy1.png?dl=0&raw=1)
+![peasy](https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?dl=0&raw=1)
 
 ###An easy to use middle tier framework for .net
 
