@@ -1,6 +1,6 @@
 ![peasy](https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?dl=0&raw=1)
 
-#An easy to use middle tier framework for .net
+###An easy to use middle tier framework for .net
 
 Peasy.net is a simple middle tier framework that offers/addresses the following:
 
