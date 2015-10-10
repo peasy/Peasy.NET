@@ -23,4 +23,4 @@ You can also download and add the Peasy and/or Peasy.Core projects to your solut
 
 #Getting started
 
-Click [here](https://github.com/ahanusa/Peasy.NET/wiki#the-simplest-possible-example) to get started!
+You can get started by reviewing the [getting started example](https://github.com/ahanusa/Peasy.NET/wiki#the-simplest-possible-example) on the Peasy wiki.  The wiki also covers in-depth how-to's, general framework design, and usage scenarios.
