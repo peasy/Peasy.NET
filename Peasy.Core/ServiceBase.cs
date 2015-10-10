@@ -413,10 +413,4 @@ namespace Peasy.Core
             return _dataProxy.DeleteAsync(id);
         }
     }
-
-    public class ExecutionContext<T>
-    {
-        public T CurrentEntity { get; set; }
-        public Dictionary<string, object> Data { get; set; }
-    }
 }
