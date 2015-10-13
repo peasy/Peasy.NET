@@ -29,9 +29,14 @@ namespace Orders.com.BLL
             _transactionContext = transactionContext;
         }
 
-        protected override void OnBeforeInsertCommandExecuted(OrderItem entity, ExecutionContext<OrderItem> context)
+        protected override void OnInsertCommandInitialization(OrderItem entity, ExecutionContext<OrderItem> context)
         {
             entity.OrderStatus().SetPendingState();
+        }
+
+        protected override async Task OnInsertCommandInitializationAsync(OrderItem entity, ExecutionContext<OrderItem> context)
+        {
+            OnInsertCommandInitialization(entity, context);
         }
 
         protected override IEnumerable<IRule> GetBusinessRulesForInsert(OrderItem entity, ExecutionContext<OrderItem> context)

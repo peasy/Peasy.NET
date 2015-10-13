@@ -27,9 +27,14 @@ namespace Orders.com.BLL
             get { return DataProxy as IOrderDataProxy; }
         }
 
-        protected override void OnBeforeInsertCommandExecuted(Order entity, ExecutionContext<Order> context)
+        protected override void OnInsertCommandInitialization(Order entity, ExecutionContext<Order> context)
         {
             entity.OrderDate = DateTime.Now;
+        }
+
+        protected override async Task OnInsertCommandInitializationAsync(Order entity, ExecutionContext<Order> context)
+        {
+            OnInsertCommandInitialization(entity, context);
         }
 
         protected override IEnumerable<IRule> GetBusinessRulesForUpdate(Order entity, ExecutionContext<Order> context)

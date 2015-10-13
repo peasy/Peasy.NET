@@ -25,7 +25,100 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to GetAllCommand() and GetByIDCommand()
+        /// Override this method to perform initialization logic before rule validations for GetByIDCommand.Execute are performed
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="context"></param>
+        protected virtual void OnGetByIDCommandInitialization(TKey id, ExecutionContext<T> context)
+        {
+        }
+
+        /// <summary>
+        /// Override this method to perform initialization logic before rule validations for GetByIDCommand.ExecuteAsync are performed
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual async Task OnGetByIDCommandInitializationAsync(TKey id, ExecutionContext<T> context)
+        {
+        }
+
+        /// <summary>
+        /// Override this method to perform initialization logic before rule validations for GetAllCommand.Execute are performed
+        /// </summary>
+        /// <param name="context"></param>
+        protected virtual void OnGetAllCommandInitialization(ExecutionContext<T> context)
+        {
+        }
+
+        /// <summary>
+        /// Override this method to perform initialization logic before rule validations for GetAllCommand.ExecuteAsync are performed
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual async Task OnGetAllCommandInitializationAsync(ExecutionContext<T> context)
+        {
+        }
+
+        /// <summary>
+        /// Override this method to perform initialization logic before rule validations for InsertCommand.Execute are performed
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="context"></param>
+        protected virtual void OnInsertCommandInitialization(T entity, ExecutionContext<T> context)
+        {
+        }
+        
+        /// <summary>
+        /// Override this method to perform initialization logic before rule validations for InsertCommand.ExecuteAsync are performed
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual async Task OnInsertCommandInitializationAsync(T entity, ExecutionContext<T> context)
+        {
+        }
+
+        /// <summary>
+        /// Override this method to perform initialization logic before rule validations for UpdateCommand.Execute are performed
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="context"></param>
+        protected virtual void OnUpdateCommandInitialization(T entity, ExecutionContext<T> context)
+        {
+        }
+
+        /// <summary>
+        /// Override this method to perform initialization logic before rule validations for UpdateCommand.ExecuteAsync are performed
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual async Task OnUpdateCommandInitializationAsync(T entity, ExecutionContext<T> context)
+        {
+        }
+
+        /// <summary>
+        /// Override this method to perform initialization logic before rule validations for DeleteCommand.Execute are performed
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="context"></param>
+        protected virtual void OnDeleteCommandInitialization(TKey id, ExecutionContext<T> context)
+        {
+        }
+
+        /// <summary>
+        /// Override this method to perform initialization logic before rule validations for DeleteCommand.ExecuteAsync are performed
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        protected virtual async Task OnDeleteCommandInitializationAsync(TKey id, ExecutionContext<T> context)
+        {
+        }
+
+        /// <summary>
+        /// Override this method to supply custom business rules to GetAllCommand.Execute()
         /// </summary>
         protected virtual IEnumerable<IRule> GetBusinessRulesForGetAll(ExecutionContext<T> context)
         {
@@ -33,7 +126,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to GetAllCommand() and GetByIDCommand()
+        /// Override this method to supply custom business rules to GetByIDCommand.ExecuteAsync()
         /// </summary>
         protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForGetAllAsync(ExecutionContext<T> context)
         {
@@ -41,7 +134,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to GetAllCommand() and GetByIDCommand()
+        /// Override this method to supply custom business rules to GetByIDCommand.Execute()
         /// </summary>
         protected virtual IEnumerable<IRule> GetBusinessRulesForGetByID(TKey id, ExecutionContext<T> context)
         {
@@ -49,7 +142,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to GetAllCommand() and GetByIDCommand()
+        /// Override this method to supply custom business rules to GetByIDCommand.ExecuteAsync()
         /// </summary>
         protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForGetByIDAsync(TKey id, ExecutionContext<T> context)
         {
@@ -57,7 +150,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to InsertCommand()
+        /// Override this method to supply custom business rules to InsertCommand.Execute()
         /// </summary>
         protected virtual IEnumerable<IRule> GetBusinessRulesForInsert(T entity, ExecutionContext<T> context)
         {
@@ -65,7 +158,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to InsertCommand()
+        /// Override this method to supply custom business rules to InsertCommand.ExecuteAsync()
         /// </summary>
         protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForInsertAsync(T entity, ExecutionContext<T> context)
         {
@@ -73,7 +166,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to UpdateCommand()
+        /// Override this method to supply custom business rules to UpdateCommand.Execute()
         /// </summary>
         protected virtual IEnumerable<IRule> GetBusinessRulesForUpdate(T entity, ExecutionContext<T> context)
         {
@@ -81,7 +174,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to UpdateCommand()
+        /// Override this method to supply custom business rules to UpdateCommand.ExecuteAsync()
         /// </summary>
         protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForUpdateAsync(T entity, ExecutionContext<T> context)
         {
@@ -89,7 +182,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to DeleteCommand() 
+        /// Override this method to supply custom business rules to DeleteCommand.Execute() 
         /// </summary>
         protected virtual IEnumerable<IRule> GetBusinessRulesForDelete(TKey id, ExecutionContext<T> context)
         {
@@ -97,7 +190,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to DeleteCommand() 
+        /// Override this method to supply custom business rules to DeleteCommand.ExecuteAsync() 
         /// </summary>
         protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForDeleteAsync(TKey id, ExecutionContext<T> context)
         {
@@ -150,12 +243,14 @@ namespace Peasy.Core
         /// <summary>
         /// Supplies validation results to DeleteCommand()
         /// </summary>
-
         protected virtual IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id, ExecutionContext<T> context)
         {
             yield break;
         }
         
+        /// <summary>
+        /// Override this method to manipulate error construction.  Ie, you may want to verify that no validation errors exist before invoking potentially expensive business rules method
+        /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetAll(ExecutionContext<T> context)
         {
             return GetValidationResultsForGetAll(context).Concat(GetBusinessRulesForGetAll(context).GetBusinessRulesResults());
@@ -170,6 +265,9 @@ namespace Peasy.Core
             return GetValidationResultsForGetAll(context).Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
+        /// <summary>
+        /// Override this method to manipulate error construction.  Ie, you may want to verify that no validation errors exist before invoking potentially expensive business rules method
+        /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetByID(TKey id, ExecutionContext<T> context)
         {
             return GetValidationResultsForGetByID(id, context).Concat(GetBusinessRulesForGetByID(id, context).GetBusinessRulesResults());
@@ -184,6 +282,9 @@ namespace Peasy.Core
             return GetValidationResultsForGetByID(id, context).Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
+        /// <summary>
+        /// Override this method to manipulate error construction.  Ie, you may want to verify that no validation errors exist before invoking potentially expensive business rules method
+        /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForInsert(T entity, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForInsert(entity, context); 
@@ -201,6 +302,9 @@ namespace Peasy.Core
             return validationErrors.Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
+        /// <summary>
+        /// Override this method to manipulate error construction.  Ie, you may want to verify that no validation errors exist before invoking potentially expensive business rules method
+        /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForUpdate(T entity, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForUpdate(entity, context); 
@@ -218,6 +322,9 @@ namespace Peasy.Core
             return validationErrors.Concat(await rules.GetBusinessRulesResultsAsync());
         }
 
+        /// <summary>
+        /// Override this method to manipulate error construction.  Ie, you may want to verify that no validation errors exist before invoking potentially expensive business rules method
+        /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForDelete(TKey id, ExecutionContext<T> context)
         {
             return GetValidationResultsForDelete(id, context).Concat(GetBusinessRulesForDelete(id, context).GetBusinessRulesResults());
@@ -240,16 +347,13 @@ namespace Peasy.Core
             var context = new ExecutionContext<T>();
             return new ServiceCommand<T>
             (
-                beforeExecuteMethod: () => OnBeforeGetByIDCommandExecuted(id, context),
-                executeMethod: () => GetByID(id, context),
-                executeAsyncMethod: () => GetByIDAsync(id, context),
+                initializationMethod: () => OnGetByIDCommandInitialization(id, context),
+                initializationAsyncMethod: () => OnGetByIDCommandInitializationAsync(id, context),
                 getErrorsMethod: () => GetAllErrorsForGetByID(id, context),
-                getErrorsAsyncMethod: () => GetAllErrorsForGetByIDAsync(id, context)
+                getErrorsAsyncMethod: () => GetAllErrorsForGetByIDAsync(id, context),
+                executeMethod: () => GetByID(id, context),
+                executeAsyncMethod: () => GetByIDAsync(id, context)
             );
-        }
-
-        protected virtual void OnBeforeGetByIDCommandExecuted(TKey id, ExecutionContext<T> context)
-        {
         }
 
         /// <summary>
@@ -260,16 +364,13 @@ namespace Peasy.Core
             var context = new ExecutionContext<T>();
             return new ServiceCommand<IEnumerable<T>>
             (
-                beforeExecuteMethod: () => OnBeforeGetAllCommandExecuted(context),
-                executeMethod: () => GetAll(context),
-                executeAsyncMethod: () => GetAllAsync(context),
+                initializationMethod: () => OnGetAllCommandInitialization(context),
+                initializationAsyncMethod: () => OnGetAllCommandInitializationAsync(context),
                 getErrorsMethod: () => GetAllErrorsForGetAll(context),
-                getErrorsAsyncMethod: () => GetAllErrorsForGetAllAsync(context)
+                getErrorsAsyncMethod: () => GetAllErrorsForGetAllAsync(context),
+                executeMethod: () => GetAll(context),
+                executeAsyncMethod: () => GetAllAsync(context)
             );
-        }
-
-        protected virtual void OnBeforeGetAllCommandExecuted(ExecutionContext<T> context)
-        {
         }
 
         /// <summary>
@@ -280,18 +381,15 @@ namespace Peasy.Core
             var context = new ExecutionContext<T>();
             return new ServiceCommand<T>
             (
-                beforeExecuteMethod: () => OnBeforeInsertCommandExecuted(entity, context),
-                executeMethod: () => Insert(entity, context),
-                executeAsyncMethod: () => InsertAsync(entity, context),
+                initializationMethod: () => OnInsertCommandInitialization(entity, context),
+                initializationAsyncMethod: () => OnInsertCommandInitializationAsync(entity, context),
                 getErrorsMethod: () => GetAllErrorsForInsert(entity, context),
-                getErrorsAsyncMethod: () => GetAllErrorsForInsertAsync(entity, context)
+                getErrorsAsyncMethod: () => GetAllErrorsForInsertAsync(entity, context),
+                executeMethod: () => Insert(entity, context),
+                executeAsyncMethod: () => InsertAsync(entity, context)
             );
         }
 
-        protected virtual void OnBeforeInsertCommandExecuted(T entity, ExecutionContext<T> context)
-        {
-        }
-        
         /// <summary>
         /// Composes a <see cref="T:Peasy.ICommand`1" /> that invokes <see cref="T:Peasy.IDataProxy`1" />.Update() upon successful execution of business and validation rules
         /// </summary>
@@ -301,16 +399,13 @@ namespace Peasy.Core
             var context = new ExecutionContext<T>();
             return new ServiceCommand<T>
             (
-                beforeExecuteMethod: () => OnBeforeUpdateCommandExecuted(entity, context),
-                executeMethod: () => Update(entity, context),
-                executeAsyncMethod: () => UpdateAsync(entity, context),
+                initializationMethod: () => OnUpdateCommandInitialization(entity, context),
+                initializationAsyncMethod: () => OnUpdateCommandInitializationAsync(entity, context),
                 getErrorsMethod: () => GetAllErrorsForUpdate(entity, context),
-                getErrorsAsyncMethod: () => GetAllErrorsForUpdateAsync(entity, context)
+                getErrorsAsyncMethod: () => GetAllErrorsForUpdateAsync(entity, context),
+                executeMethod: () => Update(entity, context),
+                executeAsyncMethod: () => UpdateAsync(entity, context)
             );
-        }
-
-        protected virtual void OnBeforeUpdateCommandExecuted(T entity, ExecutionContext<T> context)
-        {
         }
 
         /// <summary>
@@ -321,16 +416,13 @@ namespace Peasy.Core
             var context = new ExecutionContext<T>();
             return new ServiceCommand
             (
-                beforeExecuteMethod: () => OnBeforeDeleteCommandExecuted(id, context),
-                executeMethod: () => Delete(id, context),
-                executeAsyncMethod: () => DeleteAsync(id, context),
+                initializationMethod: () => OnDeleteCommandInitialization(id, context),
+                initializationAsyncMethod: () => OnDeleteCommandInitializationAsync(id, context),
                 getErrorsMethod: () => GetAllErrorsForDelete(id, context),
-                getErrorsAsyncMethod: () => GetAllErrorsForDeleteAsync(id, context)
+                getErrorsAsyncMethod: () => GetAllErrorsForDeleteAsync(id, context),
+                executeMethod: () => Delete(id, context),
+                executeAsyncMethod: () => DeleteAsync(id, context)
             );
-        }
-
-        protected virtual void OnBeforeDeleteCommandExecuted(TKey id, ExecutionContext<T> context)
-        {
         }
 
         /// <summary>

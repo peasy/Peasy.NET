@@ -17,7 +17,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.GetAllCommand().Execute();
-            service.OnBeforeGetAllCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnGetAllCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForGetAllWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForGetAllWasInvoked.ShouldBe(true);
             service.GetAllErrorsForGetAllWasInvoked.ShouldBe(true);
@@ -29,7 +29,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.GetAllCommand().ExecuteAsync();
-            service.OnBeforeGetAllCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnGetAllCommandInitializationAsyncWasInvoked.ShouldBe(true);
             service.GetValidationResultsForGetAllWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForGetAllAsyncWasInvoked.ShouldBe(true);
             service.GetAllErrorsForGetAllAsyncWasInvoked.ShouldBe(true);
@@ -41,7 +41,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.GetByIDCommand(1).Execute();
-            service.OnBeforeGetByIDCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnGetByIDCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForGetByIDWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForGetByIDWasInvoked.ShouldBe(true);
             service.GetAllErrorsForGetByIDWasInvoked.ShouldBe(true);
@@ -53,7 +53,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.GetByIDCommand(1).ExecuteAsync();
-            service.OnBeforeGetByIDCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnGetByIDCommandInitializationAsyncWasInvoked.ShouldBe(true);
             service.GetValidationResultsForGetByIDWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForGetByIDAsyncWasInvoked.ShouldBe(true);
             service.GetAllErrorsForGetByIDAsyncWasInvoked.ShouldBe(true);
@@ -65,7 +65,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.InsertCommand(new Person()).Execute();
-            service.OnBeforeInsertCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnInsertCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForInsertWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForInsertWasInvoked.ShouldBe(true);
             service.GetAllErrorsForInsertWasInvoked.ShouldBe(true);
@@ -77,7 +77,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.InsertCommand(new Person()).ExecuteAsync();
-            service.OnBeforeInsertCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnInsertCommandInitializationAsyncWasInvoked.ShouldBe(true);
             service.GetValidationResultsForInsertWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForInsertAsyncWasInvoked.ShouldBe(true);
             service.GetAllErrorsForInsertAsyncWasInvoked.ShouldBe(true);
@@ -89,7 +89,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.UpdateCommand(new Person()).Execute();
-            service.OnBeforeUpdateCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnUpdateCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForUpdateWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForUpdateWasInvoked.ShouldBe(true);
             service.GetAllErrorsForUpdateWasInvoked.ShouldBe(true);
@@ -101,7 +101,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.UpdateCommand(new Person()).ExecuteAsync();
-            service.OnBeforeUpdateCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnUpdateCommandInitializationAsyncWasInvoked.ShouldBe(true);
             service.GetValidationResultsForUpdateWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForUpdateAsyncWasInvoked.ShouldBe(true);
             service.GetAllErrorsForUpdateAsyncWasInvoked.ShouldBe(true);
@@ -113,7 +113,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.DeleteCommand(1).Execute();
-            service.OnBeforeDeleteCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnDeleteCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForDeleteWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForDeleteWasInvoked.ShouldBe(true);
             service.GetAllErrorsForDeleteWasInvoked.ShouldBe(true);
@@ -125,7 +125,7 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.DeleteCommand(1).ExecuteAsync();
-            service.OnBeforeDeleteCommandExecutedWasInvoked.ShouldBe(true);
+            service.OnDeleteCommandInitializationAsyncWasInvoked.ShouldBe(true);
             service.GetValidationResultsForDeleteWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForDeleteAsyncWasInvoked.ShouldBe(true);
             service.GetAllErrorsForDeleteAsyncWasInvoked.ShouldBe(true);
@@ -141,11 +141,11 @@ namespace Peasy.Core.Tests
         public bool GetBusinessRulesForGetAllWasInvoked { get; private set; }
         public bool GetBusinessRulesForGetAllAsyncWasInvoked { get; private set; }
         public bool GetAllWasInvoked { get; private set; }
-        public bool OnBeforeGetAllCommandExecutedWasInvoked { get; private set; }
+        public bool OnGetAllCommandInitializationWasInvoked { get; private set; }
         public bool GetAllAsyncWasInvoked { get; private set; }
         public bool GetAllErrorsForGetAllWasInvoked { get; private set; }
         public bool GetAllErrorsForGetAllAsyncWasInvoked { get; private set; }
-        public bool OnBeforeGetByIDCommandExecutedWasInvoked { get; private set; }
+        public bool OnGetByIDCommandInitializationWasInvoked { get; private set; }
         public bool GetValidationResultsForGetByIDWasInvoked { get; private set; }
         public bool GetBusinessRulesForGetByIDWasInvoked { get; private set; }
         public bool GetBusinessRulesForGetByIDAsyncWasInvoked { get; private set; }
@@ -153,7 +153,7 @@ namespace Peasy.Core.Tests
         public bool GetAllErrorsForGetByIDAsyncWasInvoked { get; private set; }
         public bool GetByIDWasInvoked { get; private set; }
         public bool GetByIDAsyncWasInvoked { get; private set; }
-        public bool OnBeforeInsertCommandExecutedWasInvoked { get; private set; }
+        public bool OnInsertCommandInitializationWasInvoked { get; private set; }
         public bool GetValidationResultsForInsertWasInvoked { get; private set; }
         public bool GetBusinessRulesForInsertWasInvoked { get; private set; }
         public bool GetBusinessRulesForInsertAsyncWasInvoked { get; private set; }
@@ -161,7 +161,7 @@ namespace Peasy.Core.Tests
         public bool GetAllErrorsForInsertAsyncWasInvoked { get; private set; }
         public bool InsertWasInvoked { get; private set; }
         public bool InsertAsyncWasInvoked { get; private set; }
-        public bool OnBeforeUpdateCommandExecutedWasInvoked { get; private set; }
+        public bool OnUpdateCommandInitializationWasInvoked { get; private set; }
         public bool GetValidationResultsForUpdateWasInvoked { get; private set; }
         public bool GetBusinessRulesForUpdateWasInvoked { get; private set; }
         public bool GetBusinessRulesForUpdateAsyncWasInvoked { get; private set; }
@@ -169,7 +169,7 @@ namespace Peasy.Core.Tests
         public bool GetAllErrorsForUpdateAsyncWasInvoked { get; private set; }
         public bool UpdateWasInvoked { get; private set; }
         public bool UpdateAsyncWasInvoked { get; private set; }
-        public bool OnBeforeDeleteCommandExecutedWasInvoked { get; private set; }
+        public bool OnDeleteCommandInitializationWasInvoked { get; private set; }
         public bool GetValidationResultsForDeleteWasInvoked { get; private set; }
         public bool GetBusinessRulesForDeleteWasInvoked { get; private set; }
         public bool GetBusinessRulesForDeleteAsyncWasInvoked { get; private set; }
@@ -177,6 +177,11 @@ namespace Peasy.Core.Tests
         public bool GetAllErrorsForDeleteAsyncWasInvoked { get; private set; }
         public bool DeleteWasInvoked { get; private set; }
         public bool DeleteAsyncWasInvoked { get; private set; }
+        public bool OnDeleteCommandInitializationAsyncWasInvoked { get; private set; }
+        public bool OnUpdateCommandInitializationAsyncWasInvoked { get; private set; }
+        public bool OnInsertCommandInitializationAsyncWasInvoked { get; private set; }
+        public bool OnGetByIDCommandInitializationAsyncWasInvoked { get; private set; }
+        public bool OnGetAllCommandInitializationAsyncWasInvoked { get; private set; }
 
         #endregion
 
@@ -186,10 +191,16 @@ namespace Peasy.Core.Tests
 
         #region GetAll
 
-        protected override void OnBeforeGetAllCommandExecuted(ExecutionContext<Person> context)
+        protected override void OnGetAllCommandInitialization(ExecutionContext<Person> context)
         {
-            OnBeforeGetAllCommandExecutedWasInvoked = true;
-            base.OnBeforeGetAllCommandExecuted(context);
+            OnGetAllCommandInitializationWasInvoked = true;
+            base.OnGetAllCommandInitialization(context);
+        }
+
+        protected override Task OnGetAllCommandInitializationAsync(ExecutionContext<Person> context)
+        {
+            OnGetAllCommandInitializationAsyncWasInvoked = true;
+            return base.OnGetAllCommandInitializationAsync(context);
         }
 
         protected override IEnumerable<ValidationResult> GetValidationResultsForGetAll(ExecutionContext<Person> context)
@@ -238,10 +249,16 @@ namespace Peasy.Core.Tests
 
         #region GetByID
 
-        protected override void OnBeforeGetByIDCommandExecuted(long id, ExecutionContext<Person> context)
+        protected override void OnGetByIDCommandInitialization(long id, ExecutionContext<Person> context)
         {
-            OnBeforeGetByIDCommandExecutedWasInvoked = true;
-            base.OnBeforeGetByIDCommandExecuted(id, context);
+            OnGetByIDCommandInitializationWasInvoked = true;
+            base.OnGetByIDCommandInitialization(id, context);
+        }
+
+        protected override Task OnGetByIDCommandInitializationAsync(long id, ExecutionContext<Person> context)
+        {
+            OnGetByIDCommandInitializationAsyncWasInvoked = true;
+            return base.OnGetByIDCommandInitializationAsync(id, context);
         }
 
         protected override IEnumerable<ValidationResult> GetValidationResultsForGetByID(long id, ExecutionContext<Person> context)
@@ -290,10 +307,16 @@ namespace Peasy.Core.Tests
 
         #region Insert
 
-        protected override void OnBeforeInsertCommandExecuted(Person person, ExecutionContext<Person> context)
+        protected override void OnInsertCommandInitialization(Person entity, ExecutionContext<Person> context)
         {
-            OnBeforeInsertCommandExecutedWasInvoked = true;
-            base.OnBeforeInsertCommandExecuted(person, context);
+            OnInsertCommandInitializationWasInvoked = true;
+            base.OnInsertCommandInitialization(entity, context);
+        }
+
+        protected override Task OnInsertCommandInitializationAsync(Person entity, ExecutionContext<Person> context)
+        {
+            OnInsertCommandInitializationAsyncWasInvoked = true;
+            return base.OnInsertCommandInitializationAsync(entity, context);
         }
 
         protected override IEnumerable<ValidationResult> GetValidationResultsForInsert(Person person, ExecutionContext<Person> context)
@@ -342,10 +365,16 @@ namespace Peasy.Core.Tests
 
         #region Update
 
-        protected override void OnBeforeUpdateCommandExecuted(Person person, ExecutionContext<Person> context)
+        protected override void OnUpdateCommandInitialization(Person entity, ExecutionContext<Person> context)
         {
-            OnBeforeUpdateCommandExecutedWasInvoked = true;
-            base.OnBeforeUpdateCommandExecuted(person, context);
+            OnUpdateCommandInitializationWasInvoked = true;
+            base.OnUpdateCommandInitialization(entity, context);
+        }
+
+        protected override Task OnUpdateCommandInitializationAsync(Person entity, ExecutionContext<Person> context)
+        {
+            OnUpdateCommandInitializationAsyncWasInvoked = true;
+            return base.OnUpdateCommandInitializationAsync(entity, context);
         }
 
         protected override IEnumerable<ValidationResult> GetValidationResultsForUpdate(Person person, ExecutionContext<Person> context)
@@ -394,10 +423,9 @@ namespace Peasy.Core.Tests
 
         #region Delete
 
-        protected override void OnBeforeDeleteCommandExecuted(long id, ExecutionContext<Person> context)
+        protected override void OnDeleteCommandInitialization(long id, ExecutionContext<Person> context)
         {
-            OnBeforeDeleteCommandExecutedWasInvoked = true;
-            base.OnBeforeDeleteCommandExecuted(id, context);
+            OnDeleteCommandInitializationWasInvoked = true;
         }
 
         protected override IEnumerable<ValidationResult> GetValidationResultsForDelete(long id, ExecutionContext<Person> context)
@@ -440,6 +468,12 @@ namespace Peasy.Core.Tests
         {
             DeleteAsyncWasInvoked = true;
             return base.DeleteAsync(id, context);
+        }
+
+        protected override Task OnDeleteCommandInitializationAsync(long id, ExecutionContext<Person> context)
+        {
+            OnDeleteCommandInitializationAsyncWasInvoked = true;
+            return base.OnDeleteCommandInitializationAsync(id, context);
         }
 
         #endregion
