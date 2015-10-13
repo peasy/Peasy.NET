@@ -19,7 +19,7 @@ Do we need GetValidationResult methods for get, getall, and delete?  IE, look at
 
 Add nuget references for compilers to support vs 2012/13
 
-Update code to c# 6
+Update code to c# 6 - especially ServiceCommand and all of the overloads.  Is there opportunity to invoke funcs and actions via ? operator and receive the correct behavior?
 
 
 Create true EF project
