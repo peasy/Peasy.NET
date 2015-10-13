@@ -12,6 +12,7 @@ Peasy.net is a simple middle tier framework that offers/addresses the following:
 - Async support
 - Multiple client support
 - Fault tolerance
+- Easy testability
 
 #Where can I get it?
 
