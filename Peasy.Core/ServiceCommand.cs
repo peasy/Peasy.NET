@@ -95,6 +95,41 @@ namespace Peasy.Core
             _getErrorsAsyncMethod = getErrorsAsyncMethod;
         }
 
+        public ServiceCommand(Action initializationMethod, 
+                              Func<Task> initializationAsyncMethod,
+                              Func<T> executeMethod, 
+                              Func<Task<T>> executeAsyncMethod) 
+            : this(initializationMethod: initializationMethod, 
+                   initializationAsyncMethod: initializationAsyncMethod, 
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(), 
+                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   executeMethod: executeMethod, 
+                   executeAsyncMethod: executeAsyncMethod)
+        {
+        }
+
+        public ServiceCommand(Action initializationMethod, 
+                              Func<T> executeMethod)
+            : this(initializationMethod: initializationMethod, 
+                   initializationAsyncMethod: async () => { }, 
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(), 
+                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   executeMethod: executeMethod, 
+                   executeAsyncMethod: async () => default(T))
+        {
+        }
+
+        public ServiceCommand(Func<Task> initializationAsyncMethod,
+                              Func<Task<T>> executeAsyncMethod) 
+            : this(initializationMethod: () => { }, 
+                   initializationAsyncMethod: initializationAsyncMethod, 
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(), 
+                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   executeMethod: () => default(T), 
+                   executeAsyncMethod: executeAsyncMethod)
+        {
+        }
+
         public ServiceCommand(Func<IEnumerable<ValidationResult>> getErrorsMethod, 
                               Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod,
                               Func<T> executeMethod, 

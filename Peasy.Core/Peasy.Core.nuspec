@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.0.1</version>
+    <version>1.0.0.2</version>
     <title>Peasy</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
@@ -10,14 +10,14 @@
     <projectUrl>https://github.com/ahanusa/Peasy.NET</projectUrl>
     <iconUrl>https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?raw=1</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>An easy to use middle tier framework for .NET</description>
-    <!--<releaseNotes>Summary of changes made in this release of the package.</releaseNotes>-->
-    <copyright>Copyright 2015</copyright>
-    <tags>Middle Tier, Framework, Business Layer, Opinionated</tags>
-    <summary>
+    <description>
       Peasy.Core is a middle tier framework offering a minimalist set of base class functionality for the Peasy framework.
 
       Check out Peasy for more opinionated functionality (concurrency, update prevention, fault tolerance).
-    </summary>
+    </description>
+    <releaseNotes>Introduces potential breaking changes with the introduction of async command initialization support</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>Middle Tier, Framework, Business Layer, Opinionated</tags>
+    <summary>An easy to use middle tier framework for .NET </summary>
   </metadata>
 </package>
