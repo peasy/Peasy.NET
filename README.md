@@ -7,13 +7,13 @@ Peasy.net is a simple middle tier framework that offers/addresses the following:
 - Easy to use [validation](https://github.com/ahanusa/Peasy.NET/wiki/Validation-Rules)/[business rules](https://github.com/ahanusa/Peasy.NET/wiki/Business-Rules) engine
 - [Thread safety](https://github.com/ahanusa/Peasy.NET/wiki/Thread-Safety)
 - [Scalability](https://github.com/ahanusa/Peasy.NET/wiki/data-proxy#scalability)
-- [Concurrency](https://github.com/ahanusa/Peasy.NET/wiki/Concurrency)
+- [Concurrency](https://github.com/ahanusa/Peasy.NET/wiki/BusinessServiceBase#concurrency-handling)
 - [Swappable](https://github.com/ahanusa/Peasy.NET/wiki/data-proxy#swappable-data-proxies) [data proxies](https://github.com/ahanusa/Peasy.NET/wiki/Data-Proxy)
-- Async support
+- [Async support](https://github.com/ahanusa/Peasy.NET/wiki/The-Asynchronous-Pipeline)
 - [Multiple client support](https://github.com/ahanusa/Peasy.NET/wiki/Multiple-client-support)
 - [Multiple deployment scenario support](https://github.com/ahanusa/Peasy.NET/wiki/data-proxy#multiple-deployment-scenarios)
 - [Transactional support and fault tolerance](https://github.com/ahanusa/Peasy.NET/wiki/ITransactionContext)
-- Easy testability
+- [Easy testability](https://github.com/ahanusa/Peasy.NET/wiki/Testing)
 
 #Where can I get it?
 
