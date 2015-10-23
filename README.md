@@ -26,3 +26,5 @@ You can also download and add the Peasy and/or Peasy.Core projects to your solut
 #Getting started
 
 You can get started by reviewing the [getting started example](https://github.com/ahanusa/Peasy.NET/wiki#the-simplest-possible-example) on the Peasy wiki.  The wiki also covers in-depth how-to's, general framework design, and usage scenarios.
+
+You can also download the entire repo that contains a full sample implementation of a middle tier built with peasy, as well as a sample WPF consumer client.  You can clone the repo or download the entire project as a [zip](https://github.com/ahanusa/Peasy.NET/archive/master.zip).
