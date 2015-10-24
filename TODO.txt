@@ -21,6 +21,7 @@ Add nuget references for compilers to support vs 2012/13
 
 Update code to c# 6 - especially ServiceCommand and all of the overloads.  Is there opportunity to invoke funcs and actions via ? operator and receive the correct behavior?
 
+Change Command.Execute(Async) to be virtual and not abstract
 
 Create true EF project
 
