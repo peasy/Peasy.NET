@@ -12,17 +12,6 @@ namespace Orders.com.BLL
         {
         }
 
-        public ICommand<InventoryItem> DecrementQuantityOnHandCommand(long productID, decimal quantity)
-        {
-            var proxy = DataProxy as IInventoryItemDataProxy;
-            return new ServiceCommand<InventoryItem>
-            (
-                executeMethod: () => proxy.DecrementQuantityOnHand(productID, quantity),
-                executeAsyncMethod: () => proxy.DecrementQuantityOnHandAsync(productID, quantity)
-                //getErrorsMethod: () => new[] { quantity.CreateValueRequiredRule("quantity") }.GetBusinessRulesResults(this.GetType().Name)
-            );
-        }
-
         public ICommand<InventoryItem> GetByProductCommand(long productID)
         {
             var proxy = DataProxy as IInventoryItemDataProxy;

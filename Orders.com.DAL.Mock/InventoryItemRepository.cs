@@ -92,21 +92,6 @@ namespace Orders.com.DAL.Mock
             }
         }
 
-        public InventoryItem DecrementQuantityOnHand(long inventoryID, decimal quantity)
-        {
-            Debug.WriteLine("DECREMENTING inventoryItem.QuantityOnHand in database");
-            lock (_lockObject)
-            {
-                var existing = InventoryItems.FirstOrDefault(c => c.ID == inventoryID);
-                if (existing == null || quantity > existing.QuantityOnHand)
-                    throw new InsufficientStockAmountException(string.Format("There is not enough in stock to fullfill the request"));
-
-                existing.QuantityOnHand -= quantity;
-                existing.IncrementVersionByOne();
-                return Mapper.Map(existing, new InventoryItem());
-            }
-        }
-
         public void Delete(long id)
         {
             Debug.WriteLine("DELETING inventoryItem in database");
@@ -142,11 +127,6 @@ namespace Orders.com.DAL.Mock
         public async Task DeleteAsync(long id)
         {
             Delete(id);
-        }
-
-        public async Task<InventoryItem> DecrementQuantityOnHandAsync(long inventoryID, decimal quantity)
-        {
-            return DecrementQuantityOnHand(inventoryID, quantity);
         }
 
         public bool SupportsTransactions
