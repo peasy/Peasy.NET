@@ -5,6 +5,7 @@ using Orders.com.BLL.Rules;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using Orders.com.Core.Exceptions;
+using Orders.com.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,12 +20,13 @@ namespace Orders.com.BLL.Commands
         private InventoryItemService _inventoryService;
         private long _orderItemID;
         private ITransactionContext _transactionContext;
+        private IInventoryItemDataProxy _inventoryDataProxy;
 
-        public ShipOrderItemCommand(long orderItemID, IOrderItemDataProxy orderItemDataProxy, InventoryItemService inventoryService, ITransactionContext transactionContext)
+        public ShipOrderItemCommand(long orderItemID, IOrderItemDataProxy orderItemDataProxy, IInventoryItemDataProxy inventoryDataProxy, ITransactionContext transactionContext)
         {
             _orderItemID = orderItemID;
             _orderItemDataProxy = orderItemDataProxy;
-            _inventoryService = inventoryService;
+            _inventoryDataProxy = inventoryDataProxy;
             _transactionContext = transactionContext;
         }
 
@@ -34,16 +36,18 @@ namespace Orders.com.BLL.Commands
         {
             return _transactionContext.Execute(() =>
             {
-                try
+                var inventoryItem = _inventoryDataProxy.GetByProduct(CurrentOrderItem.ProductID);
+                if (inventoryItem.QuantityOnHand - CurrentOrderItem.Quantity >= 0)
                 {
-                    _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).Execute();
+                    CurrentOrderItem.OrderStatus().SetShippedState();
+                    inventoryItem.QuantityOnHand -= CurrentOrderItem.Quantity;
+                    _inventoryDataProxy.Update(inventoryItem);
                 }
-                catch (InsufficientStockAmountException)
+                else
                 {
-                    return _orderItemDataProxy.BackOrder(_orderItemID, DateTime.Now);
+                    CurrentOrderItem.OrderStatus().SetBackorderedState();
                 }
-
-                return _orderItemDataProxy.Ship(_orderItemID, DateTime.Now);
+                return _orderItemDataProxy.Update(CurrentOrderItem);
             });
         }
 
@@ -51,16 +55,18 @@ namespace Orders.com.BLL.Commands
         {
             return await _transactionContext.ExecuteAsync(async () =>
             {
-                try
+                var inventoryItem = await _inventoryDataProxy.GetByProductAsync(CurrentOrderItem.ProductID);
+                if (inventoryItem.QuantityOnHand - CurrentOrderItem.Quantity >= 0)
                 {
-                    await _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).ExecuteAsync();
+                    CurrentOrderItem.OrderStatus().SetShippedState();
+                    inventoryItem.QuantityOnHand -= CurrentOrderItem.Quantity;
+                    await _inventoryDataProxy.UpdateAsync(inventoryItem);
                 }
-                catch (InsufficientStockAmountException)
+                else
                 {
-                    return await _orderItemDataProxy.BackOrderAsync(_orderItemID, DateTime.Now);
+                    CurrentOrderItem.OrderStatus().SetBackorderedState();
                 }
-
-                return await _orderItemDataProxy.ShipAsync(_orderItemID, DateTime.Now);
+                return await _orderItemDataProxy.UpdateAsync(CurrentOrderItem);
             });
         }
 
@@ -72,22 +78,14 @@ namespace Orders.com.BLL.Commands
         public override IEnumerable<ValidationResult> GetErrors()
         {
             CurrentOrderItem = _orderItemDataProxy.GetByID(_orderItemID);
-
             foreach (var error in GetRules().GetBusinessRulesResults())
-                yield return error;
-
-            foreach (var error in _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).GetErrors())
                 yield return error;
         }
 
         public override async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
             CurrentOrderItem = await _orderItemDataProxy.GetByIDAsync(_orderItemID);
-            
-            var rules = await GetRules().GetBusinessRulesResultsAsync();
-            var inventoryRules = await _inventoryService.DecrementQuantityOnHandCommand(CurrentOrderItem.ProductID, CurrentOrderItem.Quantity).GetErrorsAsync();
-
-            return rules.Concat(inventoryRules);
+            return await GetRules().GetBusinessRulesResultsAsync();
         }
     }
 }

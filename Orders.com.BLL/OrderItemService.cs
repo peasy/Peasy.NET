@@ -16,16 +16,16 @@ namespace Orders.com.BLL
     public class OrderItemService : OrdersDotComServiceBase<OrderItem>
     {
         private IProductDataProxy _productDataProxy;
-        private InventoryItemService _inventoryService;
         private ITransactionContext _transactionContext;
+        private IInventoryItemDataProxy _inventoryDataProxy;
 
         public OrderItemService(IOrderItemDataProxy dataProxy,
                                 IProductDataProxy productDataProxy,
-                                InventoryItemService inventoryService,
+                                IInventoryItemDataProxy inventoryDataProxy,
                                 ITransactionContext transactionContext) : base(dataProxy)
         {
             _productDataProxy = productDataProxy;
-            _inventoryService = inventoryService;
+            _inventoryDataProxy = inventoryDataProxy;
             _transactionContext = transactionContext;
         }
 
@@ -136,7 +136,7 @@ namespace Orders.com.BLL
         {
             // perform auth check?
             var proxy = DataProxy as IOrderItemDataProxy;
-            return new ShipOrderItemCommand(orderItemID, proxy, _inventoryService, _transactionContext);
+            return new ShipOrderItemCommand(orderItemID, proxy, _inventoryDataProxy, _transactionContext);
         }
     }
 }
