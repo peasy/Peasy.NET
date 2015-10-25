@@ -85,15 +85,6 @@ namespace Orders.com.DAL.Mock
             OrderItems.Remove(orderItem);
         }
 
-        public OrderItem Submit(long orderItemID, DateTime submittedOn)
-        {
-            Debug.WriteLine("UPDATING orderItem in database - submitted state");
-            var existing = OrderItems.First(c => c.ID == orderItemID);
-            existing.OrderStatus().SetSubmittedState();
-            existing.SubmittedDate = submittedOn;
-            return Mapper.Map(existing, new OrderItem());
-        }
-
         public async Task<IEnumerable<OrderItem>> GetAllAsync()
         {
             return GetAll();
@@ -122,11 +113,6 @@ namespace Orders.com.DAL.Mock
         public async Task DeleteAsync(long id)
         {
             Delete(id);
-        }
-
-        public async Task<OrderItem> SubmitAsync(long orderItemID, DateTime shippedOn)
-        {
-            return Submit(orderItemID, shippedOn);
         }
 
         public bool SupportsTransactions

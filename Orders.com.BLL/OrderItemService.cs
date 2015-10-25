@@ -104,32 +104,38 @@ namespace Orders.com.BLL
         public ICommand<OrderItem> SubmitCommand(long orderItemID)
         {
             var proxy = DataProxy as IOrderItemDataProxy;
+            var context = new ExecutionContext<OrderItem>();
             return new ServiceCommand<OrderItem>
             (
-                executeMethod: () => proxy.Submit(orderItemID, DateTime.Now),
-                executeAsyncMethod: () => proxy.SubmitAsync(orderItemID, DateTime.Now),
-                getBusinessRulesMethod: () => GetBusinessRulesForSubmit(orderItemID),
-                getBusinessRulesAsyncMethod: () => GetBusinessRulesForSubmitAsync(orderItemID)
+                executeMethod: () =>
+                {
+                    context.CurrentEntity.OrderStatus().SetSubmittedState();
+                    context.CurrentEntity.SubmittedDate = DateTime.Now;
+                    return proxy.Update(context.CurrentEntity);
+                },
+                executeAsyncMethod: () =>
+                {
+                    context.CurrentEntity.OrderStatus().SetSubmittedState();
+                    context.CurrentEntity.SubmittedDate = DateTime.Now;
+                    return proxy.UpdateAsync(context.CurrentEntity);
+                },
+                getBusinessRulesMethod: () => GetBusinessRulesForSubmit(orderItemID, context),
+                getBusinessRulesAsyncMethod: () => GetBusinessRulesForSubmitAsync(orderItemID, context)
             );
         }
 
-        private IEnumerable<IRule> GetBusinessRulesForSubmit(long orderItemID)
+        private IEnumerable<IRule> GetBusinessRulesForSubmit(long orderItemID, ExecutionContext<OrderItem> context)
         {
-            if (!IsLatencyProne)
-            {
-                var orderItem = DataProxy.GetByID(orderItemID);
-                yield return new CanSubmitOrderItemRule(orderItem);
-            }
+            var orderItem = DataProxy.GetByID(orderItemID);
+            context.CurrentEntity = orderItem;
+            yield return new CanSubmitOrderItemRule(orderItem);
         }
 
-        private async Task<IEnumerable<IRule>> GetBusinessRulesForSubmitAsync(long orderItemID)
+        private async Task<IEnumerable<IRule>> GetBusinessRulesForSubmitAsync(long orderItemID, ExecutionContext<OrderItem> context)
         {
-            if (!IsLatencyProne)
-            {
-                var orderItem = await DataProxy.GetByIDAsync(orderItemID);
-                return new[] { new CanSubmitOrderItemRule(orderItem) };
-            }
-            return Enumerable.Empty<IRule>();
+            var orderItem = await DataProxy.GetByIDAsync(orderItemID);
+            context.CurrentEntity = orderItem;
+            return new[] { new CanSubmitOrderItemRule(orderItem) };
         }
 
         public ICommand<OrderItem> ShipCommand(long orderItemID)
