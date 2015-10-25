@@ -85,30 +85,12 @@ namespace Orders.com.DAL.Mock
             OrderItems.Remove(orderItem);
         }
 
-        public OrderItem BackOrder(long orderItemID, DateTime backOrderedOn)
-        {
-            Debug.WriteLine("UPDATING orderItem in database - backordered state");
-            var existing = OrderItems.First(c => c.ID == orderItemID);
-            existing.OrderStatus().SetBackorderedState();
-            existing.BackorderedDate = backOrderedOn;
-            return Mapper.Map(existing, new OrderItem());
-        }
-
         public OrderItem Submit(long orderItemID, DateTime submittedOn)
         {
             Debug.WriteLine("UPDATING orderItem in database - submitted state");
             var existing = OrderItems.First(c => c.ID == orderItemID);
             existing.OrderStatus().SetSubmittedState();
             existing.SubmittedDate = submittedOn;
-            return Mapper.Map(existing, new OrderItem());
-        }
-
-        public OrderItem Ship(long orderItemID, DateTime shippedOn)
-        {
-            Debug.WriteLine("UPDATING orderItem in database - shipped state");
-            var existing = OrderItems.First(c => c.ID == orderItemID);
-            existing.OrderStatus().SetShippedState();
-            existing.ShippedDate = shippedOn;
             return Mapper.Map(existing, new OrderItem());
         }
 
@@ -142,19 +124,9 @@ namespace Orders.com.DAL.Mock
             Delete(id);
         }
 
-        public async Task<OrderItem> BackOrderAsync(long orderItemID, DateTime backOrderedOn)
-        {
-            return BackOrder(orderItemID, backOrderedOn);
-        }
-
         public async Task<OrderItem> SubmitAsync(long orderItemID, DateTime shippedOn)
         {
             return Submit(orderItemID, shippedOn);
-        }
-
-        public async Task<OrderItem> ShipAsync(long orderItemID, DateTime shippedOn)
-        {
-            return Ship(orderItemID, shippedOn);
         }
 
         public bool SupportsTransactions

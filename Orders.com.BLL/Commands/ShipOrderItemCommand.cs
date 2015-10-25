@@ -17,7 +17,6 @@ namespace Orders.com.BLL.Commands
     public class ShipOrderItemCommand : Command<OrderItem>
     {
         private IOrderItemDataProxy _orderItemDataProxy;
-        private InventoryItemService _inventoryService;
         private long _orderItemID;
         private ITransactionContext _transactionContext;
         private IInventoryItemDataProxy _inventoryDataProxy;
@@ -40,12 +39,14 @@ namespace Orders.com.BLL.Commands
                 if (inventoryItem.QuantityOnHand - CurrentOrderItem.Quantity >= 0)
                 {
                     CurrentOrderItem.OrderStatus().SetShippedState();
+                    CurrentOrderItem.ShippedDate = DateTime.Now;
                     inventoryItem.QuantityOnHand -= CurrentOrderItem.Quantity;
                     _inventoryDataProxy.Update(inventoryItem);
                 }
                 else
                 {
                     CurrentOrderItem.OrderStatus().SetBackorderedState();
+                    CurrentOrderItem.BackorderedDate = DateTime.Now;
                 }
                 return _orderItemDataProxy.Update(CurrentOrderItem);
             });
@@ -59,12 +60,14 @@ namespace Orders.com.BLL.Commands
                 if (inventoryItem.QuantityOnHand - CurrentOrderItem.Quantity >= 0)
                 {
                     CurrentOrderItem.OrderStatus().SetShippedState();
+                    CurrentOrderItem.ShippedDate = DateTime.Now;
                     inventoryItem.QuantityOnHand -= CurrentOrderItem.Quantity;
                     await _inventoryDataProxy.UpdateAsync(inventoryItem);
                 }
                 else
                 {
                     CurrentOrderItem.OrderStatus().SetBackorderedState();
+                    CurrentOrderItem.BackorderedDate = DateTime.Now;
                 }
                 return await _orderItemDataProxy.UpdateAsync(CurrentOrderItem);
             });
