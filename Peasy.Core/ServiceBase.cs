@@ -202,10 +202,10 @@ namespace Peasy.Core
         /// </summary>
         /// <param name="businessRules"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<ValidationResult> GetBusinessRulesResults(IEnumerable<IRule> businessRules)
+        protected virtual IEnumerable<ValidationResult> GetValidationResults(IEnumerable<IRule> businessRules)
         {
             var entityName = typeof(T).Name;
-            return businessRules.GetBusinessRulesResults(entityName);
+            return businessRules.GetValidationResults(entityName);
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ namespace Peasy.Core
         /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetAll(ExecutionContext<T> context)
         {
-            return GetValidationResultsForGetAll(context).Concat(GetBusinessRulesForGetAll(context).GetBusinessRulesResults());
+            return GetValidationResultsForGetAll(context).Concat(GetBusinessRulesForGetAll(context).GetValidationResults());
         }
 
         /// <summary>
@@ -262,7 +262,7 @@ namespace Peasy.Core
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForGetAllAsync(ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForGetAllAsync(context);
-            return GetValidationResultsForGetAll(context).Concat(await rules.GetBusinessRulesResultsAsync());
+            return GetValidationResultsForGetAll(context).Concat(await rules.GetValidationResultsAsync());
         }
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Peasy.Core
         /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetByID(TKey id, ExecutionContext<T> context)
         {
-            return GetValidationResultsForGetByID(id, context).Concat(GetBusinessRulesForGetByID(id, context).GetBusinessRulesResults());
+            return GetValidationResultsForGetByID(id, context).Concat(GetBusinessRulesForGetByID(id, context).GetValidationResults());
         }
 
         /// <summary>
@@ -279,7 +279,7 @@ namespace Peasy.Core
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForGetByIDAsync(TKey id, ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForGetByIDAsync(id, context);
-            return GetValidationResultsForGetByID(id, context).Concat(await rules.GetBusinessRulesResultsAsync());
+            return GetValidationResultsForGetByID(id, context).Concat(await rules.GetValidationResultsAsync());
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace Peasy.Core
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForInsert(T entity, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForInsert(entity, context); 
-            var businessRuleErrors = GetBusinessRulesForInsert(entity, context).GetBusinessRulesResults();
+            var businessRuleErrors = GetBusinessRulesForInsert(entity, context).GetValidationResults();
             return validationErrors.Concat(businessRuleErrors);
         }
 
@@ -299,7 +299,7 @@ namespace Peasy.Core
         {
             var validationErrors = GetValidationResultsForInsert(entity, context);
             var rules = await GetBusinessRulesForInsertAsync(entity, context); 
-            return validationErrors.Concat(await rules.GetBusinessRulesResultsAsync());
+            return validationErrors.Concat(await rules.GetValidationResultsAsync());
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace Peasy.Core
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForUpdate(T entity, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForUpdate(entity, context); 
-            var businessRuleErrors = GetBusinessRulesForUpdate(entity, context).GetBusinessRulesResults();
+            var businessRuleErrors = GetBusinessRulesForUpdate(entity, context).GetValidationResults();
             return validationErrors.Concat(businessRuleErrors);
         }
 
@@ -319,7 +319,7 @@ namespace Peasy.Core
         {
             var validationErrors = GetValidationResultsForUpdate(entity, context);
             var rules = await GetBusinessRulesForUpdateAsync(entity, context); 
-            return validationErrors.Concat(await rules.GetBusinessRulesResultsAsync());
+            return validationErrors.Concat(await rules.GetValidationResultsAsync());
         }
 
         /// <summary>
@@ -327,7 +327,7 @@ namespace Peasy.Core
         /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForDelete(TKey id, ExecutionContext<T> context)
         {
-            return GetValidationResultsForDelete(id, context).Concat(GetBusinessRulesForDelete(id, context).GetBusinessRulesResults());
+            return GetValidationResultsForDelete(id, context).Concat(GetBusinessRulesForDelete(id, context).GetValidationResults());
         }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace Peasy.Core
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForDeleteAsync(TKey id, ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForDeleteAsync(id, context);
-            return GetValidationResultsForDelete(id, context).Concat(await rules.GetBusinessRulesResultsAsync());
+            return GetValidationResultsForDelete(id, context).Concat(await rules.GetValidationResultsAsync());
         }
 
         /// <summary>

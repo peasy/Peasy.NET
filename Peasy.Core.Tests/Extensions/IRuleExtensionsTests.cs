@@ -15,7 +15,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new TrueRule(), new FalseRule1(), new TrueRule()
             };
-            rules.GetBusinessRulesResults().Count().ShouldBe(1);
+            rules.GetValidationResults().Count().ShouldBe(1);
         }
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new FalseRule1(), new FalseRule2(), new TrueRule()
             };
-            rules.GetBusinessRulesResults().Count().ShouldBe(2);
+            rules.GetValidationResults().Count().ShouldBe(2);
         }
 
         [TestMethod]
@@ -35,7 +35,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new TrueRule(), new FalseRule1(), new FalseRule2(), new TrueRule(), new FalseRule3()
             };
-            rules.GetBusinessRulesResults().Count().ShouldBe(3);
+            rules.GetValidationResults().Count().ShouldBe(3);
         }
 
         [TestMethod]
@@ -45,7 +45,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new TrueRule().IfValidThenValidate(new FalseRule1()), new TrueRule()
             };
-            rules.GetBusinessRulesResults().Count().ShouldBe(1);
+            rules.GetValidationResults().Count().ShouldBe(1);
         }
 
         [TestMethod]
@@ -55,7 +55,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new TrueRule().IfValidThenValidate(new FalseRule1()), new FalseRule2()
             };
-            rules.GetBusinessRulesResults().Count().ShouldBe(2);
+            rules.GetValidationResults().Count().ShouldBe(2);
         }
 
         [TestMethod]
@@ -67,14 +67,14 @@ namespace Peasy.Core.Tests.Extensions
                 new TrueRule().IfValidThenValidate(new FalseRule2()),
                 new FalseRule3()
             };
-            rules.GetBusinessRulesResults().Count().ShouldBe(3);
+            rules.GetValidationResults().Count().ShouldBe(3);
         }
 
         [TestMethod]
         public void GetBusinessRulesResultsReturnsTwoValidationResultsWithCorrectMessages()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
-            var results = rules.GetBusinessRulesResults();
+            var results = rules.GetValidationResults();
             results.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
             results.Last().ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
@@ -83,7 +83,7 @@ namespace Peasy.Core.Tests.Extensions
         public void GetBusinessRulesResultsSetsValidationResultMemberNameToEmptyString()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
-            var results = rules.GetBusinessRulesResults();
+            var results = rules.GetValidationResults();
             results.First().MemberNames.First().ShouldBe(string.Empty);
             results.Last().MemberNames.First().ShouldBe(string.Empty);
         }
@@ -92,7 +92,7 @@ namespace Peasy.Core.Tests.Extensions
         public void GetBusinessRulesResultsSetsValidationResultMemberName()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
-            var results = rules.GetBusinessRulesResults("MyEntity");
+            var results = rules.GetValidationResults("MyEntity");
             results.First().MemberNames.First().ShouldBe("MyEntity");
             results.Last().MemberNames.First().ShouldBe("MyEntity");
         }
@@ -104,7 +104,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new TrueRule(), new FalseRule1(), new TrueRule()
             };
-            var results = rules.GetBusinessRulesResultsAsync();
+            var results = rules.GetValidationResultsAsync();
             results.Wait();
             results.Result.Count().ShouldBe(1);
         }
@@ -116,7 +116,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new FalseRule1(), new FalseRule2(), new TrueRule()
             };
-            var results = rules.GetBusinessRulesResultsAsync();
+            var results = rules.GetValidationResultsAsync();
             results.Wait();
             results.Result.Count().ShouldBe(2);
         }
@@ -128,7 +128,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new TrueRule(), new FalseRule1(), new FalseRule2(), new TrueRule(), new FalseRule3()
             };
-            var results = rules.GetBusinessRulesResultsAsync();
+            var results = rules.GetValidationResultsAsync();
             results.Wait();
             results.Result.Count().ShouldBe(3);
         }
@@ -140,7 +140,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new TrueRule().IfValidThenValidate(new FalseRule1()), new TrueRule()
             };
-            var results = rules.GetBusinessRulesResultsAsync();
+            var results = rules.GetValidationResultsAsync();
             results.Wait();
             results.Result.Count().ShouldBe(1);
         }
@@ -152,7 +152,7 @@ namespace Peasy.Core.Tests.Extensions
             {
                 new TrueRule().IfValidThenValidate(new FalseRule1()), new FalseRule2()
             };
-            var results = rules.GetBusinessRulesResultsAsync();
+            var results = rules.GetValidationResultsAsync();
             results.Wait();
             results.Result.Count().ShouldBe(2);
         }
@@ -166,7 +166,7 @@ namespace Peasy.Core.Tests.Extensions
                 new TrueRule().IfValidThenValidate(new FalseRule2()),
                 new FalseRule3()
             };
-            var results = rules.GetBusinessRulesResultsAsync();
+            var results = rules.GetValidationResultsAsync();
             results.Wait();
             results.Result.Count().ShouldBe(3);
         }
@@ -175,7 +175,7 @@ namespace Peasy.Core.Tests.Extensions
         public void GetBusinessRulesResultsAsyncReturnsTwoValidationResultsWithCorrectMessages()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
-            var results = rules.GetBusinessRulesResultsAsync();
+            var results = rules.GetValidationResultsAsync();
             results.Wait();
             results.Result.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
             results.Result.Last().ErrorMessage.ShouldBe("FalseRule2 failed validation");
@@ -185,7 +185,7 @@ namespace Peasy.Core.Tests.Extensions
         public void GetBusinessRulesResultsAsyncSetsValidationResultMemberNameToEmptyString()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
-            var results = rules.GetBusinessRulesResultsAsync();
+            var results = rules.GetValidationResultsAsync();
             results.Wait();
             results.Result.First().MemberNames.First().ShouldBe(string.Empty);
             results.Result.Last().MemberNames.First().ShouldBe(string.Empty);
@@ -195,7 +195,7 @@ namespace Peasy.Core.Tests.Extensions
         public void GetBusinessRulesResultsAsyncSetsValidationResultMemberName()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
-            var results = rules.GetBusinessRulesResultsAsync("MyEntity");
+            var results = rules.GetValidationResultsAsync("MyEntity");
             results.Wait();
             results.Result.First().MemberNames.First().ShouldBe("MyEntity");
             results.Result.Last().MemberNames.First().ShouldBe("MyEntity");

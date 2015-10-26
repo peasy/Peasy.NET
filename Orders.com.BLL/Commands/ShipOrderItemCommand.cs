@@ -81,14 +81,14 @@ namespace Orders.com.BLL.Commands
         public override IEnumerable<ValidationResult> GetErrors()
         {
             CurrentOrderItem = _orderItemDataProxy.GetByID(_orderItemID);
-            foreach (var error in GetRules().GetBusinessRulesResults())
+            foreach (var error in GetRules().GetValidationResults())
                 yield return error;
         }
 
         public override async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
             CurrentOrderItem = await _orderItemDataProxy.GetByIDAsync(_orderItemID);
-            return await GetRules().GetBusinessRulesResultsAsync();
+            return await GetRules().GetValidationResultsAsync();
         }
     }
 }

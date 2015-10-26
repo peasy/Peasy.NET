@@ -179,11 +179,11 @@ namespace Peasy.Core
                               Func<Task<IEnumerable<IRule>>> getBusinessRulesAsyncMethod)
             : this(initializationMethod: () => {}, 
                    initializationAsyncMethod: async () => { },
-                   getErrorsMethod: () => getBusinessRulesMethod().GetBusinessRulesResults(), 
+                   getErrorsMethod: () => getBusinessRulesMethod().GetValidationResults(), 
                    getErrorsAsyncMethod: async () =>
                    {
                       var rules = await getBusinessRulesAsyncMethod();
-                      return await rules.GetBusinessRulesResultsAsync();
+                      return await rules.GetValidationResultsAsync();
                    },
                    executeMethod: executeMethod, 
                    executeAsyncMethod: executeAsyncMethod)
@@ -193,7 +193,7 @@ namespace Peasy.Core
         public ServiceCommand(Func<T> executeMethod, Func<IEnumerable<IRule>> getBusinessRulesMethod)
             : this(initializationMethod: () => {}, 
                    initializationAsyncMethod: async () => { },
-                   getErrorsMethod: () => getBusinessRulesMethod().GetBusinessRulesResults(), 
+                   getErrorsMethod: () => getBusinessRulesMethod().GetValidationResults(), 
                    getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
                    executeMethod: executeMethod, 
                    executeAsyncMethod: async () => default(T)) 
@@ -207,7 +207,7 @@ namespace Peasy.Core
                    getErrorsAsyncMethod: async () =>
                    {
                       var rules = await getBusinessRulesAsyncMethod();
-                      return await rules.GetBusinessRulesResultsAsync();
+                      return await rules.GetValidationResultsAsync();
                    },
                    executeMethod: () => default(T), 
                    executeAsyncMethod: executeAsyncMethod)

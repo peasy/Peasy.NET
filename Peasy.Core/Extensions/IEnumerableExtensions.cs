@@ -10,7 +10,7 @@ namespace Peasy.Core.Extensions
     {
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> coll, Action<T> func)
         {
-            foreach (var v in coll) func(v);
+            foreach (var v in coll) func?.Invoke(v);
             return coll;
         }
     }
