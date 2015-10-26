@@ -46,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InventoryItemRepository.cs" />
+    <Compile Include="MockDataProxyBase.cs" />
+    <Compile Include="OrdersDotComMockBase.cs" />
     <Compile Include="OrderStatusRepository.cs" />
     <Compile Include="OrderItemRepository.cs" />
     <Compile Include="OrderRepository.cs" />

@@ -58,7 +58,7 @@ namespace Orders.com.WPF.VM
 
         private async Task SaveInventoryItemsAsync()
         {
-            var results = InventoryItems.Select(vm => vm.SaveAsync()).ToArray();
+            var results = InventoryItems.Select(vm => vm.SaveAsync());
             await Task.WhenAll(results);
         }
     }

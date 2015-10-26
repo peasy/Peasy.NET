@@ -71,7 +71,7 @@ namespace Orders.com.WPF.VM
 
         private async Task SaveCategoriesAsync()
         {
-            var results = Categories.Select(vm => vm.SaveAsync()).ToArray();
+            var results = Categories.Select(vm => vm.SaveAsync());
             await Task.WhenAll(results);
         }
 

@@ -73,7 +73,7 @@ namespace Orders.com.WPF.VM
 
         private async Task SaveProductsAsync()
         {
-            var results = Products.Select(vm => vm.SaveAsync()).ToArray();
+            var results = Products.Select(vm => vm.SaveAsync());
             await Task.WhenAll(results);
         }
 

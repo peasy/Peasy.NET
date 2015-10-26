@@ -12,35 +12,28 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.Mock
 {
-    public class OrderRepository : IOrderDataProxy
+    public class OrderRepository : OrdersDotComMockBase<Order>, IOrderDataProxy
     {
-        public OrderRepository()
+        private List<Order> _orders;
+        private ICustomerDataProxy _customerDataProxy;
+        private IOrderItemDataProxy _orderItemDataProxy;
+
+        public OrderRepository(ICustomerDataProxy customerDataProxy, IOrderItemDataProxy orderItemDataProxy) : base()
         {
-            Mapper.CreateMap<Order, Order>();
+            _customerDataProxy = customerDataProxy;
+            _orderItemDataProxy = orderItemDataProxy;
         }
 
-        private static List<Order> _orders;
-
-        private static List<Order> Orders
+        protected override IEnumerable<Order> SeedDataProxy()
         {
-            get
-            {
-                if (_orders == null)
-                {
-                    _orders = new List<Order>()
-                    {
-                        new Order() { OrderID = 1, CustomerID = 1, OrderDate = DateTime.Now.AddMonths(-3) }
-                    };
-                }
-                return _orders;
-            }
+            yield return new Order() { OrderID = 1, CustomerID = 1, OrderDate = DateTime.Now.AddMonths(-3) };
         }
 
         public IEnumerable<OrderInfo> GetAll(int start, int pageSize)
         {
             var orders = GetAll();
-            var customers = new CustomerRepository().GetAll().ToDictionary(c => c.CustomerID);
-            var orderItems = new OrderItemRepository().GetAll().ToArray();
+            var customers = _customerDataProxy.GetAll().ToDictionary(c => c.CustomerID);
+            var orderItems = _orderItemDataProxy.GetAll().ToArray();
             var results = orders.Skip(start)
                                 .Take(pageSize)
                                 .Select(o => new
@@ -70,25 +63,11 @@ namespace Orders.com.DAL.Mock
             return orderItems.OrderStatus().Name;
         }
 
-        public IEnumerable<Order> GetAll()
-        {
-            Debug.WriteLine("Executing EF Order.GetAll");
-            // Simulate a SELECT against a database
-            return Orders.Select(Mapper.Map<Order, Order>).ToArray();
-        }
-
-        public Order GetByID(long id)
-        {
-            Debug.WriteLine("Executing EF Order.GetByID");
-            var order = Orders.First(c => c.ID == id);
-            return Mapper.Map(order, new Order());
-        }
-
         public IEnumerable<Order> GetByCustomer(long customerID)
         {
             Debug.WriteLine("Executing EF Order.GetByCustomer");
-            return Orders.Where(o => o.CustomerID == customerID)
-                         .Select(Mapper.Map<Order, Order>).ToArray();
+            return Data.Values.Where(o => o.CustomerID == customerID)
+                              .Select(Mapper.Map<Order, Order>).ToArray();
         }
 
         public IEnumerable<Order> GetByProduct(long productID)
@@ -96,49 +75,14 @@ namespace Orders.com.DAL.Mock
             Debug.WriteLine("Executing EF Order.GetByProduct");
             var orderItems = new OrderItemRepository().GetAll().ToArray();
 
-            return Orders.Where(o => orderItems.Any(i => i.OrderID == o.OrderID &&
+            return Data.Values.Where(o => orderItems.Any(i => i.OrderID == o.OrderID &&
                                                          i.ProductID == productID))
-                         .Select(Mapper.Map<Order, Order>).ToArray();
+                              .Select(Mapper.Map<Order, Order>).ToArray();
         }
 
-        public Task<IEnumerable<Order>> GetByProductAsync(long productID)
+        public async Task<IEnumerable<Order>> GetByProductAsync(long productID)
         {
-            throw new NotImplementedException();
-        }
-
-
-        public Order Insert(Order entity)
-        {
-            Debug.WriteLine("INSERTING order into database");
-            var nextID = Orders.Any() ? Orders.Max(c => c.ID) + 1 : 1;
-            entity.ID = nextID;
-            Orders.Add(Mapper.Map(entity, new Order()));
-            return entity;
-        }
-
-        public Order Update(Order entity)
-        {
-            Debug.WriteLine("UPDATING order in database");
-            var existing = Orders.First(c => c.ID == entity.ID);
-            Mapper.Map(entity, existing);
-            return entity;
-        }
-
-        public void Delete(long id)
-        {
-            Debug.WriteLine("DELETING order in database");
-            var order = Orders.First(c => c.ID == id);
-            Orders.Remove(order);
-        }
-
-        public async Task<IEnumerable<Order>> GetAllAsync()
-        {
-            return GetAll();
-        }
-
-        public async Task<IEnumerable<OrderInfo>> GetAllAsync(int start, int pageSize)
-        {
-            return GetAll(start, pageSize);
+            return GetByProduct(productID);
         }
 
         public async Task<IEnumerable<Order>> GetByCustomerAsync(long customerID)
@@ -146,35 +90,9 @@ namespace Orders.com.DAL.Mock
             return GetByCustomer(customerID);
         }
 
-        public async Task<Order> GetByIDAsync(long id)
+        public async Task<IEnumerable<OrderInfo>> GetAllAsync(int start, int pageSize)
         {
-            return GetByID(id);
+            return GetAll(start, pageSize);
         }
-
-        public async Task<Order> InsertAsync(Order entity)
-        {
-            return Insert(entity);
-        }
-
-        public async Task<Order> UpdateAsync(Order entity)
-        {
-            return Update(entity);
-        }
-
-        public async Task DeleteAsync(long id)
-        {
-            Delete(id);
-        }
-
-        public bool SupportsTransactions
-        {
-            get { return true; }
-        }
-
-        public bool IsLatencyProne
-        {
-            get { return false; }
-        }
-
     }
 }

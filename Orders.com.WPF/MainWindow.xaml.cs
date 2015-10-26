@@ -28,10 +28,13 @@ namespace Orders.com.WPF
         {
             var productsDataProxy = new ProductRepository();
             var inventoryDataProxy = new InventoryItemRepository();
+            var customerDataProxy = new CustomerRepository();
+            var orderItemDataProxy = new OrderItemRepository();
+            var orderRepository = new OrderRepository(customerDataProxy, orderItemDataProxy);
             _inventoryService = new InventoryItemService(inventoryDataProxy);
-            _orderItemsService = new OrderItemService(new OrderItemRepository(), productsDataProxy, inventoryDataProxy, new DTCTransactionContext());
-            _ordersService = new OrderService(new OrderRepository(), _orderItemsService, new DTCTransactionContext());
-            _customersService = new CustomerService(new CustomerRepository(), _ordersService);
+            _orderItemsService = new OrderItemService(orderItemDataProxy, productsDataProxy, inventoryDataProxy, new DTCTransactionContext());
+            _ordersService = new OrderService(orderRepository, _orderItemsService, new DTCTransactionContext());
+            _customersService = new CustomerService(customerDataProxy, _ordersService);
             _productsService = new ProductService(productsDataProxy, _ordersService, _inventoryService, new DTCTransactionContext());
             _categoriesService = new CategoryService(new CategoryRepository(), _productsService);
             this.DataContext = new MainWindowVM(_eventAggregator, _customersService, _productsService, _categoriesService, _ordersService, _inventoryService);
