@@ -68,7 +68,7 @@ namespace Peasy.Core
         protected virtual void OnInsertCommandInitialization(T entity, ExecutionContext<T> context)
         {
         }
-        
+
         /// <summary>
         /// Override this method to perform initialization logic before rule validations for InsertCommand.ExecuteAsync are performed
         /// </summary>
@@ -182,7 +182,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to DeleteCommand.Execute() 
+        /// Override this method to supply custom business rules to DeleteCommand.Execute()
         /// </summary>
         protected virtual IEnumerable<IRule> GetBusinessRulesForDelete(TKey id, ExecutionContext<T> context)
         {
@@ -190,7 +190,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to DeleteCommand.ExecuteAsync() 
+        /// Override this method to supply custom business rules to DeleteCommand.ExecuteAsync()
         /// </summary>
         protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForDeleteAsync(TKey id, ExecutionContext<T> context)
         {
@@ -231,7 +231,7 @@ namespace Peasy.Core
         {
             return entity.GetValidationErrors();
         }
-        
+
         /// <summary>
         /// Supplies validation results to UpdateCommand()
         /// </summary>
@@ -247,7 +247,7 @@ namespace Peasy.Core
         {
             yield break;
         }
-        
+
         /// <summary>
         /// Override this method to manipulate error construction.  Ie, you may want to verify that no validation errors exist before invoking potentially expensive business rules method
         /// </summary>
@@ -287,7 +287,7 @@ namespace Peasy.Core
         /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForInsert(T entity, ExecutionContext<T> context)
         {
-            var validationErrors = GetValidationResultsForInsert(entity, context); 
+            var validationErrors = GetValidationResultsForInsert(entity, context);
             var businessRuleErrors = GetBusinessRulesForInsert(entity, context).GetValidationResults();
             return validationErrors.Concat(businessRuleErrors);
         }
@@ -298,7 +298,7 @@ namespace Peasy.Core
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForInsertAsync(T entity, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForInsert(entity, context);
-            var rules = await GetBusinessRulesForInsertAsync(entity, context); 
+            var rules = await GetBusinessRulesForInsertAsync(entity, context);
             return validationErrors.Concat(await rules.GetValidationResultsAsync());
         }
 
@@ -307,7 +307,7 @@ namespace Peasy.Core
         /// </summary>
         protected virtual IEnumerable<ValidationResult> GetAllErrorsForUpdate(T entity, ExecutionContext<T> context)
         {
-            var validationErrors = GetValidationResultsForUpdate(entity, context); 
+            var validationErrors = GetValidationResultsForUpdate(entity, context);
             var businessRuleErrors = GetBusinessRulesForUpdate(entity, context).GetValidationResults();
             return validationErrors.Concat(businessRuleErrors);
         }
@@ -318,7 +318,7 @@ namespace Peasy.Core
         protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForUpdateAsync(T entity, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForUpdate(entity, context);
-            var rules = await GetBusinessRulesForUpdateAsync(entity, context); 
+            var rules = await GetBusinessRulesForUpdateAsync(entity, context);
             return validationErrors.Concat(await rules.GetValidationResultsAsync());
         }
 

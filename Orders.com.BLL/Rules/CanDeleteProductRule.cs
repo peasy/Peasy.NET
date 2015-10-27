@@ -15,7 +15,7 @@ namespace Orders.com.BLL.Rules
             _productID = productID;
             _orderService = orderService;
         }
-        
+
         protected override void OnValidate()
         {
             var products = _orderService.GetByProductCommand(_productID).Execute().Value;

@@ -17,7 +17,7 @@ namespace Peasy.Rules
         {
             if (_value <= 0)
             {
-                Invalidate(_errorMessage); 
+                Invalidate(_errorMessage);
             }
         }
     }

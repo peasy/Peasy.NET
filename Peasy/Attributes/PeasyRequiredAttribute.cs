@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Peasy.Attributes
 {
@@ -14,7 +10,7 @@ namespace Peasy.Attributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var errorMessage = string.Format("The {0} field is required.", validationContext.DisplayName);
+            var errorMessage = $"The {validationContext.DisplayName} field is required.";
             var validationResult = new ValidationResult(errorMessage, new string[] { validationContext.DisplayName });
 
             if (value == null) return validationResult;
@@ -24,18 +20,18 @@ namespace Peasy.Attributes
                 return validationResult;
             }
 
-            string incoming = value.ToString();
+            var incoming = value.ToString();
 
             decimal val = 0;
-            if (Decimal.TryParse(incoming, out val))
+            if (Decimal.TryParse(incoming, out val) && val == 0)
             {
-                if (val == 0) return validationResult;
+                return validationResult;
             }
 
-            DateTime date = DateTime.MinValue;
-            if (DateTime.TryParse(incoming, out date))
+            var date = DateTime.MinValue;
+            if (DateTime.TryParse(incoming, out date) && date == DateTime.MinValue)
             {
-                if (date == DateTime.MinValue) return validationResult;
+                return validationResult;
             }
 
             return ValidationResult.Success;

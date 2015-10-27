@@ -10,31 +10,31 @@ namespace Peasy.Rules
 
         public ValueRequiredRule(long value, string fieldName)
         {
-            _errorMessage = string.Format("{0} must be greater than 0", fieldName);
-            _validate = () => value > 0;                        
+            _errorMessage = $"{fieldName} must be greater than 0";
+            _validate = () => value > 0;
         }
 
         public ValueRequiredRule(decimal value, string fieldName)
         {
-            _errorMessage = string.Format("{0} must be greater than 0", fieldName);
-            _validate = () => value > 0;                        
+            _errorMessage = $"{fieldName} must be greater than 0";
+            _validate = () => value > 0;
         }
 
         public ValueRequiredRule(int value, string fieldName)
         {
-            _errorMessage = string.Format("{0} must be greater than 0", fieldName);
-            _validate = () => value > 0;                        
+            _errorMessage = $"{fieldName} must be greater than 0";
+            _validate = () => value > 0;
         }
 
         public ValueRequiredRule(string value, string fieldName)
         {
-            _errorMessage = string.Format("{0} must be supplied", fieldName);
+            _errorMessage = $"{fieldName} must be supplied";
             _validate = () => !string.IsNullOrWhiteSpace(value);
         }
 
         public ValueRequiredRule(Guid value, string fieldName)
         {
-            _errorMessage = string.Format("{0} must be supplied", fieldName);
+            _errorMessage = $"{fieldName} must be supplied";
             _validate = () => value != Guid.Empty;
         }
 

@@ -35,7 +35,7 @@ namespace Peasy.Core
         /// <summary>
         /// Gets or sets the list of <see cref="IRule"/> that should be evaluated upon successful validation.
         /// </summary>
-        private List<IRule[]> Successor = new List<IRule[]>();
+        private List<IRule[]> Successor { set; get; } = new List<IRule[]>();
 
         /// <summary>
         /// Validates this rule.
@@ -56,42 +56,24 @@ namespace Peasy.Core
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage);
-                                HandleIfInvalidThenExecute();
+                                _ifInvalidThenExecute?.Invoke(this);
                                 break; // early exit, don't bother further rule execution
                             }
                         }
                         if (!IsValid) break;
                     }
                 }
-                HandleIfValidThenExecute();
+                _ifValidThenExecute?.Invoke(this);
             }
             else
             {
-                HandleIfInvalidThenExecute();
+                _ifInvalidThenExecute?.Invoke(this);
             }
             return this;
         }
 
-        private void HandleIfValidThenExecute()
-        {
-            if (_ifValidThenExecute != null)
-            {
-                _ifValidThenExecute(this);
-                _ifValidThenExecute = null;
-            }
-        }
-
-        private void HandleIfInvalidThenExecute()
-        {
-            if (_ifInvalidThenExecute != null)
-            {
-                _ifInvalidThenExecute(this);
-                _ifInvalidThenExecute = null;
-            }
-        }
-
         /// <summary>
-        /// Validates the supplied list of <see cref="IRule"/> upon successful validation. 
+        /// Validates the supplied list of <see cref="IRule"/> upon successful validation.
         /// </summary>
         /// <param name="rules">The <see cref="IRule"/>.</param>
         /// <returns>The supplied <see cref="RuleBase"/>.</returns>
@@ -135,7 +117,7 @@ namespace Peasy.Core
         }
 
         /// <summary>
-        /// Invalidates the rule 
+        /// Invalidates the rule
         /// </summary>
         /// <param name="errorMessage">The error message to associate with the broken rule</param>
         protected virtual void Invalidate(string errorMessage)
@@ -160,18 +142,18 @@ namespace Peasy.Core
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage);
-                                HandleIfInvalidThenExecute();
+                                _ifInvalidThenExecute?.Invoke(this);
                                 break; // early exit, don't bother further rule execution
                             }
                         }
                         if (!IsValid) break;
                     }
                 }
-                HandleIfValidThenExecute();
+                _ifValidThenExecute?.Invoke(this);
             }
             else
             {
-                HandleIfInvalidThenExecute();
+                _ifInvalidThenExecute?.Invoke(this);
             }
             return this;
         }

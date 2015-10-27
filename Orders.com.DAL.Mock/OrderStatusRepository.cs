@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.Mock
 {
-    public class OrderStatusRepository : OrdersDotComMockBase<OrderStatus>, IOrderStatusDataProxy 
+    public class OrderStatusRepository : OrdersDotComMockBase<OrderStatus>, IOrderStatusDataProxy
     {
         protected override IEnumerable<OrderStatus> SeedDataProxy()
         {

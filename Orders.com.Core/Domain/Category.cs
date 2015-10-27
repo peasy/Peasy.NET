@@ -8,7 +8,7 @@ namespace Orders.com.Core.Domain
 
         [Required]
         public string Name { get; set; }
-        
+
         public override long ID
         {
             get { return CategoryID; }

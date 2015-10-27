@@ -13,7 +13,7 @@ namespace Peasy.Rules
 
         protected override void OnValidate()
         {
-            Invalidate(string.Format("{0} is required", _propertyName));
+            Invalidate($"{_propertyName} is required");
         }
     }
 }

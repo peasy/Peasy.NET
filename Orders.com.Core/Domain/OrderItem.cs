@@ -30,7 +30,7 @@ namespace Orders.com.Core.Domain
 
         [Editable(false)]
         public DateTime? SubmittedDate { get; set; }
-        
+
         [Editable(false)]
         public long OrderStatusID { get; set; }
 

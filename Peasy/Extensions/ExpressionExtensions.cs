@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Peasy.Extensions
 {
@@ -17,31 +13,31 @@ namespace Peasy.Extensions
         /// Extracts the name of the property referenced in the provided expression.
         /// </summary>
         /// <typeparam name="T">The type for the property.</typeparam>
-        /// <param name="propertyExpression">The property expression.</param>
+        /// <param name=nameof(propertyExpression)>The property expression.</param>
         /// <returns>The name of the property.</returns>
         public static string ExtractPropertyName<T>(Expression<Func<T>> propertyExpression)
         {
             if (propertyExpression == null)
             {
-                throw new ArgumentNullException("propertyExpression");
+                throw new ArgumentNullException(nameof(propertyExpression));
             }
 
             var memberExpression = propertyExpression.Body as MemberExpression;
             if (memberExpression == null)
             {
-                throw new ArgumentException("The expression is not a member access expression.", "propertyExpression");
+                throw new ArgumentException("The expression is not a member access expression.", nameof(propertyExpression));
             }
 
             var property = memberExpression.Member as PropertyInfo;
             if (property == null)
             {
-                throw new ArgumentException("The member access expression does not access a property.", "propertyExpression");
+                throw new ArgumentException("The member access expression does not access a property.", nameof(propertyExpression));
             }
-          
+
             //var getMethod = property.GetMethod(true);
             //if (getMethod.IsStatic)
             //{
-            //    throw new ArgumentException("The referenced property is a static property.", "propertyExpression");
+            //    throw new ArgumentException("The referenced property is a static property.", nameof(propertyExpression));
             //}
 
             return memberExpression.Member.Name;
@@ -51,24 +47,24 @@ namespace Peasy.Extensions
         {
             if (propertyExpression == null)
             {
-                throw new ArgumentNullException("propertyExpression");
+                throw new ArgumentNullException(nameof(propertyExpression));
             }
 
             var memberExpression = propertyExpression.Body as MemberExpression;
             if (memberExpression == null)
             {
-                throw new ArgumentException("The expression is not a member access expression.", "propertyExpression");
+                throw new ArgumentException("The expression is not a member access expression.", nameof(propertyExpression));
             }
 
             var property = memberExpression.Member as PropertyInfo;
             if (property == null)
             {
-                throw new ArgumentException("The member access expression does not access a property.", "propertyExpression");
+                throw new ArgumentException("The member access expression does not access a property.", nameof(propertyExpression));
             }
             //var getMethod = property.GetMethod();
             //if (getMethod.IsStatic)
             //{
-            //    throw new ArgumentException("The referenced property is a static property.", "propertyExpression");
+            //    throw new ArgumentException("The referenced property is a static property.", nameof(propertyExpression));
             //}
 
             return memberExpression.Member.Name;
@@ -78,25 +74,25 @@ namespace Peasy.Extensions
         /// Extracts the value of the property referenced in the provided expression.
         /// </summary>
         /// <typeparam name="T">The type for the property.</typeparam>
-        /// <param name="propertyExpression">The property expression.</param>
+        /// <param name=nameof(propertyExpression)>The property expression.</param>
         /// <returns>The value contained in the property.</returns>
         public static T ExtractPropertyValue<T>(Expression<Func<T>> propertyExpression)
         {
             if (propertyExpression == null)
             {
-                throw new ArgumentNullException("propertyExpression");
+                throw new ArgumentNullException(nameof(propertyExpression));
             }
 
             var memberExpression = propertyExpression.Body as MemberExpression;
             if (memberExpression == null)
             {
-                throw new ArgumentException("The expression is not a member access expression.", "propertyExpression");
+                throw new ArgumentException("The expression is not a member access expression.", nameof(propertyExpression));
             }
 
             var property = memberExpression.Member as PropertyInfo;
             if (property == null)
             {
-                throw new ArgumentException("The expression is not accessing a property.", "propertyExpression");
+                throw new ArgumentException("The expression is not accessing a property.", nameof(propertyExpression));
             }
 
             return propertyExpression.Compile()();

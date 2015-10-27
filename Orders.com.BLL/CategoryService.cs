@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class CategoryService : OrdersDotComServiceBase<Category> 
+    public class CategoryService : OrdersDotComServiceBase<Category>
     {
         private ProductService _productService;
 

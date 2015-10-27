@@ -62,7 +62,7 @@ namespace Peasy.Tests.Extensions
         {
             for (var counter = 0; counter < value; counter ++)
             {
-                yield return func(counter); 
+                yield return func(counter);
             }
         }
     }

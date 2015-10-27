@@ -50,7 +50,7 @@ namespace Orders.com.WPF.VM
         protected virtual void OnDeleteSuccess()
         {
         }
-        
+
         public virtual async Task SaveAsync()
         {
             if (IsDirty)
@@ -96,7 +96,7 @@ namespace Orders.com.WPF.VM
                 {
                     IsValid = false;
                     Errors = result.Errors.ToArray();
-                }               
+                }
             }
         }
 

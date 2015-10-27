@@ -160,7 +160,7 @@ namespace Orders.com.WPF
         private void Call<TListener>(object message, Action<Action> marshaller)
             where TListener : class
         {
-            int listenerCalledCount = 0;
+            var listenerCalledCount = 0;
             marshaller(() =>
                 {
                     foreach (ListenerWrapper o in _listeners.Where(o => o.Handles<TListener>() || o.HandlesMessage(message)))

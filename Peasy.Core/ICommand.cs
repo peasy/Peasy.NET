@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
@@ -17,7 +16,7 @@ namespace Peasy.Core
         Task<ExecutionResult> ExecuteAsync();
     }
 
-    public interface ICommand<T> : IValidationErrorsContainer 
+    public interface ICommand<T> : IValidationErrorsContainer
     {
         ExecutionResult<T> Execute();
         Task<ExecutionResult<T>> ExecuteAsync();

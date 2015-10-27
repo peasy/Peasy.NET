@@ -14,7 +14,6 @@ namespace Orders.com.DAL.Mock
 {
     public class OrderRepository : OrdersDotComMockBase<Order>, IOrderDataProxy
     {
-        private List<Order> _orders;
         private ICustomerDataProxy _customerDataProxy;
         private IOrderItemDataProxy _orderItemDataProxy;
 

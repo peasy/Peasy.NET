@@ -18,7 +18,7 @@ namespace Peasy.Rules
         {
             if (_originalEntity.Version != _newEntity.Version)
             {
-                Invalidate(string.Format("{0} was changed by another user and cannot be changed.", _newEntity.ClassName()));
+                Invalidate($"{_newEntity.ClassName()} was changed by another user and cannot be changed.");
             }
         }
     }

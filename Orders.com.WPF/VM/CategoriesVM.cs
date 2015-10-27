@@ -36,7 +36,7 @@ namespace Orders.com.WPF.VM
         {
             get { return _addCategoryCommand; }
         }
-        
+
         public ICommand SaveCategoriesCommand
         {
             get { return _saveCategoriesCommand; }
@@ -51,7 +51,7 @@ namespace Orders.com.WPF.VM
         {
             get { return _deleteSelectedCommand; }
         }
-        
+
         public IEnumerable<CategoryVM> Categories
         {
             get { return _categories; }
@@ -92,7 +92,7 @@ namespace Orders.com.WPF.VM
             if (SelectedCategory.IsNew)
                 _categories.Remove(SelectedCategory);
             else
-                await SelectedCategory.DeleteAsync(); 
+                await SelectedCategory.DeleteAsync();
         }
     }
 }

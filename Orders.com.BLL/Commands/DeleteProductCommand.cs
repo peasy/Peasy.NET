@@ -19,9 +19,9 @@ namespace Products.com.BLL.Commands
         private InventoryItemService _inventoryService;
         private OrderService _orderService;
 
-        public DeleteProductCommand(long productID, 
-                                    IProductDataProxy productDataProxy, 
-                                    InventoryItemService inventoryService, 
+        public DeleteProductCommand(long productID,
+                                    IProductDataProxy productDataProxy,
+                                    InventoryItemService inventoryService,
                                     OrderService orderService,
                                     ITransactionContext transactionContext)
         {

@@ -6,7 +6,6 @@ namespace Orders.com.WPF.VM
 {
     public class ProductVM : OrdersDotComVMBase<Product>
     {
-        private IEnumerable<Category> _categories;
         private MainWindowVM _mainVM;
 
         public ProductVM(ProductService service, MainWindowVM mainVM) : base(service)

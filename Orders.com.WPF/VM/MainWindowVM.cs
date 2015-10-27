@@ -11,8 +11,8 @@ namespace Orders.com.WPF.VM
         private InventoryItemsVM _inventoryItemsVM;
 
         public MainWindowVM(EventAggregator eventAggregator,
-                            CustomerService customerService, 
-                            ProductService productService, 
+                            CustomerService customerService,
+                            ProductService productService,
                             CategoryService categoryService,
                             OrderService orderService,
                             InventoryItemService inventoryService)
@@ -22,16 +22,16 @@ namespace Orders.com.WPF.VM
             _productsVM = new ProductsVM(productService, this);
             _productsVM.LoadProductsCommand.Execute(null);
             _categoriesVM = new CategoriesVM(categoryService);
-            _categoriesVM.LoadCategoriesCommand.Execute(null);  
+            _categoriesVM.LoadCategoriesCommand.Execute(null);
             _ordersVM = new OrdersVM(orderService, this, eventAggregator);
             _ordersVM.LoadOrdersCommand.Execute(null);
             _inventoryItemsVM = new InventoryItemsVM(inventoryService, this);
             _inventoryItemsVM.LoadInventoryCommand.Execute(null);
-        }               
+        }
 
         public CustomersVM CustomersVM
         {
-            get { return _customersVM; }                
+            get { return _customersVM; }
         }
 
         public ProductsVM ProductsVM

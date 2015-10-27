@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.DAL.Mock
 {
-    public class CategoryRepository : OrdersDotComMockBase<Category>, ICategoryDataProxy 
+    public class CategoryRepository : OrdersDotComMockBase<Category>, ICategoryDataProxy
     {
         protected override IEnumerable<Category> SeedDataProxy()
         {

@@ -11,7 +11,7 @@ using System;
 
 namespace Orders.com.DAL.Mock
 {
-    public class OrderItemRepository : OrdersDotComMockBase<OrderItem>, IOrderItemDataProxy 
+    public class OrderItemRepository : OrdersDotComMockBase<OrderItem>, IOrderItemDataProxy
     {
         public IEnumerable<OrderItem> GetByOrder(long orderID)
         {

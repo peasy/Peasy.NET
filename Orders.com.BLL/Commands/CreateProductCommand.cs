@@ -41,7 +41,7 @@ namespace Orders.com.BLL.Commands
                 return product;
             });
         }
-        
+
         private InventoryItem BuildInventoryItem(Product product)
         {
             return new InventoryItem { ProductID = product.ProductID, QuantityOnHand = 0 };

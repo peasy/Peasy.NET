@@ -15,7 +15,7 @@ namespace Peasy.Core
         /// </summary>
         public ExecutionResult Execute()
         {
-            OnInitialization(); // Allow subclass to rectify any errors before rules execution begins
+            OnInitialization();
 
             var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
@@ -62,7 +62,6 @@ namespace Peasy.Core
         /// </summary>
         protected virtual async Task OnInitializationAsync()
         {
-            await Task.Yield();
         }
 
         public virtual IEnumerable<ValidationResult> GetErrors()
@@ -70,9 +69,9 @@ namespace Peasy.Core
             return Enumerable.Empty<ValidationResult>();
         }
 
-        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        public virtual async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            return Task.Run(() => Enumerable.Empty<ValidationResult>());
+            return Enumerable.Empty<ValidationResult>();
         }
     }
 
@@ -133,7 +132,6 @@ namespace Peasy.Core
         /// </summary>
         protected virtual async Task OnInitializationAsync()
         {
-            await Task.Yield();
         }
 
         public virtual IEnumerable<ValidationResult> GetErrors()
@@ -141,9 +139,9 @@ namespace Peasy.Core
             return Enumerable.Empty<ValidationResult>();
         }
 
-        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        public virtual async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            return Task.Run(() => Enumerable.Empty<ValidationResult>());
+            return Enumerable.Empty<ValidationResult>();
         }
     }
 }

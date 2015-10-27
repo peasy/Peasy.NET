@@ -38,7 +38,7 @@ namespace Orders.com.WPF.VM
         {
             get { return _addProductCommand; }
         }
-        
+
         public ICommand SaveProductsCommand
         {
             get { return _saveProductsCommand; }
@@ -53,7 +53,7 @@ namespace Orders.com.WPF.VM
         {
             get { return _deleteSelectedCommand; }
         }
-        
+
         public IEnumerable<ProductVM> Products
         {
             get { return _products; }

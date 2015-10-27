@@ -100,7 +100,7 @@ namespace Orders.com.Core.Extensions
 
         public NoneState(IOrderStatusIDContainer order) : base(order)
         {
-            _statusIDContainer = order; 
+            _statusIDContainer = order;
         }
 
         public override string Name
@@ -132,7 +132,7 @@ namespace Orders.com.Core.Extensions
 
         public BackorderedState(IOrderStatusIDContainer order) : base(order)
         {
-            _statusIDContainer = order; 
+            _statusIDContainer = order;
         }
 
         public override void SetPendingState()
@@ -164,7 +164,7 @@ namespace Orders.com.Core.Extensions
 
         public PendingState(IOrderStatusIDContainer order) : base(order)
         {
-            _statusIDContainer = order; 
+            _statusIDContainer = order;
         }
 
         public override void SetPendingState()
@@ -196,7 +196,7 @@ namespace Orders.com.Core.Extensions
 
         public SubmittedState(IOrderStatusIDContainer order) : base(order)
         {
-            _statusIDContainer = order; 
+            _statusIDContainer = order;
         }
 
         public override void SetBackorderedState()
@@ -230,7 +230,7 @@ namespace Orders.com.Core.Extensions
 
         public ShippedState(IOrderStatusIDContainer order) : base(order)
         {
-            _statusIDContainer = order; 
+            _statusIDContainer = order;
         }
 
         public override void SetBackorderedState()

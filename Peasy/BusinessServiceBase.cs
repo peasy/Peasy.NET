@@ -14,7 +14,7 @@ namespace Peasy
     /// </summary>
     public abstract class BusinessServiceBase<T, TKey> : ServiceBase<T, TKey> where T : IDomainObject<TKey>, new()
     {
-        public BusinessServiceBase(IServiceDataProxy<T, TKey> dataProxy) : base(dataProxy)
+        protected BusinessServiceBase(IServiceDataProxy<T, TKey> dataProxy) : base(dataProxy)
         {
         }
 
@@ -23,17 +23,17 @@ namespace Peasy
         /// </summary>
         protected override IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id, ExecutionContext<T> context)
         {
-            var rule = id.CreateValueRequiredRule("id").Validate();
+            var rule = id.CreateValueRequiredRule(nameof(id)).Validate();
             if (!rule.IsValid)
                 yield return new ValidationResult(rule.ErrorMessage, new string[] { typeof(T).Name });
         }
-        
+
         /// <summary>
         /// Supplies validation results to GetByIDCommand()
         /// </summary>
         protected override IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id, ExecutionContext<T> context)
         {
-            var rule = id.CreateValueRequiredRule("id").Validate();
+            var rule = id.CreateValueRequiredRule(nameof(id)).Validate();
             if (!rule.IsValid)
                 yield return new ValidationResult(rule.ErrorMessage, new string[] { typeof(T).Name });
         }
@@ -46,9 +46,9 @@ namespace Peasy
         protected override T Update(T entity, ExecutionContext<T> context)
         {
             // only perform this if we're not latency prone - keep it close to the server, no need to do this more than once
-            if (!this.IsLatencyProne)
+            if (!IsLatencyProne)
             {
-                T current = context.CurrentEntity;
+                var current = context.CurrentEntity;
                 if (current == null) current = GetByID(entity.ID, context);
 
                 if (current == null)
@@ -75,9 +75,9 @@ namespace Peasy
         protected override async Task<T> UpdateAsync(T entity, ExecutionContext<T> context)
         {
             // only perform this if we're not latency prone - keep it close to the server, no need to do this more than once
-            if (!this.IsLatencyProne)
+            if (!IsLatencyProne)
             {
-                T current = context.CurrentEntity;
+                var current = context.CurrentEntity;
                 if (current == null) current = await GetByIDAsync(entity.ID, context);
 
                 if (current == null)
@@ -110,7 +110,7 @@ namespace Peasy
 
         protected string BuildNotFoundError(TKey id)
         {
-            var message = string.Format("{0} ID {1} could not be found.", new T().ClassName(), id.ToString());
+            var message = $"{new T().ClassName()} ID {id.ToString()} could not be found.";
             return message;
         }
     }

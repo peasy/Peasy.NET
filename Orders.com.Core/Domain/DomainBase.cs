@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace Orders.com.Core
 {
-    public abstract class DomainBase : IDomainObject<long> 
+    public abstract class DomainBase : IDomainObject<long>
     {
         // TODO: Include Newtonsoft.json??
         //[JsonIgnore, IgnoreDataMember]

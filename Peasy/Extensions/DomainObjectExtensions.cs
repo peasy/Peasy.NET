@@ -14,12 +14,12 @@ namespace Peasy.Extensions
         private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedNonEditableProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
         private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedForeignKeyProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
 
-        public static string ClassName<T>(this T domainObject) 
+        public static string ClassName<T>(this T domainObject)
         {
             var type = domainObject.GetType().GetTypeInfo();
             var displayAttribute = type.GetCustomAttributes(true)
                                        .FirstOrDefault(a => a is PeasyDisplayNameAttribute) as PeasyDisplayNameAttribute;
-            
+
             if (displayAttribute != null)
                 return displayAttribute.DisplayName;
 
@@ -31,13 +31,13 @@ namespace Peasy.Extensions
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="domainObject"></param>
-        public static void RevertForeignKeysFromZeroToNull<T>(this T domainObject) 
+        public static void RevertForeignKeysFromZeroToNull<T>(this T domainObject)
         {
             var foreignKeyProperties = domainObject.GetCachedForeignKeyProperties();
 
             foreach (var property in foreignKeyProperties)
             {
-                int id = 0;
+                var id = 0;
                 if (property.GetValue(domainObject) != null)
                 {
                     if (int.TryParse(property.GetValue(domainObject).ToString(), out id))
@@ -49,7 +49,7 @@ namespace Peasy.Extensions
             }
         }
 
-        public static void RevertNonEditableValues<T>(this T changedObject, T originalObject) 
+        public static void RevertNonEditableValues<T>(this T changedObject, T originalObject)
         {
             var nonEditableProperties = changedObject.GetCachedNonEditableProperties();
 
@@ -67,7 +67,7 @@ namespace Peasy.Extensions
             }
         }
 
-        private static IEnumerable<PropertyInfo> GetCachedForeignKeyProperties<T>(this T domainObject) 
+        private static IEnumerable<PropertyInfo> GetCachedForeignKeyProperties<T>(this T domainObject)
         {
             var type = typeof(T);
             if (!_cachedForeignKeyProperties.ContainsKey(type))
@@ -84,16 +84,15 @@ namespace Peasy.Extensions
             return _cachedForeignKeyProperties[type];
         }
 
-        private static IEnumerable<PropertyInfo> GetCachedNonEditableProperties<T>(this T domainObject) 
+        private static IEnumerable<PropertyInfo> GetCachedNonEditableProperties<T>(this T domainObject)
         {
-            var type = typeof(T); 
+            var type = typeof(T);
             if (!_cachedNonEditableProperties.ContainsKey(type))
             {
                 var nonEditableProperties = type.GetTypeInfo().DeclaredProperties
                                                 .Where(p => p.GetCustomAttributes(typeof(EditableAttribute), true)
                                                              .Cast<EditableAttribute>()
-                                                             .Where(a => a.AllowEdit == false)
-                                                             .Any());
+                                                             .Any(a => a.AllowEdit == false));
 
                 _cachedNonEditableProperties[type] = nonEditableProperties.ToArray();
             }

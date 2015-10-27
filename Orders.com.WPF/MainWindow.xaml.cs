@@ -9,7 +9,7 @@ namespace Orders.com.WPF
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow 
+    public partial class MainWindow
     {
         private CustomerService _customersService;
         private OrderService _ordersService;

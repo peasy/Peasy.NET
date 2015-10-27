@@ -66,7 +66,7 @@ namespace Orders.com.BLL.Commands
 
         public override async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            List<ValidationResult> results = new List<ValidationResult>();
+            var results = new List<ValidationResult>();
             var rule = _orderID.CreateValueRequiredRule("id").Validate();
             if (!rule.IsValid)
                 results.Add(new ValidationResult(rule.ErrorMessage));
