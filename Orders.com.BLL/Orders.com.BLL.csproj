@@ -75,7 +75,6 @@
     <Compile Include="Rules\CanDeleteCategoryRule.cs" />
     <Compile Include="Rules\CanDeleteCustomerRule.cs" />
     <Compile Include="Rules\CannotEditPropertyRule.cs" />
-    <Compile Include="Rules\DomainObjectMustContainIDRule.cs" />
     <Compile Include="Rules\OrderItemAmountValidityRule.cs" />
     <Compile Include="Rules\OrderItemPriceValidityRule.cs" />
     <Compile Include="Rules\ValidOrderItemStatusForDeleteRule.cs" />
