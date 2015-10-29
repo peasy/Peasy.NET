@@ -9,13 +9,13 @@ using System.Collections.Generic;
 
 namespace Orders.com.BLL
 {
-    public class ProductService : OrdersDotComServiceBase<Product>
+    public class ProductService : OrdersDotComServiceBase<Product>, IProductService
     {
-        private InventoryItemService _inventoryService;
+        private IInventoryItemService _inventoryService;
         private ITransactionContext _transactionContext;
-        private OrderService _orderService;
+        private IOrderService _orderService;
 
-        public ProductService(IProductDataProxy dataProxy, OrderService orderService, InventoryItemService inventoryService, ITransactionContext transactionContext) : base(dataProxy)
+        public ProductService(IProductDataProxy dataProxy, IOrderService orderService, IInventoryItemService inventoryService, ITransactionContext transactionContext) : base(dataProxy)
         {
             _orderService = orderService;
             _inventoryService = inventoryService;

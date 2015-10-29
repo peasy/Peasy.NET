@@ -54,7 +54,14 @@
   <ItemGroup>
     <Compile Include="Commands\DeleteProductCommand.cs" />
     <Compile Include="Commands\CreateProductCommand.cs" />
+    <Compile Include="IOrderStatusService.cs" />
+    <Compile Include="ICategoryService.cs" />
+    <Compile Include="ICustomerService.cs" />
+    <Compile Include="IInventoryItemService.cs" />
     <Compile Include="IntentoryItemService.cs" />
+    <Compile Include="IOrderItemService.cs" />
+    <Compile Include="IOrderService.cs" />
+    <Compile Include="IProductService.cs" />
     <Compile Include="OrderStatusService.cs" />
     <Compile Include="Commands\DeleteOrderCommand.cs" />
     <Compile Include="OrdersDotComServiceBase.cs" />

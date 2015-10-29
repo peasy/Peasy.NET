@@ -1,4 +1,6 @@
-﻿using Peasy.Core;
+﻿using Orders.com.Core.DataProxy;
+using Orders.com.Core.Domain;
+using Peasy.Core;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -7,17 +9,17 @@ namespace Orders.com.BLL.Rules
     public class CanDeleteCategoryRule : RuleBase
     {
         private long _categoryID;
-        private ProductService _productService;
+        private IProductDataProxy _productsDataProxy;
 
-        public CanDeleteCategoryRule(long categoryID, ProductService productService)
+        public CanDeleteCategoryRule(long categoryID, IProductDataProxy productsDataProxy) 
         {
             _categoryID = categoryID;
-            _productService = productService;
+            _productsDataProxy = productsDataProxy;
         }
 
         protected override void OnValidate()
         {
-            var products = _productService.GetByCategoryCommand(_categoryID).Execute().Value;
+            var products = _productsDataProxy.GetByCategory(_categoryID);
             if (products.Any())
             {
                 Invalidate("This category is associated with one or more products and cannot be deleted.");
@@ -26,8 +28,8 @@ namespace Orders.com.BLL.Rules
 
         protected override async Task OnValidateAsync()
         {
-            var products = await _productService.GetByCategoryCommand(_categoryID).ExecuteAsync();
-            if (products.Value.Any())
+            var products = await _productsDataProxy.GetByCategoryAsync(_categoryID);
+            if (products.Any())
             {
                 Invalidate("This category is associated with one or more products and cannot be deleted.");
             }

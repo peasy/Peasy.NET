@@ -6,7 +6,7 @@ using Orders.com.Core.Domain;
 
 namespace Orders.com.BLL
 {
-    public class InventoryItemService : OrdersDotComServiceBase<InventoryItem>
+    public class InventoryItemService : OrdersDotComServiceBase<InventoryItem>, IInventoryItemService
     {
         public InventoryItemService(IInventoryItemDataProxy dataProxy) : base(dataProxy)
         {

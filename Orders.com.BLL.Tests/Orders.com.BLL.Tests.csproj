@@ -38,6 +38,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Shouldly, Version=2.6.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.2.6.0\lib\net40\Shouldly.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -54,9 +62,29 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rules\CanDeleteCategoryRuleTests.cs" />
+    <Compile Include="Rules\CanDeleteCustomerRuleTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orders.com.BLL\Orders.com.BLL.csproj">
+      <Project>{ce4be061-889b-4169-8403-82269e4ec7b9}</Project>
+      <Name>Orders.com.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orders.com.Core\Orders.com.Core.csproj">
+      <Project>{ebb3a99a-5057-4f6a-bed7-43661d43fae9}</Project>
+      <Name>Orders.com.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
+      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
+      <Name>Peasy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy\Peasy.csproj">
+      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
+      <Name>Peasy</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

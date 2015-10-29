@@ -6,11 +6,11 @@ namespace Orders.com.BLL.Rules
 {
     public class CanDeleteProductRule : RuleBase
     {
-        private OrderService _orderService;
+        private IOrderService _orderService;
         private long _productID;
         private string _errorMessage = "This product is associated with one or more orders and cannot be deleted.";
 
-        public CanDeleteProductRule(long productID, OrderService orderService)
+        public CanDeleteProductRule(long productID, IOrderService orderService)
         {
             _productID = productID;
             _orderService = orderService;

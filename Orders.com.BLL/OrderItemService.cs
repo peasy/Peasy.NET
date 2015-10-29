@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class OrderItemService : OrdersDotComServiceBase<OrderItem>
+    public class OrderItemService : OrdersDotComServiceBase<OrderItem>, IOrderItemService
     {
         private IProductDataProxy _productDataProxy;
         private ITransactionContext _transactionContext;

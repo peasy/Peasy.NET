@@ -15,10 +15,10 @@ namespace Orders.com.BLL.Commands
     {
         private long _orderID;
         private IOrderDataProxy _orderDataProxy;
-        private OrderItemService _orderItemService;
+        private IOrderItemService _orderItemService;
         private ITransactionContext _transactionContext;
 
-        public DeleteOrderCommand(long orderID, IOrderDataProxy orderDataProxy, OrderItemService orderItemService, ITransactionContext transactionContext)
+        public DeleteOrderCommand(long orderID, IOrderDataProxy orderDataProxy, IOrderItemService orderItemService, ITransactionContext transactionContext)
         {
             _orderID = orderID;
             _orderDataProxy = orderDataProxy;

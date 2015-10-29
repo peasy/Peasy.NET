@@ -7,9 +7,9 @@ namespace Orders.com.BLL.Rules
     public class CanDeleteCustomerRule : RuleBase
     {
         private long _customerID;
-        private OrderService _orderService;
+        private IOrderService _orderService;
 
-        public CanDeleteCustomerRule(long customerID, OrderService orderService)
+        public CanDeleteCustomerRule(long customerID, IOrderService orderService)
         {
             _customerID = customerID;
             _orderService = orderService;

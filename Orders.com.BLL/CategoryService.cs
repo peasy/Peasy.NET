@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class CategoryService : OrdersDotComServiceBase<Category>
+    public class CategoryService : OrdersDotComServiceBase<Category>, ICategoryService
     {
-        private ProductService _productService;
+        private IProductDataProxy _productsDataProxy;
 
-        public CategoryService(ICategoryDataProxy dataProxy, ProductService productService) : base(dataProxy)
+        public CategoryService(ICategoryDataProxy dataProxy, IProductDataProxy productsDataProxy) : base(dataProxy)
         {
-            _productService = productService;
+            _productsDataProxy = productsDataProxy;
         }
 
         protected override IEnumerable<IRule> GetBusinessRulesForDelete(long id, ExecutionContext<Category> context)
@@ -21,14 +21,14 @@ namespace Orders.com.BLL
             yield return base.GetBusinessRulesForDelete(id, context)
                              .IfAllValidThenValidate
                              (
-                                new CanDeleteCategoryRule(id, _productService)
+                                new CanDeleteCategoryRule(id, _productsDataProxy)
                              );
         }
 
         protected override async Task<IEnumerable<IRule>> GetBusinessRulesForDeleteAsync(long id, ExecutionContext<Category> context)
         {
             var baseRules = await base.GetBusinessRulesForDeleteAsync(id, context);
-            return baseRules.IfAllValidThenValidate(new CanDeleteCategoryRule(id, _productService))
+            return baseRules.IfAllValidThenValidate(new CanDeleteCategoryRule(id, _productsDataProxy))
                             .ToArray();
         }
     }

@@ -8,11 +8,11 @@ namespace Orders.com.BLL.Commands
 {
     public class CreateProductCommand : Command<Product>
     {
-        private InventoryItemService _inventoryService;
+        private IInventoryItemService _inventoryService;
         private IProductDataProxy _productDataProxy;
         private ITransactionContext _transactionContext;
 
-        public CreateProductCommand(Product product, IProductDataProxy productDataProxy, InventoryItemService inventoryService, ITransactionContext transactionContext)
+        public CreateProductCommand(Product product, IProductDataProxy productDataProxy, IInventoryItemService inventoryService, ITransactionContext transactionContext)
         {
             CurrentProduct = product;
             _productDataProxy = productDataProxy;

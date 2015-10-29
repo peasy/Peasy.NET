@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class CustomerService : OrdersDotComServiceBase<Customer>
+    public class CustomerService : OrdersDotComServiceBase<Customer>, ICustomerService
     {
-        private OrderService _orderService;
+        private IOrderService _orderService;
 
-        public CustomerService(ICustomerDataProxy dataProxy, OrderService orderService) : base(dataProxy)
+        public CustomerService(ICustomerDataProxy dataProxy, IOrderService orderService) : base(dataProxy)
         {
             _orderService = orderService;
         }

@@ -8,9 +8,9 @@ namespace Orders.com.BLL.Rules
     public class ValidOrderStatusForUpdateRule : RuleBase
     {
         private long _orderID;
-        private OrderItemService _orderItemDataProxy;
+        private IOrderItemService _orderItemDataProxy;
 
-        public ValidOrderStatusForUpdateRule(long orderID, OrderItemService orderItemDataProxy)
+        public ValidOrderStatusForUpdateRule(long orderID, IOrderItemService orderItemDataProxy)
         {
             _orderID = orderID;
             _orderItemDataProxy = orderItemDataProxy;

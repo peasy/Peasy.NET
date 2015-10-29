@@ -16,13 +16,13 @@ namespace Products.com.BLL.Commands
         private long _productID;
         private IProductDataProxy _productDataProxy;
         private ITransactionContext _transactionContext;
-        private InventoryItemService _inventoryService;
-        private OrderService _orderService;
+        private IInventoryItemService _inventoryService;
+        private IOrderService _orderService;
 
         public DeleteProductCommand(long productID,
                                     IProductDataProxy productDataProxy,
-                                    InventoryItemService inventoryService,
-                                    OrderService orderService,
+                                    IInventoryItemService inventoryService,
+                                    IOrderService orderService,
                                     ITransactionContext transactionContext)
         {
             _productID = productID;

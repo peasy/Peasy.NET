@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class OrderService : OrdersDotComServiceBase<Order>
+    public class OrderService : OrdersDotComServiceBase<Order>, IOrderService
     {
-        private OrderItemService _orderItemService;
+        private IOrderItemService _orderItemService;
         private ITransactionContext _transactionContext;
 
-        public OrderService(IOrderDataProxy dataProxy, OrderItemService orderItemService, ITransactionContext transactionContext) : base(dataProxy)
+        public OrderService(IOrderDataProxy dataProxy, IOrderItemService orderItemService, ITransactionContext transactionContext) : base(dataProxy)
         {
             _orderItemService = orderItemService;
             _transactionContext = transactionContext;
