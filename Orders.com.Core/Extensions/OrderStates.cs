@@ -57,10 +57,10 @@ namespace Orders.com.Core.Extensions
         }
 
         public abstract string Name { get; }
-        public abstract void SetPendingState();
-        public abstract void SetSubmittedState();
-        public abstract void SetShippedState();
-        public abstract void SetBackorderedState();
+        public abstract IOrderStatusIDContainer SetPendingState();
+        public abstract IOrderStatusIDContainer SetSubmittedState();
+        public abstract IOrderStatusIDContainer SetShippedState();
+        public abstract IOrderStatusIDContainer SetBackorderedState();
 
         public bool IsBackordered
         {
@@ -108,21 +108,25 @@ namespace Orders.com.Core.Extensions
             get { return string.Empty; }
         }
 
-        public override void SetBackorderedState()
+        public override IOrderStatusIDContainer SetBackorderedState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetPendingState()
+        public override IOrderStatusIDContainer SetPendingState()
         {
             _statusIDContainer.OrderStatusID = OrderStatusConstants.PENDING_STATUS;
+            return _statusIDContainer;
         }
 
-        public override void SetSubmittedState()
+        public override IOrderStatusIDContainer SetSubmittedState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetShippedState()
+        public override IOrderStatusIDContainer SetShippedState()
         {
+            return _statusIDContainer;
         }
     }
 
@@ -135,21 +139,25 @@ namespace Orders.com.Core.Extensions
             _statusIDContainer = order;
         }
 
-        public override void SetPendingState()
+        public override IOrderStatusIDContainer SetPendingState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetBackorderedState()
+        public override IOrderStatusIDContainer SetBackorderedState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetSubmittedState()
+        public override IOrderStatusIDContainer SetSubmittedState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetShippedState()
+        public override IOrderStatusIDContainer SetShippedState()
         {
             _statusIDContainer.OrderStatusID = OrderStatusConstants.SHIPPED_STATUS;
+            return _statusIDContainer;
         }
 
         public override string Name
@@ -167,21 +175,25 @@ namespace Orders.com.Core.Extensions
             _statusIDContainer = order;
         }
 
-        public override void SetPendingState()
+        public override IOrderStatusIDContainer SetPendingState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetBackorderedState()
+        public override IOrderStatusIDContainer SetBackorderedState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetSubmittedState()
+        public override IOrderStatusIDContainer SetSubmittedState()
         {
             _statusIDContainer.OrderStatusID = OrderStatusConstants.SUBMITTED_STATUS;
+            return _statusIDContainer;
         }
 
-        public override void SetShippedState()
+        public override IOrderStatusIDContainer SetShippedState()
         {
+            return _statusIDContainer;
         }
 
         public override string Name
@@ -199,23 +211,27 @@ namespace Orders.com.Core.Extensions
             _statusIDContainer = order;
         }
 
-        public override void SetBackorderedState()
+        public override IOrderStatusIDContainer SetBackorderedState()
         {
             _statusIDContainer.OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE;
+            return _statusIDContainer;
         }
 
-        public override void SetPendingState()
+        public override IOrderStatusIDContainer SetPendingState()
         {
             _statusIDContainer.OrderStatusID = OrderStatusConstants.PENDING_STATUS;
+            return _statusIDContainer;
         }
 
-        public override void SetSubmittedState()
+        public override IOrderStatusIDContainer SetSubmittedState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetShippedState()
+        public override IOrderStatusIDContainer SetShippedState()
         {
             _statusIDContainer.OrderStatusID = OrderStatusConstants.SHIPPED_STATUS;
+            return _statusIDContainer;
         }
 
         public override string Name
@@ -233,20 +249,24 @@ namespace Orders.com.Core.Extensions
             _statusIDContainer = order;
         }
 
-        public override void SetBackorderedState()
+        public override IOrderStatusIDContainer SetBackorderedState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetPendingState()
+        public override IOrderStatusIDContainer SetPendingState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetSubmittedState()
+        public override IOrderStatusIDContainer SetSubmittedState()
         {
+            return _statusIDContainer;
         }
 
-        public override void SetShippedState()
+        public override IOrderStatusIDContainer SetShippedState()
         {
+            return _statusIDContainer;
         }
 
         public override string Name
