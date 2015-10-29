@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\CanDeleteCategoryRuleTests.cs" />
+    <Compile Include="Rules\ValidOrderStatusForUpdateRuleTests.cs" />
     <Compile Include="Rules\ValidOrderItemStatusForUpdateRuleTests.cs" />
     <Compile Include="Rules\ValidOrderItemStatusForDeleteRuleTests.cs" />
     <Compile Include="Rules\OrderItemPriceValidityRuleTests.cs" />
