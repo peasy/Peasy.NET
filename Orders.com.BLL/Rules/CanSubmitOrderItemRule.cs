@@ -15,7 +15,7 @@ namespace Orders.com.BLL.Rules
 
         protected override void OnValidate()
         {
-            if (!_orderItem.OrderStatus().IsPending)
+            if (!_orderItem.OrderStatus().CanSubmit)
             {
                 Invalidate(string.Format("Order Item ID:{0} is in a {1} state and cannot be submitted", _orderItem .ID.ToString(), _orderItem .OrderStatus().Name));
             }
