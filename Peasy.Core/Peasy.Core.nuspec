@@ -3,7 +3,7 @@
   <metadata>
     <id>$id$</id>
     <version>1.0.0.2</version>
-    <title>Peasy</title>
+    <title>Peasy.Core</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
     <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
       Peasy.Core is a middle tier framework offering a minimalist set of base class functionality for the Peasy framework.
-
+      
       Check out Peasy for more opinionated functionality (concurrency, update prevention, fault tolerance).
     </description>
     <releaseNotes>Introduces potential breaking changes with the introduction of async command initialization support</releaseNotes>
