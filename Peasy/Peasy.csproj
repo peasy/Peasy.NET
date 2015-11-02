@@ -47,6 +47,7 @@
     <Compile Include="Attributes\PeasyForeignKeyAttribute.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
+    <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="IVersionContainer.cs" />
     <Compile Include="ILatencyProneStatusProvider.cs" />
     <Compile Include="IServiceDataProxy.cs" />

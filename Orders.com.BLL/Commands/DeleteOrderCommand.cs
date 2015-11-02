@@ -52,7 +52,7 @@ namespace Orders.com.BLL.Commands
 
         public override IEnumerable<ValidationResult> GetErrors()
         {
-            var rule = _orderID.CreateValueRequiredRule("id").Validate();
+            var rule = _orderID.CreateValueRequiredRule("order id").Validate();
             if (!rule.IsValid)
                 yield return new ValidationResult(rule.ErrorMessage);
             else
@@ -67,15 +67,15 @@ namespace Orders.com.BLL.Commands
         public override async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
             var results = new List<ValidationResult>();
-            var rule = _orderID.CreateValueRequiredRule("id").Validate();
+            var rule = _orderID.CreateValueRequiredRule("order id").Validate();
             if (!rule.IsValid)
                 results.Add(new ValidationResult(rule.ErrorMessage));
             else
             {
                 var result = await _orderItemService.GetByOrderCommand(_orderID).ExecuteAsync();
                 CurrentOrderItems = result.Value;
-                var x = await Task.WhenAll(CurrentOrderItems.Select(i => _orderItemService.DeleteCommand(i.ID).GetErrorsAsync()));
-                foreach (var error in x.SelectMany(i => i))
+                var errors = await Task.WhenAll(CurrentOrderItems.Select(i => _orderItemService.DeleteCommand(i.ID).GetErrorsAsync()));
+                foreach (var error in errors.SelectMany(i => i))
                     results.Add(error);
             }
             return results;

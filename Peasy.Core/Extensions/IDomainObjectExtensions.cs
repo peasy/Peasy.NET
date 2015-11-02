@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Peasy.Core.Extensions
+namespace Peasy.Core
 {
     public static class IDomainObjectExtensions
     {

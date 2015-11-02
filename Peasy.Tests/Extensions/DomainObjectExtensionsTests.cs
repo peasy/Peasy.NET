@@ -56,16 +56,6 @@ namespace Peasy.Tests.Extensions
         }
     }
 
-    public static class IntExtensions
-    {
-        public static IEnumerable<T> Times<T>(this int value, Func<int, T> func)
-        {
-            for (var counter = 0; counter < value; counter ++)
-            {
-                yield return func(counter);
-            }
-        }
-    }
 
     public class MockClass
     {

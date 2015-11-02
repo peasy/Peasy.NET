@@ -3,6 +3,8 @@ using Peasy.Core;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Orders.com.BLL.Commands
 {
@@ -12,7 +14,10 @@ namespace Orders.com.BLL.Commands
         private IProductDataProxy _productDataProxy;
         private ITransactionContext _transactionContext;
 
-        public CreateProductCommand(Product product, IProductDataProxy productDataProxy, IInventoryItemService inventoryService, ITransactionContext transactionContext)
+        public CreateProductCommand(Product product, 
+                                    IProductDataProxy productDataProxy, 
+                                    IInventoryItemService inventoryService, 
+                                    ITransactionContext transactionContext)
         {
             CurrentProduct = product;
             _productDataProxy = productDataProxy;
@@ -45,6 +50,16 @@ namespace Orders.com.BLL.Commands
         private InventoryItem BuildInventoryItem(Product product)
         {
             return new InventoryItem { ProductID = product.ProductID, QuantityOnHand = 0 };
+        }
+
+        public override IEnumerable<ValidationResult> GetErrors()
+        {
+            return CurrentProduct.GetValidationErrors();
+        }
+
+        public override async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return GetErrors();
         }
     }
 }

@@ -23,27 +23,21 @@ namespace Orders.com.DAL.Mock
         protected MockDataProxyBase()
         {
             Mapper.CreateMap<DTO, DTO>();
+            LoadData();
         }
 
-        private ConcurrentDictionary<TKey, DTO> _data;
+        protected ConcurrentDictionary<TKey, DTO> Data { get; private set; }
 
-        protected ConcurrentDictionary<TKey, DTO> Data
+        protected void LoadData()
         {
-            get
+            Data = new ConcurrentDictionary<TKey, DTO>();
+            SeedDataProxy().ForEach(item =>
             {
-                if (_data == null)
-                {
-                    _data = new ConcurrentDictionary<TKey, DTO>();
-                    SeedDataProxy().ForEach(item =>
-                    {
-                        var rule = item.ID.CreateValueRequiredRule("ID").Validate();
-                        if (!rule.IsValid || item.ID == null)
-                            throw new ArgumentException($"All values for {item.GetType().Name}.ID must be supplied");
-                        _data[item.ID] = item;
-                    });
-                }
-                return _data;
-            }
+                var rule = item.ID.CreateValueRequiredRule("ID").Validate();
+                if (!rule.IsValid || item.ID == null)
+                    throw new ArgumentException($"All values for {item.GetType().Name}.ID must be supplied");
+                Data[item.ID] = item;
+            });
         }
 
         protected virtual IEnumerable<DTO> SeedDataProxy()
@@ -140,6 +134,11 @@ namespace Orders.com.DAL.Mock
         public virtual bool IsLatencyProne
         {
             get { return false; }
+        }
+
+        public void Clear()
+        {
+            Data.Clear();
         }
     }
 }
