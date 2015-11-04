@@ -92,7 +92,7 @@ namespace Orders.com.BLL.Tests.Commands
             result.Success.ShouldBe(false);
             result.Errors.Count().ShouldBe(2);
         }
-        
+
         [TestMethod]
         public async Task Execution_should_fail_when_order_is_associated_with_items_that_have_been_shipped_state_based_async()
         {
@@ -192,9 +192,9 @@ namespace Orders.com.BLL.Tests.Commands
             var orderItems = new List<OrderItem>
             {
                 new OrderItem { ID = 1, OrderID = 1, OrderStatusID = OrderStatusConstants.PENDING_STATUS },
-                new OrderItem { ID = 2, OrderID = 1,OrderStatusID = OrderStatusConstants.SUBMITTED_STATUS },
-                new OrderItem { ID = 3, OrderID = 1,OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE },
-                new OrderItem { ID = 4, OrderID = 2,OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE }
+                new OrderItem { ID = 2, OrderID = 1, OrderStatusID = OrderStatusConstants.SUBMITTED_STATUS },
+                new OrderItem { ID = 3, OrderID = 1, OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE },
+                new OrderItem { ID = 4, OrderID = 2, OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE }
             };
             var deletedOrderItemIds = new List<long>();
             var orderID = 1;
@@ -217,7 +217,7 @@ namespace Orders.com.BLL.Tests.Commands
                                       Mock.Of<IInventoryItemDataProxy>(),
                                       Mock.Of<ITransactionContext>()
                                   ),
-                                  new MockTransactionContext() 
+                                  new MockTransactionContext()
                               );
             var result = command.Execute();
             result.Success.ShouldBe(true);
@@ -235,9 +235,9 @@ namespace Orders.com.BLL.Tests.Commands
             var orderItems = new List<OrderItem>
             {
                 new OrderItem { ID = 1, OrderID = 1, OrderStatusID = OrderStatusConstants.PENDING_STATUS },
-                new OrderItem { ID = 2, OrderID = 1,OrderStatusID = OrderStatusConstants.SUBMITTED_STATUS },
-                new OrderItem { ID = 3, OrderID = 1,OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE },
-                new OrderItem { ID = 4, OrderID = 2,OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE }
+                new OrderItem { ID = 2, OrderID = 1, OrderStatusID = OrderStatusConstants.SUBMITTED_STATUS },
+                new OrderItem { ID = 3, OrderID = 1, OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE },
+                new OrderItem { ID = 4, OrderID = 2, OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE }
             };
             var deletedOrderItemIds = new List<long>();
             var orderID = 1;
@@ -246,7 +246,7 @@ namespace Orders.com.BLL.Tests.Commands
             orderDataProxy.Setup(p => p.DeleteAsync(orderID))
                           .Callback((long id) => orders.Remove(id))
                           .Returns(Task.Delay(0));
-                          
+
             var orderItemDataProxy = new Mock<IOrderItemDataProxy>();
             orderItemDataProxy.Setup(p => p.GetByOrderAsync(It.IsAny<long>()))
                               .Returns((long i) => Task.FromResult<IEnumerable<OrderItem>>(orderItems.Where(item => item.OrderID == i)));
@@ -267,7 +267,7 @@ namespace Orders.com.BLL.Tests.Commands
                                       Mock.Of<IInventoryItemDataProxy>(),
                                       Mock.Of<ITransactionContext>()
                                   ),
-                                  new MockTransactionContext() 
+                                  new MockTransactionContext()
                               );
 
             var result = await command.ExecuteAsync();
