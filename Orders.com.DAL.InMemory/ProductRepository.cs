@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 
-namespace Orders.com.DAL.Mock
+namespace Orders.com.DAL.InMemory
 {
     public class ProductRepository : OrdersDotComMockBase<Product>, IProductDataProxy
     {

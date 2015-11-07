@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Orders.com.DAL.Mock
+namespace Orders.com.DAL.InMemory
 {
     public class CustomerRepository : OrdersDotComMockBase<Customer>, ICustomerDataProxy
     {

@@ -5,7 +5,7 @@ using Orders.com.BLL.Rules;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
 using Orders.com.Core.Extensions;
-using Orders.com.DAL.Mock;
+using Orders.com.DAL.InMemory;
 using Peasy;
 using Peasy.Extensions;
 using Peasy.Core;

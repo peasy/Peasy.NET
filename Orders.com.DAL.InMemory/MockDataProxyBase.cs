@@ -14,7 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Peasy.Attributes;
 
-namespace Orders.com.DAL.Mock
+namespace Orders.com.DAL.InMemory
 {
     public abstract class MockDataProxyBase<DTO, TKey> : IServiceDataProxy<DTO, TKey> where DTO : IDomainObject<TKey>
     {

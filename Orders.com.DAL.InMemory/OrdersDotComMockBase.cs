@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Peasy;
 
-namespace Orders.com.DAL.Mock
+namespace Orders.com.DAL.InMemory
 {
     public class OrdersDotComMockBase<DTO> : MockDataProxyBase<DTO, long> where DTO : IDomainObject<long>
     {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System;
 using Orders.com.Core.Exceptions;
 
-namespace Orders.com.DAL.Mock
+namespace Orders.com.DAL.InMemory
 {
     public class InventoryItemRepository : OrdersDotComMockBase<InventoryItem>, IInventoryItemDataProxy
     {

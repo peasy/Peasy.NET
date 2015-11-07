@@ -8,8 +8,8 @@
     <ProjectGuid>{0DEBEE6B-3561-47B8-A622-D2407839123B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Orders.com.DAL.Mock</RootNamespace>
-    <AssemblyName>Orders.com.DAL.Mock</AssemblyName>
+    <RootNamespace>Orders.com.DAL.InMemory</RootNamespace>
+    <AssemblyName>Orders.com.DAL.InMemory</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>9377fa31</NuGetPackageImportStamp>
