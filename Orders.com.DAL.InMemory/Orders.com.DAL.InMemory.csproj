@@ -33,11 +33,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AutoMapper.Net4">
-      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    <Reference Include="Peasy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Peasy.1.0.0.5\lib\portable-net451+win81\Peasy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Peasy.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Peasy.Core.1.0.0.2\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Peasy.DataProxy.InMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Peasy.DataProxy.InMemory.1.0.0.0\lib\portable-net451+win81\Peasy.DataProxy.InMemory.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,7 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InventoryItemRepository.cs" />
-    <Compile Include="MockDataProxyBase.cs" />
     <Compile Include="OrdersDotComMockBase.cs" />
     <Compile Include="OrderStatusRepository.cs" />
     <Compile Include="OrderItemRepository.cs" />
@@ -64,20 +73,11 @@
       <Project>{ebb3a99a-5057-4f6a-bed7-43661d43fae9}</Project>
       <Name>Orders.com.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
-      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
-      <Name>Peasy.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Peasy\Peasy.csproj">
-      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
-      <Name>Peasy</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>

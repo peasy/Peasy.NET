@@ -1,15 +1,12 @@
 ﻿using Peasy.Core;
 using Orders.com.Core.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Peasy;
+using Peasy.DataProxy.InMemory;
 
 namespace Orders.com.DAL.InMemory
 {
-    public class OrdersDotComMockBase<DTO> : MockDataProxyBase<DTO, long> where DTO : IDomainObject<long>
+    public class OrdersDotComMockBase<DTO> : InMemoryDataProxyBase<DTO, long> where DTO : IDomainObject<long>
     {
         protected override long GetNextID()
         {
