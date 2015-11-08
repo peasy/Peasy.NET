@@ -9,35 +9,35 @@ namespace Peasy.Core.Tests
     public class RuleBaseTests
     {
         [TestMethod]
-        public void ValidRuleIsValidAfterValidation()
+        public void Valid_Rule_Is_Valid_After_Validation()
         {
             var rule = new TrueRule().Validate();
             rule.IsValid.ShouldBe(true);
         }
 
         [TestMethod]
-        public void ValidRuleDoesNotContainAnErrorMessageAfterValidation()
+        public void Valid_Rule_Does_Not_Contain_An_Error_Message_After_Validation()
         {
             var rule = new TrueRule().Validate();
             rule.ErrorMessage.ShouldBe(null);
         }
 
         [TestMethod]
-        public void InvalidRuleIsInvalidAfterValidation()
+        public void Invalid_Rule_Is_Invalid_After_Validation()
         {
             var rule = new FalseRule1().Validate();
             rule.IsValid.ShouldBe(false);
         }
 
         [TestMethod]
-        public void InvalidRuleContainsAnErrorMessageAfterValidation()
+        public void Invalid_Rule_Contains_An_Error_Message_After_Validation()
         {
             var rule = new FalseRule1().Validate();
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [TestMethod]
-        public void ValidParentFailsWhenSuccessorFailsValidation()
+        public void Valid_Parent_Fails_When_Successor_Fails_Validation()
         {
             var rule1 = new TrueRule().IfValidThenValidate(new FalseRule1()).Validate();
             rule1.IsValid.ShouldBe(false);
@@ -45,7 +45,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void SuccessorDoesNotExecuteWhenParentFails()
+        public void Successor_Does_Not_Execute_When_Parent_Fails()
         {
             var rule1 = new FalseRule1().IfValidThenValidate(new FalseRule2()).Validate();
             rule1.IsValid.ShouldBe(false);
@@ -53,7 +53,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void AllRemainingSuccessorsSkipValidationWhenFirstSuccessorFails()
+        public void All_Remaining_Successors_Skip_Validation_When_First_Successor_Fails()
         {
             var rule1 = new TrueRule()
                                 .IfValidThenValidate(new FalseRule1(), new FalseRule2(), new FalseRule3())
@@ -63,7 +63,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void LastSuccessorValidatesWhenFirstSuccessorsPass()
+        public void Last_Successor_Validates_When_First_Successors_Pass()
         {
             var rule1 = new TrueRule()
                                 .IfValidThenValidate(new TrueRule(), new TrueRule(), new FalseRule1())
@@ -73,7 +73,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void LastSuccessorsInSuccessorChainAreSkippedWhenFirstSuccessorsFail()
+        public void Last_Successors_In_Successor_Chain_Are_Skipped_When_First_Successors_Fail()
         {
             var rule = new TrueRule()
                               .IfValidThenValidate(new TrueRule(), new FalseRule1())
@@ -84,7 +84,7 @@ namespace Peasy.Core.Tests
         } 
 
         [TestMethod]
-        public void LastSuccessorInSuccessorChainIsSkippedWhenFirstSuccessorsPass()
+        public void Last_Successor_In_Successor_Chain_Is_Skipped_When_First_Successors_Pass()
         {
             var rule = new TrueRule()
                               .IfValidThenValidate(new TrueRule(), new TrueRule())
@@ -95,7 +95,7 @@ namespace Peasy.Core.Tests
         } 
 
         [TestMethod]
-        public void ParentFailsWhenLastSuccessorInChainsFailsValidation()
+        public void Parent_Fails_When_Last_Successor_In_Chains_Fails_Validation()
         {
             var rule = new TrueRule()
                               .IfValidThenValidate(new TrueRule(), new TrueRule())
@@ -106,7 +106,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void ThreeRuleChainExecutesSuccessfully()
+        public void Three_Rule_Chain_Executes_Successfully()
         {
             var rule = new TrueRule()
                             .IfValidThenValidate(new TrueRule()
@@ -116,7 +116,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void ThreeRuleChainFailSkipsThirdInChainWhenSecondFails()
+        public void Three_Rule_Chain_Fail_Skips_Third_In_Chain_When_Second_Fails()
         {
             var rule = new TrueRule()
                             .IfValidThenValidate(new FalseRule1()
@@ -126,7 +126,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void ThreeRuleChainHitsThirdInChainAndFailsParent()
+        public void Three_Rule_Chain_Hits_Third_In_Chain_And_Fails_Parent()
         {
             var rule = new TrueRule()
                             .IfValidThenValidate(new TrueRule()
@@ -136,7 +136,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void InvokesIfValidThenExecute()
+        public void Invokes_IfValidThenExecute()
         {
             var output = string.Empty;
             new TrueRule()
@@ -147,7 +147,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void DoesNotInvokeIfValidThenExecute()
+        public void Does_Not_Invoke_IfValidThenExecute()
         {
             var output = string.Empty;
             new FalseRule1()
@@ -158,7 +158,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void InvokesIfInvalidThenExecute()
+        public void Invokes_IfInvalidThenExecute()
         {
             var output = string.Empty;
             new FalseRule1()
@@ -169,7 +169,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void DoesNotInvokeIfInvalidThenExecute()
+        public void Does_Not_Invoke_IfInvalidThenExecute()
         {
             var output = string.Empty;
             new TrueRule() 
@@ -180,7 +180,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void SuccessorInvokesExecuteIfValidThenExecute()
+        public void Successor_Invokes_IfValidThenExecute()
         {
             var output = string.Empty;
             new TrueRule()
@@ -191,7 +191,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void SuccessorDoesNotInvokeExecuteIfValidThenExecute()
+        public void Successor_Does_Not_Invoke_IfValidThenExecute()
         {
             var output = string.Empty;
             new TrueRule()
@@ -202,7 +202,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void SuccessorInvokesExecuteIfInvalidThenExecute()
+        public void Successor_Invokes_IfInvalidThenExecute()
         {
             var output = string.Empty;
             new TrueRule()
@@ -213,7 +213,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void SuccessorDoesNotInvokeExecuteIfInvalidThenExecute()
+        public void Successor_Does_Not_Invoke_IfInvalidThenExecute()
         {
             var output = string.Empty;
             new TrueRule()
@@ -224,7 +224,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void FirstValidRuleInFirstSuccessorChainShouldExecute()
+        public void First_Valid_Rule_In_First_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
             var rule = new TrueRule()
@@ -235,7 +235,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void SecondValidRuleInFirstSuccessorChainShouldExecute()
+        public void Second_Valid_Rule_In_First_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
             var rule = new TrueRule()
@@ -246,7 +246,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void FirstValidRuleInSecondSuccessorChainShouldExecute()
+        public void First_Valid_Rule_In_Second_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
             var rule = new TrueRule()
@@ -257,7 +257,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void SecondInvalidRuleInSecondSuccessorChainShouldExecute()
+        public void Second_Invalid_Rule_In_Second_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
             var rule = new TrueRule()
@@ -268,7 +268,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void FirstValidRuleInSecondSuccessorChainShouldExecuteButThirdFalseRuleShouldNot()
+        public void First_Valid_Rule_In_Second_Successor_Chain_Should_Execute_But_Third_False_Rule_Should_Not()
         {
             var output = string.Empty;
             var output2 = string.Empty;

@@ -1,5 +1,4 @@
-﻿using Peasy.Core.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Linq;
 
@@ -9,7 +8,7 @@ namespace Peasy.Core.Tests.Extensions
     public class IDomainObjectExtensionsTests
     {
         [TestMethod]
-        public void GetValidationErrorsReturnsNoResults()
+        public void GetValidationErrors_returns_no_results()
         {
             var person = new Person()
             {
@@ -22,7 +21,7 @@ namespace Peasy.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void GetValidationErrorsReturnsOneResult()
+        public void GetValidationErrors_returns_one_result()
         {
             var person = new Person()
             {
@@ -35,7 +34,7 @@ namespace Peasy.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void GetValidationErrorsReturnsTwoResults()
+        public void GetValidationErrors_returns_two_results()
         {
             var person = new Person()
             {
@@ -48,7 +47,7 @@ namespace Peasy.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void GetValidationErrorsReturnsThreeResults()
+        public void GetValidationErrors_returns_three_results()
         {
             var person = new Person()
             {

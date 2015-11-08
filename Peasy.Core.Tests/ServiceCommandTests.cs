@@ -12,7 +12,7 @@ namespace Peasy.Tests.Rules
     public class ServiceCommandTests
     {
         [TestMethod]
-        public void ServiceCommandConstructorWithSyncMethodArgsContainsCorrectErrorsOnFailure()
+        public void ServiceCommand_Constructor_With_Sync_Method_Args_Contains_Correct_Errors_On_Failure()
         {
             var command = new ServiceCommand<Person>(
                 executeMethod: () => new Person(),
@@ -22,7 +22,7 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommandConstructorWithAsyncMethodArgsContainsCorrectErrorsOnFailure()
+        public async Task ServiceCommand_Constructor_With_Async_Method_Args_Contains_Correct_Errors_On_Failure()
         {
             var command = new ServiceCommand<Person>(
                 executeAsyncMethod: () => Task.Run(() => new Person()),
@@ -33,7 +33,7 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommandConstructorWithAsyncAndSyncMethodArgsContainsCorrectErrorsOnFailure()
+        public async Task ServiceCommand_Constructor_With_Async_And_Sync_Method_Args_Contains_Correct_Errors_On_Failure()
         {
             var command = new ServiceCommand<Person>(
                 executeMethod: () => new Person(),

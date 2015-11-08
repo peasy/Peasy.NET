@@ -13,7 +13,7 @@ namespace Peasy.Core.Tests
     public class ServiceBaseTests
     {
         [TestMethod]
-        public void EnsureMethodInvocationsForGetAllCommand()
+        public void Ensure_Method_Invocations_For_GetAllCommand()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.GetAllCommand().Execute();
@@ -25,7 +25,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public async Task EnsureMethodInvocationsForGetAllCommandAsync()
+        public async Task Ensure_Method_Invocations_For_GetAllCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.GetAllCommand().ExecuteAsync();
@@ -37,7 +37,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void EnsureMethodInvocationsForGetByIDCommand()
+        public void Ensure_Method_Invocations_For_GetByIDCommand()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.GetByIDCommand(1).Execute();
@@ -49,7 +49,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public async Task EnsureMethodInvocationsForGetByIDCommandAsync()
+        public async Task Ensure_Method_Invocations_For_GetByIDCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.GetByIDCommand(1).ExecuteAsync();
@@ -61,7 +61,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void EnsureMethodInvocationsForInsertCommand()
+        public void Ensure_Method_Invocations_For_InsertCommand()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.InsertCommand(new Person()).Execute();
@@ -73,7 +73,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public async Task EnsureMethodInvocationsForInsertCommandAsync()
+        public async Task Ensure_Method_Invocations_For_InsertCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.InsertCommand(new Person()).ExecuteAsync();
@@ -85,7 +85,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void EnsureMethodInvocationsForUpdate()
+        public void Ensure_Method_Invocations_For_Update()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.UpdateCommand(new Person()).Execute();
@@ -97,7 +97,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public async Task EnsureMethodInvocationsForUpdateCommandAsync()
+        public async Task Ensure_Method_Invocations_For_UpdateCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.UpdateCommand(new Person()).ExecuteAsync();
@@ -109,7 +109,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public void EnsureMethodInvocationsForDelete()
+        public void Ensure_Method_Invocations_For_Delete()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             var result = service.DeleteCommand(1).Execute();
@@ -121,7 +121,7 @@ namespace Peasy.Core.Tests
         }
 
         [TestMethod]
-        public async Task EnsureMethodInvocationsForDeleteCommandAsync()
+        public async Task Ensure_Method_Invocations_For_DeleteCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
             await service.DeleteCommand(1).ExecuteAsync();
