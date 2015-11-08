@@ -9,7 +9,7 @@ namespace Peasy.Tests.Rules
     public class ConcurrencyCheckRuleTests
     {
         [TestMethod]
-        public void ConcurrencyCheckRuleReturnsTrue()
+        public void ConcurrencyCheckRule_Returns_True()
         {
             var obj1 = new ConcurrencyMock() { Version = "1" };
             var obj2 = new ConcurrencyMock() { Version = "1" };
@@ -18,7 +18,7 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public void ConcurrencyCheckRuleReturnsFalse()
+        public void ConcurrencyCheckRule_Returns_False()
         {
             var obj1 = new ConcurrencyMock() { Version = "1" };
             var obj2 = new ConcurrencyMock() { Version = "2" };
@@ -27,7 +27,7 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public void ConcurrencyCheckRuleSetsErrorMessageOnInvalid()
+        public void ConcurrencyCheckRule_Sets_ErrorMessage_On_Invalid()
         {
             var obj1 = new ConcurrencyMock() { Version = "1" };
             var obj2 = new ConcurrencyMock() { Version = "2" };

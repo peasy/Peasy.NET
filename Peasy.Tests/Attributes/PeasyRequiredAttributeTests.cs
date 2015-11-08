@@ -6,12 +6,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Peasy.Tests.Attributes
 {
-    public class MockClass<T>
+    public class Stub<T>
     {
         public T Value { get; set; }
     }
 
-    public class MockClassWithDisplayAttribute<T>
+    public class StubWithDisplayAttribute<T>
     {
         [Display(Name="ID")]
         public T Value { get; set; }
@@ -22,39 +22,39 @@ namespace Peasy.Tests.Attributes
     {
         [TestMethod]
         [ExpectedException(typeof(ValidationException))]
-        public void ThrowsExceptionWhenValueIsIntAndContainsZero()
+        public void Throws_Exception_When_Value_Is_Int_And_Contains_Zero()
         {
             var attr = new PeasyRequiredAttribute();
-            var foo = new MockClass<int>();
+            var foo = new Stub<int>();
             var context = new ValidationContext(foo);
             attr.Validate(0, context);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ValidationException))]
-        public void ThrowsExceptionWhenValueIsDecimalAndContainsZero()
+        public void Throws_Exception_When_Value_Is_Decimal_And_Contains_Zero()
         {
             var attr = new PeasyRequiredAttribute();
-            var foo = new MockClass<decimal>();
+            var foo = new Stub<decimal>();
             var context = new ValidationContext(foo);
             attr.Validate(0, context);
         }
 
         [TestMethod]
         [ExpectedException(typeof(ValidationException))]
-        public void ThrowsExceptionWhenValueIsDateTimeAndContainsDefaultDate()
+        public void Throws_Exception_When_Value_Is_DateTime_And_Contains_Default_Date()
         {
             var attr = new PeasyRequiredAttribute();
-            var foo = new MockClass<DateTime>();
+            var foo = new Stub<DateTime>();
             var context = new ValidationContext(foo);
             attr.Validate(0, context);
         }
 
         [TestMethod]
-        public void SetsErrorMessageAndDisplaysMemberName()
+        public void Sets_ErrorMessage_And_Displays_Member_Name()
         {
             var attr = new PeasyRequiredAttribute();
-            var foo = new MockClass<int>();
+            var foo = new Stub<int>();
             var context = new ValidationContext(foo);
             context.MemberName = "Value";
             var result = attr.GetValidationResult(0, context);
@@ -62,10 +62,10 @@ namespace Peasy.Tests.Attributes
         }
 
         [TestMethod]
-        public void SetsErrorMessageAndDisplaysAppliedDisplayAttribute()
+        public void Sets_ErrorMessage_And_Displays_Applied_DisplayAttribute()
         {
             var attr = new PeasyRequiredAttribute();
-            var foo = new MockClassWithDisplayAttribute<int>();
+            var foo = new StubWithDisplayAttribute<int>();
             var context = new ValidationContext(foo);
             context.MemberName = "Value";
             var result = attr.GetValidationResult(0, context);

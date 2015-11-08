@@ -14,21 +14,21 @@ namespace Peasy.Tests.Extensions
     public class DomainObjectExtensionsTests
     {
         [TestMethod]
-        public void ClassNameShouldReturnClassNameWithoutPeasyDisplayNameAttribute()
+        public void ClassName_Should_Return_Class_Name_Without_Peasy_DisplayNameAttribute()
         {
             var className = new MockClass().ClassName();
             className.ShouldBe("MockClass");
         }
 
         [TestMethod]
-        public void ClassNameShouldReturnNameOfPeasyDisplayNameAttribute()
+        public void ClassName_Should_Return_Name_Of_Peasy_DisplayNameAttribute()
         {
             var className = new MockClass2().ClassName();
             className.ShouldBe("Mock II");
         }
 
         [TestMethod]
-        public void ObjectWithPeasyForeignKeyAttributeShouldRevertZerosToNulls()
+        public void Object_With_Peasy_ForeignKeyAttribute_Should_Revert_Zeros_To_Nulls()
         {
             var mock = new MockClass2();
             mock.SomeForeignKeyID = 0;
@@ -37,7 +37,7 @@ namespace Peasy.Tests.Extensions
         }
 
         [TestMethod]
-        public void ObjectWithNonEditableAttributeShouldRevertValuesToOriginal()
+        public void Object_With_NonEditableAttribute_Should_Revert_Values_To_Original()
         {
             var original = new MockClass2() { Name = "Jimi Hendrix" };
             var newMock = new MockClass2() { Name = "Jim Morrison" };
@@ -46,12 +46,11 @@ namespace Peasy.Tests.Extensions
         }
 
         [TestMethod]
-        public async Task TenObjectsWithNonEditableAttributesShouldRevertValuesToOriginal()
+        public void Fifty_Objects_With_NonEditableAttributes_Should_Revert_Values_To_Original()
         {
             var original = new MockClass2() { Name = "Jimi Hendrix" };
-            var newMocks = 10.Times(i => new MockClass2() { Name = string.Format("Jim Morrison{0}", i) }).ToArray();
-            var tasks = newMocks.Select(x => Task.Run(() => x.RevertNonEditableValues(original)));
-            await Task.WhenAll(tasks);
+            var newMocks = 50.Times(i => new MockClass2() { Name = string.Format("Jim Morrison{0}", i) }).ToArray();
+            Parallel.ForEach(newMocks, mock => mock.RevertNonEditableValues(original));
             newMocks.ShouldAllBe(m => m.Name == "Jimi Hendrix");
         }
     }

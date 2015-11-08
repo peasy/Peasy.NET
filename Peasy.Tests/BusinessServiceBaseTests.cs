@@ -14,7 +14,7 @@ namespace Peasy.Tests
     public class BusinessServiceBaseTests
     {
         [TestMethod]
-        public void DeleteCommandSynchronousShouldReturnValidationResult()
+        public void DeleteCommand_Synchronous_Should_ReturnValidation_Result()
         {
             var service = new BusinessServiceBaseMock(new PersonProxyStub());
             var result = service.DeleteCommand(0).Execute();
@@ -22,7 +22,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public async Task DeleteCommandAsynchronousShouldReturnValidationResult()
+        public async Task DeleteCommand_Asynchronous_Should_Return_Validation_Result()
         {
             var service = new BusinessServiceBaseMock(new PersonProxyStub());
             var result = await service.DeleteCommand(0).ExecuteAsync();
@@ -30,7 +30,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public void GetByIDCommandSynchronousShouldReturnValidationResult()
+        public void GetByIDCommand_Synchronous_Should_Return_Validation_Result()
         {
             var service = new BusinessServiceBaseMock(new PersonProxyStub());
             var result = service.GetByIDCommand(0).Execute();
@@ -38,7 +38,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public async Task GetByIDCommandAsynchronousShouldReturnValidationResult()
+        public async Task GetByIDCommand_Asynchronous_Should_Return_Validation_Result()
         {
             var service = new BusinessServiceBaseMock(new PersonProxyStub());
             var result = await service.GetByIDCommand(0).ExecuteAsync();
@@ -46,7 +46,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public void NonLatencyProneShouldNotInvokeDataProxyGetByIDOnUpdate()
+        public void Non_Latency_Prone_Should_Not_Invoke_DataProxy_GetByID_On_Update()
         {
             var proxy = new PersonProxyStub(isLatencyProne: false);
             var service = new BusinessServiceBaseMock(proxy);
@@ -55,7 +55,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public void LatencyProneShouldNotInvokeDataProxyGetByIDOnUpdate()
+        public void Latency_Prone_Should_Not_Invoke_DataProxy_GetByID_On_Update()
         {
             var proxy = new PersonProxyStub(isLatencyProne: true);
             var service = new BusinessServiceBaseMock(proxy);
@@ -65,7 +65,7 @@ namespace Peasy.Tests
 
         [TestMethod]
         [ExpectedException(typeof(DomainObjectNotFoundException))]
-        public void UpdateCommandThrowsDomainNotFoundException()
+        public void UpdateCommand_Throws_DomainNotFoundException()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
@@ -74,7 +74,7 @@ namespace Peasy.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ConcurrencyException))]
-        public void UpdateCommandThrowsConcurrencyException()
+        public void UpdateCommand_Throws_ConcurrencyException()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
@@ -82,7 +82,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public void UpdateCommandRevertsNonEditableValues()
+        public void UpdateCommand_Reverts_Non_Editable_Values()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
@@ -91,7 +91,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public void UpdateCommandRevertsPeasyForeignKeyValues()
+        public void UpdateCommand_Reverts_PeasyForeignKey_Values()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
@@ -100,7 +100,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public void DataProxyUpdateShouldBeInvoked()
+        public void DataProxy_Update_Should_Be_Invoked()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
@@ -109,7 +109,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public async Task NonLatencyProneShouldNotInvokeDataProxyGetByIDOnUpdateAsync()
+        public async Task Non_Latency_Prone_Should_Not_Invoke_DataProxy_GetByID_On_UpdateAsync()
         {
             var proxy = new PersonProxyStub(isLatencyProne: false);
             var service = new BusinessServiceBaseMock(proxy);
@@ -118,7 +118,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public async Task LatencyProneShouldNotInvokeDataProxyGetByIDOnUpdateAsync()
+        public async Task Latency_Prone_Should_Not_Invoke_DataProxy_GetByID_On_UpdateAsync()
         {
             var proxy = new PersonProxyStub(isLatencyProne: true);
             var service = new BusinessServiceBaseMock(proxy);
@@ -128,7 +128,7 @@ namespace Peasy.Tests
 
         [TestMethod]
         [ExpectedException(typeof(DomainObjectNotFoundException))]
-        public async Task UpdateCommandAsyncThrowsDomainNotFoundException()
+        public async Task UpdateCommandAsync_Throws_DomainNotFoundException()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
@@ -137,7 +137,7 @@ namespace Peasy.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ConcurrencyException))]
-        public async Task UpdateCommandAsyncThrowsConcurrencyException()
+        public async Task UpdateCommandAsync_Throws_ConcurrencyException()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
@@ -145,7 +145,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public async Task UpdateCommandAsyncRevertsNonEditableValues()
+        public async Task UpdateCommandAsync_Reverts_NonEditable_Values()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
@@ -154,7 +154,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public async Task UpdateCommandAsyncRevertsPeasyForeignKeyValues()
+        public async Task UpdateCommandAsync_Reverts_PeasyForeignKey_Values()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
@@ -163,7 +163,7 @@ namespace Peasy.Tests
         }
 
         [TestMethod]
-        public async Task DataProxyUpdateAsyncShouldBeInvoked()
+        public async Task DataProxy_UpdateAsync_Should_Be_Invoked()
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);

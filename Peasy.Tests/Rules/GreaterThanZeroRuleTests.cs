@@ -8,21 +8,21 @@ namespace Peasy.Tests.Rules
     class GreaterThanZeroRuleTests
     {
         [TestMethod]
-        public void ReturnsTrue()
+        public void Returns_True()
         {
             var greaterThanZeroRule = new GreaterThanZeroRule(1, "foo");
             greaterThanZeroRule.Validate().IsValid.ShouldBe(true);
         }
 
         [TestMethod]
-        public void ReturnsFalse()
+        public void Returns_False()
         {
             var greaterThanZeroRule = new GreaterThanZeroRule(0, "foo");
             greaterThanZeroRule.Validate().IsValid.ShouldBe(false);
         }
 
         [TestMethod]
-        public void SetsErrorMessageOnInvalid()
+        public void Sets_ErrorMessage_On_Invalid()
         {
             var greaterThanZeroRule = new GreaterThanZeroRule(0, "the supplied value must be greater than 0");
             greaterThanZeroRule.Validate().ErrorMessage.ShouldBe("the supplied value must be greater than 0");
