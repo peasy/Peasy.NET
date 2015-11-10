@@ -46,14 +46,6 @@
       <HintPath>..\packages\MahApps.Metro.1.1.2.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Peasy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.1.0.0.5\lib\portable-net451+win81\Peasy.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Peasy.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.Core.1.0.0.2\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Peasy.DataProxy.InMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Peasy.DataProxy.InMemory.1.0.0.0\lib\portable-net451+win81\Peasy.DataProxy.InMemory.dll</HintPath>
       <Private>True</Private>
@@ -167,6 +159,14 @@
     <ProjectReference Include="..\Orders.com.DAL.InMemory\Orders.com.DAL.InMemory.csproj">
       <Project>{0debee6b-3561-47b8-a622-d2407839123b}</Project>
       <Name>Orders.com.DAL.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
+      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
+      <Name>Peasy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy\Peasy.csproj">
+      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
+      <Name>Peasy</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
