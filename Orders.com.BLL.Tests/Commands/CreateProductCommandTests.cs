@@ -48,7 +48,7 @@ namespace Orders.com.BLL.Tests.Commands
             var productDataProxy = new ProductRepository();
             var inventoryDataProxy = new InventoryItemRepository();
             var inventoryService = new InventoryItemService(inventoryDataProxy);
-            var command = new CreateProductCommand(product, productDataProxy, inventoryService, new MockTransactionContext());
+            var command = new CreateProductCommand(product, productDataProxy, inventoryService, new TransactionContextStub());
 
             var newProduct = command.Execute().Value;
 
@@ -67,7 +67,7 @@ namespace Orders.com.BLL.Tests.Commands
             var command = new CreateProductCommand(product,
                                                    Mock.Of<IProductDataProxy>(),
                                                    Mock.Of<IInventoryItemService>(),
-                                                   new MockTransactionContext());
+                                                   new TransactionContextStub());
 
             var result = command.Execute();
             result.Success.ShouldBe(false);
@@ -90,7 +90,7 @@ namespace Orders.com.BLL.Tests.Commands
             var command = new CreateProductCommand(product,
                                                    productDataProxy.Object,
                                                    new InventoryItemService(inventoryDataProxy.Object),
-                                                   new MockTransactionContext());
+                                                   new TransactionContextStub());
             var result = command.Execute();
             result.Success.ShouldBe(true);
         }
@@ -111,7 +111,7 @@ namespace Orders.com.BLL.Tests.Commands
             var command = new CreateProductCommand(product,
                                                    productDataProxy.Object,
                                                    new InventoryItemService(inventoryDataProxy.Object),
-                                                   new MockTransactionContext());
+                                                   new TransactionContextStub());
             command.Execute();
             //productDataProxy.Verify(p => p.Insert(It.Is<Product>(pr => pr.ProductID == product.ProductID)),Times.Once());
             inventoryDataProxy.Verify(p => p.Insert(It.Is<InventoryItem>(i => i.ProductID == 10)), Times.Once());
@@ -124,7 +124,7 @@ namespace Orders.com.BLL.Tests.Commands
             var productDataProxy = new ProductRepository();
             var inventoryDataProxy = new InventoryItemRepository();
             var inventoryService = new InventoryItemService(inventoryDataProxy);
-            return new CreateProductCommand(product, productDataProxy, inventoryService, new MockTransactionContext());
+            return new CreateProductCommand(product, productDataProxy, inventoryService, new TransactionContextStub());
         }
 
         private Product CreateValidProduct()

@@ -45,9 +45,9 @@ namespace Orders.com.BLL.Tests.Commands
             orderItemRepo.Insert(new OrderItem { OrderID = order.ID, OrderStatusID = OrderStatusConstants.SUBMITTED_STATUS });
             orderItemRepo.Insert(new OrderItem { OrderID = order.ID, OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE });
             orderItemRepo.Insert(new OrderItem { OrderID = 2, OrderStatusID = OrderStatusConstants.PENDING_STATUS });
-            var orderItemService = new OrderItemService(orderItemRepo, Mock.Of<IProductDataProxy>(), Mock.Of<IInventoryItemDataProxy>(), new MockTransactionContext());
+            var orderItemService = new OrderItemService(orderItemRepo, Mock.Of<IProductDataProxy>(), Mock.Of<IInventoryItemDataProxy>(), new TransactionContextStub());
 
-            var command = new DeleteOrderCommand(order.ID, orderRepo, orderItemService, new MockTransactionContext());
+            var command = new DeleteOrderCommand(order.ID, orderRepo, orderItemService, new TransactionContextStub());
             command.Execute();
             orderRepo.GetAll().ShouldBeEmpty();
             orderItemRepo.GetAll().Count().ShouldBe(1);
@@ -66,9 +66,9 @@ namespace Orders.com.BLL.Tests.Commands
             await orderItemRepo.InsertAsync(new OrderItem { OrderID = order.ID, OrderStatusID = OrderStatusConstants.SUBMITTED_STATUS });
             await orderItemRepo.InsertAsync(new OrderItem { OrderID = order.ID, OrderStatusID = OrderStatusConstants.BACK_ORDERED_STATE });
             await orderItemRepo.InsertAsync(new OrderItem { OrderID = 2, OrderStatusID = OrderStatusConstants.PENDING_STATUS });
-            var orderItemService = new OrderItemService(orderItemRepo, Mock.Of<IProductDataProxy>(), Mock.Of<IInventoryItemDataProxy>(), new MockTransactionContext());
+            var orderItemService = new OrderItemService(orderItemRepo, Mock.Of<IProductDataProxy>(), Mock.Of<IInventoryItemDataProxy>(), new TransactionContextStub());
 
-            var command = new DeleteOrderCommand(order.ID, orderRepo, orderItemService, new MockTransactionContext());
+            var command = new DeleteOrderCommand(order.ID, orderRepo, orderItemService, new TransactionContextStub());
             await command.ExecuteAsync();
             orderRepo.GetAll().ShouldBeEmpty();
             orderItemRepo.GetAll().Count().ShouldBe(1);
@@ -87,7 +87,7 @@ namespace Orders.com.BLL.Tests.Commands
             2.Times(() => orderItemRepo.Insert(new OrderItem() { OrderID = order.ID, OrderStatusID = OrderStatusConstants.SHIPPED_STATUS }));
             var orderItemService = new OrderItemService(orderItemRepo, Mock.Of<IProductDataProxy>(), Mock.Of<IInventoryItemDataProxy>(), Mock.Of<ITransactionContext>());
 
-            var command = new DeleteOrderCommand(order.ID, orderRepo, orderItemService, new MockTransactionContext());
+            var command = new DeleteOrderCommand(order.ID, orderRepo, orderItemService, new TransactionContextStub());
             var result = command.Execute();
             result.Success.ShouldBe(false);
             result.Errors.Count().ShouldBe(2);
@@ -106,7 +106,7 @@ namespace Orders.com.BLL.Tests.Commands
             2.Times(async () => await orderItemRepo.InsertAsync(new OrderItem() { OrderID = order.ID, OrderStatusID = OrderStatusConstants.SHIPPED_STATUS }));
             var orderItemService = new OrderItemService(orderItemRepo, Mock.Of<IProductDataProxy>(), Mock.Of<IInventoryItemDataProxy>(), Mock.Of<ITransactionContext>());
 
-            var command = new DeleteOrderCommand(order.ID, orderRepo, orderItemService, new MockTransactionContext());
+            var command = new DeleteOrderCommand(order.ID, orderRepo, orderItemService, new TransactionContextStub());
             var result = await command.ExecuteAsync();
             result.Success.ShouldBe(false);
             result.Errors.Count().ShouldBe(2);
@@ -217,7 +217,7 @@ namespace Orders.com.BLL.Tests.Commands
                                       Mock.Of<IInventoryItemDataProxy>(),
                                       Mock.Of<ITransactionContext>()
                                   ),
-                                  new MockTransactionContext()
+                                  new TransactionContextStub()
                               );
             var result = command.Execute();
             result.Success.ShouldBe(true);
@@ -267,7 +267,7 @@ namespace Orders.com.BLL.Tests.Commands
                                       Mock.Of<IInventoryItemDataProxy>(),
                                       Mock.Of<ITransactionContext>()
                                   ),
-                                  new MockTransactionContext()
+                                  new TransactionContextStub()
                               );
 
             var result = await command.ExecuteAsync();

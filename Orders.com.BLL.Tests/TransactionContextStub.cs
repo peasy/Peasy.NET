@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL.Tests
 {
-    public class MockTransactionContext : ITransactionContext
+    public class TransactionContextStub : ITransactionContext
     {
         public void Execute(Action codeToRunWithinTransaction)
         {

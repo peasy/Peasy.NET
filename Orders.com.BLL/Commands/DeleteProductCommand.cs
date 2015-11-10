@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-namespace Products.com.BLL.Commands
+namespace Orders.com.BLL.Commands
 {
     public class DeleteProductCommand : Command
     {
@@ -17,18 +17,18 @@ namespace Products.com.BLL.Commands
         private IProductDataProxy _productDataProxy;
         private ITransactionContext _transactionContext;
         private IInventoryItemService _inventoryService;
-        private IOrderService _orderService;
+        private IOrderDataProxy _orderDataProxy;
 
         public DeleteProductCommand(long productID,
                                     IProductDataProxy productDataProxy,
                                     IInventoryItemService inventoryService,
-                                    IOrderService orderService,
+                                    IOrderDataProxy orderDataProxy,
                                     ITransactionContext transactionContext)
         {
             _productID = productID;
             _productDataProxy = productDataProxy;
             _inventoryService = inventoryService;
-            _orderService = orderService;
+            _orderDataProxy = orderDataProxy;
             _transactionContext = transactionContext;
         }
 
@@ -54,7 +54,7 @@ namespace Products.com.BLL.Commands
 
         public IEnumerable<IRule> GetRules()
         {
-            yield return new CanDeleteProductRule(_productID, _orderService);
+            yield return new CanDeleteProductRule(_productID, _orderDataProxy);
         }
 
         public override IEnumerable<ValidationResult> GetErrors()
@@ -69,7 +69,15 @@ namespace Products.com.BLL.Commands
 
         public override async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            return GetErrors();
+            var results = new List<ValidationResult>();
+            var rule = _productID.CreateValueRequiredRule("id").Validate();
+            if (!rule.IsValid)
+                results.Add(new ValidationResult(rule.ErrorMessage));
+
+            var errors = await GetRules().GetValidationResultsAsync();
+            errors.ForEach(e => results.Add(e));
+
+            return results;
         }
     }
 }

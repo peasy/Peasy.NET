@@ -71,7 +71,7 @@ namespace Orders.com.DAL.InMemory
         public IEnumerable<Order> GetByProduct(long productID)
         {
             Debug.WriteLine("Executing EF Order.GetByProduct");
-            var orderItems = new OrderItemRepository().GetAll().ToArray();
+            var orderItems = _orderItemDataProxy.GetAll().ToArray();
 
             return Data.Values.Where(o => orderItems.Any(i => i.OrderID == o.OrderID &&
                                                          i.ProductID == productID))

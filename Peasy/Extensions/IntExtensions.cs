@@ -16,6 +16,14 @@ namespace Peasy.Extensions
             }
         }
 
+        public static void Times(this int value, Action<int> action) 
+        {
+            for (var counter = 0; counter < value; counter ++)
+            {
+                action(counter);
+            }
+        }
+
         public static IEnumerable<T> Times<T>(this int value, Func<int, T> func)
         {
             for (var counter = 0; counter < value; counter ++)

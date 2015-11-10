@@ -4,7 +4,6 @@ using Orders.com.BLL.Commands;
 using Orders.com.BLL.Rules;
 using Orders.com.Core.DataProxy;
 using Orders.com.Core.Domain;
-using Products.com.BLL.Commands;
 using System.Collections.Generic;
 
 namespace Orders.com.BLL
@@ -13,11 +12,11 @@ namespace Orders.com.BLL
     {
         private IInventoryItemService _inventoryService;
         private ITransactionContext _transactionContext;
-        private IOrderService _orderService;
+        private IOrderDataProxy _orderDataProxy;
 
-        public ProductService(IProductDataProxy dataProxy, IOrderService orderService, IInventoryItemService inventoryService, ITransactionContext transactionContext) : base(dataProxy)
+        public ProductService(IProductDataProxy dataProxy, IOrderDataProxy orderDataProxy, IInventoryItemService inventoryService, ITransactionContext transactionContext) : base(dataProxy)
         {
-            _orderService = orderService;
+            _orderDataProxy = orderDataProxy;
             _inventoryService = inventoryService;
             _transactionContext = transactionContext;
         }
@@ -41,7 +40,7 @@ namespace Orders.com.BLL
         public override ICommand DeleteCommand(long id)
         {
             var dataProxy = DataProxy as IProductDataProxy;
-            return new DeleteProductCommand(id, dataProxy, _inventoryService, _orderService, _transactionContext);
+            return new DeleteProductCommand(id, dataProxy, _inventoryService, _orderDataProxy, _transactionContext);
         }
     }
 }

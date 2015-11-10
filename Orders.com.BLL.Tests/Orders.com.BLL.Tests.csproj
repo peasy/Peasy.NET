@@ -72,7 +72,8 @@
   <ItemGroup>
     <Compile Include="Commands\DeleteOrderCommandTests.cs" />
     <Compile Include="Commands\CreateProductCommandTests.cs" />
-    <Compile Include="MockTransactionContext.cs" />
+    <Compile Include="Commands\DeleteProductCommandTests.cs" />
+    <Compile Include="TransactionContextStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\CanDeleteCategoryRuleTests.cs" />
     <Compile Include="Rules\ValidOrderStatusForUpdateRuleTests.cs" />

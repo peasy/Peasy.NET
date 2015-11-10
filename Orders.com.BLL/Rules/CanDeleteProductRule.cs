@@ -1,4 +1,5 @@
-﻿using Peasy.Core;
+﻿using Orders.com.Core.DataProxy;
+using Peasy.Core;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -6,20 +7,20 @@ namespace Orders.com.BLL.Rules
 {
     public class CanDeleteProductRule : RuleBase
     {
-        private IOrderService _orderService;
         private long _productID;
         private string _errorMessage = "This product is associated with one or more orders and cannot be deleted.";
+        private IOrderDataProxy _ordersDataProxy;
 
-        public CanDeleteProductRule(long productID, IOrderService orderService)
+        public CanDeleteProductRule(long productID, IOrderDataProxy ordersDataProxy)
         {
             _productID = productID;
-            _orderService = orderService;
+            _ordersDataProxy = ordersDataProxy;
         }
 
         protected override void OnValidate()
         {
-            var products = _orderService.GetByProductCommand(_productID).Execute().Value;
-            if (products.Any())
+            var orders = _ordersDataProxy.GetByProduct(_productID);
+            if (orders.Any())
             {
                 Invalidate(_errorMessage);
             }
@@ -27,8 +28,8 @@ namespace Orders.com.BLL.Rules
 
         protected override async Task OnValidateAsync()
         {
-            var products = await _orderService.GetByProductCommand(_productID).ExecuteAsync();
-            if (products.Value.Any())
+            var orders = await _ordersDataProxy.GetByProductAsync(_productID);
+            if (orders.Any())
             {
                 Invalidate(_errorMessage);
             }
