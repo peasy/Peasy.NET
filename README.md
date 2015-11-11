@@ -31,4 +31,4 @@ You can also download the entire repo that contains a full sample implementation
 
 #Contributing
 
-All contributions are welcome, from general framework improvements to sample client consumers, proxy implementations, and documentation updates.  Want to get involved?  Please hit me up at aaron.hanusa at gmail dot com with your ideas.  Alternatively, you can make a pull request and I'll get to it ASAP.
+All contributions are welcome, from general framework improvements to sample client consumers, proxy implementations, and documentation updates.  Want to get involved?  Please hit me up with your ideas.  Alternatively, you can make a pull request and I'll get to it ASAP.
