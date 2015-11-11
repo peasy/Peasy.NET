@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Commands\DeleteOrderCommandTests.cs" />
     <Compile Include="Commands\CreateProductCommandTests.cs" />
+    <Compile Include="Commands\ShipOrderItemCommandTests.cs" />
     <Compile Include="Commands\DeleteProductCommandTests.cs" />
     <Compile Include="TransactionContextStub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
