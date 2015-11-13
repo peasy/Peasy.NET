@@ -38,10 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Orders.com.Core\Orders.com.Core.csproj">
-      <Project>{ebb3a99a-5057-4f6a-bed7-43661d43fae9}</Project>
-      <Name>Orders.com.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
       <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
       <Name>Peasy.Core</Name>
@@ -54,22 +50,44 @@
   <ItemGroup>
     <Compile Include="Commands\DeleteProductCommand.cs" />
     <Compile Include="Commands\CreateProductCommand.cs" />
-    <Compile Include="IOrderStatusService.cs" />
-    <Compile Include="ICategoryService.cs" />
-    <Compile Include="ICustomerService.cs" />
-    <Compile Include="IInventoryItemService.cs" />
-    <Compile Include="IntentoryItemService.cs" />
-    <Compile Include="IOrderItemService.cs" />
-    <Compile Include="IOrderService.cs" />
-    <Compile Include="IProductService.cs" />
-    <Compile Include="OrderStatusService.cs" />
+    <Compile Include="DataProxy\ICategoryDataProxy.cs" />
+    <Compile Include="DataProxy\ICustomerDataProxy.cs" />
+    <Compile Include="DataProxy\InventoryItemDataProxy.cs" />
+    <Compile Include="DataProxy\IOrderDataProxy.cs" />
+    <Compile Include="DataProxy\IOrderItemDataProxy.cs" />
+    <Compile Include="DataProxy\IOrdersDotComDataProxy.cs" />
+    <Compile Include="DataProxy\IOrderStatusDataProxy.cs" />
+    <Compile Include="DataProxy\IProductDataProxy.cs" />
+    <Compile Include="Domain\Category.cs" />
+    <Compile Include="Domain\Customer.cs" />
+    <Compile Include="Domain\DomainBase.cs" />
+    <Compile Include="Domain\InventoryItem.cs" />
+    <Compile Include="Domain\IOrderStatusIDContainer.cs" />
+    <Compile Include="Domain\Order.cs" />
+    <Compile Include="Domain\OrderItem.cs" />
+    <Compile Include="Domain\OrderStatus.cs" />
+    <Compile Include="Domain\Product.cs" />
+    <Compile Include="Extensions\DateExtensions.cs" />
+    <Compile Include="Extensions\IVersionContainerExtensions.cs" />
+    <Compile Include="Extensions\OrderItemExtensions.cs" />
+    <Compile Include="Extensions\OrderStates.cs" />
+    <Compile Include="QueryData\OrderInfo.cs" />
+    <Compile Include="Services\IOrderStatusService.cs" />
+    <Compile Include="Services\ICategoryService.cs" />
+    <Compile Include="Services\ICustomerService.cs" />
+    <Compile Include="Services\IInventoryItemService.cs" />
+    <Compile Include="Services\IntentoryItemService.cs" />
+    <Compile Include="Services\IOrderItemService.cs" />
+    <Compile Include="Services\IOrderService.cs" />
+    <Compile Include="Services\IProductService.cs" />
+    <Compile Include="Services\OrderStatusService.cs" />
     <Compile Include="Commands\DeleteOrderCommand.cs" />
-    <Compile Include="OrdersDotComServiceBase.cs" />
-    <Compile Include="OrderItemService.cs" />
-    <Compile Include="OrderService.cs" />
-    <Compile Include="CustomerService.cs" />
-    <Compile Include="CategoryService.cs" />
-    <Compile Include="ProductService.cs" />
+    <Compile Include="Services\OrdersDotComServiceBase.cs" />
+    <Compile Include="Services\OrderItemService.cs" />
+    <Compile Include="Services\OrderService.cs" />
+    <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\CategoryService.cs" />
+    <Compile Include="Services\ProductService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rules\CanDeleteProductRule.cs" />
     <Compile Include="Rules\CanDeleteCategoryRule.cs" />

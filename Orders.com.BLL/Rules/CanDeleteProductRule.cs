@@ -1,4 +1,4 @@
-﻿using Orders.com.Core.DataProxy;
+﻿using Orders.com.DataProxy;
 using Peasy.Core;
 using System.Linq;
 using System.Threading.Tasks;

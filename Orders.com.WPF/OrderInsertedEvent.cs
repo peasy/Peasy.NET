@@ -1,4 +1,4 @@
-﻿using Orders.com.Core.Domain;
+﻿using Orders.com.Domain;
 using Orders.com.WPF.VM;
 using System;
 using System.Collections.Generic;

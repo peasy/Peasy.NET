@@ -1,5 +1,5 @@
 ﻿using Orders.com.BLL;
-using Orders.com.Core;
+using Orders.com;
 
 namespace Orders.com.WPF.VM
 {

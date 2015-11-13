@@ -1,7 +1,7 @@
 ﻿using Peasy.Core;
 using Orders.com.BLL.Rules;
-using Orders.com.Core.DataProxy;
-using Orders.com.Core.Domain;
+using Orders.com.DataProxy;
+using Orders.com.Domain;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

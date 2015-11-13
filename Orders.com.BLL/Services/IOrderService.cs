@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Orders.com.Core.Domain;
-using Orders.com.Core.QueryData;
+using Orders.com.Domain;
+using Orders.com.QueryData;
 using Peasy.Core;
 
 namespace Orders.com.BLL

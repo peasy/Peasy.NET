@@ -1,9 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Orders.com.BLL.Commands;
-using Orders.com.Core.DataProxy;
-using Orders.com.Core.Domain;
-using Orders.com.Core.Extensions;
+using Orders.com.DataProxy;
+using Orders.com.Domain;
+using Orders.com.Extensions;
 using Peasy;
 using Shouldly;
 using System;

@@ -1,4 +1,4 @@
-﻿using Orders.com.Core.Domain;
+﻿using Orders.com.Domain;
 using Peasy.Core;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public interface ICategoryService : IService<Category, long>
+    public interface ICustomerService : IService<Customer, long>
     {
     }
 }

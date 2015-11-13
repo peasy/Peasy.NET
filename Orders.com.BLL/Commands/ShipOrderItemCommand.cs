@@ -2,10 +2,9 @@
 using Peasy.Core;
 using Peasy.Core.Extensions;
 using Orders.com.BLL.Rules;
-using Orders.com.Core.DataProxy;
-using Orders.com.Core.Domain;
-using Orders.com.Core.Exceptions;
-using Orders.com.Core.Extensions;
+using Orders.com.DataProxy;
+using Orders.com.Domain;
+using Orders.com.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

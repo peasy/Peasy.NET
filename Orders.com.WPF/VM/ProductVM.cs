@@ -1,5 +1,5 @@
 ﻿using Orders.com.BLL;
-using Orders.com.Core.Domain;
+using Orders.com.Domain;
 using System.Collections.Generic;
 
 namespace Orders.com.WPF.VM

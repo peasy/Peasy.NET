@@ -1,4 +1,4 @@
-﻿using Orders.com.Core.Domain;
+﻿using Orders.com.Domain;
 using Peasy.Core;
 
 namespace Orders.com.BLL

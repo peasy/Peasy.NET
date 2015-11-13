@@ -1,6 +1,6 @@
 ﻿using Peasy.Core;
 using Peasy.Extensions;
-using Orders.com.Core;
+using Orders.com;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

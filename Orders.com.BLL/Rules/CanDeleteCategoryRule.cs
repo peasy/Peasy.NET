@@ -1,5 +1,5 @@
-﻿using Orders.com.Core.DataProxy;
-using Orders.com.Core.Domain;
+﻿using Orders.com.DataProxy;
+using Orders.com.Domain;
 using Peasy.Core;
 using System.Linq;
 using System.Threading.Tasks;

@@ -1,6 +1,6 @@
 ﻿using Peasy;
 using Peasy.Core;
-using Orders.com.Core.DataProxy;
+using Orders.com.DataProxy;
 
 namespace Orders.com.BLL
 {

@@ -4,7 +4,7 @@ using Peasy.Core.Extensions;
 using Peasy.Extensions;
 using Orders.com.BLL;
 using Orders.com.BLL.Rules;
-using Orders.com.Core.DataProxy;
+using Orders.com.DataProxy;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;

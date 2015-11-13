@@ -69,13 +69,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Orders.com.Core\Orders.com.Core.csproj">
-      <Project>{ebb3a99a-5057-4f6a-bed7-43661d43fae9}</Project>
-      <Name>Orders.com.Core</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Orders.com.BLL\Orders.com.BLL.csproj">
+      <Project>{ce4be061-889b-4169-8403-82269e4ec7b9}</Project>
+      <Name>Orders.com.BLL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

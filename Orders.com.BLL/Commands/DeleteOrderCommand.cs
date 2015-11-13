@@ -2,8 +2,8 @@
 using Peasy.Core;
 using Peasy.Core.Extensions;
 using Peasy.Extensions;
-using Orders.com.Core.DataProxy;
-using Orders.com.Core.Domain;
+using Orders.com.DataProxy;
+using Orders.com.Domain;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;

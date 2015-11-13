@@ -1,5 +1,5 @@
 ﻿using Peasy.Core;
-using Orders.com.Core.Extensions;
+using Orders.com.Extensions;
 using System.Linq;
 using Peasy;
 using Peasy.DataProxy.InMemory;

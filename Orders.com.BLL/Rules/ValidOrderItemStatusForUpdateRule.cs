@@ -1,6 +1,6 @@
 ﻿using Peasy.Core;
-using Orders.com.Core.Domain;
-using Orders.com.Core.Extensions;
+using Orders.com.Domain;
+using Orders.com.Extensions;
 
 namespace Orders.com.BLL.Rules
 {

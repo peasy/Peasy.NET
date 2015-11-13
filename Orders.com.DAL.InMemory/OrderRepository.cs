@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Orders.com.Core.DataProxy;
-using Orders.com.Core.Domain;
-using Orders.com.Core.Extensions;
-using Orders.com.Core.QueryData;
+using Orders.com.DataProxy;
+using Orders.com.Domain;
+using Orders.com.Extensions;
+using Orders.com.QueryData;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

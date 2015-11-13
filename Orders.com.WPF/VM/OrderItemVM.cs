@@ -1,6 +1,6 @@
 ﻿using Orders.com.BLL;
-using Orders.com.Core.Domain;
-using Orders.com.Core.Extensions;
+using Orders.com.Domain;
+using Orders.com.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

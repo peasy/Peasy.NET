@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Orders.com.BLL.Rules;
-using Orders.com.Core.Domain;
-using Orders.com.Core.Extensions;
+using Orders.com.Domain;
+using Orders.com.Extensions;
 using Peasy.Rules;
 using Shouldly;
 using System.Threading.Tasks;

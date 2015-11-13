@@ -1,5 +1,5 @@
 ﻿using Peasy.Core;
-using Orders.com.Core.Domain;
+using Orders.com.Domain;
 using System.Threading.Tasks;
 
 namespace Peasy.Rules
