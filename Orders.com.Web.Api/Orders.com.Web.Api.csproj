@@ -127,7 +127,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Extensions\IDomainObjectExtensions.cs" />
+    <Compile Include="Extensions\ModelStateDictionaryExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -144,9 +147,29 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Controllers\ApiControllerBase.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orders.com.BLL\Orders.com.BLL.csproj">
+      <Project>{ce4be061-889b-4169-8403-82269e4ec7b9}</Project>
+      <Name>Orders.com.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orders.com.DAL.InMemory\Orders.com.DAL.InMemory.csproj">
+      <Project>{0debee6b-3561-47b8-a622-d2407839123b}</Project>
+      <Name>Orders.com.DAL.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
+      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
+      <Name>Peasy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy\Peasy.csproj">
+      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
+      <Name>Peasy</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
