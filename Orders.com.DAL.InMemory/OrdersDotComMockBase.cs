@@ -3,11 +3,25 @@ using Orders.com.Extensions;
 using System.Linq;
 using Peasy;
 using Peasy.DataProxy.InMemory;
+using System.Collections.Generic;
+using Peasy.Exception;
 
 namespace Orders.com.DAL.InMemory
 {
     public class OrdersDotComMockBase<DTO> : InMemoryDataProxyBase<DTO, long> where DTO : IDomainObject<long>
     {
+        public override DTO GetByID(long id)
+        {
+            try
+            {
+                return base.GetByID(id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new DomainObjectNotFoundException("The current item was not found", ex);
+            }
+        }
+
         protected override long GetNextID()
         {
             if (Data.Values.Any())

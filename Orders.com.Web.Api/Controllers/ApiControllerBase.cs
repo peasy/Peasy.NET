@@ -33,27 +33,34 @@ namespace Orders.com.Web.Api
         // GET api/contracts/5
         public virtual HttpResponseMessage Get(TKey id)
         {
-            // http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.3
-            var result = _businessService.GetByIDCommand(id).Execute();
-            if (result.Success)
+            try
             {
-                if (result.Value == null)
+                // http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.3
+                var result = _businessService.GetByIDCommand(id).Execute();
+                if (result.Success)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, BuildNotFoundHttpError(id));
-                    //var message = BuildNotFoundResponseMessage(className, id);
-                    //throw new HttpResponseException(message);
+                    if (result.Value == null)
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, BuildNotFoundHttpError(id));
+                        //var message = BuildNotFoundResponseMessage(className, id);
+                        //throw new HttpResponseException(message);
+                    }
+                    var response = Request.CreateResponse(HttpStatusCode.OK, result.Value);
+                    //response.Headers.ETag = new EntityTagHeaderValue(string.Format("\"{0}\"", result.ETagValue(), true));
+                    //response.Content.Headers.LastModified = DateTime.Now.ToUniversalTime(); // result.LastModified.Value.ToUniversalTime();
+
+                    return response;
+                    //.AppendCacheControl(36000)
+                    //.AppendExpires(60)
+                    //.AppendLastModified();
                 }
-                var response = Request.CreateResponse(HttpStatusCode.OK, result.Value);
-                //response.Headers.ETag = new EntityTagHeaderValue(string.Format("\"{0}\"", result.ETagValue(), true));
-                //response.Content.Headers.LastModified = DateTime.Now.ToUniversalTime(); // result.LastModified.Value.ToUniversalTime();
 
-                return response;
-                //.AppendCacheControl(36000)
-                //.AppendExpires(60)
-                //.AppendLastModified();
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Join("\n", result.Errors));
             }
-
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Join("\n", result.Errors));
+            catch (DomainObjectNotFoundException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex.Message);
+            }
         }
 
         // POST api/contracts
@@ -109,7 +116,6 @@ namespace Orders.com.Web.Api
 
             //if (Request.Headers.IfMatch.Count == 0) 
             //    return Request.CreateErrorResponse(HttpStatusCode.PreconditionFailed, "A PUT request must contain a If-Match header value whose content is the ETag value from a previous GET request");
-
             try
             {
                 var result = _businessService.UpdateCommand(value).Execute();
