@@ -181,7 +181,7 @@ namespace Orders.com.Web.Api
             }
             catch (ConcurrencyException)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.Conflict, "A concurrency issue occurred.  Try a GET on the resource and attempt the PUT again.");
+                return Request.CreateErrorResponse(HttpStatusCode.Conflict, "A concurrency issue occurred.  Try a GET on the resource and attempt the DELETE again.");
             }
         }
 

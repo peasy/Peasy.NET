@@ -170,16 +170,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Orders.com.BLL\Orders.com.BLL.csproj">
-      <Project>{ce4be061-889b-4169-8403-82269e4ec7b9}</Project>
-      <Name>Orders.com.BLL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Orders.com.DAL.InMemory\Orders.com.DAL.InMemory.csproj">
-      <Project>{0debee6b-3561-47b8-a622-d2407839123b}</Project>
-      <Name>Orders.com.DAL.InMemory</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
