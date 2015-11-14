@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.0.2</version>
+    <version>1.0.0.3</version>
     <title>Peasy.Core</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
@@ -15,7 +15,7 @@
       
       Check out Peasy for more opinionated functionality (concurrency, update prevention, fault tolerance).
     </description>
-    <releaseNotes>Introduces potential breaking changes with the introduction of async command initialization support</releaseNotes>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Middle Tier, Framework, Business Layer, Opinionated</tags>
     <summary>An easy to use middle tier framework for .NET </summary>
