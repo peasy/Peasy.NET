@@ -47,15 +47,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Peasy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.1.0.0.5\lib\portable-net451+win81\Peasy.dll</HintPath>
+      <HintPath>..\packages\Peasy.1.0.0.6\lib\portable-net451+win81\Peasy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Peasy.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.Core.1.0.0.2\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
+      <HintPath>..\packages\Peasy.Core.1.0.0.3\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Peasy.DataProxy.InMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.DataProxy.InMemory.1.0.0.0\lib\portable-net451+win81\Peasy.DataProxy.InMemory.dll</HintPath>
+      <HintPath>..\packages\Peasy.DataProxy.InMemory.1.0.0.1\lib\portable-net451+win81\Peasy.DataProxy.InMemory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -180,6 +180,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Orders.com.BLL\Orders.com.BLL.csproj">
+      <Project>{ce4be061-889b-4169-8403-82269e4ec7b9}</Project>
+      <Name>Orders.com.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Orders.com.DAL.InMemory\Orders.com.DAL.InMemory.csproj">
+      <Project>{0debee6b-3561-47b8-a622-d2407839123b}</Project>
+      <Name>Orders.com.DAL.InMemory</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

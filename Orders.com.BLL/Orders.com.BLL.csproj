@@ -96,11 +96,11 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Peasy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.1.0.0.5\lib\portable-net451+win81\Peasy.dll</HintPath>
+      <HintPath>..\packages\Peasy.1.0.0.6\lib\portable-net451+win81\Peasy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Peasy.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.Core.1.0.0.2\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
+      <HintPath>..\packages\Peasy.Core.1.0.0.3\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
