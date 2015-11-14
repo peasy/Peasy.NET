@@ -3,39 +3,38 @@ Order State History - OrderStateHistory dto, service, etc.  Maybe remove order s
 
 Fix Inventory view bug - go to product view, delete a product, go to the inventory view, an exception is raised
 
-
-
-Add async support for business and validation rules
-
 The validation and business rules infrastructure is a bit smelly.  Figure out how to more easily create business rules and validation rules, or unify the interface and no longer expose ValidationResult, but use IRule and ValidationResult under the hood.  Look at some of the commands GetError() methods to see examples of why things are smelly.
-
-Add ability to opt in for all rule checking or short circuit business rules if validation rules don't succeed
 
 BusinessBase - add concurrency business rule in update rather than throw concurrency exception?
 
-Comment all Facile libs
-
 Do we need GetValidationResult methods for get, getall, and delete?  IE, look at InventoryService.DecrementQOH and the usage of creating a validation rule.  Does this even make sense?  Seems like an exception should be thrown if supplied values aren't correct?  Think about this one....  maybe i originally designed it this way to support binding values?
 
-Add nuget references for compilers to support vs 2012/13
 
-Update code to c# 6 - especially ServiceCommand and all of the overloads.  Is there opportunity to invoke funcs and actions via ? operator and receive the correct behavior?
 
 Change Command.Execute(Async) to be virtual and not abstract
 
-Create true EF project
+Create EF project
 
 Create Web API project
 
 Create Restful Proxies
 	-Ensure that the error message displays properly in WPF app when an item no longer exists
 
-Create Nuget packages
-
 Create SPA web app consumer
 
 Create tests for VM's and other framework - adding tests around VM's will ensure that future contributors who change the framework won't break the WPF app, revealing flawed logic
 
 Add dynamic DI support to consumer projects
+
+
+New Nuget releases
+
+Figure out versioning strategy - branches or tags
+
+Move sample projects into a different directory and remove project references, adding nuget refs instead
+
+Clean up ApiControllerBase - add etag support, cache control, last modified, etc.
+
+Store in-memory proxies globally in webapi project
 
 
