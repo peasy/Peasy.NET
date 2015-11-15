@@ -164,6 +164,11 @@
     <Compile Include="Configuration\DIDefaultPropConfig.cs" />
     <Compile Include="Configuration\DIDefaultPropConfigList.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\OrderItemsController.cs" />
+    <Compile Include="Controllers\InventoryItemsController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="DTCTransactionContext.cs" />
     <Compile Include="Extensions\IDomainObjectExtensions.cs" />

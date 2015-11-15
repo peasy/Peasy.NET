@@ -74,7 +74,7 @@ namespace Orders.com.Web.Api
                 }
             }
 
-            //CreateBindingConfigString(typeof(IOrderItemService), typeof(OrderItemService));
+            //CreateBindingConfigString(typeof(ICategoryService), typeof(CategoryService));
         }
 
         private static object Cast(string value, string type)
