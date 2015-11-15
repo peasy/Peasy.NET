@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Phoebe.Core.Configuration
+namespace Orders.com.Web.Api.Configuration
 {
     [ConfigurationCollection(typeof(DIDefaultPropConfig))]
     public class DIDefaultPropConfigList : ConfigurationElementCollection, IEnumerable<DIDefaultPropConfig>

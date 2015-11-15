@@ -10,9 +10,9 @@ namespace Orders.com.Web.Api.Controllers
 {
     public class CustomersController : ApiControllerBase<Customer, long>
     {
-        public CustomersController()
+        public CustomersController(ICustomerService customerService)
         {
-            _businessService = new CustomerService(new CustomerRepository(), null);
+            _businessService = customerService;
         }
     }
 }

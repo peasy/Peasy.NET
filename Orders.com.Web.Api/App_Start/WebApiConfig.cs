@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Orders.com.Web.Api.Filters;
 using System.Web.Http;
 
 namespace Orders.com.Web.Api
@@ -10,6 +8,7 @@ namespace Orders.com.Web.Api
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            GlobalConfiguration.Configuration.DependencyResolver = new NinjectResolver(NinjectWebCommon.CreateKernel());
 
             // Web API routes
             config.MapHttpAttributeRoutes();

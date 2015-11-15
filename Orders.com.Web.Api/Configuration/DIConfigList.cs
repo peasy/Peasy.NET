@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Configuration;
 
-namespace Phoebe.Core.Configuration
+namespace Orders.com.Web.Api.Configuration
 {
     public class DIConfigList : ConfigurationElementCollection, IEnumerable<DIConfig>
     {
