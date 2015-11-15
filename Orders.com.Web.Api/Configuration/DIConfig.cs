@@ -24,5 +24,12 @@ namespace Orders.com.Web.Api.Configuration
             get { return (DIDefaultPropConfigList)base["defaultProperties"]; }
             set { base["defaultProperties"] = value; }
         }
+
+        [ConfigurationProperty("asSingleton")]
+        public bool AsSingleton
+        {
+            get { return (bool)base["asSingleton"]; }
+            set { base["asSingleton"] = value; }
+        }
     }
 }

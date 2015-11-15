@@ -9,7 +9,6 @@ using Ninject.Syntax;
 
 namespace Orders.com.Web.Api.Filters
 {
-    // Compliments of http://www.strathweb.com/2012/05/using-ninject-with-the-latest-asp-net-web-api-source/
     public class NinjectScope : IDependencyScope
     {
         protected IResolutionRoot resolutionRoot;
@@ -33,13 +32,9 @@ namespace Orders.com.Web.Api.Filters
 
         public void Dispose()
         {
-            IDisposable disposable = (IDisposable)resolutionRoot;
-            if (disposable != null) disposable.Dispose();
-            resolutionRoot = null;
         }
     }
 
-    // Compliments of http://www.strathweb.com/2012/05/using-ninject-with-the-latest-asp-net-web-api-source/
     public class NinjectResolver : NinjectScope, IDependencyResolver
     {
         private IKernel _kernel;
@@ -51,7 +46,7 @@ namespace Orders.com.Web.Api.Filters
 
         public IDependencyScope BeginScope()
         {
-            return new NinjectScope(_kernel.BeginBlock());
+            return new NinjectScope(_kernel);
         }
     }
 }

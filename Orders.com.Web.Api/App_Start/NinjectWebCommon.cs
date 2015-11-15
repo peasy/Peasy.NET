@@ -64,6 +64,7 @@ namespace Orders.com.Web.Api
                 try
                 {
                     var ninjectBinding = kernel.Bind(Type.GetType(binding.FromType)).To(Type.GetType(binding.ToType));
+                    if (binding.AsSingleton) ninjectBinding.InSingletonScope();
                     foreach (var defaultProp in binding.DefaultProperties)
                         ninjectBinding.WithPropertyValue(defaultProp.PropertyName, Cast(defaultProp.Value, defaultProp.Type));
                 }
