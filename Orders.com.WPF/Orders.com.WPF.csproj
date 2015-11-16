@@ -186,6 +186,10 @@
       <Project>{ce4be061-889b-4169-8403-82269e4ec7b9}</Project>
       <Name>Orders.com.BLL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Orders.com.DAL.Http\Orders.com.DAL.Http.csproj">
+      <Project>{3edd8d84-2f35-49e6-8853-146f25af4007}</Project>
+      <Name>Orders.com.DAL.Http</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Orders.com.DAL.InMemory\Orders.com.DAL.InMemory.csproj">
       <Project>{0debee6b-3561-47b8-a622-d2407839123b}</Project>
       <Name>Orders.com.DAL.InMemory</Name>

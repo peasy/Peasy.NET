@@ -1,4 +1,5 @@
 ﻿using Orders.com.BLL;
+using Orders.com.DAL.Http;
 using Orders.com.DAL.InMemory;
 using Orders.com.WPF.VM;
 using System.Windows;
@@ -26,17 +27,17 @@ namespace Orders.com.WPF
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var productsDataProxy = new ProductRepository();
-            var inventoryDataProxy = new InventoryItemRepository();
-            var customerDataProxy = new CustomerRepository();
-            var orderItemDataProxy = new OrderItemRepository();
-            var orderRepository = new OrderRepository(customerDataProxy, orderItemDataProxy);
+            var productsDataProxy = new ProductsHttpServiceProxy();
+            var inventoryDataProxy = new InventoryItemsHttpServiceProxy();
+            var customerDataProxy = new CustomersHttpServiceProxy();
+            var orderItemDataProxy = new OrderItemsHttpServiceProxy();
+            var orderRepository = new OrdersHttpServiceProxy();
             _inventoryService = new InventoryItemService(inventoryDataProxy);
             _orderItemsService = new OrderItemService(orderItemDataProxy, productsDataProxy, inventoryDataProxy, new DTCTransactionContext());
             _ordersService = new OrderService(orderRepository, _orderItemsService, new DTCTransactionContext());
             _customersService = new CustomerService(customerDataProxy, _ordersService);
             _productsService = new ProductService(productsDataProxy, orderRepository, _inventoryService, new DTCTransactionContext());
-            _categoriesService = new CategoryService(new CategoryRepository(), productsDataProxy);
+            _categoriesService = new CategoryService(new CategoriesHttpServiceProxy(), productsDataProxy);
             this.DataContext = new MainWindowVM(_eventAggregator, _customersService, _productsService, _categoriesService, _ordersService, _inventoryService);
         }
 

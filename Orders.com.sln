@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.com.Web.Api", "Order
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.com.WPF", "Orders.com.WPF\Orders.com.WPF.csproj", "{1FF92FD3-C3CD-48E7-93A1-624DEA8DC680}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.com.DAL.Http", "Orders.com.DAL.Http\Orders.com.DAL.Http.csproj", "{3EDD8D84-2F35-49E6-8853-146F25AF4007}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1FF92FD3-C3CD-48E7-93A1-624DEA8DC680}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FF92FD3-C3CD-48E7-93A1-624DEA8DC680}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FF92FD3-C3CD-48E7-93A1-624DEA8DC680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EDD8D84-2F35-49E6-8853-146F25AF4007}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EDD8D84-2F35-49E6-8853-146F25AF4007}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EDD8D84-2F35-49E6-8853-146F25AF4007}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EDD8D84-2F35-49E6-8853-146F25AF4007}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

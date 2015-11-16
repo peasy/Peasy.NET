@@ -28,10 +28,10 @@ namespace Orders.com.Domain
         [Editable(false)]
         public DateTime? ShippedDate { get; set; }
 
-        [Editable(false)]
+        //[Editable(false)]
         public DateTime? SubmittedDate { get; set; }
 
-        [Editable(false)]
+        //[Editable(false)]
         public long OrderStatusID { get; set; }
 
         public override long ID
