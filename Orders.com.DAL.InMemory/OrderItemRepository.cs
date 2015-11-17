@@ -11,16 +11,6 @@ namespace Orders.com.DAL.InMemory
 {
     public class OrderItemRepository : OrdersDotComMockBase<OrderItem>, IOrderItemDataProxy
     {
-        public OrderItem Backorder(OrderItem orderItem)
-        {
-            return Update(orderItem);
-        }
-
-        public Task<OrderItem> BackorderAsync(OrderItem orderItem)
-        {
-            return UpdateAsync(orderItem);
-        }
-
         public IEnumerable<OrderItem> GetByOrder(long orderID)
         {
             Debug.WriteLine("Executing EF OrderItem.GetByOrder");
