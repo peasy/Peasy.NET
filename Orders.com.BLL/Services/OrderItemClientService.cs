@@ -13,12 +13,12 @@ using System.Threading.Tasks;
 
 namespace Orders.com.BLL
 {
-    public class OrderItemServerService : OrderItemService
+    public class OrderItemClientService : OrderItemService
     {
         private ITransactionContext _transactionContext;
         private IInventoryItemDataProxy _inventoryDataProxy;
 
-        public OrderItemServerService(IOrderItemDataProxy dataProxy,
+        public OrderItemClientService(IOrderItemDataProxy dataProxy,
                                       IProductDataProxy productDataProxy,
                                       IInventoryItemDataProxy inventoryDataProxy,
                                       ITransactionContext transactionContext) : base(dataProxy, productDataProxy, inventoryDataProxy, transactionContext)
@@ -29,9 +29,12 @@ namespace Orders.com.BLL
 
         public override ICommand<OrderItem> ShipCommand(long orderItemID)
         {
-            // perform auth check?
             var proxy = DataProxy as IOrderItemDataProxy;
-            return new ShipOrderItemCommand(orderItemID, proxy, _inventoryDataProxy, _transactionContext);
+            return new ServiceCommand<OrderItem>
+            (
+                executeMethod: () => { return proxy.Ship(new OrderItem { OrderItemID = orderItemID }); },
+                executeAsyncMethod: () => { return proxy.ShipAsync(new OrderItem { OrderItemID = orderItemID }); }
+            );
         }
     }
 }

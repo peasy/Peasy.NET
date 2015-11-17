@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Peasy.Exception;
 
 namespace Orders.com.BLL
 {
@@ -140,12 +141,9 @@ namespace Orders.com.BLL
 
         public virtual ICommand<OrderItem> ShipCommand(long orderItemID)
         {
+            // perform auth check?
             var proxy = DataProxy as IOrderItemDataProxy;
-            return new ServiceCommand<OrderItem>
-            (
-                executeMethod: () => { return proxy.Ship(new OrderItem { OrderItemID = orderItemID }); }, 
-                executeAsyncMethod:  () => { return proxy.ShipAsync(new OrderItem { OrderItemID = orderItemID }); }
-            );
+            return new ShipOrderItemCommand(orderItemID, proxy, _inventoryDataProxy, _transactionContext);
         }
     }
 }
