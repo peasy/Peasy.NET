@@ -41,13 +41,14 @@ namespace Orders.com.BLL.Commands
                     CurrentOrderItem.ShippedDate = DateTime.Now.ToUniversalTime();
                     inventoryItem.QuantityOnHand -= CurrentOrderItem.Quantity;
                     _inventoryDataProxy.Update(inventoryItem);
+                    return _orderItemDataProxy.Ship(CurrentOrderItem);
                 }
                 else
                 {
                     CurrentOrderItem.OrderStatus().SetBackorderedState();
                     CurrentOrderItem.BackorderedDate = DateTime.Now.ToUniversalTime();
+                    return _orderItemDataProxy.Backorder(CurrentOrderItem);
                 }
-                return _orderItemDataProxy.Update(CurrentOrderItem);
             });
         }
 
@@ -62,13 +63,14 @@ namespace Orders.com.BLL.Commands
                     CurrentOrderItem.ShippedDate = DateTime.Now.ToUniversalTime();
                     inventoryItem.QuantityOnHand -= CurrentOrderItem.Quantity;
                     await _inventoryDataProxy.UpdateAsync(inventoryItem);
+                    return await _orderItemDataProxy.ShipAsync(CurrentOrderItem);
                 }
                 else
                 {
                     CurrentOrderItem.OrderStatus().SetBackorderedState();
                     CurrentOrderItem.BackorderedDate = DateTime.Now.ToUniversalTime();
+                    return await _orderItemDataProxy.BackorderAsync(CurrentOrderItem);
                 }
-                return await _orderItemDataProxy.UpdateAsync(CurrentOrderItem);
             });
         }
 

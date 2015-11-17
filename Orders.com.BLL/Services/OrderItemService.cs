@@ -111,13 +111,13 @@ namespace Orders.com.BLL
                 {
                     context.CurrentEntity.OrderStatus().SetSubmittedState();
                     context.CurrentEntity.SubmittedDate = DateTime.Now;
-                    return proxy.Update(context.CurrentEntity);
+                    return proxy.Submit(context.CurrentEntity);
                 },
                 executeAsyncMethod: () =>
                 {
                     context.CurrentEntity.OrderStatus().SetSubmittedState();
                     context.CurrentEntity.SubmittedDate = DateTime.Now;
-                    return proxy.UpdateAsync(context.CurrentEntity);
+                    return proxy.SubmitAsync(context.CurrentEntity);
                 },
                 getBusinessRulesMethod: () => GetBusinessRulesForSubmit(orderItemID, context),
                 getBusinessRulesAsyncMethod: () => GetBusinessRulesForSubmitAsync(orderItemID, context)

@@ -19,5 +19,26 @@ namespace Orders.com.Web.Api.Controllers
             var orderItems = (_businessService as IOrderItemService).GetByOrderCommand(orderID).Execute().Value;
             return orderItems;
         }
+
+        [HttpPut]
+        public OrderItem Submit(OrderItem item)
+        {
+            var orderItem = (_businessService as IOrderItemService).SubmitCommand(item.ID).Execute().Value;
+            return orderItem;
+        }
+
+        [HttpPut]
+        public OrderItem Ship(OrderItem item)
+        {
+            var orderItem = (_businessService as IOrderItemService).ShipCommand(item.ID).Execute().Value;
+            return orderItem;
+        }
+
+        //[HttpPut]
+        //public OrderItem Backorder(OrderItem item)
+        //{
+        //    var orderItem = (_businessService as IOrderItemService).back(item.ID).Execute().Value;
+        //    return orderItem;
+        //}
     }
 }
