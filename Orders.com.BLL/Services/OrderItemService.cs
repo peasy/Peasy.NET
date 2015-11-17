@@ -138,11 +138,22 @@ namespace Orders.com.BLL
             return new[] { new CanSubmitOrderItemRule(orderItem) };
         }
 
-        public ICommand<OrderItem> ShipCommand(long orderItemID)
+        public virtual ICommand<OrderItem> ShipCommand(long orderItemID)
         {
-            // perform auth check?
             var proxy = DataProxy as IOrderItemDataProxy;
-            return new ShipOrderItemCommand(orderItemID, proxy, _inventoryDataProxy, _transactionContext);
+            return new ServiceCommand<OrderItem>
+            (
+                executeMethod: () => 
+                {
+                    var item = proxy.GetByID(orderItemID);
+                    return proxy.Ship(item);
+                }, 
+                executeAsyncMethod: async () => 
+                {
+                    var item = await proxy.GetByIDAsync(orderItemID);
+                    return await proxy.ShipAsync(item);
+                }
+            );
         }
     }
 }

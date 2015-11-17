@@ -69,6 +69,7 @@
     <Compile Include="Services\IOrderItemService.cs" />
     <Compile Include="Services\IOrderService.cs" />
     <Compile Include="Services\IProductService.cs" />
+    <Compile Include="Services\OrderItemServerService.cs" />
     <Compile Include="Services\OrderStatusService.cs" />
     <Compile Include="Commands\DeleteOrderCommand.cs" />
     <Compile Include="Services\OrdersDotComServiceBase.cs" />
