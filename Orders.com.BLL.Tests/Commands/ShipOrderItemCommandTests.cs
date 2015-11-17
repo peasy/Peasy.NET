@@ -69,7 +69,7 @@ namespace Orders.com.BLL.Tests.Commands
             
             var orderItemDataProxy = new Mock<IOrderItemDataProxy>();
             orderItemDataProxy.Setup(p => p.GetByID(orderItemID)).Returns(orderItem);
-            orderItemDataProxy.Setup(p => p.Update(It.IsAny<OrderItem>())).Returns(orderItem);
+            orderItemDataProxy.Setup(p => p.Ship(It.IsAny<OrderItem>())).Returns(orderItem);
 
             var command = new ShipOrderItemCommand(orderItemID, orderItemDataProxy.Object, inventoryDataProxy.Object, new TransactionContextStub());
             var result = command.Execute();
@@ -96,7 +96,7 @@ namespace Orders.com.BLL.Tests.Commands
             
             var orderItemDataProxy = new Mock<IOrderItemDataProxy>();
             orderItemDataProxy.Setup(p => p.GetByID(orderItemID)).Returns(orderItem);
-            orderItemDataProxy.Setup(p => p.Update(It.IsAny<OrderItem>())).Returns(orderItem);
+            orderItemDataProxy.Setup(p => p.Ship(It.IsAny<OrderItem>())).Returns(orderItem);
 
             var command = new ShipOrderItemCommand(orderItemID, orderItemDataProxy.Object, inventoryDataProxy.Object, new TransactionContextStub());
             var result = command.Execute();
@@ -163,7 +163,7 @@ namespace Orders.com.BLL.Tests.Commands
             
             var orderItemDataProxy = new Mock<IOrderItemDataProxy>();
             orderItemDataProxy.Setup(p => p.GetByIDAsync(orderItemID)).Returns(Task.FromResult(orderItem));
-            orderItemDataProxy.Setup(p => p.UpdateAsync(It.IsAny<OrderItem>())).Returns(Task.FromResult(orderItem));
+            orderItemDataProxy.Setup(p => p.ShipAsync(It.IsAny<OrderItem>())).Returns(Task.FromResult(orderItem));
 
             var command = new ShipOrderItemCommand(orderItemID, orderItemDataProxy.Object, inventoryDataProxy.Object, new TransactionContextStub());
             var result = await command.ExecuteAsync();
@@ -190,7 +190,7 @@ namespace Orders.com.BLL.Tests.Commands
             
             var orderItemDataProxy = new Mock<IOrderItemDataProxy>();
             orderItemDataProxy.Setup(p => p.GetByIDAsync(orderItemID)).Returns(Task.FromResult(orderItem));
-            orderItemDataProxy.Setup(p => p.UpdateAsync(It.IsAny<OrderItem>())).Returns(Task.FromResult(orderItem));
+            orderItemDataProxy.Setup(p => p.ShipAsync(It.IsAny<OrderItem>())).Returns(Task.FromResult(orderItem));
 
             var command = new ShipOrderItemCommand(orderItemID, orderItemDataProxy.Object, inventoryDataProxy.Object, new TransactionContextStub());
             var result = await command.ExecuteAsync();

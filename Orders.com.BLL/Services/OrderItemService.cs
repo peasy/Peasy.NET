@@ -143,14 +143,8 @@ namespace Orders.com.BLL
             var proxy = DataProxy as IOrderItemDataProxy;
             return new ServiceCommand<OrderItem>
             (
-                executeMethod: () => 
-                {
-                    return proxy.Ship(new OrderItem { OrderItemID = orderItemID });
-                }, 
-                executeAsyncMethod: async () => 
-                {
-                    return await proxy.ShipAsync(new OrderItem { OrderItemID = orderItemID });
-                }
+                executeMethod: () => { return proxy.Ship(new OrderItem { OrderItemID = orderItemID }); }, 
+                executeAsyncMethod:  () => { return proxy.ShipAsync(new OrderItem { OrderItemID = orderItemID }); }
             );
         }
     }

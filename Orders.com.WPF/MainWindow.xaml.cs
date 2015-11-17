@@ -32,12 +32,13 @@ namespace Orders.com.WPF
             var customerDataProxy = new CustomersHttpServiceProxy();
             var orderItemDataProxy = new OrderItemsHttpServiceProxy();
             var orderRepository = new OrdersHttpServiceProxy();
+            var categoriesDataProxy = new CategoriesHttpServiceProxy();
             _inventoryService = new InventoryItemService(inventoryDataProxy);
             _orderItemsService = new OrderItemService(orderItemDataProxy, productsDataProxy, inventoryDataProxy, new DTCTransactionContext());
             _ordersService = new OrderService(orderRepository, _orderItemsService, new DTCTransactionContext());
             _customersService = new CustomerService(customerDataProxy, _ordersService);
             _productsService = new ProductService(productsDataProxy, orderRepository, _inventoryService, new DTCTransactionContext());
-            _categoriesService = new CategoryService(new CategoriesHttpServiceProxy(), productsDataProxy);
+            _categoriesService = new CategoryService(categoriesDataProxy, productsDataProxy);
             this.DataContext = new MainWindowVM(_eventAggregator, _customersService, _productsService, _categoriesService, _ordersService, _inventoryService);
         }
 

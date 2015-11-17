@@ -12,25 +12,34 @@ namespace Orders.com.Web.Api.Controllers
             _businessService = orderItemService;
         }
 
+        private IOrderItemService BusinessService
+        {
+            get { return _businessService as IOrderItemService; }
+        }
+
         [HttpGet]
         /// GET api/orderitems?orderid=123
         public IEnumerable<OrderItem> GetByOrder(long orderID)
         {
-            var orderItems = (_businessService as IOrderItemService).GetByOrderCommand(orderID).Execute().Value;
+            var orderItems = BusinessService.GetByOrderCommand(orderID).Execute().Value;
             return orderItems;
         }
 
         [HttpPut]
-        public OrderItem Submit(OrderItem item)
+        /// PUT api/orderitems/123/submit
+        [Route("api/orderitems/{orderitemid:long}/submit")]
+        public OrderItem Submit(long orderItemID)
         {
-            var orderItem = (_businessService as IOrderItemService).SubmitCommand(item.ID).Execute().Value;
+            var orderItem = BusinessService.SubmitCommand(orderItemID).Execute().Value;
             return orderItem;
         }
 
         [HttpPut]
-        public OrderItem Ship(OrderItem item)
+        /// PUT api/orderitems/123/ship
+        [Route("api/orderitems/{orderitemid:long}/ship")]
+        public OrderItem Ship(long orderItemID)
         {
-            var orderItem = (_businessService as IOrderItemService).ShipCommand(item.ID).Execute().Value;
+            var orderItem = BusinessService.ShipCommand(orderItemID).Execute().Value;
             return orderItem;
         }
     }
