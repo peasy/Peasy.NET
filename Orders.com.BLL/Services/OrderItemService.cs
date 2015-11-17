@@ -145,13 +145,11 @@ namespace Orders.com.BLL
             (
                 executeMethod: () => 
                 {
-                    var item = proxy.GetByID(orderItemID);
-                    return proxy.Ship(item);
+                    return proxy.Ship(new OrderItem { OrderItemID = orderItemID });
                 }, 
                 executeAsyncMethod: async () => 
                 {
-                    var item = await proxy.GetByIDAsync(orderItemID);
-                    return await proxy.ShipAsync(item);
+                    return await proxy.ShipAsync(new OrderItem { OrderItemID = orderItemID });
                 }
             );
         }
