@@ -31,6 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Peasy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Peasy.1.0.0.7\lib\portable-net451+win81\Peasy.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Peasy.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Peasy.Core.1.0.0.4\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Peasy.DataProxy.InMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Peasy.DataProxy.InMemory.1.0.0.2\lib\portable-net451+win81\Peasy.DataProxy.InMemory.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -57,14 +73,9 @@
       <Project>{ce4be061-889b-4169-8403-82269e4ec7b9}</Project>
       <Name>Orders.com.BLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
-      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
-      <Name>Peasy.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Peasy\Peasy.csproj">
-      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
-      <Name>Peasy</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

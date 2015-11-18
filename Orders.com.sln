@@ -15,10 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.com.WPF", "Orders.co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.com.DAL.Http", "Orders.com.DAL.Http\Orders.com.DAL.Http.csproj", "{3EDD8D84-2F35-49E6-8853-146F25AF4007}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peasy", "Peasy\Peasy.csproj", "{0223227F-932F-4C63-8FA1-69840E63DF49}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peasy.Core", "Peasy.Core\Peasy.Core.csproj", "{034E1545-4697-4BC1-AA2A-3355E125B75F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,14 +45,6 @@ Global
 		{3EDD8D84-2F35-49E6-8853-146F25AF4007}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3EDD8D84-2F35-49E6-8853-146F25AF4007}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3EDD8D84-2F35-49E6-8853-146F25AF4007}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0223227F-932F-4C63-8FA1-69840E63DF49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0223227F-932F-4C63-8FA1-69840E63DF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0223227F-932F-4C63-8FA1-69840E63DF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0223227F-932F-4C63-8FA1-69840E63DF49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{034E1545-4697-4BC1-AA2A-3355E125B75F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{034E1545-4697-4BC1-AA2A-3355E125B75F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{034E1545-4697-4BC1-AA2A-3355E125B75F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{034E1545-4697-4BC1-AA2A-3355E125B75F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

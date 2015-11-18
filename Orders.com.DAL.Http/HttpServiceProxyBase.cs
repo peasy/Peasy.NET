@@ -370,7 +370,7 @@ namespace Orders.com.DAL.Http
 
                 case System.Net.HttpStatusCode.BadRequest:
                     message = StripMessage(response.Content.ReadAsAsync<object>().Result.ToString());
-                    throw new BusinessServiceException(message);
+                    throw new ServiceException(message);
             }
             return response.EnsureSuccessStatusCode();
         }

@@ -96,12 +96,20 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+Xamarin.iOS10+MonoTouch10\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Peasy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.1.0.0.6\lib\portable-net451+win81\Peasy.dll</HintPath>
+      <HintPath>..\packages\Peasy.1.0.0.7\lib\portable-net451+win81\Peasy.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Peasy.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.Core.1.0.0.3\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
+      <HintPath>..\packages\Peasy.Core.1.0.0.4\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Peasy.DataProxy.InMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Peasy.DataProxy.InMemory.1.0.0.2\lib\portable-net451+win81\Peasy.DataProxy.InMemory.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
