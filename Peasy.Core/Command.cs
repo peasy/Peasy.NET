@@ -21,7 +21,14 @@ namespace Peasy.Core
             if (validationResults.Any())
                 return new ExecutionResult { Success = false, Errors = validationResults };
 
-            OnExecute();
+            try
+            {
+                OnExecute();
+            }
+            catch (ServiceException ex)
+            {
+                return new ExecutionResult { Success = false, Errors = new ValidationResult[] { new ValidationResult(ex.Message) }};
+            }
 
             return new ExecutionResult { Success = true };
         }
@@ -37,7 +44,14 @@ namespace Peasy.Core
             if (validationResults.ToArray().Any())
                 return new ExecutionResult { Success = false, Errors = validationResults };
 
-            await OnExecuteAsync();
+            try
+            {
+                await OnExecuteAsync();
+            }
+            catch (ServiceException ex)
+            {
+                return new ExecutionResult { Success = false, Errors = new ValidationResult[] { new ValidationResult(ex.Message) }};
+            }
 
             return new ExecutionResult { Success = true };
         }
@@ -91,7 +105,15 @@ namespace Peasy.Core
             if (validationResults.Any())
                 return new ExecutionResult<T> { Success = false, Errors = validationResults };
 
-            var result = OnExecute();
+            T result;
+            try
+            {
+                result = OnExecute();
+            }
+            catch (ServiceException ex)
+            {
+                return new ExecutionResult<T> { Success = false, Errors = new ValidationResult[] { new ValidationResult(ex.Message) }};
+            }
 
             return new ExecutionResult<T> { Success = true, Value = result };
         }
@@ -107,7 +129,15 @@ namespace Peasy.Core
             if (validationResults.ToArray().Any())
                 return new ExecutionResult<T> { Success = false, Errors = validationResults };
 
-            var result = await OnExecuteAsync();
+            T result;
+            try
+            {
+                result = await OnExecuteAsync();
+            }
+            catch (ServiceException ex)
+            {
+                return new ExecutionResult<T> { Success = false, Errors = new ValidationResult[] { new ValidationResult(ex.Message) }};
+            }
 
             return new ExecutionResult<T> { Success = true, Value = result };
         }
