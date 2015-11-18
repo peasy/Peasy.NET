@@ -349,16 +349,6 @@ namespace Orders.com.DAL.Http
             return entity;
         }
 
-        public static void HandleError(Task task)
-        {
-            if (task.Exception != null)
-            {
-                var baseException = task.Exception.GetBaseException();
-                Debug.WriteLine(baseException.Message);
-                Debug.WriteLine(baseException.GetType().Name);
-            }
-        }
-
         /// <summary>
         /// Throws an exception if the System.Net.Http.HttpResponseMessage.IsSuccessStatusCode property for the HTTP response is false.
         /// </summary>
@@ -367,7 +357,6 @@ namespace Orders.com.DAL.Http
         /// </returns>
         public HttpResponseMessage EnsureSuccessStatusCode(HttpResponseMessage response)
         {
-            //response.StatusCode == System.Net.HttpStatusCode.BadRequest ||
             string message = string.Empty;
             switch (response.StatusCode)
             {
@@ -379,20 +368,10 @@ namespace Orders.com.DAL.Http
                     message = StripMessage(response.Content.ReadAsAsync<object>().Result.ToString());
                     throw new ConcurrencyException(message);
 
-                //case System.Net.HttpStatusCode.BadRequest:
-                //    message = StripMessage(response.Content.ReadAsAsync<object>().Result.ToString());
-                //    throw new ConcurrencyException(message);
+                case System.Net.HttpStatusCode.BadRequest:
+                    message = StripMessage(response.Content.ReadAsAsync<object>().Result.ToString());
+                    throw new BusinessServiceException(message);
             }
-            //if ( response.StatusCode == System.Net.HttpStatusCode.NotFound)
-            //{
-            //    var message = StripMessage(response.Content.ReadAsAsync<object>().Result.ToString());
-            //    throw new DomainObjectNotFoundException(message);
-            //}
-            //else if (response.StatusCode == System.Net.HttpStatusCode.Conflict)
-            //{
-            //    var message = StripMessage(response.Content.ReadAsAsync<object>().Result.ToString());
-            //    throw new ConcurrencyException(message);
-            //}
             return response.EnsureSuccessStatusCode();
         }
 
@@ -410,7 +389,7 @@ namespace Orders.com.DAL.Http
             //if (ex.GetBaseException() is CRUDException)
             //    throw new CRUDException(ex.GetBaseException().Message);
             var x = ex.GetBaseException();
-            throw new Exception("Error occurred in RestfulServiceProxyBase", ex);
+            throw new Exception("Error occurred in HttpServiceProxyBase", ex);
         }
 
         /// <summary>

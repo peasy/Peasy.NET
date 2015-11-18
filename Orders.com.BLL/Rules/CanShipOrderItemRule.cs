@@ -17,7 +17,7 @@ namespace Orders.com.BLL.Rules
         {
             if (!_orderItem.OrderStatus().CanShip)
             {
-                Invalidate(string.Format("Order Item ID:{0} is in a {1} state and cannot be shipped", _orderItem .ID.ToString(), _orderItem .OrderStatus().Name));
+                Invalidate(string.Format("Order Item ID {0} is in a {1} state and cannot be shipped", _orderItem.ID.ToString(), _orderItem.OrderStatus().Name));
             }
         }
     }

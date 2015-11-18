@@ -1,4 +1,5 @@
-﻿using Orders.com.BLL;
+﻿using MahApps.Metro.Controls.Dialogs;
+using Orders.com.BLL;
 using Orders.com.Domain;
 using Orders.com.Extensions;
 using System;
@@ -190,8 +191,15 @@ namespace Orders.com.WPF.VM
             {
                 var service = _service as OrderItemService;
                 var result = await service.SubmitCommand(ID).ExecuteAsync();
-                CurrentEntity = result.Value;
-                OnPropertyChanged("Status", "SubmittedOn");
+                if (result.Success)
+                {
+                    CurrentEntity = result.Value;
+                    OnPropertyChanged("Status", "SubmittedOn");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(result.Errors);
+                }
             }
         }
 
@@ -212,9 +220,16 @@ namespace Orders.com.WPF.VM
             {
                 var service = _service as OrderItemService;
                 var result = await service.ShipCommand(ID).ExecuteAsync();
-                await LoadInventoryItemAsync();
-                CurrentEntity = result.Value;
-                OnPropertyChanged("Status", "ShippedOn");
+                if (result.Success)
+                {
+                    await LoadInventoryItemAsync();
+                    CurrentEntity = result.Value;
+                    OnPropertyChanged("Status", "ShippedOn");
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine(result.Errors);
+                }
             }
         }
     }

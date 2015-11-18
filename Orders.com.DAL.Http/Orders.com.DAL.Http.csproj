@@ -31,14 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Peasy, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.1.0.0.6\lib\portable-net451+win81\Peasy.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Peasy.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Peasy.Core.1.0.0.3\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -65,9 +57,14 @@
       <Project>{ce4be061-889b-4169-8403-82269e4ec7b9}</Project>
       <Name>Orders.com.BLL</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
+      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
+      <Name>Peasy.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Peasy\Peasy.csproj">
+      <Project>{0223227f-932f-4c63-8fa1-69840e63df49}</Project>
+      <Name>Peasy</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
