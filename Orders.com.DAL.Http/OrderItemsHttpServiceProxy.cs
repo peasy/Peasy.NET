@@ -1,18 +1,15 @@
 ﻿using Orders.com.DataProxy;
 using Orders.com.Domain;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Orders.com.DAL.Http
 {
-    public class OrderItemsHttpServiceProxy : HttpServiceProxyBase<OrderItem, long>, IOrderItemDataProxy
+    public class OrderItemsHttpServiceProxy : OrdersDotComHttpProxyBase<OrderItem, long>, IOrderItemDataProxy
     {
         protected override string RequestUri
         {
-            get { return "http://localhost:53534/api/orderitems"; }
+            get { return $"{BaseAddress}/orderitems"; }
         }
 
         public IEnumerable<OrderItem> GetByOrder(long orderID)
