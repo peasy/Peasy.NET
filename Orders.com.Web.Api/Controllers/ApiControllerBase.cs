@@ -18,16 +18,23 @@ namespace Orders.com.Web.Api
         // GET api/contracts
         public virtual HttpResponseMessage Get()
         {
-            var result = _businessService.GetAllCommand().Execute();
-
-            if (result.Success)
+            try
             {
-                var results = result.Value;
-                // http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.3
-                return Request.CreateResponse(HttpStatusCode.OK, results);
-            }
+                var result = _businessService.GetAllCommand().Execute();
 
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Join("\n", result.Errors));
+                if (result.Success)
+                {
+                    var results = result.Value;
+                    // http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.3
+                    return Request.CreateResponse(HttpStatusCode.OK, results);
+                }
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, string.Join("\n", result.Errors));
+            }
+            catch (NotImplementedException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotImplemented, ex.Message);
+            }
         }
 
         // GET api/contracts/5
@@ -61,6 +68,10 @@ namespace Orders.com.Web.Api
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, ex.Message);
             }
+            catch (NotImplementedException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotImplemented, ex.Message);
+            }
         }
 
         // POST api/contracts
@@ -68,18 +79,25 @@ namespace Orders.com.Web.Api
         {
             if (value == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "The request payload could not be parsed");
 
-            var result = _businessService.InsertCommand(value).Execute();
-
-            if (result.Success)
+            try
             {
-                T newEntity = result.Value;
-                // http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.5
-                var responseMessage = Request.CreateResponse(HttpStatusCode.Created, newEntity);
-                responseMessage.Headers.Location = new Uri(BuildNewResourceUriString(newEntity.ID));
-                return responseMessage;
-            }
+                var result = _businessService.InsertCommand(value).Execute();
 
-            return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState.ClearFirst().ThenAddRange(result.Errors));
+                if (result.Success)
+                {
+                    T newEntity = result.Value;
+                    // http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html#sec9.5
+                    var responseMessage = Request.CreateResponse(HttpStatusCode.Created, newEntity);
+                    responseMessage.Headers.Location = new Uri(BuildNewResourceUriString(newEntity.ID));
+                    return responseMessage;
+                }
+
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState.ClearFirst().ThenAddRange(result.Errors));
+            }
+            catch (NotImplementedException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotImplemented, ex.Message);
+            }
         }
 
         //// POST api/contracts
@@ -147,6 +165,10 @@ namespace Orders.com.Web.Api
             {
                 return Request.CreateErrorResponse(HttpStatusCode.Conflict, "A concurrency issue occurred.  Try a GET on the resource and attempt the PUT again.");
             }
+            catch (NotImplementedException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotImplemented, ex.Message);
+            }
         }
 
         // PUT api/contracts
@@ -182,6 +204,10 @@ namespace Orders.com.Web.Api
             catch (ConcurrencyException)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.Conflict, "A concurrency issue occurred.  Try a GET on the resource and attempt the DELETE again.");
+            }
+            catch (NotImplementedException ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.NotImplemented, ex.Message);
             }
         }
 
