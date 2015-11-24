@@ -62,7 +62,7 @@
                                 <Image Source="Images\add.png" Stretch="UniformToFill" />
                             </Button.Content>
                         </Button>
-                        <Button Margin="5" Width="35" Height="35" Command="{Binding LoadOrdersCommand}" ToolTip="Refresh">
+                        <Button Margin="5" Width="35" Height="35" Command="{Binding LoadOrdersCommand}" ToolTip="Refresh" >
                             <Button.Content>
                                 <Image Source="Images\sync.png" Stretch="UniformToFill"></Image>
                             </Button.Content>

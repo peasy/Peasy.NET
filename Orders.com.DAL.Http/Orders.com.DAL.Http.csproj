@@ -43,6 +43,10 @@
       <HintPath>..\packages\Peasy.Core.1.0.0.4\lib\portable-net451+win81\Peasy.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Peasy.DataProxy.Http, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Peasy.DataProxy.Http.1.0.0.0\lib\portable-net451+win81\Peasy.DataProxy.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Peasy.DataProxy.InMemory, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Peasy.DataProxy.InMemory.1.0.0.2\lib\portable-net451+win81\Peasy.DataProxy.InMemory.dll</HintPath>
       <Private>True</Private>
@@ -67,7 +71,6 @@
     <Compile Include="CategoriesHttpServiceProxy.cs" />
     <Compile Include="CustomersHttpServiceProxy.cs" />
     <Compile Include="HttpClientExtensions.cs" />
-    <Compile Include="HttpServiceProxyBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +80,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
