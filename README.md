@@ -27,7 +27,7 @@ You can also download and add the Peasy and/or Peasy.Core projects to your solut
 
 You can get started by reviewing the [getting started example](https://github.com/ahanusa/Peasy.NET/wiki#the-simplest-possible-example) on the Peasy wiki.  The wiki also covers in-depth how-to's, general framework design, and usage scenarios.
 
-You can also download the entire repo that contains a full sample implementation of a middle tier built with peasy, as well as a sample WPF consumer client.  You can clone the repo or download the entire project as a [zip](https://github.com/ahanusa/Peasy.NET/archive/master.zip).  Once downloaded, open Peasy.sln with Visual Studio, set the WPF project as the startup project and run.
+You can also check out the [samples repo](https://github.com/peasy/Samples) that contains a sample implementation of a middle tier built with peasy, as well as a sample consumer clients (WPF, Web API, etc.).  You can clone the repo or download the entire project as a [zip](https://github.com/peasy/samples/archive/master.zip).  Once downloaded, open Orders.com.sln with Visual Studio, set the WPF project and Web Api projects as the startup projects and run.
 
 #Contributing
 
