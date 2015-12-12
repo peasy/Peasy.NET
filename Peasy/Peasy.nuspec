@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>$id$</id>
-    <version>1.0.0.7</version>
+    <version>1.0.0.8</version>
     <title>Peasy</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?raw=1</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Peasy is a middle tier framework that offers an  easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support, all without the huge learning curve!</description>
-    <releaseNotes>Update to reference latest Peasy.Core changes.  This release does not present breaking changes</releaseNotes>
+    <releaseNotes>Update to check base class properties for application of Editable and PeasyForeignKey attributes</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Middle Tier, Framework, Business Layer, Opinionated</tags>
     <summary>An easy to use middle tier framework for .NET</summary>
