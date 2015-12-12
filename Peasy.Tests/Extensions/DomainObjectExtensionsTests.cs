@@ -58,10 +58,12 @@ namespace Peasy.Tests.Extensions
 
     public class MockClass
     {
+        [Editable(false)]
+        public string SomeValue { get; set; }
     }
 
     [PeasyDisplayName("Mock II")]
-    public class MockClass2
+    public class MockClass2 : MockClass
     {
         public int ID { get; set; }
 

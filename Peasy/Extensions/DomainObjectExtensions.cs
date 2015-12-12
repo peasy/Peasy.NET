@@ -72,7 +72,7 @@ namespace Peasy.Extensions
             var type = typeof(T);
             if (!_cachedForeignKeyProperties.ContainsKey(type))
             {
-                var foreignKeyProps = type.GetTypeInfo().DeclaredProperties
+                var foreignKeyProps = type.GetRuntimeProperties()
                                           .Where(p => p.GetCustomAttributes(typeof(PeasyForeignKeyAttribute), true)
                                                        .Any())
                     // Enforce that only properties of type Nullable<int> marked with the PeasyForeignKey attribute are selected
@@ -87,9 +87,10 @@ namespace Peasy.Extensions
         private static IEnumerable<PropertyInfo> GetCachedNonEditableProperties<T>(this T domainObject)
         {
             var type = typeof(T);
+
             if (!_cachedNonEditableProperties.ContainsKey(type))
             {
-                var nonEditableProperties = type.GetTypeInfo().DeclaredProperties
+                var nonEditableProperties = type.GetRuntimeProperties()
                                                 .Where(p => p.GetCustomAttributes(typeof(EditableAttribute), true)
                                                              .Cast<EditableAttribute>()
                                                              .Any(a => a.AllowEdit == false));
