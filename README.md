@@ -4,11 +4,11 @@
 A middle tier framework for .NET
 ```
 
-#What's a middle tier framework?
+# What's a middle tier framework?
 
 A middle tier framework is code that facilitates creating business logic in a reusable, extensible, maintainable, and testable manner.   It promotes creating business logic that is completely decoupled from its consuming technologies and helps to ensure that separation of concerns ([SoC](https://en.wikipedia.org/wiki/Separation_of_concerns)) are adhered to.
 
-#####Peasy.NET offers/addresses the following:
+##### Peasy.NET offers/addresses the following:
 
 - Easy to use [validation](https://github.com/peasy/Peasy.NET/wiki/Validation-Rules)/[business rules](https://github.com/peasy/Peasy.NET/wiki/Business-Rules) engine
 - [Thread safety](https://github.com/peasy/Peasy.NET/wiki/Thread-Safety)
@@ -21,7 +21,7 @@ A middle tier framework is code that facilitates creating business logic in a re
 - [Transactional support and fault tolerance](https://github.com/peasy/Peasy.NET/wiki/ITransactionContext)
 - [Easy testability](https://github.com/peasy/Peasy.NET/wiki/Testing)
 
-#Where can I get it?
+# Where can I get it?
 
 First, install NuGet. Then, install Peasy from the package manager console:
 
@@ -29,7 +29,7 @@ First, install NuGet. Then, install Peasy from the package manager console:
 
 You can also download and add the Peasy and/or Peasy.Core projects to your solution
 
-#Getting started
+# Getting started
 
 You can get started by reviewing the [getting started example](https://github.com/peasy/Peasy.NET/wiki#the-simplest-possible-example) on the Peasy wiki.  The wiki also covers in-depth how-to's, general framework design, and usage scenarios.
 
@@ -37,10 +37,10 @@ You can also check out the [samples repo](https://github.com/peasy/Samples) that
 
 Once downloaded, open Orders.com.sln with Visual Studio, set the WPF or ASP.NET MVC project as the startup project and run.  More information about the samples application can be found [here](https://github.com/peasy/Samples).
 
-#Contributing
+# Contributing
 
 All contributions are welcome, from general framework improvements to sample client consumers, proxy implementations, and documentation updates.  Want to get involved?  Please hit me up with your ideas.  Alternatively, you can make a pull request and we'll get to it ASAP.
 
-#Like what you see?
+# Like what you see?
 
 Please consider showing your support by starring the project.
