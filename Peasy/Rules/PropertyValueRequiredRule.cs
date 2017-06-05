@@ -1,6 +1,4 @@
-﻿using Peasy.Core;
-
-namespace Peasy.Rules
+﻿namespace Peasy.Rules
 {
     public class PropertyValueRequiredRule : RuleBase
     {

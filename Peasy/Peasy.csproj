@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0223227F-932F-4C63-8FA1-69840E63DF49}</ProjectGuid>
+    <ProjectGuid>{DF917724-460D-4A78-A199-33ABB2A85B9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Peasy</RootNamespace>
@@ -14,9 +13,9 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile44</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <NuGetPackageImportStamp>23268777</NuGetPackageImportStamp>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,7 +25,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoWarn>CS1998;CC0052</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,44 +35,51 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Attributes\PeasyDisplayNameAttribute.cs" />
+    <Compile Include="Attributes\PeasyForeignKeyAttribute.cs" />
     <Compile Include="Attributes\PeasyRequiredAttribute.cs" />
     <Compile Include="BusinessServiceBase.cs" />
+    <Compile Include="Command.cs" />
     <Compile Include="Exception\ConcurrencyException.cs" />
     <Compile Include="Exception\DomainObjectNotFoundException.cs" />
     <Compile Include="Exception\PeasyException.cs" />
+    <Compile Include="ExecutionContext.cs" />
+    <Compile Include="ExecutionResult.cs" />
     <Compile Include="Extensions\DomainObjectExtensions.cs" />
-    <Compile Include="Attributes\PeasyForeignKeyAttribute.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\GenericExtensions.cs" />
+    <Compile Include="Extensions\IDomainObjectExtensions.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
-    <Compile Include="IVersionContainer.cs" />
+    <Compile Include="Extensions\IRuleExtensions.cs" />
+    <Compile Include="ICommand.cs" />
+    <Compile Include="IDataProxy.cs" />
+    <Compile Include="IDomainObject.cs" />
     <Compile Include="ILatencyProneStatusProvider.cs" />
+    <Compile Include="IRule.cs" />
+    <Compile Include="IService.cs" />
     <Compile Include="IServiceDataProxy.cs" />
+    <Compile Include="ISupportCRUD.cs" />
+    <Compile Include="ISupportCRUDAsync.cs" />
+    <Compile Include="ITransactionContext.cs" />
     <Compile Include="ITransactionSupportStatusProvider.cs" />
+    <Compile Include="IVersionContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RuleBase.cs" />
     <Compile Include="Rules\ConcurrencyCheckRule.cs" />
     <Compile Include="Rules\GreaterThanZeroRule.cs" />
     <Compile Include="Rules\PropertyValueRequiredRule.cs" />
     <Compile Include="Rules\ValueRequiredRule.cs" />
-    <Compile Include="ITransactionContext.cs" />
+    <Compile Include="ServiceBase.cs" />
+    <Compile Include="ServiceCommand.cs" />
+    <Compile Include="ServiceException.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Peasy.Core\Peasy.Core.csproj">
-      <Project>{034e1545-4697-4bc1-aa2a-3355e125b75f}</Project>
-      <Name>Peasy.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

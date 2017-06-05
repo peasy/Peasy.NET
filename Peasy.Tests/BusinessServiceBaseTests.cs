@@ -1,5 +1,4 @@
-﻿using Peasy.Core;
-using Peasy.Exception;
+﻿using Peasy.Exception;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System;

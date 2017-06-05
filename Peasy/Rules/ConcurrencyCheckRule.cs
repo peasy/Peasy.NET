@@ -1,5 +1,4 @@
 ﻿using Peasy.Extensions;
-using Peasy.Core;
 
 namespace Peasy.Rules
 {

@@ -1,6 +1,4 @@
-﻿using Peasy.Core;
-
-namespace Peasy
+﻿namespace Peasy
 {
     public interface IServiceDataProxy<T, TKey> : IDataProxy<T, TKey>,
                                                   ITransactionSupportStatusProvider,
