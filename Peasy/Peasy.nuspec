@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Peasy</id>
-    <version>2.0.0</version>
+    <version>2.0.1</version>
     <title>Peasy</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
@@ -11,10 +11,14 @@
     <iconUrl>https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?raw=1</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Peasy is a middle tier framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</description>
-    <releaseNotes>Update to check base class properties for application of Editable and PeasyForeignKey attributes</releaseNotes>
-    <copyright>Copyright 2015</copyright>
-    <tags>Middle Tier, Framework, Business Layer, Opinionated</tags>
+    <releaseNotes>Merged peasy.core and peasy into one library (Peasy).  Peasy.core namespace no longer exists.  This version supports >= .NET 4.6.1 and .NET Core.</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>Middle, Tier, Framework, Business, Logic, Layer</tags>
     <summary>An easy to use middle tier framework for .NET</summary>
+    <!-- Insert within the <metadata> element -->
+    <dependencies>
+      <dependency id="System.ComponentModel.Annotations" version="4.3.0" />
+    </dependencies>
   </metadata>
   <files>
     <file src="bin\Release\Peasy.dll" target="lib\netstandard1.4\Peasy.dll" />
