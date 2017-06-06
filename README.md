@@ -27,8 +27,6 @@ First, install NuGet. Then, install Peasy from the package manager console:
 
 ``` PM> Install-Package Peasy ```
 
-You can also download and add the Peasy and/or Peasy.Core projects to your solution
-
 # Getting started
 
 You can get started by reviewing the [getting started example](https://github.com/peasy/Peasy.NET/wiki#the-simplest-possible-example) on the Peasy wiki.  The wiki also covers in-depth how-to's, general framework design, and usage scenarios.
