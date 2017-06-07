@@ -3,6 +3,8 @@
 ```c#
 A middle tier framework for .NET
 ```
+[![NuGet](http://img.shields.io/nuget/v/Peasy.svg)](https://www.nuget.org/packages/Peasy/)
+
 
 # What's a middle tier framework?
 
