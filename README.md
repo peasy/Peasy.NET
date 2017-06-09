@@ -42,7 +42,7 @@ The [Command](https://github.com/peasy/Peasy.NET/wiki/Command) is responsible fo
 ### Rule
 A Rule can be created to represent a [business](https://github.com/peasy/Peasy.NET/wiki/Business-Rules) rule (authorization, price validity, etc.) or a [validation](https://github.com/peasy/Peasy.NET/wiki/Validation-Rules) rule (field length, required, etc.). Rules are consumed by commands and can be chained, configured to execute based on a previous rule’s execution, etc. Rules can also be configured to invoke code based on the result of their execution.
 
-### [Data Proxy]
+### Data Proxy
 The [Data Proxy](https://github.com/peasy/Peasy.NET/wiki/Data-Proxy) is responsible for data storage and retrieval, and serves as an abstraction layer for data stores (database, web services, cache, etc.).
 
 # Where can I get it?
