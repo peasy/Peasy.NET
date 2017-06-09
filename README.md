@@ -21,7 +21,7 @@ A middle tier framework is code that facilitates creating business logic in a re
 
 ##### Peasy.NET offers/addresses the following:
 
-- Easy to use [validation](https://github.com/peasy/Peasy.NET/wiki/Validation-Rules)/[business rules](https://github.com/peasy/Peasy.NET/wiki/Business-Rules) engine
+- Easy to use [business rules](https://github.com/peasy/Peasy.NET/wiki/Business-Rules)/[validation](https://github.com/peasy/Peasy.NET/wiki/Validation-Rules) engine
 - [Thread safety](https://github.com/peasy/Peasy.NET/wiki/Thread-Safety)
 - [Scalability](https://github.com/peasy/Peasy.NET/wiki/data-proxy#scalability)
 - [Concurrency](https://github.com/peasy/Peasy.NET/wiki/BusinessServiceBase#concurrency-handling)
