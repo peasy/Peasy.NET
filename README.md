@@ -1,21 +1,19 @@
 ![peasy](https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?dl=0&raw=1)
 
 ```c#
-A middle tier framework for .NET
+A middle tier framework for .NET and .NET Core
 ```
 <p>
-<a href="https://ci.appveyor.com/project/ahanusa/peasy-net" target="_blank">
-	<img src="https://ci.appveyor.com/api/projects/status/5uhfvwaju6bagdg2?svg=true" alt="Gitter">
-</a>
 <a href="https://gitter.im/peasy/peasy.net?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge" target="_blank">
 	<img src="https://badges.gitter.im/peasy/peasy.net.svg" alt="Gitter">
 </a>
 <a href="https://www.nuget.org/packages/Peasy/" target="_blank">
 	<img src="http://img.shields.io/nuget/v/Peasy.svg" alt="npm version">
 </a>
+<a href="https://ci.appveyor.com/project/ahanusa/peasy-net" target="_blank">
+	<img src="https://ci.appveyor.com/api/projects/status/5uhfvwaju6bagdg2?svg=true" alt="Gitter">
+</a>
 </p>
-
-[![Build status](https://ci.appveyor.com/api/projects/status/5uhfvwaju6bagdg2?svg=true)](https://ci.appveyor.com/project/ahanusa/peasy-net)
 
 # What's a middle tier framework?
 
