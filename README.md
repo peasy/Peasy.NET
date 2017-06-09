@@ -57,7 +57,7 @@ Once downloaded, open Orders.com.sln with Visual Studio, set the WPF or ASP.NET 
 
 # Contributing
 
-All contributions are welcome, from general framework improvements to sample client consumers, proxy implementations, and documentation updates.  Want to get involved?  Please hit me up with your ideas.  Alternatively, you can make a pull request and we'll get to it ASAP.
+All contributions are welcome, from general framework improvements to sample client consumers, proxy implementations, and documentation updates.  Want to get involved?  Please hit us up with your ideas.  Alternatively, you can make a pull request and we'll get to it ASAP.
 
 # Like what you see?
 
