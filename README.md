@@ -42,7 +42,7 @@ Install Peasy from the package manager console:
 
 ### VS Code
 
-Install Peasy from the package manager console:
+Install Peasy from the command line:
 
 ``` dotnet add package peasy ```
 
