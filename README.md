@@ -34,9 +34,18 @@ A middle tier framework is code that facilitates creating business logic in a re
 
 # Where can I get it?
 
-First, install NuGet. Then, install Peasy from the package manager console:
+### Visual Studio
+
+Install Peasy from the package manager console:
 
 ``` PM> Install-Package Peasy ```
+
+### VS Code
+
+Install Peasy from the package manager console:
+
+``` dotnet add package peasy ```
+
 
 # Getting started
 
