@@ -1,0 +1,15 @@
+version: '{build}'
+pull_requests:
+  do_not_increment_build_number: true
+branches:
+  only:
+  - master
+image: Visual Studio 2015
+install:
+  - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v4.0.0/nuget.exe
+nuget:
+  disable_publish_on_pr: true
+test: off
+artifacts:
+- path: src\Peasy\bin\release\*.nupkg
+  name: NuGet
