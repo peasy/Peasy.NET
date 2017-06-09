@@ -40,7 +40,7 @@ A [business service](https://github.com/peasy/Peasy.NET/wiki/ServiceBase) implem
 The [command](https://github.com/peasy/Peasy.NET/wiki/Command) is responsible for orchestrating the execution of initialization logic, business and validation rule execution, and other logic (data proxy invocations, workflow logic, etc.), respectively, via the command execution pipeline.
 
 ### Rule
-A Rule can be created to represent a [business](https://github.com/peasy/Peasy.NET/wiki/Business-Rules) rule (authorization, price validity, etc.) or a [validation](https://github.com/peasy/Peasy.NET/wiki/Validation-Rules) rule (field length, required, etc.). Rules are consumed by commands and can be chained, configured to execute based on a previous rule’s execution, etc. Rules can also be configured to invoke code based on the result of their execution.
+A rule can be created to represent a [business](https://github.com/peasy/Peasy.NET/wiki/Business-Rules) rule (authorization, price validity, etc.) or a [validation](https://github.com/peasy/Peasy.NET/wiki/Validation-Rules) rule (field length, required, etc.). Rules are consumed by commands and can be chained, configured to execute based on a previous rule’s execution, etc. Rules can also be configured to invoke code based on the result of their execution.
 
 ### Data Proxy
 The [data proxy](https://github.com/peasy/Peasy.NET/wiki/Data-Proxy) is responsible for data storage and retrieval, and serves as an abstraction layer for data stores (database, web services, cache, etc.).
