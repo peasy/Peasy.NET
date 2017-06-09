@@ -33,17 +33,17 @@ A middle tier framework is code that facilitates creating business logic in a re
 
 # The main actors
 
-### [BusinessService](https://github.com/peasy/Peasy.NET/wiki/ServiceBase)
-A BusinessService implementation represents an entity (e.g. users, or projects) and is responsible for exposing business functionality via commands. These commands encapsulate CRUD and other business related logic.
+### Business Service
+A [Business Service](https://github.com/peasy/Peasy.NET/wiki/ServiceBase) implementation represents an entity (e.g. users, or projects) and is responsible for exposing business functionality via commands. These commands encapsulate CRUD and other business related logic.
 
-### [Command](https://github.com/peasy/Peasy.NET/wiki/Command)
-The Command is responsible for orchestrating the execution of initialization logic, validation and business rule execution, and other logic (data proxy invocations, workflow logic, etc.), respectively, via the command execution pipeline.
+### Command
+The [Command](https://github.com/peasy/Peasy.NET/wiki/Command) is responsible for orchestrating the execution of initialization logic, business and validation rule execution, and other logic (data proxy invocations, workflow logic, etc.), respectively, via the command execution pipeline.
 
-### [Rule](https://github.com/peasy/Peasy.NET/wiki/Business-Rules)
-A Rule can be created to represent a validation rule (field length or required) or a business rule (authorization, price validity, etc.). Rules are consumed by commands and can be chained, configured to execute based on a previous rule’s execution, etc. Rules can also be configured to run code based on the result of their execution.
+### Rule
+A Rule can be created to represent a [business](https://github.com/peasy/Peasy.NET/wiki/Business-Rules) rule (authorization, price validity, etc.) or a [validation](https://github.com/peasy/Peasy.NET/wiki/Validation-Rules) rule (field length, required, etc.). Rules are consumed by commands and can be chained, configured to execute based on a previous rule’s execution, etc. Rules can also be configured to invoke code based on the result of their execution.
 
-### [DataProxy](https://github.com/peasy/Peasy.NET/wiki/Data-Proxy)
-The DataProxy is responsible for data storage and retrieval, and serves as an abstraction layer for data stores (database, web services, cache, etc.).
+### [Data Proxy]
+The [Data Proxy](https://github.com/peasy/Peasy.NET/wiki/Data-Proxy) is responsible for data storage and retrieval, and serves as an abstraction layer for data stores (database, web services, cache, etc.).
 
 # Where can I get it?
 
