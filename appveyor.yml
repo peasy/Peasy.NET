@@ -12,6 +12,3 @@ install:
 nuget:
   disable_publish_on_pr: true
 test: on
-artifacts:
-- path: src\Peasy\bin\release\*.nupkg
-  name: NuGet
