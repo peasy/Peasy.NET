@@ -68,10 +68,6 @@ You can also check out the [samples repo](https://github.com/peasy/Samples) that
 
 Once downloaded, open Orders.com.sln with Visual Studio, set the WPF or ASP.NET MVC project as the startup project and run.  More information about the samples application can be found [here](https://github.com/peasy/Samples).
 
-# A real implementation
-
-Here's what your middle tier / business logic might [look like](https://github.com/peasy/Peasy.NET-Samples/tree/master/Orders.com.BLL) when consuming Peasy.
-
 # Contributing
 
 All contributions are welcome, from general framework improvements to sample client consumers, proxy implementations, and documentation updates.  Want to get involved?  Please hit us up with your ideas.  Alternatively, you can make a pull request and we'll get to it ASAP.
