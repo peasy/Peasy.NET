@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Peasy
 {
@@ -35,5 +37,10 @@ namespace Peasy
     public interface ISupportDelete<TKey>
     {
         void Delete(TKey id);
+    }
+
+    public interface ISupportGetByFilter<T>
+    {
+        IEnumerable<T> GetByFilter(Expression<Func<T, bool>> predicate);
     }
 }
