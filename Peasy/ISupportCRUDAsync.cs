@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Peasy
@@ -35,5 +37,10 @@ namespace Peasy
     public interface ISupportDeleteAsync<TKey>
     {
         Task DeleteAsync(TKey id);
+    }
+
+    public interface ISupportGetByFilterAsync<T>
+    {
+        Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> predicate);
     }
 }
