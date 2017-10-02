@@ -56,7 +56,6 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\IRuleExtensions.cs" />
-    <Compile Include="Extensions\IServiceExtensions.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="IDataProxy.cs" />
     <Compile Include="IDomainObject.cs" />
