@@ -2,9 +2,6 @@
 
 namespace Peasy
 {
-    public interface IService
-    {
-    }
     public interface IService<T, TKey> : ISupportGetAllCommand<T>, 
                                          ISupportGetByIDCommand<T, TKey>,
                                          ISupportInsertCommand<T>,
@@ -13,27 +10,27 @@ namespace Peasy
     {
     }
 
-    public interface ISupportGetAllCommand<T> : IService
+    public interface ISupportGetAllCommand<T>
     {
         ICommand<IEnumerable<T>> GetAllCommand();
     }
 
-    public interface ISupportGetByIDCommand<T, TKey> : IService
+    public interface ISupportGetByIDCommand<T, TKey>
     {
         ICommand<T> GetByIDCommand(TKey id);
     }
 
-    public interface ISupportInsertCommand<T> : IService
+    public interface ISupportInsertCommand<T>
     {
         ICommand<T> InsertCommand(T entity);
     }
 
-    public interface ISupportUpdateCommand<T> : IService
+    public interface ISupportUpdateCommand<T>
     {
         ICommand<T> UpdateCommand(T entity);
     }
 
-    public interface ISupportDeleteCommand<TKey> : IService
+    public interface ISupportDeleteCommand<TKey>
     {
         ICommand DeleteCommand(TKey id);
     }
