@@ -11,7 +11,7 @@ namespace Peasy
         {
             var rules = businessRules.Select(rule => rule.Validate())
                                      .Where(rule => !rule.IsValid)
-									 .SelectMany(rule => rule.ErrorMessages.Select(e => new ValidationResult(e.Value, new string[] { e.Key ?? entityName })));
+									 .SelectMany(rule => rule.ErrorMessages.Select(e => new ValidationResult(e.Value, new string[] { string.IsNullOrEmpty(e.Key) ? entityName : e.Key })));
 			return rules;
         }
 
@@ -24,7 +24,7 @@ namespace Peasy
         {
             var rules  = await Task.WhenAll(businessRules.Select(r => r.ValidateAsync()));
             return rules.Where(rule => !rule.IsValid)
-                        .SelectMany(rule => rule.ErrorMessages.Select(e => new ValidationResult(e.Value, new string[] { e.Key ?? entityName })));
+                        .SelectMany(rule => rule.ErrorMessages.Select(e => new ValidationResult(e.Value, new string[] { string.IsNullOrEmpty(e.Key) ? entityName : e.Key })));
         }
 
         public static Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IEnumerable<IRule> businessRules)

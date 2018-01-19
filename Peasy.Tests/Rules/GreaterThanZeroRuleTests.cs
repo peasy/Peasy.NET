@@ -25,7 +25,7 @@ namespace Peasy.Tests.Rules
         public void Sets_ErrorMessage_On_Invalid()
         {
             var greaterThanZeroRule = new GreaterThanZeroRule(0, "the supplied value must be greater than 0");
-            greaterThanZeroRule.Validate().ErrorMessages.ShouldContainKeyAndValue(null, "the supplied value must be greater than 0");
+            greaterThanZeroRule.Validate().ErrorMessages.ShouldContainKeyAndValue(string.Empty, "the supplied value must be greater than 0");
         }
     }
 }

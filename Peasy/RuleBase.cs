@@ -123,7 +123,7 @@ namespace Peasy
         /// <param name="errorMessage">The error message to associate with the broken rule</param>
         protected virtual void Invalidate(string errorMessage, string memberName = null)
         {
-	        ErrorMessages[memberName] = errorMessage;
+	        ErrorMessages[memberName ?? string.Empty] = errorMessage;
             IsValid = false;
         }
 
