@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Peasy.Extensions;
 
 namespace Peasy
 {
@@ -22,7 +23,7 @@ namespace Peasy
         /// <summary>
         /// Gets or sets the message to be supplied to caller in the event that no rule dependencies exist via IfValidThenValidate()
         /// </summary>
-        public string ErrorMessage { get; protected set; }
+        public IDictionary<string, string> ErrorMessages { get; protected set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Gets or sets a value indicating whether this rule is valid.
@@ -55,8 +56,8 @@ namespace Peasy
                             rule.Validate();
                             if (!rule.IsValid)
                             {
-                                Invalidate(rule.ErrorMessage);
-                                _ifInvalidThenExecute?.Invoke(this);
+								rule.ErrorMessages.ForEach(e => Invalidate(e.Value, e.Key));
+								_ifInvalidThenExecute?.Invoke(this);
                                 break; // early exit, don't bother further rule execution
                             }
                         }
@@ -120,9 +121,9 @@ namespace Peasy
         /// Invalidates the rule
         /// </summary>
         /// <param name="errorMessage">The error message to associate with the broken rule</param>
-        protected virtual void Invalidate(string errorMessage)
+        protected virtual void Invalidate(string errorMessage, string memberName = null)
         {
-            ErrorMessage = errorMessage;
+	        ErrorMessages[memberName] = errorMessage;
             IsValid = false;
         }
 
@@ -141,7 +142,7 @@ namespace Peasy
                             await rule.ValidateAsync();
                             if (!rule.IsValid)
                             {
-                                Invalidate(rule.ErrorMessage);
+	                            rule.ErrorMessages.ForEach(e => Invalidate(e.Value, e.Key));
                                 _ifInvalidThenExecute?.Invoke(this);
                                 break; // early exit, don't bother further rule execution
                             }

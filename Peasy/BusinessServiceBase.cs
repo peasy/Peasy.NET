@@ -23,9 +23,14 @@ namespace Peasy
         protected override IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id, ExecutionContext<T> context)
         {
             var rule = id.CreateValueRequiredRule(nameof(id)).Validate();
-            if (!rule.IsValid)
-                yield return new ValidationResult(rule.ErrorMessage, new string[] { typeof(T).Name });
-        }
+			if (!rule.IsValid)
+			{
+				foreach (var pair in rule.ErrorMessages)
+				{
+					yield return new ValidationResult(pair.Value, new[] { pair.Key ?? typeof(T).Name });
+				}
+			}
+		}
 
         /// <summary>
         /// Supplies validation results to GetByIDCommand()
@@ -33,8 +38,14 @@ namespace Peasy
         protected override IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id, ExecutionContext<T> context)
         {
             var rule = id.CreateValueRequiredRule(nameof(id)).Validate();
-            if (!rule.IsValid)
-                yield return new ValidationResult(rule.ErrorMessage, new string[] { typeof(T).Name });
+	        if (!rule.IsValid)
+	        {
+		        foreach (var pair in rule.ErrorMessages)
+		        {
+			        yield return new ValidationResult(pair.Value, new[] {pair.Key ?? typeof(T).Name});
+		        }
+	        }
+                
         }
 
         /// <summary>
@@ -59,7 +70,7 @@ namespace Peasy
                 {
                     var rule = new ConcurrencyCheckRule(current as IVersionContainer, entity as IVersionContainer).Validate();
                     if (!rule.IsValid)
-                        throw new ConcurrencyException(rule.ErrorMessage);
+                        throw new ConcurrencyException(rule.ErrorMessages.First().Value);
                 }
 
                 entity.RevertNonEditableValues(current);
@@ -87,7 +98,7 @@ namespace Peasy
                 {
                     var rule = new ConcurrencyCheckRule(current as IVersionContainer, entity as IVersionContainer).Validate();
                     if (!rule.IsValid)
-                        throw new ConcurrencyException(rule.ErrorMessage);
+                        throw new ConcurrencyException(rule.ErrorMessages.First().Value);
 
                 }
                 entity.RevertNonEditableValues(current);

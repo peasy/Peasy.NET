@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Peasy
 {
     public interface IRule
     {
-        string ErrorMessage { get; }
+        IDictionary<string, string> ErrorMessages { get; }
         IRule IfInvalidThenExecute(Action<IRule> method);
         IRule IfValidThenExecute(Action<IRule> method);
         IRule IfValidThenValidate(params IRule[] rule);
