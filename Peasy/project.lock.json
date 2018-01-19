@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
     ".NETPortable,Version=v4.5,Profile=Profile111": {
       "System.ComponentModel.Annotations/4.3.0": {
@@ -197,9 +197,38 @@
     ],
     ".NETPortable,Version=v4.5,Profile=Profile111": []
   },
-  "tools": {},
-  "projectFileToolGroups": {},
   "packageFolders": {
-    "C:\\Users\\aaron\\.nuget\\packages\\": {}
+    "C:\\Users\\PageSincler\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {}
+  },
+  "project": {
+    "restore": {
+      "projectUniqueName": "C:\\code\\Peasy.NET\\Peasy\\Peasy.csproj",
+      "projectName": "Peasy",
+      "projectPath": "C:\\code\\Peasy.NET\\Peasy\\Peasy.csproj",
+      "projectJsonPath": "C:\\code\\Peasy.NET\\Peasy\\project.json",
+      "packagesPath": "C:\\Users\\PageSincler\\.nuget\\packages\\",
+      "outputPath": "C:\\code\\Peasy.NET\\Peasy\\obj\\",
+      "projectStyle": "ProjectJson",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\PageSincler\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Users\\PageSincler\\.dotnet\\NuGetFallbackFolder": {},
+        "https://api.nuget.org/v3/index.json": {}
+      }
+    },
+    "dependencies": {
+      "System.ComponentModel.Annotations": "[4.3.0, )"
+    },
+    "frameworks": {
+      "portable45-net45+win8+wpa81": {}
+    }
   }
 }

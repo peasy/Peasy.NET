@@ -32,7 +32,7 @@ namespace Peasy.Tests.Rules
             var obj1 = new ConcurrencyMock() { Version = "1" };
             var obj2 = new ConcurrencyMock() { Version = "2" };
             var rule = new ConcurrencyCheckRule(obj1, obj2);
-            rule.Validate().ErrorMessage.ShouldNotBeEmpty();
+            rule.Validate().ErrorMessages.ShouldNotBeEmpty();
         }
     }
 
