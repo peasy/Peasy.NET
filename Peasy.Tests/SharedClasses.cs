@@ -15,21 +15,21 @@ namespace Peasy.Core.Tests
         }
     }
 
-	public class FalseRuleWithAssociation : RuleBase
-	{
-		public FalseRuleWithAssociation(string association)
-		{
-			Association = association;
-		}
+    public class FalseRuleWithAssociation : RuleBase
+    {
+        public FalseRuleWithAssociation(string association)
+        {
+            Association = association;
+        }
 
-		protected override void OnValidate()
-		{
-			IsValid = false;
-			ErrorMessage = "FalseRule1 failed validation";
-		}
-	}
+        protected override void OnValidate()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule1 failed validation";
+        }
+    }
 
-	public class FalseRule2 : RuleBase
+    public class FalseRule2 : RuleBase
     {
         protected override void OnValidate()
         {

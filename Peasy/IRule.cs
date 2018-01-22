@@ -5,7 +5,7 @@ namespace Peasy
 {
     public interface IRule
     {
-		string Association { get; }
+        string Association { get; }
         string ErrorMessage { get; }
         IRule IfInvalidThenExecute(Action<IRule> method);
         IRule IfValidThenExecute(Action<IRule> method);
