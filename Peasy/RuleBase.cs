@@ -23,7 +23,7 @@ namespace Peasy
 		/// Gets or sets a string that associates this rule 
 		/// with a field. This is helpful for validation errors
 		/// </summary>
-		public string Association { get; set; }
+		public string Association { get; protected set; }
 
         /// <summary>
         /// Gets or sets the message to be supplied to caller in the event that no rule dependencies exist via IfValidThenValidate()
