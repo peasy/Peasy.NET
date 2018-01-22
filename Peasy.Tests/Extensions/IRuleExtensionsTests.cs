@@ -90,7 +90,7 @@ namespace Peasy.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void GetValidationResults_Sets_Validation_Result_Member_Name()
+        public void GetValidationResults_Sets_Validation_Result_Member_Name_Explicitly()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
             var results = rules.GetValidationResults("MyEntity");
@@ -98,7 +98,31 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("MyEntity");
         }
 
-        [TestMethod]
+	    [TestMethod]
+	    public void GetValidationResults_Sets_Validation_Result_Member_Name_From_Association_Property()
+	    {
+		    var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
+			rules.ForEach(r => r.Association = r.GetType().Name);
+		    var results = rules.GetValidationResults().ToArray();
+		    results.First().MemberNames.First().ShouldBe(rules.First().GetType().Name);
+		    results.Last().MemberNames.First().ShouldBe(rules.Last().GetType().Name);
+	    }
+
+	    [TestMethod]
+	    public void GetValidationResults_Returns_Association_Property_With_Nested_Rules()
+	    {
+		    var associationValue = typeof(FalseRule1).Name;
+			var ruleWithAssociation = new FalseRule1 {Association = associationValue};
+		    var rules = new List<IRule>
+		    {
+			    new TrueRule().IfValidThenValidate(ruleWithAssociation), new TrueRule()
+		    };
+
+		    var results = rules.GetValidationResults();
+		    results.First().MemberNames.First().ShouldBe(associationValue);
+		}
+
+		[TestMethod]
         public async Task GetValidationResultsAsync_Returns_One_Validation_Result()
         {
             var rules = new List<IRule>
@@ -193,7 +217,31 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("MyEntity");
         }
 
-        [TestMethod]
+	    [TestMethod]
+	    public async Task GetValidationResultsAsync_Sets_Validation_Result_Member_Name_From_Association_Property()
+	    {
+		    var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
+		    rules.ForEach(r => r.Association = r.GetType().Name);
+		    var results = (await rules.GetValidationResultsAsync()).ToArray();
+		    results.First().MemberNames.First().ShouldBe(rules.First().GetType().Name);
+		    results.Last().MemberNames.First().ShouldBe(rules.Last().GetType().Name);
+	    }
+
+	    [TestMethod]
+	    public async Task GetValidationResultsAsync_Returns_Association_Property_With_Nested_Rules()
+	    {
+		    var associationValue = typeof(FalseRule1).Name;
+		    var ruleWithAssociation = new FalseRule1 { Association = associationValue };
+		    var rules = new List<IRule>
+		    {
+			    new TrueRule().IfValidThenValidate(ruleWithAssociation), new TrueRule()
+		    };
+
+		    var results = await rules.GetValidationResultsAsync();
+		    results.First().MemberNames.First().ShouldBe(associationValue);
+	    }
+
+		[TestMethod]
         public void IfAllValidateThenValidate_Validates_On_Success()
         {
             var number = 0;
