@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\Attributes\PeasyDisplayNameAttribute.cs" Link="Attributes\PeasyDisplayNameAttribute.cs" />
+    <Compile Include="..\..\src\Attributes\PeasyForeignKeyAttribute.cs" Link="Attributes\PeasyForeignKeyAttribute.cs" />
+    <Compile Include="..\..\src\Attributes\PeasyRequiredAttribute.cs" Link="Attributes\PeasyRequiredAttribute.cs" />
+    <Compile Include="..\..\src\BusinessServiceBase.cs" Link="BusinessServiceBase.cs" />
+    <Compile Include="..\..\src\Command.cs" Link="Command.cs" />
+    <Compile Include="..\..\src\Exception\ConcurrencyException.cs" Link="Exception\ConcurrencyException.cs" />
+    <Compile Include="..\..\src\Exception\DomainObjectNotFoundException.cs" Link="Exception\DomainObjectNotFoundException.cs" />
+    <Compile Include="..\..\src\Exception\PeasyException.cs" Link="Exception\PeasyException.cs" />
+    <Compile Include="..\..\src\ExecutionContext.cs" Link="ExecutionContext.cs" />
+    <Compile Include="..\..\src\ExecutionResult.cs" Link="ExecutionResult.cs" />
+    <Compile Include="..\..\src\Extensions\DomainObjectExtensions.cs" Link="Extensions\DomainObjectExtensions.cs" />
+    <Compile Include="..\..\src\Extensions\ExpressionExtensions.cs" Link="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="..\..\src\Extensions\GenericExtensions.cs" Link="Extensions\GenericExtensions.cs" />
+    <Compile Include="..\..\src\Extensions\IDomainObjectExtensions.cs" Link="Extensions\IDomainObjectExtensions.cs" />
+    <Compile Include="..\..\src\Extensions\IEnumerableExtensions.cs" Link="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="..\..\src\Extensions\IntExtensions.cs" Link="Extensions\IntExtensions.cs" />
+    <Compile Include="..\..\src\Extensions\IRuleExtensions.cs" Link="Extensions\IRuleExtensions.cs" />
+    <Compile Include="..\..\src\ICommand.cs" Link="ICommand.cs" />
+    <Compile Include="..\..\src\IDataProxy.cs" Link="IDataProxy.cs" />
+    <Compile Include="..\..\src\IDomainObject.cs" Link="IDomainObject.cs" />
+    <Compile Include="..\..\src\ILatencyProneStatusProvider.cs" Link="ILatencyProneStatusProvider.cs" />
+    <Compile Include="..\..\src\IRule.cs" Link="IRule.cs" />
+    <Compile Include="..\..\src\IService.cs" Link="IService.cs" />
+    <Compile Include="..\..\src\IServiceDataProxy.cs" Link="IServiceDataProxy.cs" />
+    <Compile Include="..\..\src\ISupportCRUD.cs" Link="ISupportCRUD.cs" />
+    <Compile Include="..\..\src\ISupportCRUDAsync.cs" Link="ISupportCRUDAsync.cs" />
+    <Compile Include="..\..\src\ITransactionContext.cs" Link="ITransactionContext.cs" />
+    <Compile Include="..\..\src\ITransactionSupportStatusProvider.cs" Link="ITransactionSupportStatusProvider.cs" />
+    <Compile Include="..\..\src\IVersionContainer.cs" Link="IVersionContainer.cs" />
+    <Compile Include="..\..\src\RuleBase.cs" Link="RuleBase.cs" />
+    <Compile Include="..\..\src\Rules\ConcurrencyCheckRule.cs" Link="Rules\ConcurrencyCheckRule.cs" />
+    <Compile Include="..\..\src\Rules\GreaterThanZeroRule.cs" Link="Rules\GreaterThanZeroRule.cs" />
+    <Compile Include="..\..\src\Rules\PropertyValueRequiredRule.cs" Link="Rules\PropertyValueRequiredRule.cs" />
+    <Compile Include="..\..\src\Rules\ValueRequiredRule.cs" Link="Rules\ValueRequiredRule.cs" />
+    <Compile Include="..\..\src\ServiceBase.cs" Link="ServiceBase.cs" />
+    <Compile Include="..\..\src\ServiceCommand.cs" Link="ServiceCommand.cs" />
+    <Compile Include="..\..\src\ServiceException.cs" Link="ServiceException.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Attributes\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Exception\" />
+    <Folder Include="Rules\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
+  </ItemGroup>
+
+</Project>

@@ -60,20 +60,46 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Attributes\PeasyRequiredAttributeTests.cs" />
-    <Compile Include="BusinessServiceBaseTests.cs" />
-    <Compile Include="CommandTests.cs" />
-    <Compile Include="Extensions\DomainObjectExtensionsTests.cs" />
-    <Compile Include="Extensions\IDomainObjectExtensionsTests.cs" />
-    <Compile Include="Extensions\IRuleExtensionsTests.cs" />
+    <Compile Include="..\..\tests\Attributes\PeasyRequiredAttributeTests.cs">
+      <Link>Attributes\PeasyRequiredAttributeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\BusinessServiceBaseTests.cs">
+      <Link>BusinessServiceBaseTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\CommandTests.cs">
+      <Link>CommandTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Extensions\DomainObjectExtensionsTests.cs">
+      <Link>Extensions\DomainObjectExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Extensions\IDomainObjectExtensionsTests.cs">
+      <Link>Extensions\IDomainObjectExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Extensions\IRuleExtensionsTests.cs">
+      <Link>Extensions\IRuleExtensionsTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\RuleBaseTests.cs">
+      <Link>RuleBaseTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Rules\ConcurrencyCheckRuleTests.cs">
+      <Link>Rules\ConcurrencyCheckRuleTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Rules\GreaterThanZeroRuleTests.cs">
+      <Link>Rules\GreaterThanZeroRuleTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\Rules\ValueRequiredRuleTests.cs">
+      <Link>Rules\ValueRequiredRuleTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\ServiceBaseTests.cs">
+      <Link>ServiceBaseTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\ServiceCommandTests.cs">
+      <Link>ServiceCommandTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\tests\SharedClasses.cs">
+      <Link>SharedClasses.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RuleBaseTests.cs" />
-    <Compile Include="Rules\ConcurrencyCheckRuleTests.cs" />
-    <Compile Include="Rules\GreaterThanZeroRuleTests.cs" />
-    <Compile Include="Rules\ValueRequiredRuleTests.cs" />
-    <Compile Include="ServiceBaseTests.cs" />
-    <Compile Include="ServiceCommandTests.cs" />
-    <Compile Include="SharedClasses.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Peasy\Peasy.csproj">

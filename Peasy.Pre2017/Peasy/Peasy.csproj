@@ -39,115 +39,115 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\src\Attributes\PeasyDisplayNameAttribute.cs">
+    <Compile Include="..\..\src\Attributes\PeasyDisplayNameAttribute.cs">
       <Link>Attributes\PeasyDisplayNameAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\src\Attributes\PeasyForeignKeyAttribute.cs">
+    <Compile Include="..\..\src\Attributes\PeasyForeignKeyAttribute.cs">
       <Link>Attributes\PeasyForeignKeyAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\src\Attributes\PeasyRequiredAttribute.cs">
+    <Compile Include="..\..\src\Attributes\PeasyRequiredAttribute.cs">
       <Link>Attributes\PeasyRequiredAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\src\BusinessServiceBase.cs">
+    <Compile Include="..\..\src\BusinessServiceBase.cs">
       <Link>BusinessServiceBase.cs</Link>
     </Compile>
-    <Compile Include="..\src\Command.cs">
+    <Compile Include="..\..\src\Command.cs">
       <Link>Command.cs</Link>
     </Compile>
-    <Compile Include="..\src\Exception\ConcurrencyException.cs">
+    <Compile Include="..\..\src\Exception\ConcurrencyException.cs">
       <Link>Exception\ConcurrencyException.cs</Link>
     </Compile>
-    <Compile Include="..\src\Exception\DomainObjectNotFoundException.cs">
+    <Compile Include="..\..\src\Exception\DomainObjectNotFoundException.cs">
       <Link>Exception\DomainObjectNotFoundException.cs</Link>
     </Compile>
-    <Compile Include="..\src\Exception\PeasyException.cs">
+    <Compile Include="..\..\src\Exception\PeasyException.cs">
       <Link>Exception\PeasyException.cs</Link>
     </Compile>
-    <Compile Include="..\src\ExecutionContext.cs">
+    <Compile Include="..\..\src\ExecutionContext.cs">
       <Link>ExecutionContext.cs</Link>
     </Compile>
-    <Compile Include="..\src\ExecutionResult.cs">
+    <Compile Include="..\..\src\ExecutionResult.cs">
       <Link>ExecutionResult.cs</Link>
     </Compile>
-    <Compile Include="..\src\Extensions\DomainObjectExtensions.cs">
+    <Compile Include="..\..\src\Extensions\DomainObjectExtensions.cs">
       <Link>Extensions\DomainObjectExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\src\Extensions\ExpressionExtensions.cs">
+    <Compile Include="..\..\src\Extensions\ExpressionExtensions.cs">
       <Link>Extensions\ExpressionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\src\Extensions\GenericExtensions.cs">
+    <Compile Include="..\..\src\Extensions\GenericExtensions.cs">
       <Link>Extensions\GenericExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\src\Extensions\IDomainObjectExtensions.cs">
+    <Compile Include="..\..\src\Extensions\IDomainObjectExtensions.cs">
       <Link>Extensions\IDomainObjectExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\src\Extensions\IEnumerableExtensions.cs">
+    <Compile Include="..\..\src\Extensions\IEnumerableExtensions.cs">
       <Link>Extensions\IEnumerableExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\src\Extensions\IntExtensions.cs">
+    <Compile Include="..\..\src\Extensions\IntExtensions.cs">
       <Link>Extensions\IntExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\src\Extensions\IRuleExtensions.cs">
+    <Compile Include="..\..\src\Extensions\IRuleExtensions.cs">
       <Link>Extensions\IRuleExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\src\ICommand.cs">
+    <Compile Include="..\..\src\ICommand.cs">
       <Link>ICommand.cs</Link>
     </Compile>
-    <Compile Include="..\src\IDataProxy.cs">
+    <Compile Include="..\..\src\IDataProxy.cs">
       <Link>IDataProxy.cs</Link>
     </Compile>
-    <Compile Include="..\src\IDomainObject.cs">
+    <Compile Include="..\..\src\IDomainObject.cs">
       <Link>IDomainObject.cs</Link>
     </Compile>
-    <Compile Include="..\src\ILatencyProneStatusProvider.cs">
+    <Compile Include="..\..\src\ILatencyProneStatusProvider.cs">
       <Link>ILatencyProneStatusProvider.cs</Link>
     </Compile>
-    <Compile Include="..\src\IRule.cs">
+    <Compile Include="..\..\src\IRule.cs">
       <Link>IRule.cs</Link>
     </Compile>
-    <Compile Include="..\src\IService.cs">
+    <Compile Include="..\..\src\IService.cs">
       <Link>IService.cs</Link>
     </Compile>
-    <Compile Include="..\src\IServiceDataProxy.cs">
+    <Compile Include="..\..\src\IServiceDataProxy.cs">
       <Link>IServiceDataProxy.cs</Link>
     </Compile>
-    <Compile Include="..\src\ISupportCRUD.cs">
+    <Compile Include="..\..\src\ISupportCRUD.cs">
       <Link>ISupportCRUD.cs</Link>
     </Compile>
-    <Compile Include="..\src\ISupportCRUDAsync.cs">
+    <Compile Include="..\..\src\ISupportCRUDAsync.cs">
       <Link>ISupportCRUDAsync.cs</Link>
     </Compile>
-    <Compile Include="..\src\ITransactionContext.cs">
+    <Compile Include="..\..\src\ITransactionContext.cs">
       <Link>ITransactionContext.cs</Link>
     </Compile>
-    <Compile Include="..\src\ITransactionSupportStatusProvider.cs">
+    <Compile Include="..\..\src\ITransactionSupportStatusProvider.cs">
       <Link>ITransactionSupportStatusProvider.cs</Link>
     </Compile>
-    <Compile Include="..\src\IVersionContainer.cs">
+    <Compile Include="..\..\src\IVersionContainer.cs">
       <Link>IVersionContainer.cs</Link>
     </Compile>
-    <Compile Include="..\src\RuleBase.cs">
+    <Compile Include="..\..\src\RuleBase.cs">
       <Link>RuleBase.cs</Link>
     </Compile>
-    <Compile Include="..\src\Rules\ConcurrencyCheckRule.cs">
+    <Compile Include="..\..\src\Rules\ConcurrencyCheckRule.cs">
       <Link>Rules\ConcurrencyCheckRule.cs</Link>
     </Compile>
-    <Compile Include="..\src\Rules\GreaterThanZeroRule.cs">
+    <Compile Include="..\..\src\Rules\GreaterThanZeroRule.cs">
       <Link>Rules\GreaterThanZeroRule.cs</Link>
     </Compile>
-    <Compile Include="..\src\Rules\PropertyValueRequiredRule.cs">
+    <Compile Include="..\..\src\Rules\PropertyValueRequiredRule.cs">
       <Link>Rules\PropertyValueRequiredRule.cs</Link>
     </Compile>
-    <Compile Include="..\src\Rules\ValueRequiredRule.cs">
+    <Compile Include="..\..\src\Rules\ValueRequiredRule.cs">
       <Link>Rules\ValueRequiredRule.cs</Link>
     </Compile>
-    <Compile Include="..\src\ServiceBase.cs">
+    <Compile Include="..\..\src\ServiceBase.cs">
       <Link>ServiceBase.cs</Link>
     </Compile>
-    <Compile Include="..\src\ServiceCommand.cs">
+    <Compile Include="..\..\src\ServiceCommand.cs">
       <Link>ServiceCommand.cs</Link>
     </Compile>
-    <Compile Include="..\src\ServiceException.cs">
+    <Compile Include="..\..\src\ServiceException.cs">
       <Link>ServiceException.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
