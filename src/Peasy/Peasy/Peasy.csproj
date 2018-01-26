@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
+    <NoWarn>1998</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

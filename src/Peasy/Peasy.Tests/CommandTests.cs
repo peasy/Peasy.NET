@@ -35,7 +35,7 @@ namespace Peasy.Core.Tests
         {
             var mock = new MockCommand();
             var result = mock.Execute();
-            result.Success.ShouldBe(true); 
+            result.Success.ShouldBe(true);
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace Peasy.Core.Tests
             var mock = new MockCommand();
             mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
             var result = mock.Execute();
-            result.Success.ShouldBe(false); 
+            result.Success.ShouldBe(false);
         }
 
         [TestMethod]
@@ -95,7 +95,7 @@ namespace Peasy.Core.Tests
             var mock = new MockCommand();
             await mock.ExecuteAsync();
             mock.OnExecuteAsyncWasInvoked.ShouldBe(true);
-       } 
+       }
 
         [TestMethod]
         public async Task OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
@@ -147,7 +147,7 @@ namespace Peasy.Core.Tests
         {
             var mock = new MockCommandOfString();
             var result = mock.Execute();
-            result.Success.ShouldBe(true); 
+            result.Success.ShouldBe(true);
         }
 
         [TestMethod]
@@ -173,7 +173,7 @@ namespace Peasy.Core.Tests
             var mock = new MockCommandOfString();
             mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
             var result = mock.Execute();
-            result.Success.ShouldBe(false); 
+            result.Success.ShouldBe(false);
         }
 
         [TestMethod]
@@ -207,7 +207,7 @@ namespace Peasy.Core.Tests
             var mock = new MockCommandOfString();
             await mock.ExecuteAsync();
             mock.OnExecuteAsyncWasInvoked.ShouldBe(true);
-       } 
+       }
 
         [TestMethod]
         public async Task Command_of_T_Execute_Returns_Value_When_No_Errors_Exist_Async()

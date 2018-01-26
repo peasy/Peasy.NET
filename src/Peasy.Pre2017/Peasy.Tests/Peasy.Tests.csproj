@@ -36,8 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Shouldly, Version=2.8.3.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
-      <HintPath>..\packages\Shouldly.2.8.3\lib\net40\Shouldly.dll</HintPath>
+    <Reference Include="Shouldly, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Shouldly.3.0.0\lib\net40\Shouldly.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -60,43 +60,43 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="..\..\tests\Attributes\PeasyRequiredAttributeTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\Attributes\PeasyRequiredAttributeTests.cs">
       <Link>Attributes\PeasyRequiredAttributeTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\BusinessServiceBaseTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\BusinessServiceBaseTests.cs">
       <Link>BusinessServiceBaseTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\CommandTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\CommandTests.cs">
       <Link>CommandTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Extensions\DomainObjectExtensionsTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\Extensions\DomainObjectExtensionsTests.cs">
       <Link>Extensions\DomainObjectExtensionsTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Extensions\IDomainObjectExtensionsTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\Extensions\IDomainObjectExtensionsTests.cs">
       <Link>Extensions\IDomainObjectExtensionsTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Extensions\IRuleExtensionsTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\Extensions\IRuleExtensionsTests.cs">
       <Link>Extensions\IRuleExtensionsTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\RuleBaseTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\RuleBaseTests.cs">
       <Link>RuleBaseTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Rules\ConcurrencyCheckRuleTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\Rules\ConcurrencyCheckRuleTests.cs">
       <Link>Rules\ConcurrencyCheckRuleTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Rules\GreaterThanZeroRuleTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\Rules\GreaterThanZeroRuleTests.cs">
       <Link>Rules\GreaterThanZeroRuleTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\Rules\ValueRequiredRuleTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\Rules\ValueRequiredRuleTests.cs">
       <Link>Rules\ValueRequiredRuleTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\ServiceBaseTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\ServiceBaseTests.cs">
       <Link>ServiceBaseTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\ServiceCommandTests.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\ServiceCommandTests.cs">
       <Link>ServiceCommandTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\tests\SharedClasses.cs">
+    <Compile Include="..\..\Peasy\Peasy.Tests\SharedClasses.cs">
       <Link>SharedClasses.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
