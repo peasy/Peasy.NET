@@ -20,6 +20,12 @@ namespace Peasy
         protected Action<IRule> _ifInvalidThenExecute;
 
         /// <summary>
+        /// Gets or sets a string that associates this rule 
+        /// with a field. This is helpful for validation errors
+        /// </summary>
+        public string Association { get; protected set; }
+
+        /// <summary>
         /// Gets or sets the message to be supplied to caller in the event that no rule dependencies exist via IfValidThenValidate()
         /// </summary>
         public string ErrorMessage { get; protected set; }
@@ -56,6 +62,10 @@ namespace Peasy
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage);
+
+                                if (string.IsNullOrEmpty(Association))
+                                    Association = rule.Association;
+
                                 _ifInvalidThenExecute?.Invoke(this);
                                 break; // early exit, don't bother further rule execution
                             }
@@ -142,6 +152,10 @@ namespace Peasy
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage);
+
+                                if (string.IsNullOrEmpty(Association))
+                                    Association = rule.Association;
+
                                 _ifInvalidThenExecute?.Invoke(this);
                                 break; // early exit, don't bother further rule execution
                             }

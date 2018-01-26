@@ -90,12 +90,34 @@ namespace Peasy.Core.Tests.Extensions
         }
 
         [TestMethod]
-        public void GetValidationResults_Sets_Validation_Result_Member_Name()
+        public void GetValidationResults_Sets_Validation_Result_Member_Name_Explicitly()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
             var results = rules.GetValidationResults("MyEntity");
             results.First().MemberNames.First().ShouldBe("MyEntity");
             results.Last().MemberNames.First().ShouldBe("MyEntity");
+        }
+
+        [TestMethod]
+        public void GetValidationResults_Sets_Validation_Result_Member_Name_From_Association_Property()
+        {
+            var rules = new List<IRule> { new FalseRuleWithAssociation("FalseRule1"), new FalseRuleWithAssociation("FalseRule2") };
+            var results = rules.GetValidationResults().ToArray();
+            results.First().MemberNames.First().ShouldBe(rules.First().Association);
+            results.Last().MemberNames.First().ShouldBe(rules.Last().Association);
+        }
+
+        [TestMethod]
+        public void GetValidationResults_Returns_Association_Property_With_Nested_Rules()
+        {
+            var ruleWithAssociation = new FalseRuleWithAssociation("FalseRule1");
+            var rules = new List<IRule>
+            {
+                new TrueRule().IfValidThenValidate(ruleWithAssociation), new TrueRule()
+            };
+
+            var results = rules.GetValidationResults();
+            results.First().MemberNames.First().ShouldBe(ruleWithAssociation.Association);
         }
 
         [TestMethod]
@@ -191,6 +213,28 @@ namespace Peasy.Core.Tests.Extensions
             var results = await rules.GetValidationResultsAsync("MyEntity");
             results.First().MemberNames.First().ShouldBe("MyEntity");
             results.Last().MemberNames.First().ShouldBe("MyEntity");
+        }
+
+        [TestMethod]
+        public async Task GetValidationResultsAsync_Sets_Validation_Result_Member_Name_From_Association_Property()
+        {
+            var rules = new List<IRule> { new FalseRuleWithAssociation("FalseRule1"), new FalseRuleWithAssociation("FalseRule2") };
+            var results = (await rules.GetValidationResultsAsync()).ToArray();
+            results.First().MemberNames.First().ShouldBe(rules.First().Association);
+            results.Last().MemberNames.First().ShouldBe(rules.Last().Association);
+        }
+
+        [TestMethod]
+        public async Task GetValidationResultsAsync_Returns_Association_Property_With_Nested_Rules()
+        {
+            var ruleWithAssociation = new FalseRuleWithAssociation("FalseRule1");
+            var rules = new List<IRule>
+            {
+                new TrueRule().IfValidThenValidate(ruleWithAssociation), new TrueRule()
+            };
+
+            var results = await rules.GetValidationResultsAsync();
+            results.First().MemberNames.First().ShouldBe(ruleWithAssociation.Association);
         }
 
         [TestMethod]

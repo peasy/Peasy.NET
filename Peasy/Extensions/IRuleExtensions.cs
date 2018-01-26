@@ -11,25 +11,25 @@ namespace Peasy
         {
             var rules = businessRules.Select(rule => rule.Validate())
                                      .Where(rule => !rule.IsValid)
-                                     .Select(rule => new ValidationResult(rule.ErrorMessage, new string[] { entityName }));
+                                     .Select(rule => new ValidationResult(rule.ErrorMessage, new string[] { entityName ?? rule.Association ?? string.Empty }));
             return rules;
         }
 
         public static IEnumerable<ValidationResult> GetValidationResults(this IEnumerable<IRule> businessRules)
         {
-            return IRuleExtensions.GetValidationResults(businessRules, string.Empty);
+            return IRuleExtensions.GetValidationResults(businessRules, null);
         }
 
         public static async Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IEnumerable<IRule> businessRules, string entityName)
         {
             var rules  = await Task.WhenAll(businessRules.Select(r => r.ValidateAsync()));
             return rules.Where(rule => !rule.IsValid)
-                        .Select(rule => new ValidationResult(rule.ErrorMessage, new string[] { entityName }));
+                        .Select(rule => new ValidationResult(rule.ErrorMessage, new string[] { entityName ?? rule.Association ?? string.Empty }));
         }
 
         public static Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IEnumerable<IRule> businessRules)
         {
-            return IRuleExtensions.GetValidationResultsAsync(businessRules, string.Empty);
+            return IRuleExtensions.GetValidationResultsAsync(businessRules, null);
         }
 
         public static IRule IfAllValidThenValidate(this IEnumerable<IRule> r, params IRule[] rules)
