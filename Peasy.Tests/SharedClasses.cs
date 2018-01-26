@@ -25,7 +25,7 @@ namespace Peasy.Core.Tests
         protected override void OnValidate()
         {
             IsValid = false;
-            ErrorMessage = "FalseRule1 failed validation";
+            ErrorMessage = $"{Association} failed validation";
         }
     }
 
