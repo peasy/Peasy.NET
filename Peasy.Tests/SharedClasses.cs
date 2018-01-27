@@ -4,6 +4,14 @@ namespace Peasy.Core.Tests
 {
     public class TrueRule : RuleBase
     {
+        public TrueRule()
+        {
+        }
+
+        public TrueRule(string association)
+        {
+            Association = association;
+        }
     }
 
     public class FalseRule1 : RuleBase

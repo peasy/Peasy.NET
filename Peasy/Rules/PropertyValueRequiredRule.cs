@@ -11,7 +11,7 @@
 
         protected override void OnValidate()
         {
-            Invalidate($"{_propertyName} is required");
+            Invalidate($"{_propertyName} is required", _propertyName);
         }
     }
 }

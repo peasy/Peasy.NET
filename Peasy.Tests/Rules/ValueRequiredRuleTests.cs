@@ -23,9 +23,10 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public void Sets_ErrorMessage_When_Integer_Less_Than_One_Supplied()
+        public void Sets_ErrorMessage_And_Association_When_Integer_Less_Than_One_Supplied()
         {
             var rule = new ValueRequiredRule(0, "id").Validate();
+            rule.Association.ShouldBe("id");
             rule.ErrorMessage.ShouldBe("id must be greater than 0");
         }
 
@@ -44,9 +45,10 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public void Sets_ErrorMessage_When_Long_Less_Than_One_Supplied()
+        public void Sets_ErrorMessage_And_Association_When_Long_Less_Than_One_Supplied()
         {
             var rule = new ValueRequiredRule(0L, "id").Validate();
+            rule.Association.ShouldBe("id");
             rule.ErrorMessage.ShouldBe("id must be greater than 0");
         }
 
@@ -65,9 +67,10 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public void Sets_ErrorMessage_When_Decimal_Less_Than_One_Supplied()
+        public void Sets_ErrorMessage_And_Association_When_Decimal_Less_Than_One_Supplied()
         {
             var rule = new ValueRequiredRule(0M, "id").Validate();
+            rule.Association.ShouldBe("id");
             rule.ErrorMessage.ShouldBe("id must be greater than 0");
         }
 
@@ -86,9 +89,10 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public void Sets_ErrorMessage_When_String_Empty_Is_Supplied()
+        public void Sets_ErrorMessage_And_Association_When_String_Empty_Is_Supplied()
         {
             var rule = new ValueRequiredRule("", "id").Validate();
+            rule.Association.ShouldBe("id");
             rule.ErrorMessage.ShouldBe("id must be supplied");
         }
 
@@ -107,9 +111,10 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public void Sets_ErrorMessage_When_Guid_Empty_Is_Supplied()
+        public void Sets_ErrorMessage_And_Association_When_Guid_Empty_Is_Supplied()
         {
             var rule = new ValueRequiredRule(new Guid(), "id").Validate();
+            rule.Association.ShouldBe("id");
             rule.ErrorMessage.ShouldBe("id must be supplied");
         }
     }
