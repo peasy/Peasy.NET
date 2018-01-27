@@ -4,6 +4,14 @@ namespace Peasy.Core.Tests
 {
     public class TrueRule : RuleBase
     {
+        public TrueRule()
+        {
+        }
+
+        public TrueRule(string association)
+        {
+            Association = association;
+        }
     }
 
     public class FalseRule1 : RuleBase
@@ -12,6 +20,20 @@ namespace Peasy.Core.Tests
         {
             IsValid = false;
             ErrorMessage = "FalseRule1 failed validation";
+        }
+    }
+
+    public class FalseRuleWithAssociation : RuleBase
+    {
+        public FalseRuleWithAssociation(string association)
+        {
+            Association = association;
+        }
+
+        protected override void OnValidate()
+        {
+            IsValid = false;
+            ErrorMessage = $"{Association} failed validation";
         }
     }
 
