@@ -280,6 +280,16 @@ namespace Peasy.Core.Tests
             output2.ShouldBe(string.Empty);
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
+       
+        [TestMethod]
+        public void The_Correct_Association_Is_Set_As_A_Result_Of_Failed_Successor()
+        {
+            var rule = new TrueRule("Foo")
+                .IfValidThenValidate(new TrueRule(), new FalseRuleWithAssociation("Address"));
+            rule.Validate();
+            rule.Association.ShouldBe("Address");
+            rule.ErrorMessage.ShouldBe("Address failed validation");
+        }
     }
 
 }
