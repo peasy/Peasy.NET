@@ -20,7 +20,7 @@ namespace Peasy
         protected Action<IRule> _ifInvalidThenExecute;
 
         /// <summary>
-        /// Gets or sets a string that associates this rule 
+        /// Gets or sets a string that associates this rule
         /// with a field. This is helpful for validation errors
         /// </summary>
         public string Association { get; protected set; }

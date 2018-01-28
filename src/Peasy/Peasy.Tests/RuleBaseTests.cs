@@ -81,7 +81,7 @@ namespace Peasy.Core.Tests
                               .Validate();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
-        } 
+        }
 
         [TestMethod]
         public void Last_Successor_In_Successor_Chain_Is_Skipped_When_First_Successors_Pass()
@@ -92,7 +92,7 @@ namespace Peasy.Core.Tests
                               .Validate();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
-        } 
+        }
 
         [TestMethod]
         public void Parent_Fails_When_Last_Successor_In_Chains_Fails_Validation()
@@ -172,7 +172,7 @@ namespace Peasy.Core.Tests
         public void Does_Not_Invoke_IfInvalidThenExecute()
         {
             var output = string.Empty;
-            new TrueRule() 
+            new TrueRule()
                    .IfInvalidThenExecute(rule => output = "pass")
                    .Validate();
 
@@ -280,7 +280,7 @@ namespace Peasy.Core.Tests
             output2.ShouldBe(string.Empty);
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
-       
+
         [TestMethod]
         public void The_Correct_Association_Is_Set_As_A_Result_Of_Failed_Successor()
         {

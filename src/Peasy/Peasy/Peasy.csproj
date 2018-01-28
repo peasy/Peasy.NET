@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
     <NoWarn>1998</NoWarn>
+    <Summary>An easy to use middle tier framework for .NET</Summary>
+    <Description>Peasy is a middle tier framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</Description>
+    <VersionPrefix>3.0.0</VersionPrefix>
+    <Authors>Aaron Hanusa</Authors>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AssemblyName>Peasy</AssemblyName>
+    <PackageId>Peasy</PackageId>
+    <PackageIconUrl>https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?raw=1</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/ahanusa/Peasy.NET</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
