@@ -1,4 +1,6 @@
 version: '{build}'
+build:
+  project: Peasy.Pre2017.sln
 pull_requests:
   do_not_increment_build_number: true
 branches:
