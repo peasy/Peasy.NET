@@ -5,7 +5,7 @@ using Shouldly;
 namespace Peasy.Tests.Rules
 {
     [TestClass]
-    class GreaterThanZeroRuleTests
+    public class GreaterThanZeroRuleTests
     {
         [TestMethod]
         public void Returns_True()
