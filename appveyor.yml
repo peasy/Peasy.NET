@@ -1,14 +1,12 @@
 version: '{build}'
-build:
-  project: Peasy.Pre2017.sln
 pull_requests:
   do_not_increment_build_number: true
 branches:
   only:
   - master
-image: Visual Studio 2015
+image: Visual Studio 2017
 before_build:
-  - nuget restore Peasy.Pre2017.sln
+  - nuget restore Peasy.sln
 install:
   - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v4.0.0/nuget.exe
 nuget:
