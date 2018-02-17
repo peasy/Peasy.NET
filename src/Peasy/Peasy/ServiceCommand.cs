@@ -34,8 +34,28 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: () => Task.Run(() => Enumerable.Empty<ValidationResult>()),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
+                   executeAsyncMethod: executeAsyncMethod)
+        {
+        }
+
+        public ServiceCommand(Action executeMethod)
+            : this(initializationMethod: () => {},
+                   initializationAsyncMethod: async () => {},
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
+                   executeMethod: executeMethod,
+                   executeAsyncMethod: async() => {})
+        {
+        }
+
+        public ServiceCommand(Func<Task> executeAsyncMethod)
+            : this(initializationMethod: () => {},
+                   initializationAsyncMethod: async () => {},
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
+                   executeMethod: () => {},
                    executeAsyncMethod: executeAsyncMethod)
         {
         }
@@ -200,6 +220,16 @@ namespace Peasy
         {
         }
 
+        public ServiceCommand(Func<Task<T>> executeAsyncMethod)
+            : this(initializationMethod: () => {},
+                   initializationAsyncMethod: async () => {},
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   executeMethod: () => default(T),
+                   executeAsyncMethod: executeAsyncMethod)
+        {
+        }
+
         public ServiceCommand(Func<Task<T>> executeAsyncMethod, Func<Task<IEnumerable<IRule>>> getBusinessRulesAsyncMethod)
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
@@ -208,6 +238,20 @@ namespace Peasy
                    {
                       var rules = await getBusinessRulesAsyncMethod();
                       return await rules.GetValidationResultsAsync();
+                   },
+                   executeMethod: () => default(T),
+                   executeAsyncMethod: executeAsyncMethod)
+        {
+        }
+
+        public ServiceCommand(Func<Task> initializationAsyncMethod, Func<Task<T>> executeAsyncMethod, Func<Task<IEnumerable<IRule>>> getBusinessRulesAsyncMethod)
+            : this(initializationMethod: () => {},
+                   initializationAsyncMethod: initializationAsyncMethod,
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: async () => 
+                   {
+                       var rules = await getBusinessRulesAsyncMethod();
+                       return await rules.GetValidationResultsAsync();
                    },
                    executeMethod: () => default(T),
                    executeAsyncMethod: executeAsyncMethod)
