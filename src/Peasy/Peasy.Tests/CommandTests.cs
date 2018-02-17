@@ -268,7 +268,7 @@ namespace Peasy.Core.Tests
 
         public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            return Task.Run(() => GetErrors());
+            return Task.FromResult(GetErrors());
         }
 
         protected override void OnExecute()
@@ -327,7 +327,7 @@ namespace Peasy.Core.Tests
 
         public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            return Task.Run(() => GetErrors());
+            return Task.FromResult(GetErrors());
         }
 
         protected override string OnExecute()

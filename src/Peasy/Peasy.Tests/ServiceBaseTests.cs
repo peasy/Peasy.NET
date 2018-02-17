@@ -485,7 +485,8 @@ namespace Peasy.Core.Tests
 
         public Task DeleteAsync(long id)
         {
-            return Task.Run(() => Delete(id));
+            Delete(id);
+            return Task.CompletedTask;
         }
 
         public IEnumerable<Person> GetAll()
@@ -495,7 +496,7 @@ namespace Peasy.Core.Tests
 
         public Task<IEnumerable<Person>> GetAllAsync()
         {
-            return Task.Run(() => GetAll());
+            return Task.FromResult(GetAll());
         }
 
         public Person GetByID(long id)
@@ -505,7 +506,7 @@ namespace Peasy.Core.Tests
 
         public Task<Person> GetByIDAsync(long id)
         {
-            return Task.Run(() => GetByID(id));
+            return Task.FromResult(GetByID(id));
         }
 
         public Person Insert(Person entity)
@@ -515,7 +516,7 @@ namespace Peasy.Core.Tests
 
         public Task<Person> InsertAsync(Person entity)
         {
-            return Task.Run(() => Insert(entity));
+            return Task.FromResult(Insert(entity));
         }
 
         public Person Update(Person entity)
@@ -525,7 +526,7 @@ namespace Peasy.Core.Tests
 
         public Task<Person> UpdateAsync(Person entity)
         {
-            return Task.Run(() => Update(entity));
+            return Task.FromResult(Update(entity));
         }
     }
 }

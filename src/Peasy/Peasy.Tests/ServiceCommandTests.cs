@@ -25,8 +25,8 @@ namespace Peasy.Tests.Rules
         public async Task ServiceCommand_Constructor_With_Async_Method_Args_Contains_Correct_Errors_On_Failure()
         {
             var command = new ServiceCommand<Person>(
-                executeAsyncMethod: () => Task.Run(() => new Person()),
-                getBusinessRulesAsyncMethod: () => Task.Run<IEnumerable<IRule>>(() => new [] { new FalseRule1() })
+                executeAsyncMethod: () => Task.FromResult(new Person()),
+                getBusinessRulesAsyncMethod: () => Task.FromResult<IEnumerable<IRule>>(new [] { new FalseRule1() })
             );
             var result = await command.ExecuteAsync();
             result.Errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
@@ -37,9 +37,9 @@ namespace Peasy.Tests.Rules
         {
             var command = new ServiceCommand<Person>(
                 executeMethod: () => new Person(),
-                executeAsyncMethod: () => Task.Run(() => new Person()),
+                executeAsyncMethod: () => Task.FromResult(new Person()),
                 getBusinessRulesMethod: () => new[] { new FalseRule1() },
-                getBusinessRulesAsyncMethod: () => Task.Run<IEnumerable<IRule>>(() => new [] { new FalseRule2() })
+                getBusinessRulesAsyncMethod: () => Task.FromResult<IEnumerable<IRule>>(new [] { new FalseRule2() })
             );
             command.Execute().Errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
             var result = await command.ExecuteAsync();
