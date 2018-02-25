@@ -38,7 +38,7 @@ namespace Peasy.Rules
 
         public ValueRequiredRule(Guid value, string fieldName)
         {
-            _errorMessage = $"{fieldName} must be supplied";
+            _errorMessage = $"A valid UUID for {fieldName} must be supplied";
             _fieldName = fieldName;
             _validate = () => value != Guid.Empty;
         }

@@ -115,7 +115,7 @@ namespace Peasy.Tests.Rules
         {
             var rule = new ValueRequiredRule(new Guid(), "id").Validate();
             rule.Association.ShouldBe("id");
-            rule.ErrorMessage.ShouldBe("id must be supplied");
+            rule.ErrorMessage.ShouldBe("A valid UUID for id must be supplied");
         }
     }
 }
