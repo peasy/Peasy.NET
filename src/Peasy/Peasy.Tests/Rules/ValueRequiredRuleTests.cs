@@ -111,7 +111,22 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
+        public void Returns_False_When_Null_Is_Supplied()
+        {
+            var rule = new ValueRequiredRule(new Guid(), "id").Validate();
+            rule.IsValid.ShouldBe(false);
+        }
+
+        [TestMethod]
         public void Sets_ErrorMessage_And_Association_When_Guid_Empty_Is_Supplied()
+        {
+            var rule = new ValueRequiredRule(new Guid(), "id").Validate();
+            rule.Association.ShouldBe("id");
+            rule.ErrorMessage.ShouldBe("A valid UUID for id must be supplied");
+        }
+
+        [TestMethod]
+        public void Sets_ErrorMessage_And_Association_When_Null_Is_Supplied()
         {
             var rule = new ValueRequiredRule(new Guid(), "id").Validate();
             rule.Association.ShouldBe("id");

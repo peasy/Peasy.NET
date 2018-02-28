@@ -40,7 +40,7 @@ namespace Peasy.Rules
         {
             _errorMessage = $"A valid UUID for {fieldName} must be supplied";
             _fieldName = fieldName;
-            _validate = () => value != Guid.Empty;
+            _validate = () => value == null || value != Guid.Empty;
         }
 
         protected override void OnValidate()
