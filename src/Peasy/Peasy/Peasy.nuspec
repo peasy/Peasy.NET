@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Peasy</id>
-    <version>3.0.2</version>
+    <version>3.0.3</version>
     <title>Peasy</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
@@ -11,7 +11,7 @@
     <iconUrl>https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?raw=1</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Peasy is a middle tier framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</description>
-    <releaseNotes>Add support for rule association</releaseNotes>
+    <releaseNotes>Adds better Guid support for ValueRequiredRule</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>Middle, Tier, Framework, Business, Logic, Layer</tags>
     <summary>An easy to use middle tier framework for .NET</summary>
