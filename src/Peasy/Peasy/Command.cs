@@ -59,12 +59,14 @@ namespace Peasy
         /// <summary>
         /// Invoked synchronously if rule executions are successful
         /// </summary>
-        protected abstract void OnExecute();
+        protected virtual void OnExecute() { }
 
         /// <summary>
         /// Invoked asynchronously if rule executions are successful
         /// </summary>
-        protected abstract Task OnExecuteAsync();
+        protected virtual async Task OnExecuteAsync()
+        {
+        }
 
         /// <summary>
         /// Invoked synchronously before rule execution
