@@ -5,7 +5,7 @@ namespace Peasy
 {
     public static class IDomainObjectExtensions
     {
-        public static IEnumerable<ValidationResult> GetValidationErrors<T>(this T domainObject) where T : IDomainObject
+        public static IEnumerable<ValidationResult> GetValidationErrors<T>(this T domainObject) where T : new()
         {
             var validationResults = new List<ValidationResult>();
             var context = new ValidationContext(domainObject);
