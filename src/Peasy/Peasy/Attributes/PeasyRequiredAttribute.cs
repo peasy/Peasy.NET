@@ -20,6 +20,11 @@ namespace Peasy.Attributes
                 return validationResult;
             }
 
+            if (value is Guid && Guid.Parse(value.ToString()) == Guid.Empty)
+            {
+                return validationResult;
+            }
+
             var incoming = value.ToString();
 
             decimal val = 0;

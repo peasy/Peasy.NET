@@ -49,6 +49,16 @@ namespace Peasy.Tests.Attributes
             var context = new ValidationContext(foo);
             attr.Validate(0, context);
         }
+        
+        [TestMethod]
+        [ExpectedException(typeof(ValidationException))]
+        public void Throws_Exception_When_Value_Is_Guid_And_Contains_Guid_Empty()
+        {
+            var attr = new PeasyRequiredAttribute();
+            var foo = new Stub<Guid>();
+            var context = new ValidationContext(foo);
+            attr.Validate(Guid.Empty, context);
+        }
 
         [TestMethod]
         public void Sets_ErrorMessage_And_Displays_Member_Name()

@@ -147,12 +147,18 @@ namespace Peasy
         /// <summary>
         /// Invoked synchronously if rule executions are successful
         /// </summary>
-        protected abstract T OnExecute();
+        protected virtual T OnExecute()
+        {
+            return default(T);
+        }
 
         /// <summary>
         /// Invoked asynchronously if rule executions are successful
         /// </summary>
-        protected abstract Task<T> OnExecuteAsync();
+        protected virtual Task<T> OnExecuteAsync()
+        {
+            return Task.FromResult(default(T));
+        }
 
         /// <summary>
         /// Invoked synchronously before rule execution
