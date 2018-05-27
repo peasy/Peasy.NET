@@ -5,7 +5,7 @@
     <NoWarn>1998</NoWarn>
     <Summary>An easy to use middle tier framework for .NET</Summary>
     <Description>Peasy is a middle tier framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</Description>
-    <VersionPrefix>3.0.4</VersionPrefix>
+    <VersionPrefix>3.0.5</VersionPrefix>
     <Authors>Aaron Hanusa</Authors>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>Peasy</AssemblyName>
