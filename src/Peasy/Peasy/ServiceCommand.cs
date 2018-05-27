@@ -37,7 +37,7 @@ namespace Peasy
             : this(initializationMethod: initializationMethod,
                    initializationAsyncMethod: initializationAsyncMethod,
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: executeAsyncMethod)
         {
@@ -48,7 +48,7 @@ namespace Peasy
             : this(initializationMethod: initializationMethod,
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: async () => {})
         {
@@ -59,7 +59,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: initializationAsyncMethod,
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: () => {},
                    executeAsyncMethod: executeAsyncMethod)
         {
@@ -82,7 +82,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: executeAsyncMethod)
         {
@@ -92,7 +92,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: getErrorsMethod,
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: async () => {})
         {
@@ -129,7 +129,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: () => getBusinessRulesMethod().GetValidationResults(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: async () => {})
         {
@@ -139,7 +139,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: () => {},
                    executeAsyncMethod: executeAsyncMethod)
         {
@@ -235,7 +235,7 @@ namespace Peasy
             : this(initializationMethod: initializationMethod,
                    initializationAsyncMethod: initializationAsyncMethod,
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: executeAsyncMethod)
         {
@@ -246,7 +246,7 @@ namespace Peasy
             : this(initializationMethod: initializationMethod,
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: async () => default(T))
         {
@@ -257,7 +257,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: initializationAsyncMethod,
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: () => default(T),
                    executeAsyncMethod: executeAsyncMethod)
         {
@@ -280,7 +280,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: executeAsyncMethod)
         {
@@ -290,7 +290,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: getErrorsMethod,
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: async () => default(T))
         {
@@ -327,7 +327,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: () => getBusinessRulesMethod().GetValidationResults(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: executeMethod,
                    executeAsyncMethod: async () => default(T))
         {
@@ -337,7 +337,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: async () => {},
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: () => Task.FromResult(Enumerable.Empty<ValidationResult>()),
                    executeMethod: () => default(T),
                    executeAsyncMethod: executeAsyncMethod)
         {
@@ -361,7 +361,7 @@ namespace Peasy
             : this(initializationMethod: () => {},
                    initializationAsyncMethod: initializationAsyncMethod,
                    getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
-                   getErrorsAsyncMethod: async () => 
+                   getErrorsAsyncMethod: async () =>
                    {
                        var rules = await getBusinessRulesAsyncMethod();
                        return await rules.GetValidationResultsAsync();

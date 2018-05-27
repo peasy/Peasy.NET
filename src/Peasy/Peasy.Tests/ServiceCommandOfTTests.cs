@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Peasy.Tests.Rules
 {
     [TestClass]
-    public class ServiceCommandTests
+    public class ServiceCommandOfTTests
     {
         private static string _count = string.Empty;
 
@@ -56,21 +56,22 @@ namespace Peasy.Tests.Rules
             return Task.FromResult(Enumerable.Empty<IRule>());
         };
 
-        private Action executeMethod = () =>
+        private Func<Person> executeMethod = () =>
         {
             _count += "4";
+            return default(Person);
         };
 
-        private Func<Task> executeAsyncMethod = () =>
+        private Func<Task<Person>> executeAsyncMethod = () =>
         {
             _count += "4";
-            return Task.CompletedTask;
+            return Task.FromResult(default(Person));
         };
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_1()
+        public async Task ServiceCommandOfT_Composition_1()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 initializationMethod,
                 initializationAsyncMethod,
@@ -87,10 +88,10 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_2()
+        public async Task ServiceCommandOfT_Composition_2()
         {
 
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 initializationMethod,
                 initializationAsyncMethod,
@@ -105,9 +106,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_3()
+        public async Task ServiceCommandOfT_Composition_3()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 initializationMethod,
                 executeMethod
@@ -120,9 +121,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_4()
+        public async Task ServiceCommandOfT_Composition_4()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 initializationAsyncMethod,
                 executeAsyncMethod
@@ -135,9 +136,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_5()
+        public async Task ServiceCommandOfT_Composition_5()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 getErrorsMethod,
                 getErrorsAsyncMethod,
@@ -152,9 +153,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_6()
+        public async Task ServiceCommandOfT_Composition_6()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 executeMethod,
                 executeAsyncMethod
@@ -167,9 +168,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_7()
+        public async Task ServiceCommandOfT_Composition_7()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 executeMethod,
                 getErrorsMethod
@@ -182,9 +183,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_8()
+        public async Task ServiceCommandOfT_Composition_8()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 executeAsyncMethod,
                 getErrorsAsyncMethod
@@ -197,9 +198,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_9()
+        public async Task ServiceCommandOfT_Composition_9()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 executeMethod,
                 executeAsyncMethod,
@@ -214,9 +215,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_10()
+        public async Task ServiceCommandOfT_Composition_10()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 executeMethod,
                 getBusinessRulesMethod
@@ -229,9 +230,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_11()
+        public async Task ServiceCommandOfT_Composition_11()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 executeAsyncMethod
             );
@@ -243,9 +244,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_12()
+        public async Task ServiceCommandOfT_Composition_12()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 executeAsyncMethod,
                 getBusinessRulesAsyncMethod
@@ -258,9 +259,9 @@ namespace Peasy.Tests.Rules
         }
 
         [TestMethod]
-        public async Task ServiceCommand_Composition_13()
+        public async Task ServiceCommandOfT_Composition_13()
         {
-            var command = new ServiceCommand
+            var command = new ServiceCommand<Person>
             (
                 initializationAsyncMethod,
                 executeAsyncMethod,
