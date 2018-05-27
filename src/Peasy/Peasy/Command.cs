@@ -64,8 +64,9 @@ namespace Peasy
         /// <summary>
         /// Invoked asynchronously if rule executions are successful
         /// </summary>
-        protected virtual async Task OnExecuteAsync()
+        protected virtual Task OnExecuteAsync()
         {
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -76,8 +77,9 @@ namespace Peasy
         /// <summary>
         /// Invoked asynchronously before rule execution
         /// </summary>
-        protected virtual async Task OnInitializationAsync()
+        protected virtual Task OnInitializationAsync()
         {
+            return Task.FromResult<object>(null);
         }
 
         public virtual IEnumerable<ValidationResult> GetErrors()
@@ -85,9 +87,9 @@ namespace Peasy
             return Enumerable.Empty<ValidationResult>();
         }
 
-        public virtual async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            return Enumerable.Empty<ValidationResult>();
+            return Task.FromResult(Enumerable.Empty<ValidationResult>());
         }
     }
 
@@ -168,8 +170,9 @@ namespace Peasy
         /// <summary>
         /// Invoked asynchronously before rule execution
         /// </summary>
-        protected virtual async Task OnInitializationAsync()
+        protected virtual Task OnInitializationAsync()
         {
+            return Task.FromResult<object>(null);
         }
 
         public virtual IEnumerable<ValidationResult> GetErrors()
@@ -177,9 +180,9 @@ namespace Peasy
             return Enumerable.Empty<ValidationResult>();
         }
 
-        public virtual async Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            return Enumerable.Empty<ValidationResult>();
+            return Task.FromResult(Enumerable.Empty<ValidationResult>());
         }
     }
 }

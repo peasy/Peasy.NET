@@ -486,7 +486,7 @@ namespace Peasy.Core.Tests
         public Task DeleteAsync(long id)
         {
             Delete(id);
-            return Task.CompletedTask;
+            return Task.FromResult<object>(null);
         }
 
         public IEnumerable<Person> GetAll()

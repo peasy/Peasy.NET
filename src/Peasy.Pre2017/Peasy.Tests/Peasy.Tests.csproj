@@ -93,6 +93,9 @@
     <Compile Include="..\..\Peasy\Peasy.Tests\ServiceBaseTests.cs">
       <Link>ServiceBaseTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\Peasy\Peasy.Tests\ServiceCommandOfTTests.cs">
+      <Link>ServiceCommandOfTTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\Peasy\Peasy.Tests\ServiceCommandTests.cs">
       <Link>ServiceCommandTests.cs</Link>
     </Compile>

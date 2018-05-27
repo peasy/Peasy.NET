@@ -117,9 +117,10 @@ namespace Peasy
         /// </returns>
         protected virtual void OnValidate() {}
 
-        protected async virtual Task OnValidateAsync()
+        protected virtual Task OnValidateAsync()
         {
             OnValidate();
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>

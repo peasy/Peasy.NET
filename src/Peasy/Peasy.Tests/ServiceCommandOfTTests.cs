@@ -29,7 +29,7 @@ namespace Peasy.Tests.Rules
         private Func<Task> initializationAsyncMethod = () =>
         {
             _count += "1";
-            return Task.CompletedTask;
+            return Task.FromResult<object>(null);
         };
 
         private Func<IEnumerable<ValidationResult>> getErrorsMethod = () =>

@@ -1,6 +1,4 @@
-﻿using Peasy.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,8 +37,9 @@ namespace Peasy
         /// <param name="id"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual async Task OnGetByIDCommandInitializationAsync(TKey id, ExecutionContext<T> context)
+        protected virtual Task OnGetByIDCommandInitializationAsync(TKey id, ExecutionContext<T> context)
         {
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -56,8 +55,9 @@ namespace Peasy
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual async Task OnGetAllCommandInitializationAsync(ExecutionContext<T> context)
+        protected virtual Task OnGetAllCommandInitializationAsync(ExecutionContext<T> context)
         {
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -75,8 +75,9 @@ namespace Peasy
         /// <param name="entity"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual async Task OnInsertCommandInitializationAsync(T entity, ExecutionContext<T> context)
+        protected virtual Task OnInsertCommandInitializationAsync(T entity, ExecutionContext<T> context)
         {
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -94,8 +95,9 @@ namespace Peasy
         /// <param name="entity"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual async Task OnUpdateCommandInitializationAsync(T entity, ExecutionContext<T> context)
+        protected virtual Task OnUpdateCommandInitializationAsync(T entity, ExecutionContext<T> context)
         {
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -113,8 +115,9 @@ namespace Peasy
         /// <param name="id"></param>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected virtual async Task OnDeleteCommandInitializationAsync(TKey id, ExecutionContext<T> context)
+        protected virtual Task OnDeleteCommandInitializationAsync(TKey id, ExecutionContext<T> context)
         {
+            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -128,9 +131,9 @@ namespace Peasy
         /// <summary>
         /// Override this method to supply custom business rules to GetByIDCommand.ExecuteAsync()
         /// </summary>
-        protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForGetAllAsync(ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForGetAllAsync(ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>
@@ -144,9 +147,9 @@ namespace Peasy
         /// <summary>
         /// Override this method to supply custom business rules to GetByIDCommand.ExecuteAsync()
         /// </summary>
-        protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForGetByIDAsync(TKey id, ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForGetByIDAsync(TKey id, ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>
@@ -160,9 +163,9 @@ namespace Peasy
         /// <summary>
         /// Override this method to supply custom business rules to InsertCommand.ExecuteAsync()
         /// </summary>
-        protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForInsertAsync(T entity, ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForInsertAsync(T entity, ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>
@@ -176,9 +179,9 @@ namespace Peasy
         /// <summary>
         /// Override this method to supply custom business rules to UpdateCommand.ExecuteAsync()
         /// </summary>
-        protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForUpdateAsync(T entity, ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForUpdateAsync(T entity, ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>
@@ -192,9 +195,9 @@ namespace Peasy
         /// <summary>
         /// Override this method to supply custom business rules to DeleteCommand.ExecuteAsync()
         /// </summary>
-        protected virtual async Task<IEnumerable<IRule>> GetBusinessRulesForDeleteAsync(TKey id, ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForDeleteAsync(TKey id, ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>

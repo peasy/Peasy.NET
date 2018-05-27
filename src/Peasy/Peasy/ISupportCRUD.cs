@@ -3,12 +3,11 @@
 namespace Peasy
 {
     public interface ISupportCRUD<T, TKey> :
-                                       ISupportGetAll<T>,
-                                       ISupportGetByID<T, TKey>,
-                                       ISupportInsert<T>,
-                                       ISupportUpdate<T>,
-                                       ISupportDelete<TKey>
-
+        ISupportGetAll<T>,
+        ISupportGetByID<T, TKey>,
+        ISupportInsert<T>,
+        ISupportUpdate<T>,
+        ISupportDelete<TKey>
     {
     }
 
