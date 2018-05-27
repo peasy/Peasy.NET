@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Peasy.Attributes
 {
     /// <summary>
-    /// Validates that non-zero values are supplied for int, decimal or non-default values for dates
+    /// Validates that non-zero values are supplied for int, decimal or non-default values for dates and guids
     /// </summary>
     public class PeasyRequiredAttribute : ValidationAttribute
     {
