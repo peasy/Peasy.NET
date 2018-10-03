@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Peasy
@@ -153,9 +154,9 @@ namespace Peasy
                 {
                     foreach (var ruleList in Successor)
                     {
-                        foreach (var rule in ruleList)
+                        var validated = await Task.WhenAll(ruleList.Select(r => r.ValidateAsync()));
+                        foreach (var rule in validated)
                         {
-                            await rule.ValidateAsync();
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage, rule.Association);
