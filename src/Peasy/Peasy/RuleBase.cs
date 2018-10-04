@@ -84,7 +84,7 @@ namespace Peasy
         /// </summary>
         /// <param name="rules">The <see cref="IRule"/>.</param>
         /// <returns>The supplied <see cref="RuleBase"/>.</returns>
-        public IRule IfValidThenValidate(params IRule[] rules)
+        public RuleBase IfValidThenValidate(params IRule[] rules)
         {
             Successor.Add(rules);
             return this;
@@ -94,7 +94,7 @@ namespace Peasy
         /// Executes the supplied action upon successful validation.
         /// </summary>
         /// <param name="method">The action to perform.</param>
-        public IRule IfValidThenExecute(Action<IRule> method)
+        public RuleBase IfValidThenExecute(Action<IRule> method)
         {
             _ifValidThenExecute = method;
             return this;
@@ -104,7 +104,7 @@ namespace Peasy
         /// Executes the supplied action upon failed validation.
         /// </summary>
         /// <param name="method">The action to perform.</param>
-        public IRule IfInvalidThenExecute(Action<IRule> method)
+        public RuleBase IfInvalidThenExecute(Action<IRule> method)
         {
             _ifInvalidThenExecute = method;
             return this;
