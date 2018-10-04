@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace Peasy.Core.Tests
 {
@@ -12,6 +13,11 @@ namespace Peasy.Core.Tests
         {
             Association = association;
         }
+
+        protected override Task OnValidateAsync()
+        {
+            return Task.CompletedTask;
+        }
     }
 
     public class FalseRule1 : RuleBase
@@ -20,6 +26,13 @@ namespace Peasy.Core.Tests
         {
             IsValid = false;
             ErrorMessage = "FalseRule1 failed validation";
+        }
+
+        protected override Task OnValidateAsync()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule1 failed validation";
+            return Task.CompletedTask;
         }
     }
 
@@ -35,6 +48,13 @@ namespace Peasy.Core.Tests
             IsValid = false;
             ErrorMessage = $"{Association} failed validation";
         }
+
+        protected override Task OnValidateAsync()
+        {
+            IsValid = false;
+            ErrorMessage = $"{Association} failed validation";
+            return Task.CompletedTask;
+        }
     }
 
     public class FalseRule2 : RuleBase
@@ -44,6 +64,13 @@ namespace Peasy.Core.Tests
             IsValid = false;
             ErrorMessage = "FalseRule2 failed validation";
         }
+
+        protected override Task OnValidateAsync()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule2 failed validation";
+            return Task.CompletedTask;
+        }
     }
 
     public class FalseRule3 : RuleBase
@@ -52,6 +79,13 @@ namespace Peasy.Core.Tests
         {
             IsValid = false;
             ErrorMessage = "FalseRule3 failed validation";
+        }
+
+        protected override Task OnValidateAsync()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule3 failed validation";
+            return Task.CompletedTask;
         }
     }
 

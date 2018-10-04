@@ -20,6 +20,16 @@ namespace Peasy.Core.Tests.Extensions
         }
 
         [TestMethod]
+        public void GetValidationResults_IRule_Returns_One_Validation_Result()
+        {
+            var rule = new TrueRule().IfValidThenValidate
+            (
+                new TrueRule(), new FalseRule1(), new TrueRule()
+            );
+            rule.GetValidationResults().Count().ShouldBe(1);
+        }
+
+        [TestMethod]
         public void GetValidationResults_Returns_Two_Validation_Results()
         {
             var rules = new List<IRule>
@@ -128,6 +138,17 @@ namespace Peasy.Core.Tests.Extensions
                 new TrueRule(), new FalseRule1(), new TrueRule()
             };
             var results = await rules.GetValidationResultsAsync();
+            results.Count().ShouldBe(1);
+        }
+
+        [TestMethod]
+        public async Task GetValidationResultsAsync_IRule_Returns_One_Validation_Result()
+        {
+            var rule = new TrueRule().IfValidThenValidate
+            (
+                new TrueRule(), new FalseRule1(), new TrueRule()
+            );
+            var results = await rule.GetValidationResultsAsync();
             results.Count().ShouldBe(1);
         }
 

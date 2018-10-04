@@ -20,6 +20,11 @@ namespace Peasy
             return IRuleExtensions.GetValidationResults(businessRules, null);
         }
 
+        public static IEnumerable<ValidationResult> GetValidationResults(this IRule businessRules)
+        {
+            return IRuleExtensions.GetValidationResults(new [] { businessRules }, null);
+        }
+
         public static async Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IEnumerable<IRule> businessRules, string entityName)
         {
             var rules  = await Task.WhenAll(businessRules.Select(r => r.ValidateAsync()));
@@ -30,6 +35,11 @@ namespace Peasy
         public static Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IEnumerable<IRule> businessRules)
         {
             return IRuleExtensions.GetValidationResultsAsync(businessRules, null);
+        }
+
+        public static Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IRule businessRules)
+        {
+            return IRuleExtensions.GetValidationResultsAsync(new [] { businessRules }, null);
         }
 
         public static IRule IfAllValidThenValidate(this IEnumerable<IRule> r, params IRule[] rules)
