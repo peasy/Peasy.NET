@@ -173,6 +173,16 @@ namespace Peasy
         {
         }
 
+        public ServiceCommand(Func<Task> initializationAsyncMethod, Func<Task> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod)
+            : this(initializationMethod: () => {},
+                   initializationAsyncMethod: initializationAsyncMethod,
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: getErrorsAsyncMethod,
+                   executeMethod: () => {},
+                   executeAsyncMethod: executeAsyncMethod)
+        {
+        }
+
         protected override void OnInitialization()
         {
             _initializationMethod();
@@ -366,6 +376,16 @@ namespace Peasy
                        var rules = await getBusinessRulesAsyncMethod();
                        return await rules.GetValidationResultsAsync();
                    },
+                   executeMethod: () => default(T),
+                   executeAsyncMethod: executeAsyncMethod)
+        {
+        }
+
+        public ServiceCommand(Func<Task> initializationAsyncMethod, Func<Task<T>> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod)
+            : this(initializationMethod: () => {},
+                   initializationAsyncMethod: initializationAsyncMethod,
+                   getErrorsMethod: () => Enumerable.Empty<ValidationResult>(),
+                   getErrorsAsyncMethod: getErrorsAsyncMethod,
                    executeMethod: () => default(T),
                    executeAsyncMethod: executeAsyncMethod)
         {
