@@ -8,7 +8,7 @@ namespace Peasy
     /// <summary>
     /// A validation rule to run againt records being processed.
     /// </summary>
-    public abstract class RuleBase : IRule
+    public abstract class RuleBase : IRule, IRulesContainer
     {
         /// <summary>
         /// The action to perform once when this rule passes validation.
@@ -43,6 +43,11 @@ namespace Peasy
         /// Gets or sets the list of <see cref="IRule"/> that should be evaluated upon successful validation.
         /// </summary>
         private List<IRule[]> Successor { set; get; } = new List<IRule[]>();
+
+        /// <summary>
+        /// Allows access to successor rules
+        /// </summary>
+        List<IRule[]> IRulesContainer.Rules => Successor;
 
         /// <summary>
         /// Validates this rule.

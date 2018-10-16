@@ -3,6 +3,7 @@ using Peasy.Core.Tests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Peasy.Core.Tests
 {
@@ -573,6 +574,40 @@ namespace Peasy.Core.Tests
             await rule.ValidateAsync();
             rule.Association.ShouldBe("Address");
             rule.ErrorMessage.ShouldBe("Address failed validation");
+        }
+
+        [TestMethod]
+        public void Allows_access_to_successor_rules_via_IRulesContainer_interface()
+        {
+            var output = string.Empty;
+            var rule = new TrueRule()
+                .IfValidThenValidate(new TrueRule(), new FalseRule2())
+                .IfValidThenValidate
+                (
+                    new TrueRule().IfValidThenValidate(new FalseRule1()),
+                    new FalseRule3()
+                );
+
+            var successors = (rule as IRulesContainer).Rules;
+            successors.Count.ShouldBe(2);
+
+            var firstSuccessors = successors.First();
+            firstSuccessors.Count().ShouldBe(2);
+
+            firstSuccessors.First().ShouldBeOfType<TrueRule>();
+            (firstSuccessors.First() as IRulesContainer).Rules.Count().ShouldBe(0);
+
+            firstSuccessors.Last().ShouldBeOfType<FalseRule2>();
+            (firstSuccessors.Last() as IRulesContainer).Rules.Count().ShouldBe(0);
+
+            var lastSuccessors = successors.Last();
+            lastSuccessors.Count().ShouldBe(2);
+
+            lastSuccessors.First().ShouldBeOfType<TrueRule>();
+            (lastSuccessors.First() as IRulesContainer).Rules.Count().ShouldBe(1);
+            (lastSuccessors.First() as IRulesContainer).Rules.First().First().ShouldBeOfType<FalseRule1>();
+
+            lastSuccessors.Last().ShouldBeOfType<FalseRule3>();
         }
     }
 
