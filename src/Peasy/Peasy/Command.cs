@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,8 +19,8 @@ namespace Peasy
             OnInitialization();
 
             var validationResults = GetErrors().ToArray();
-            if (validationResults.Any())
-                return OnFailedExecution(validationResults);
+
+            if (validationResults.Any()) return OnFailedExecution(validationResults);
 
             try
             {
@@ -27,32 +28,10 @@ namespace Peasy
             }
             catch (ServiceException ex)
             {
-                return OnFailedExecution(new [] { new ValidationResult(ex.Message) });
+                return OnServiceException(ex);
             }
 
             return OnSuccessfulExecution();
-        }
-
-        /// <summary>
-        /// Invoked when any of the rules in the pipeline fail execution
-        /// </summary>
-        /// <remarks>
-        /// Override this method to return a custom ExecutionResult or to further manipulate the ExecutionResult
-        /// </remarks>
-        protected virtual ExecutionResult OnFailedExecution(ValidationResult[] validationResults)
-        {
-            return new ExecutionResult { Success = false, Errors = validationResults };
-        }
-
-        /// <summary>
-        /// Invoked when all of the rules in the pipeline succeed in execution
-        /// </summary>
-        /// <remarks>
-        /// Override this method to return a custom ExecutionResult or to further manipulate the ExecutionResult
-        /// </remarks>
-        protected virtual ExecutionResult OnSuccessfulExecution()
-        {
-            return new ExecutionResult { Success = true };
         }
 
         /// <summary>
@@ -63,8 +42,8 @@ namespace Peasy
             await OnInitializationAsync();
 
             var validationResults = (await GetErrorsAsync()).ToArray();
-            if (validationResults.Any())
-                return OnFailedExecution(validationResults);
+
+            if (validationResults.Any()) return OnFailedExecution(validationResults);
 
             try
             {
@@ -72,23 +51,10 @@ namespace Peasy
             }
             catch (ServiceException ex)
             {
-                return OnFailedExecution(new [] { new ValidationResult(ex.Message) });
+                return OnServiceException(ex);
             }
 
             return OnSuccessfulExecution();
-        }
-
-        /// <summary>
-        /// Invoked synchronously if rule executions are successful
-        /// </summary>
-        protected virtual void OnExecute() { }
-
-        /// <summary>
-        /// Invoked asynchronously if rule executions are successful
-        /// </summary>
-        protected virtual Task OnExecuteAsync()
-        {
-            return Task.FromResult<object>(null);
         }
 
         /// <summary>
@@ -104,14 +70,87 @@ namespace Peasy
             return Task.FromResult<object>(null);
         }
 
+        /// <summary>
+        /// Returns validation results as a result of rule executions
+        /// </summary>
+        protected virtual IEnumerable<ValidationResult> OnGetErrors()
+        {
+            return GetRules().GetValidationResults();
+        }
+
+        /// <summary>
+        /// Returns validation results as a result of rule executions
+        /// </summary>
+        protected async virtual Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        {
+            var errors = await GetRulesAsync();
+            return await errors.GetValidationResultsAsync();
+        }
+
+        /// <summary>
+        /// Invoked synchronously if rule executions are successful
+        /// </summary>
+        protected virtual void OnExecute() { }
+
+        /// <summary>
+        /// Invoked asynchronously if rule executions are successful
+        /// </summary>
+        protected virtual Task OnExecuteAsync()
+        {
+            return Task.FromResult<object>(null);
+        }
+
+        protected virtual IEnumerable<IRule> GetRules()
+        {
+            return Enumerable.Empty<IRule>();
+        }
+
+        protected virtual Task<IEnumerable<IRule>> GetRulesAsync()
+        {
+            return Task.FromResult(Enumerable.Empty<IRule>());
+        }
+
         public virtual IEnumerable<ValidationResult> GetErrors()
         {
-            return Enumerable.Empty<ValidationResult>();
+            return OnGetErrors();
         }
 
         public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
-            return Task.FromResult(Enumerable.Empty<ValidationResult>());
+            return OnGetErrorsAsync();
+        }
+
+        /// <summary>
+        /// Invoked when an exception of type Peasy.ServiceException is caught
+        /// </summary>
+        /// <remarks>
+        /// Override this method to return a custom ValidationResult or to further manipulate the ValidationResult
+        /// </remarks>
+        protected virtual ExecutionResult OnServiceException(ServiceException exception)
+        {
+            return OnFailedExecution(new[] { new ValidationResult(exception.Message) });
+        }
+
+        /// <summary>
+        /// Invoked when any of the rules in the pipeline fail execution
+        /// </summary>
+        /// <remarks>
+        /// Override this method to return a custom ExecutionResult or to further manipulate the ExecutionResult
+        /// </remarks>
+        protected virtual ExecutionResult OnFailedExecution(IEnumerable<ValidationResult> validationResults)
+        {
+            return new ExecutionResult { Success = false, Errors = validationResults };
+        }
+
+        /// <summary>
+        /// Invoked when all of the rules in the pipeline succeed in execution
+        /// </summary>
+        /// <remarks>
+        /// Override this method to return a custom ExecutionResult or to further manipulate the ExecutionResult
+        /// </remarks>
+        protected virtual ExecutionResult OnSuccessfulExecution()
+        {
+            return new ExecutionResult { Success = true };
         }
     }
 
@@ -128,8 +167,8 @@ namespace Peasy
             OnInitialization();
 
             var validationResults = GetErrors().ToArray();
-            if (validationResults.Any())
-                return OnFailedExecution(validationResults);
+
+            if (validationResults.Any()) return OnFailedExecution(validationResults);
 
             T result;
             try
@@ -138,7 +177,7 @@ namespace Peasy
             }
             catch (ServiceException ex)
             {
-                return OnFailedExecution(new [] { new ValidationResult(ex.Message) });
+                return OnServiceException(ex);
             }
 
             return OnSuccessfulExecution(result);
@@ -152,8 +191,8 @@ namespace Peasy
             await OnInitializationAsync();
 
             var validationResults = (await GetErrorsAsync()).ToArray();
-            if (validationResults.Any())
-                return OnFailedExecution(validationResults);
+
+            if (validationResults.Any()) return OnFailedExecution(validationResults);
 
             T result;
             try
@@ -162,10 +201,87 @@ namespace Peasy
             }
             catch (ServiceException ex)
             {
-                return OnFailedExecution(new [] { new ValidationResult(ex.Message) } );
+                return OnServiceException(ex);
             }
 
             return OnSuccessfulExecution(result);
+        }
+
+        /// <summary>
+        /// Invoked synchronously before rule execution
+        /// </summary>
+        protected virtual void OnInitialization() { }
+
+        /// <summary>
+        /// Invoked asynchronously before rule execution
+        /// </summary>
+        protected virtual Task OnInitializationAsync()
+        {
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// Returns validation results as a result of rule executions
+        /// </summary>
+        protected virtual IEnumerable<ValidationResult> OnGetErrors()
+        {
+            return GetRules().GetValidationResults();
+        }
+
+        /// <summary>
+        /// Returns validation results as a result of rule executions
+        /// </summary>
+        protected async virtual Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        {
+            var errors = await GetRulesAsync();
+            return await errors.GetValidationResultsAsync();
+        }
+
+        /// <summary>
+        /// Invoked synchronously if rule executions are successful
+        /// </summary>
+        protected virtual T OnExecute()
+        {
+            return default(T);
+        }
+
+        /// <summary>
+        /// Invoked asynchronously if rule executions are successful
+        /// </summary>
+        protected virtual Task<T> OnExecuteAsync()
+        {
+            return Task.FromResult(default(T));
+        }
+
+        protected virtual IEnumerable<IRule> GetRules()
+        {
+            return Enumerable.Empty<IRule>();
+        }
+
+        protected virtual Task<IEnumerable<IRule>> GetRulesAsync()
+        {
+            return Task.FromResult(Enumerable.Empty<IRule>());
+        }
+
+        public virtual IEnumerable<ValidationResult> GetErrors()
+        {
+            return OnGetErrors();
+        }
+
+        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return OnGetErrorsAsync();
+        }
+
+        /// <summary>
+        /// Invoked when an exception of type Peasy.ServiceException is caught
+        /// </summary>
+        /// <remarks>
+        /// Override this method to return a custom ValidationResult or to further manipulate the ValidationResult
+        /// </remarks>
+        protected virtual ExecutionResult<T> OnServiceException(ServiceException exception)
+        {
+            return OnFailedExecution(new[] { new ValidationResult(exception.Message) });
         }
 
         /// <summary>
@@ -188,45 +304,6 @@ namespace Peasy
         protected virtual ExecutionResult<T> OnSuccessfulExecution(T value)
         {
             return new ExecutionResult<T> { Success = true, Value = value };
-        }
-
-        /// <summary>
-        /// Invoked synchronously if rule executions are successful
-        /// </summary>
-        protected virtual T OnExecute()
-        {
-            return default(T);
-        }
-
-        /// <summary>
-        /// Invoked asynchronously if rule executions are successful
-        /// </summary>
-        protected virtual Task<T> OnExecuteAsync()
-        {
-            return Task.FromResult(default(T));
-        }
-
-        /// <summary>
-        /// Invoked synchronously before rule execution
-        /// </summary>
-        protected virtual void OnInitialization() { }
-
-        /// <summary>
-        /// Invoked asynchronously before rule execution
-        /// </summary>
-        protected virtual Task OnInitializationAsync()
-        {
-            return Task.FromResult<object>(null);
-        }
-
-        public virtual IEnumerable<ValidationResult> GetErrors()
-        {
-            return Enumerable.Empty<ValidationResult>();
-        }
-
-        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
-        {
-            return Task.FromResult(Enumerable.Empty<ValidationResult>());
         }
     }
 }
