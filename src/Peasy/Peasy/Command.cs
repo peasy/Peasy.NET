@@ -13,13 +13,13 @@ namespace Peasy
         /// <summary>
         /// Synchronously orchestrates command initialization, rule execution, and command execution
         /// </summary>
-        public ExecutionResult Execute()
+        public virtual ExecutionResult Execute()
         {
             OnInitialization();
 
             var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
-                return new ExecutionResult { Success = false, Errors = validationResults };
+                return OnFailedExecution(validationResults);
 
             try
             {
@@ -27,22 +27,32 @@ namespace Peasy
             }
             catch (ServiceException ex)
             {
-                return new ExecutionResult { Success = false, Errors = new ValidationResult[] { new ValidationResult(ex.Message) }};
+                return OnFailedExecution(new [] { new ValidationResult(ex.Message) });
             }
 
+            return OnSuccessfulExecution();
+        }
+
+        protected virtual ExecutionResult OnFailedExecution(ValidationResult[] validationResults)
+        {
+            return new ExecutionResult { Success = false, Errors = validationResults };
+        }
+
+        protected virtual ExecutionResult OnSuccessfulExecution()
+        {
             return new ExecutionResult { Success = true };
         }
 
         /// <summary>
         /// Asynchronously orchestrates command initialization, rule execution, and command execution
         /// </summary>
-        public async Task<ExecutionResult> ExecuteAsync()
+        public virtual async Task<ExecutionResult> ExecuteAsync()
         {
             await OnInitializationAsync();
 
-            var validationResults = await GetErrorsAsync();
-            if (validationResults.ToArray().Any())
-                return new ExecutionResult { Success = false, Errors = validationResults };
+            var validationResults = (await GetErrorsAsync()).ToArray();
+            if (validationResults.Any())
+                return OnFailedExecution(validationResults);
 
             try
             {
@@ -50,10 +60,10 @@ namespace Peasy
             }
             catch (ServiceException ex)
             {
-                return new ExecutionResult { Success = false, Errors = new ValidationResult[] { new ValidationResult(ex.Message) }};
+                return OnFailedExecution(new [] { new ValidationResult(ex.Message) });
             }
 
-            return new ExecutionResult { Success = true };
+            return OnSuccessfulExecution();
         }
 
         /// <summary>
@@ -101,13 +111,13 @@ namespace Peasy
         /// <summary>
         /// Synchronously orchestrates command initialization, rule execution, and command execution
         /// </summary>
-        public ExecutionResult<T> Execute()
+        public virtual ExecutionResult<T> Execute()
         {
             OnInitialization();
 
             var validationResults = GetErrors().ToArray();
             if (validationResults.Any())
-                return new ExecutionResult<T> { Success = false, Errors = validationResults };
+                return OnFailedExecution(validationResults);
 
             T result;
             try
@@ -116,22 +126,22 @@ namespace Peasy
             }
             catch (ServiceException ex)
             {
-                return new ExecutionResult<T> { Success = false, Errors = new ValidationResult[] { new ValidationResult(ex.Message) }};
+                return OnFailedExecution(new [] { new ValidationResult(ex.Message) });
             }
 
-            return new ExecutionResult<T> { Success = true, Value = result };
+            return OnSuccessfulExecution(result);
         }
 
         /// <summary>
         /// Asynchronously orchestrates command initialization, rule execution, and command execution
         /// </summary>
-        public async Task<ExecutionResult<T>> ExecuteAsync()
+        public virtual async Task<ExecutionResult<T>> ExecuteAsync()
         {
             await OnInitializationAsync();
 
-            var validationResults = await GetErrorsAsync();
-            if (validationResults.ToArray().Any())
-                return new ExecutionResult<T> { Success = false, Errors = validationResults };
+            var validationResults = (await GetErrorsAsync()).ToArray();
+            if (validationResults.Any())
+                return OnFailedExecution(validationResults);
 
             T result;
             try
@@ -140,10 +150,20 @@ namespace Peasy
             }
             catch (ServiceException ex)
             {
-                return new ExecutionResult<T> { Success = false, Errors = new ValidationResult[] { new ValidationResult(ex.Message) }};
+                return OnFailedExecution(new [] { new ValidationResult(ex.Message) } );
             }
 
-            return new ExecutionResult<T> { Success = true, Value = result };
+            return OnSuccessfulExecution(result);
+        }
+
+        protected virtual ExecutionResult<T> OnFailedExecution(ValidationResult[] validationResults)
+        {
+            return new ExecutionResult<T> { Success = false, Errors = validationResults };
+        }
+
+        protected virtual ExecutionResult<T> OnSuccessfulExecution(T value)
+        {
+            return new ExecutionResult<T> { Success = true, Value = value };
         }
 
         /// <summary>
