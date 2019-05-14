@@ -33,11 +33,23 @@ namespace Peasy
             return OnSuccessfulExecution();
         }
 
+        /// <summary>
+        /// Invoked when any of the rules in the pipeline fail execution
+        /// </summary>
+        /// <remarks>
+        /// Override this method to return a custom ExecutionResult or to further manipulate the ExecutionResult
+        /// </remarks>
         protected virtual ExecutionResult OnFailedExecution(ValidationResult[] validationResults)
         {
             return new ExecutionResult { Success = false, Errors = validationResults };
         }
 
+        /// <summary>
+        /// Invoked when all of the rules in the pipeline succeed in execution
+        /// </summary>
+        /// <remarks>
+        /// Override this method to return a custom ExecutionResult or to further manipulate the ExecutionResult
+        /// </remarks>
         protected virtual ExecutionResult OnSuccessfulExecution()
         {
             return new ExecutionResult { Success = true };
@@ -156,11 +168,23 @@ namespace Peasy
             return OnSuccessfulExecution(result);
         }
 
+        /// <summary>
+        /// Invoked when any of the rules in the pipeline fail execution
+        /// </summary>
+        /// <remarks>
+        /// Override this method to return a custom ExecutionResult or to further manipulate the ExecutionResult
+        /// </remarks>
         protected virtual ExecutionResult<T> OnFailedExecution(ValidationResult[] validationResults)
         {
             return new ExecutionResult<T> { Success = false, Errors = validationResults };
         }
 
+        /// <summary>
+        /// Invoked when all of the rules in the pipeline succeed in execution
+        /// </summary>
+        /// <remarks>
+        /// Override this method to return a custom ExecutionResult or to further manipulate the ExecutionResult
+        /// </remarks>
         protected virtual ExecutionResult<T> OnSuccessfulExecution(T value)
         {
             return new ExecutionResult<T> { Success = true, Value = value };
