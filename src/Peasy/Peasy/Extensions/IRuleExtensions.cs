@@ -38,40 +38,50 @@ namespace Peasy
             return IRuleExtensions.GetValidationResultsAsync(businessRules, null);
         }
 
-        public static Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IRule businessRules)
+        public static Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IRule businessRule)
         {
-            return IRuleExtensions.GetValidationResultsAsync(new [] { businessRules }, null);
+            return IRuleExtensions.GetValidationResultsAsync(businessRule.ToArray(), null);
         }
 
-        public static IEnumerable<T> GetValidationResults<T>(this IEnumerable<IRule> businessRules) where T : ValidationResult, new()
+        public static IEnumerable<T> GetValidationResults<T>(this IRule businessRule) where T : ValidationResult
+        {
+            return GetValidationResults<T>(businessRule.ToArray(), null);
+        }
+
+        public static Task<IEnumerable<T>> GetValidationResultsAsync<T>(this IRule businessRule) where T : ValidationResult
+        {
+            return GetValidationResultsAsync<T>(businessRule.ToArray(), null);
+        }
+
+        public static IEnumerable<T> GetValidationResults<T>(this IEnumerable<IRule> businessRules) where T : ValidationResult
         {
             return GetValidationResults<T>(businessRules, null);
         }
 
-        public static IEnumerable<T> GetValidationResults<T>(this IEnumerable<IRule> businessRules, string entityName) where T : ValidationResult, new()
+        public static IEnumerable<T> GetValidationResults<T>(this IEnumerable<IRule> businessRules, string entityName) where T : ValidationResult
         {
             var rules = businessRules.Select(rule => rule.Validate())
                                      .Where(rule => !rule.IsValid)
                                      .Select(rule =>
                                      {
-                                         return new PeasyValidationResult(rule.ErrorMessage, new string[] { entityName ?? rule.Association ?? string.Empty }) as T;
+                                         return Activator.CreateInstance(typeof(T), rule.ErrorMessage, new string[] { entityName ?? rule.Association ?? string.Empty }) as T;
                                      });
             return rules;
         }
 
-        public static Task<IEnumerable<T>> GetValidationResultsAsync<T>(this IEnumerable<IRule> businessRules) where T : ValidationResult, new()
+        public static Task<IEnumerable<T>> GetValidationResultsAsync<T>(this IEnumerable<IRule> businessRules) where T : ValidationResult
         {
             return GetValidationResultsAsync<T>(businessRules, null);
         }
 
-        public static async Task<IEnumerable<T>> GetValidationResultsAsync<T>(this IEnumerable<IRule> businessRules, string entityName) where T : ValidationResult, new()
+        public static async Task<IEnumerable<T>> GetValidationResultsAsync<T>(this IEnumerable<IRule> businessRules, string entityName) where T : ValidationResult
         {
             var rules = await Task.WhenAll(businessRules.Select(rule => rule.ValidateAsync()));
 
             return rules.Where(rule => !rule.IsValid)
                         .Select(rule =>
                         {
-                            return new PeasyValidationResult(rule.ErrorMessage, new string[] { entityName ?? rule.Association ?? string.Empty }) as T;
+                            return Activator.CreateInstance(typeof(T), rule.ErrorMessage, new string[] { entityName ?? rule.Association ?? string.Empty }) as T;
                         });
         }
 
