@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -276,6 +277,17 @@ namespace Peasy.Core.Tests.Extensions
             var rule = rules.IfAllValidThenValidate(new TrueRule().IfValidThenExecute((r) => number = 42));
             rule.Validate();
             number.ShouldBe(0);
+        }
+    }
+
+    public class CustomValidationResult : ValidationResult
+    {
+        public CustomValidationResult(string errorMessage) : base(errorMessage)
+        {
+        }
+
+        protected CustomValidationResult(ValidationResult validationResult) : base(validationResult)
+        {
         }
     }
 }
