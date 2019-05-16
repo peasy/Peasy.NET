@@ -21,8 +21,7 @@ namespace Peasy
         protected Action<IRule> _ifInvalidThenExecute;
 
         /// <summary>
-        /// Gets or sets a string that associates this rule
-        /// with a field. This is helpful for validation errors
+        /// Gets or sets a string that associates this rule with a field. This is helpful for validation errors
         /// </summary>
         public string Association { get; protected set; }
 
@@ -50,7 +49,7 @@ namespace Peasy
         List<IRule[]> IRulesContainer.Rules => Successor;
 
         /// <summary>
-        /// Validates this rule.
+        /// Synchronously validates this rule.
         /// </summary>
         public IRule Validate()
         {
@@ -149,6 +148,9 @@ namespace Peasy
             Invalidate(errorMessage);
         }
 
+        /// <summary>
+        /// Asynchronously validates this rule.
+        /// </summary>
         public async Task<IRule> ValidateAsync()
         {
             IsValid = true;

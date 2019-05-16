@@ -2,7 +2,7 @@
 
 namespace Peasy
 {
-    public interface IService<T, TKey> : ISupportGetAllCommand<T>, 
+    public interface IService<T, TKey> : ISupportGetAllCommand<T>,
                                          ISupportGetByIDCommand<T, TKey>,
                                          ISupportInsertCommand<T>,
                                          ISupportUpdateCommand<T>,

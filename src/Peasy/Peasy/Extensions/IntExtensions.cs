@@ -8,17 +8,17 @@ namespace Peasy.Extensions
 {
     public static class IntExtensions
     {
-        public static void Times(this int value, Action action) 
+        public static void Times(this int value, Action action)
         {
-            for (var counter = 0; counter < value; counter ++)
+            for (var counter = 0; counter < value; counter++)
             {
                 action();
             }
         }
 
-        public static void Times(this int value, Action<int> action) 
+        public static void Times(this int value, Action<int> action)
         {
-            for (var counter = 0; counter < value; counter ++)
+            for (var counter = 0; counter < value; counter++)
             {
                 action(counter);
             }
@@ -26,7 +26,7 @@ namespace Peasy.Extensions
 
         public static IEnumerable<T> Times<T>(this int value, Func<int, T> func)
         {
-            for (var counter = 0; counter < value; counter ++)
+            for (var counter = 0; counter < value; counter++)
             {
                 yield return func(counter);
             }

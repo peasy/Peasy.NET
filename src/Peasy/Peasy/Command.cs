@@ -100,21 +100,39 @@ namespace Peasy
             return Task.FromResult<object>(null);
         }
 
+        /// <summary>
+        /// Returns a list of rules to be executed via the synchronous command execution pipeline
+        /// </summary>
+        /// <remarks>
+        /// Override this method to supply custom business rules to execute
+        /// </remarks>
         protected virtual IEnumerable<IRule> GetRules()
         {
             return Enumerable.Empty<IRule>();
         }
 
+        /// <summary>
+        /// Returns a list of rules to be executed via the asynchronous command execution pipeline
+        /// </summary>
+        /// <remarks>
+        /// Override this method to supply custom business rules to execute
+        /// </remarks>
         protected virtual Task<IEnumerable<IRule>> GetRulesAsync()
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
+        /// <summary>
+        /// Synchronously returns a list of validation results as a result of rule execution(s)
+        /// </summary>
         public virtual IEnumerable<ValidationResult> GetErrors()
         {
             return OnGetErrors();
         }
 
+        /// <summary>
+        /// Asynchronously returns a list of validation results as a result of rule execution(s)
+        /// </summary>
         public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
             return OnGetErrorsAsync();
@@ -253,21 +271,39 @@ namespace Peasy
             return Task.FromResult(default(T));
         }
 
+        /// <summary>
+        /// Returns a list of rules to be executed via the synchronous command execution pipeline
+        /// </summary>
+        /// <remarks>
+        /// Override this method to supply custom business rules to execute
+        /// </remarks>
         protected virtual IEnumerable<IRule> GetRules()
         {
             return Enumerable.Empty<IRule>();
         }
 
+        /// <summary>
+        /// Returns a list of rules to be executed via the asynchronous command execution pipeline
+        /// </summary>
+        /// <remarks>
+        /// Override this method to supply custom business rules to execute
+        /// </remarks>
         protected virtual Task<IEnumerable<IRule>> GetRulesAsync()
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
+        /// <summary>
+        /// Synchronously returns a list of validation results as a result of rule execution(s)
+        /// </summary>
         public virtual IEnumerable<ValidationResult> GetErrors()
         {
             return OnGetErrors();
         }
 
+        /// <summary>
+        /// Asynchronously returns a list of validation results as a result of rule execution(s)
+        /// </summary>
         public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
         {
             return OnGetErrorsAsync();
