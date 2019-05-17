@@ -6,7 +6,7 @@
     <title>Peasy</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
-    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <license>https://opensource.org/licenses/MIT</license>
     <projectUrl>https://github.com/ahanusa/Peasy.NET</projectUrl>
     <iconUrl>https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?raw=1</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
