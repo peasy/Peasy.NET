@@ -45,6 +45,8 @@ The [command](https://github.com/peasy/Peasy.NET/wiki/Command) is responsible fo
 ### Business Service
 A [business service](https://github.com/peasy/Peasy.NET/wiki/ServiceBase) implementation represents an entity (e.g. users, or projects) and is responsible for exposing business functionality via commands. These commands encapsulate CRUD and other business related logic.
 
+&nbsp;
+
 ##### Peasy actors at work
 <p align="center">
   <img src="peasy-uml.svg">
