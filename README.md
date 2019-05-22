@@ -17,7 +17,7 @@ A middle tier micro-framework for .NET and .NET Core
 
 # What's a middle tier framework?
 
-A middle tier framework is code that facilitates creating business logic in a reusable, extensible, maintainable, and testable manner.   It promotes creating business logic that is completely decoupled from its consuming technologies and helps to ensure that separation of concerns ([SoC](https://en.wikipedia.org/wiki/Separation_of_concerns)) are adhered to.
+A middle tier framework is code that facilitates creating business logic in a reusable, extensible, maintainable, and testable manner.   It promotes creating business logic that is completely decoupled from its consuming technologies and helps to ensure that separation of concerns are adhered to.
 
 ##### Peasy.NET offers/addresses the following:
 
