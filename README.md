@@ -9,8 +9,8 @@ A middle tier micro-framework for .NET and .NET Core
 </a>
 <a href="https://www.nuget.org/packages/Peasy/" target="_blank">
 	<img src="http://img.shields.io/nuget/v/Peasy.svg" alt="npm version">
-<!--</a>
-<a href="https://ci.appveyor.com/project/ahanusa/peasy-net" target="_blank">
+</a>
+<!--<a href="https://ci.appveyor.com/project/ahanusa/peasy-net" target="_blank">
 	<img src="https://ci.appveyor.com/api/projects/status/5uhfvwaju6bagdg2?svg=true" alt="Gitter">
 </a>-->
 </p>
