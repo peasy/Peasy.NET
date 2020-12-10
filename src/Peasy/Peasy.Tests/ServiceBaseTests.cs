@@ -1,18 +1,15 @@
-﻿using Peasy.Core;
-using Shouldly;
+﻿using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Peasy.Core.Tests
 {
-    [TestClass]
     public class ServiceBaseTests
     {
-        [TestMethod]
+        [Fact]
         public void Ensure_Method_Invocations_For_GetAllCommand()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
@@ -24,7 +21,7 @@ namespace Peasy.Core.Tests
             service.GetAllWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Ensure_Method_Invocations_For_GetAllCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
@@ -36,7 +33,7 @@ namespace Peasy.Core.Tests
             service.GetAllAsyncWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Ensure_Method_Invocations_For_GetByIDCommand()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
@@ -48,7 +45,7 @@ namespace Peasy.Core.Tests
             service.GetByIDWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Ensure_Method_Invocations_For_GetByIDCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
@@ -60,7 +57,7 @@ namespace Peasy.Core.Tests
             service.GetByIDAsyncWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Ensure_Method_Invocations_For_InsertCommand()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
@@ -72,7 +69,7 @@ namespace Peasy.Core.Tests
             service.InsertWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Ensure_Method_Invocations_For_InsertCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
@@ -84,7 +81,7 @@ namespace Peasy.Core.Tests
             service.InsertAsyncWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Ensure_Method_Invocations_For_Update()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
@@ -96,7 +93,7 @@ namespace Peasy.Core.Tests
             service.UpdateWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Ensure_Method_Invocations_For_UpdateCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
@@ -108,7 +105,7 @@ namespace Peasy.Core.Tests
             service.UpdateAsyncWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Ensure_Method_Invocations_For_Delete()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
@@ -120,7 +117,7 @@ namespace Peasy.Core.Tests
             service.DeleteWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Ensure_Method_Invocations_For_DeleteCommandAsync()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());

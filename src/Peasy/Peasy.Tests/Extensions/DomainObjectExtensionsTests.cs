@@ -1,33 +1,30 @@
 ﻿using Peasy.Attributes;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
-using System;
 using Peasy.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
+using Xunit;
 
 namespace Peasy.Tests.Extensions
 {
-    [TestClass]
     public class DomainObjectExtensionsTests
     {
-        [TestMethod]
+        [Fact]
         public void ClassName_Should_Return_Class_Name_Without_Peasy_DisplayNameAttribute()
         {
             var className = new MockClass().ClassName();
             className.ShouldBe("MockClass");
         }
 
-        [TestMethod]
+        [Fact]
         public void ClassName_Should_Return_Name_Of_Peasy_DisplayNameAttribute()
         {
             var className = new MockClass2().ClassName();
             className.ShouldBe("Mock II");
         }
 
-        [TestMethod]
+        [Fact]
         public void Object_With_Peasy_ForeignKeyAttribute_in_base_class_Should_Revert_Zeros_To_Nulls()
         {
             var mock = new MockClass2();
@@ -36,7 +33,7 @@ namespace Peasy.Tests.Extensions
             mock.ForeignKeyID.ShouldBe(null);
         }
 
-        [TestMethod]
+        [Fact]
         public void Object_With_Peasy_ForeignKeyAttribute_Should_Revert_Zeros_To_Nulls()
         {
             var mock = new MockClass2();
@@ -45,7 +42,7 @@ namespace Peasy.Tests.Extensions
             mock.SomeForeignKeyID.ShouldBe(null);
         }
 
-        [TestMethod]
+        [Fact]
         public void Object_With_NonEditableAttribute_Should_Revert_Values_To_Original()
         {
             var original = new MockClass2() { Name = "Jimi Hendrix" };
@@ -54,7 +51,7 @@ namespace Peasy.Tests.Extensions
             newMock.Name.ShouldBe("Jimi Hendrix");
         }
 
-        [TestMethod]
+        [Fact]
         public void Object_With_NonEditableAttribute_in_base_class_Should_Revert_Values_To_Original()
         {
             var original = new MockClass2() { SomeValue = "Jimi Hendrix" };
@@ -63,7 +60,7 @@ namespace Peasy.Tests.Extensions
             newMock.SomeValue.ShouldBe("Jimi Hendrix");
         }
 
-        [TestMethod]
+        [Fact]
         public void Fifty_Objects_With_NonEditableAttributes_Should_Revert_Values_To_Original()
         {
             var original = new MockClass2() { Name = "Jimi Hendrix" };

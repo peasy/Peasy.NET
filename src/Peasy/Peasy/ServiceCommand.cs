@@ -166,14 +166,14 @@ namespace Peasy
             return (_getErrorsAsyncMethod ?? base.GetErrorsAsync)();
         }
 
-        protected override IEnumerable<IRule> GetRules()
+        protected override IEnumerable<IRule> OnGetRules()
         {
-            return (_getBusinessRulesMethod ?? base.GetRules)();
+            return (_getBusinessRulesMethod ?? base.OnGetRules)();
         }
 
-        protected override Task<IEnumerable<IRule>> GetRulesAsync()
+        protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
-            return (_getBusinessRulesAsyncMethod ?? base.GetRulesAsync)();
+            return (_getBusinessRulesAsyncMethod ?? base.OnGetRulesAsync)();
         }
     }
 
@@ -337,14 +337,14 @@ namespace Peasy
             return (_getErrorsAsyncMethod ?? base.OnGetErrorsAsync)();
         }
 
-        protected override IEnumerable<IRule> GetRules()
+        protected override IEnumerable<IRule> OnGetRules()
         {
-            return (_getBusinessRulesMethod ?? base.GetRules)();
+            return (_getBusinessRulesMethod ?? base.OnGetRules)();
         }
 
-        protected override Task<IEnumerable<IRule>> GetRulesAsync()
+        protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
-            return (_getBusinessRulesAsyncMethod ?? base.GetRulesAsync)();
+            return (_getBusinessRulesAsyncMethod ?? base.OnGetRulesAsync)();
         }
     }
 }

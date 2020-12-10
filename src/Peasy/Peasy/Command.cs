@@ -9,7 +9,7 @@ namespace Peasy
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of code
     /// </summary>
-    public abstract class Command : ICommand
+    public abstract class Command : ICommand, IRulesContainer
     {
         /// <summary>
         /// Synchronously orchestrates command initialization, rule execution, and command execution
@@ -75,7 +75,7 @@ namespace Peasy
         /// </summary>
         protected virtual IEnumerable<ValidationResult> OnGetErrors()
         {
-            return GetRules().GetValidationResults();
+            return OnGetRules().GetValidationResults();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Peasy
         /// </summary>
         protected async virtual Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
-            var errors = await GetRulesAsync();
+            var errors = await OnGetRulesAsync();
             return await errors.GetValidationResultsAsync();
         }
 
@@ -106,7 +106,7 @@ namespace Peasy
         /// <remarks>
         /// Override this method to supply custom business rules to execute
         /// </remarks>
-        protected virtual IEnumerable<IRule> GetRules()
+        protected virtual IEnumerable<IRule> OnGetRules()
         {
             return Enumerable.Empty<IRule>();
         }
@@ -117,7 +117,7 @@ namespace Peasy
         /// <remarks>
         /// Override this method to supply custom business rules to execute
         /// </remarks>
-        protected virtual Task<IEnumerable<IRule>> GetRulesAsync()
+        protected virtual Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
@@ -170,12 +170,22 @@ namespace Peasy
         {
             return new ExecutionResult { Success = true };
         }
+
+        Task<IEnumerable<IRule>> IRulesContainer.GetRulesAsync()
+        {
+            return OnGetRulesAsync();
+        }
+
+        IEnumerable<IRule> IRulesContainer.GetRules()
+        {
+            return OnGetRules();
+        }
     }
 
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of code
     /// </summary>
-    public abstract class Command<T> : ICommand<T>
+    public abstract class Command<T> : ICommand<T>, IRulesContainer
     {
         /// <summary>
         /// Synchronously orchestrates command initialization, rule execution, and command execution
@@ -243,7 +253,7 @@ namespace Peasy
         /// </summary>
         protected virtual IEnumerable<ValidationResult> OnGetErrors()
         {
-            return GetRules().GetValidationResults();
+            return OnGetRules().GetValidationResults();
         }
 
         /// <summary>
@@ -251,7 +261,7 @@ namespace Peasy
         /// </summary>
         protected async virtual Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
-            var errors = await GetRulesAsync();
+            var errors = await OnGetRulesAsync();
             return await errors.GetValidationResultsAsync();
         }
 
@@ -277,7 +287,7 @@ namespace Peasy
         /// <remarks>
         /// Override this method to supply custom business rules to execute
         /// </remarks>
-        protected virtual IEnumerable<IRule> GetRules()
+        protected virtual IEnumerable<IRule> OnGetRules()
         {
             return Enumerable.Empty<IRule>();
         }
@@ -288,7 +298,7 @@ namespace Peasy
         /// <remarks>
         /// Override this method to supply custom business rules to execute
         /// </remarks>
-        protected virtual Task<IEnumerable<IRule>> GetRulesAsync()
+        protected virtual Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
@@ -340,6 +350,16 @@ namespace Peasy
         protected virtual ExecutionResult<T> OnSuccessfulExecution(T value)
         {
             return new ExecutionResult<T> { Success = true, Value = value };
+        }
+
+        Task<IEnumerable<IRule>> IRulesContainer.GetRulesAsync()
+        {
+            return OnGetRulesAsync();
+        }
+
+        IEnumerable<IRule> IRulesContainer.GetRules()
+        {
+            return OnGetRules();
         }
     }
 }

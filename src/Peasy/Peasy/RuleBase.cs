@@ -44,11 +44,6 @@ namespace Peasy
         private List<IRule[]> Successor { set; get; } = new List<IRule[]>();
 
         /// <summary>
-        /// Allows access to successor rules
-        /// </summary>
-        List<IRule[]> IRulesContainer.Rules => Successor;
-
-        /// <summary>
         /// Synchronously validates this rule.
         /// </summary>
         public IRule Validate()
@@ -181,6 +176,16 @@ namespace Peasy
                 _ifInvalidThenExecute?.Invoke(this);
             }
             return this;
+        }
+
+        Task<IEnumerable<IRule>> IRulesContainer.GetRulesAsync()
+        {
+            return Task.FromResult(this.Successor.SelectMany(s => s));
+        }
+
+        IEnumerable<IRule> IRulesContainer.GetRules()
+        {
+            return this.Successor.SelectMany(s => s);
         }
     }
 }

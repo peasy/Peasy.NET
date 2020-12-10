@@ -1,16 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shouldly;
+﻿using Shouldly;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Peasy.Core.Tests.Extensions
 {
-    [TestClass]
     public class IRuleExtensionsTests
     {
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Returns_One_Validation_Result()
         {
             var rules = new List<IRule>
@@ -20,7 +19,7 @@ namespace Peasy.Core.Tests.Extensions
             rules.GetValidationResults().Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Returns_One_Validation_Result_Of_The_Correct_Type()
         {
             var rules = new List<IRule>
@@ -32,7 +31,7 @@ namespace Peasy.Core.Tests.Extensions
             results.First().ShouldBeOfType<CustomValidationResult>();
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_IRule_Returns_One_Validation_Result()
         {
             var rule = new TrueRule().IfValidThenValidate
@@ -42,7 +41,7 @@ namespace Peasy.Core.Tests.Extensions
             rule.GetValidationResults().Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_IRule_Returns_One_Validation_Result()
         {
             var rule = new TrueRule().IfValidThenValidate
@@ -54,7 +53,7 @@ namespace Peasy.Core.Tests.Extensions
             results.First().ShouldBeOfType<CustomValidationResult>();
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Returns_Two_Validation_Results()
         {
             var rules = new List<IRule>
@@ -64,7 +63,7 @@ namespace Peasy.Core.Tests.Extensions
             rules.GetValidationResults().Count().ShouldBe(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Returns_Two_Validation_Results()
         {
             var rules = new List<IRule>
@@ -77,7 +76,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().ShouldBeOfType<CustomValidationResult>();
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Returns_Three_Validation_Results()
         {
             var rules = new List<IRule>
@@ -87,7 +86,7 @@ namespace Peasy.Core.Tests.Extensions
             rules.GetValidationResults().Count().ShouldBe(3);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Returns_Three_Validation_Results()
         {
             var rules = new List<IRule>
@@ -101,7 +100,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().ShouldBeOfType<CustomValidationResult>();
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Returns_One_Validation_Result_When_Nested_Rule_Fails()
         {
             var rules = new List<IRule>
@@ -111,7 +110,7 @@ namespace Peasy.Core.Tests.Extensions
             rules.GetValidationResults().Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Returns_One_Validation_Result_When_Nested_Rule_Fails()
         {
             var rules = new List<IRule>
@@ -123,7 +122,7 @@ namespace Peasy.Core.Tests.Extensions
             results.First().ShouldBeOfType<CustomValidationResult>();
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Returns_Two_Validation_Results_When_Nested_Rule_Fails()
         {
             var rules = new List<IRule>
@@ -133,7 +132,7 @@ namespace Peasy.Core.Tests.Extensions
             rules.GetValidationResults().Count().ShouldBe(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Returns_Two_Validation_Results_When_Nested_Rule_Fails()
         {
             var rules = new List<IRule>
@@ -146,7 +145,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().ShouldBeOfType<CustomValidationResult>();
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Returns_Three_Validation_Results_Nested_Rules_Fail()
         {
             var rules = new List<IRule>
@@ -158,7 +157,7 @@ namespace Peasy.Core.Tests.Extensions
             rules.GetValidationResults().Count().ShouldBe(3);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Returns_Three_Validation_Results_Nested_Rules_Fail()
         {
             var rules = new List<IRule>
@@ -174,7 +173,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().ShouldBeOfType<CustomValidationResult>();
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Returns_Two_Validation_Results_With_Correct_Messages()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -183,7 +182,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Returns_Two_Validation_Results_With_Correct_Messages()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -192,7 +191,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Sets_Validation_Result_Member_Name_To_Empty_String()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -201,7 +200,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Sets_Validation_Result_Member_Name_To_Empty_String()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -210,7 +209,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Sets_Validation_Result_Member_Name_Explicitly()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -219,7 +218,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("MyEntity");
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Sets_Validation_Result_Member_Name_Explicitly()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -228,7 +227,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("MyEntity");
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Sets_Validation_Result_Member_Name_From_Association_Property()
         {
             var rules = new List<IRule> { new FalseRuleWithAssociation("Name"), new FalseRuleWithAssociation("Address") };
@@ -237,7 +236,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("Address");
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Sets_Validation_Result_Member_Name_From_Association_Property()
         {
             var rules = new List<IRule> { new FalseRuleWithAssociation("Name"), new FalseRuleWithAssociation("Address") };
@@ -246,7 +245,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("Address");
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Returns_Association_Property_With_Nested_Rules()
         {
             var ruleWithAssociation = new FalseRuleWithAssociation("Address");
@@ -259,7 +258,7 @@ namespace Peasy.Core.Tests.Extensions
             results.First().MemberNames.First().ShouldBe("Address");
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationResults_Of_T_Returns_Association_Property_With_Nested_Rules()
         {
             var ruleWithAssociation = new FalseRuleWithAssociation("Address");
@@ -272,7 +271,7 @@ namespace Peasy.Core.Tests.Extensions
             results.First().MemberNames.First().ShouldBe("Address");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Returns_One_Validation_Result()
         {
             var rules = new List<IRule>
@@ -283,7 +282,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Returns_One_Validation_Result()
         {
             var rules = new List<IRule>
@@ -294,7 +293,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_IRule_Returns_One_Validation_Result()
         {
             var rule = new TrueRule().IfValidThenValidate
@@ -305,7 +304,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_IRule_Returns_One_Validation_Result()
         {
             var rule = new TrueRule().IfValidThenValidate
@@ -316,7 +315,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Returns_Two_Validation_Results()
         {
             var rules = new List<IRule>
@@ -327,7 +326,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(2);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Returns_Two_Validation_Results()
         {
             var rules = new List<IRule>
@@ -338,7 +337,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(2);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Returns_Three_Validation_Results()
         {
             var rules = new List<IRule>
@@ -349,7 +348,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(3);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Returns_Three_Validation_Results()
         {
             var rules = new List<IRule>
@@ -360,7 +359,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(3);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Returns_One_Validation_Result_With_Nested_Rules()
         {
             var rules = new List<IRule>
@@ -371,7 +370,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Returns_One_Validation_Result_With_Nested_Rules()
         {
             var rules = new List<IRule>
@@ -382,7 +381,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Returns_Two_Validation_Results_With_Nested_Rules()
         {
             var rules = new List<IRule>
@@ -393,7 +392,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(2);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_TReturns_Two_Validation_Results_With_Nested_Rules()
         {
             var rules = new List<IRule>
@@ -404,7 +403,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(2);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Returns_Three_Validation_Results_With_Nested_Rules()
         {
             var rules = new List<IRule>
@@ -417,7 +416,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(3);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Returns_Three_Validation_Results_With_Nested_Rules()
         {
             var rules = new List<IRule>
@@ -430,7 +429,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(3);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Returns_Two_Validation_Results_With_Correct_Messages()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -439,7 +438,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Returns_Two_Validation_Results_With_Correct_Messages()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -448,7 +447,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Sets_Validation_Result_Member_Name_To_Empty_String()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -457,7 +456,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Sets_Validation_Result_Member_Name_To_Empty_String()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -466,7 +465,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Sets_Validation_Result_Member_Name()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -475,7 +474,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("MyEntity");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Sets_Validation_Result_Member_Name()
         {
             var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
@@ -484,7 +483,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("MyEntity");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Sets_Validation_Result_Member_Name_From_Association_Property()
         {
             var rules = new List<IRule> { new FalseRuleWithAssociation("Name"), new FalseRuleWithAssociation("Address") };
@@ -493,7 +492,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("Address");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Sets_Validation_Result_Member_Name_From_Association_Property()
         {
             var rules = new List<IRule> { new FalseRuleWithAssociation("Name"), new FalseRuleWithAssociation("Address") };
@@ -502,7 +501,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Last().MemberNames.First().ShouldBe("Address");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Returns_Association_Property_With_Nested_Rules()
         {
             var ruleWithAssociation = new FalseRuleWithAssociation("Address");
@@ -515,7 +514,7 @@ namespace Peasy.Core.Tests.Extensions
             results.First().MemberNames.First().ShouldBe("Address");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task GetValidationResultsAsync_Of_T_Returns_Association_Property_With_Nested_Rules()
         {
             var ruleWithAssociation = new FalseRuleWithAssociation("Address");
@@ -528,7 +527,7 @@ namespace Peasy.Core.Tests.Extensions
             results.First().MemberNames.First().ShouldBe("Address");
         }
 
-        [TestMethod]
+        [Fact]
         public void IfAllValidateThenValidate_Validates_On_Success()
         {
             var number = 0;
@@ -538,7 +537,7 @@ namespace Peasy.Core.Tests.Extensions
             number.ShouldBe(42);
         }
 
-        [TestMethod]
+        [Fact]
         public void IfAllValidateThenValidate_Does_Not_Validate_On_Failure()
         {
             var number = 0;

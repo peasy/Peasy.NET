@@ -1,22 +1,18 @@
-﻿using Peasy.Core;
-using Peasy.Core.Tests;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shouldly;
+﻿using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
 using System.ComponentModel.DataAnnotations;
+using Xunit;
 
 namespace Peasy.Tests.Rules
 {
-    [TestClass]
     public class ServiceCommandOfTTests
     {
         private static string _count = string.Empty;
 
-        [TestInitialize]
-        public void Initialize()
+        public ServiceCommandOfTTests()
         {
             _count = string.Empty;
         }
@@ -68,7 +64,7 @@ namespace Peasy.Tests.Rules
             return Task.FromResult(default(Person));
         };
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_1()
         {
             var command = new ServiceCommand<Person>
@@ -87,7 +83,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("124124");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_2()
         {
 
@@ -105,7 +101,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("1414");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_3()
         {
             var command = new ServiceCommand<Person>
@@ -120,7 +116,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("14");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_4()
         {
             var command = new ServiceCommand<Person>
@@ -135,7 +131,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("14");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_5()
         {
             var command = new ServiceCommand<Person>
@@ -152,7 +148,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("2424");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_6()
         {
             var command = new ServiceCommand<Person>
@@ -167,7 +163,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("44");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_7()
         {
             var command = new ServiceCommand<Person>
@@ -182,7 +178,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("24");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_8()
         {
             var command = new ServiceCommand<Person>
@@ -197,7 +193,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("24");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_9()
         {
             var command = new ServiceCommand<Person>
@@ -214,7 +210,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("3434");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_10()
         {
             var command = new ServiceCommand<Person>
@@ -229,7 +225,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("34");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_11()
         {
             var command = new ServiceCommand<Person>
@@ -243,7 +239,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("4");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_12()
         {
             var command = new ServiceCommand<Person>
@@ -258,7 +254,7 @@ namespace Peasy.Tests.Rules
             _count.ShouldBe("34");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ServiceCommandOfT_Composition_13()
         {
             var command = new ServiceCommand<Person>

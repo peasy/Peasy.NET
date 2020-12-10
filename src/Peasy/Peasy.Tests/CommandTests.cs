@@ -1,20 +1,17 @@
-﻿using Peasy.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shouldly;
+﻿using Shouldly;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
+using Xunit;
 
 namespace Peasy.Core.Tests
 {
-    [TestClass]
     public class CommandTests
     {
         #region Command
 
-        [TestMethod]
+        [Fact]
         public void OnInitialization_Is_Invoked()
         {
             var mock = new MockCommand();
@@ -22,7 +19,7 @@ namespace Peasy.Core.Tests
             mock.OnInitializationWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnExecute_Is_Invoked_When_No_Errors_Exist()
         {
             var mock = new MockCommand();
@@ -30,7 +27,7 @@ namespace Peasy.Core.Tests
             mock.OnExecuteWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExecutionResult_Is_Successful_When_Validation_Is_Successful()
         {
             var mock = new MockCommand();
@@ -38,7 +35,7 @@ namespace Peasy.Core.Tests
             result.Success.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExecutionResult_Should_Contain_No_Errors_When_Validation_Is_Successful()
         {
             var mock = new MockCommand();
@@ -46,7 +43,7 @@ namespace Peasy.Core.Tests
             result.Errors.ShouldBe(null);
         }
 
-        [TestMethod]
+        [Fact]
         public void OnExecute_Is_Not_Invoked_When_Errors_Exist()
         {
             var mock = new MockCommand();
@@ -55,7 +52,7 @@ namespace Peasy.Core.Tests
             mock.OnExecuteWasInvoked.ShouldBe(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
         {
             var mock = new MockCommand();
@@ -64,7 +61,7 @@ namespace Peasy.Core.Tests
             result.Success.ShouldBe(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
         {
             var mock = new MockCommand();
@@ -73,7 +70,7 @@ namespace Peasy.Core.Tests
             result.Errors.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught()
         {
             var command = new MockCommandThrowsErrorsOnExecute();
@@ -81,7 +78,7 @@ namespace Peasy.Core.Tests
             result.Errors.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task OnInitializationAsync_Is_Invoked()
         {
             var mock = new MockCommand();
@@ -89,7 +86,7 @@ namespace Peasy.Core.Tests
             mock.OnInitializationAsyncWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task OnExecuteAsync_Is_Invoked_When_No_Errors_Exist()
         {
             var mock = new MockCommand();
@@ -97,7 +94,7 @@ namespace Peasy.Core.Tests
             mock.OnExecuteAsyncWasInvoked.ShouldBe(true);
        }
 
-        [TestMethod]
+        [Fact]
         public async Task OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
         {
             var mock = new MockCommand();
@@ -106,7 +103,7 @@ namespace Peasy.Core.Tests
             mock.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught_Async()
         {
             var command = new MockCommandThrowsErrorsOnExecute();
@@ -118,7 +115,7 @@ namespace Peasy.Core.Tests
 
         #region Command<T>
 
-        [TestMethod]
+        [Fact]
         public void Command_of_T_OnInitialization_Is_Invoked()
         {
             var mock = new MockCommandOfString();
@@ -126,7 +123,7 @@ namespace Peasy.Core.Tests
             mock.OnInitializationWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Command_of_T_OnExecute_Is_Invoked_When_No_Errors_Exist()
         {
             var mock = new MockCommandOfString();
@@ -134,7 +131,7 @@ namespace Peasy.Core.Tests
             mock.OnExecuteWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Command_of_T_Execute_Returns_Value_When_No_Errors_Exist()
         {
             var mock = new MockCommandOfString();
@@ -142,7 +139,7 @@ namespace Peasy.Core.Tests
             result.Value.ShouldBe("some value");
         }
 
-        [TestMethod]
+        [Fact]
         public void Command_of_T_ExecutionResult_Is_Successful_When_Validation_Is_Successful()
         {
             var mock = new MockCommandOfString();
@@ -150,7 +147,7 @@ namespace Peasy.Core.Tests
             result.Success.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Command_of_T_ExecutionResult_Should_Contain_No_Errors_When_Validation_Is_Successful()
         {
             var mock = new MockCommandOfString();
@@ -158,7 +155,7 @@ namespace Peasy.Core.Tests
             result.Errors.ShouldBe(null);
         }
 
-        [TestMethod]
+        [Fact]
         public void Command_of_T_OnExecute_Is_Not_Invoked_When_Errors_Exist()
         {
             var mock = new MockCommandOfString();
@@ -167,7 +164,7 @@ namespace Peasy.Core.Tests
             mock.OnExecuteWasInvoked.ShouldBe(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void Command_of_T_ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
         {
             var mock = new MockCommandOfString();
@@ -176,7 +173,7 @@ namespace Peasy.Core.Tests
             result.Success.ShouldBe(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void Command_of_T_ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
         {
             var mock = new MockCommandOfString();
@@ -185,7 +182,7 @@ namespace Peasy.Core.Tests
             result.Errors.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void Command_of_T_ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught()
         {
             var command = new MockCommandOfStringThrowsErrorsOnExecute();
@@ -193,7 +190,7 @@ namespace Peasy.Core.Tests
             result.Errors.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Command_of_T_OnInitializationAsync_Is_Invoked()
         {
             var mock = new MockCommandOfString();
@@ -201,7 +198,7 @@ namespace Peasy.Core.Tests
             mock.OnInitializationAsyncWasInvoked.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Command_of_T_OnExecuteAsync_Is_Invoked_When_No_Errors_Exist()
         {
             var mock = new MockCommandOfString();
@@ -209,7 +206,7 @@ namespace Peasy.Core.Tests
             mock.OnExecuteAsyncWasInvoked.ShouldBe(true);
        }
 
-        [TestMethod]
+        [Fact]
         public async Task Command_of_T_Execute_Returns_Value_When_No_Errors_Exist_Async()
         {
             var mock = new MockCommandOfString();
@@ -217,7 +214,7 @@ namespace Peasy.Core.Tests
             result.Value.ShouldBe("some value");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Command_of_T_OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
         {
             var mock = new MockCommandOfString();
@@ -226,7 +223,7 @@ namespace Peasy.Core.Tests
             mock.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Command_of_T_ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught_Async()
         {
             var command = new MockCommandOfStringThrowsErrorsOnExecute();

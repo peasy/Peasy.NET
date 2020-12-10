@@ -1,14 +1,12 @@
-﻿using System;
-using Peasy.Rules;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Peasy.Rules;
 using Shouldly;
+using Xunit;
 
 namespace Peasy.Tests.Rules
 {
-    [TestClass]
     public class ConcurrencyCheckRuleTests
     {
-        [TestMethod]
+        [Fact]
         public void ConcurrencyCheckRule_Returns_True()
         {
             var obj1 = new ConcurrencyMock() { Version = "1" };
@@ -17,7 +15,7 @@ namespace Peasy.Tests.Rules
             rule.Validate().IsValid.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConcurrencyCheckRule_Returns_False()
         {
             var obj1 = new ConcurrencyMock() { Version = "1" };
@@ -26,7 +24,7 @@ namespace Peasy.Tests.Rules
             rule.Validate().IsValid.ShouldBe(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConcurrencyCheckRule_Sets_ErrorMessage_On_Invalid()
         {
             var obj1 = new ConcurrencyMock() { Version = "1" };

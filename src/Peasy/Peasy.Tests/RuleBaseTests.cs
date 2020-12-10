@@ -1,72 +1,69 @@
-﻿using Peasy.Core;
-using Peasy.Core.Tests;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shouldly;
+﻿using Shouldly;
 using System.Threading.Tasks;
 using System.Linq;
+using Xunit;
 
 namespace Peasy.Core.Tests
 {
-    [TestClass]
     public class RuleBaseTests
     {
-        [TestMethod]
+        [Fact]
         public void Valid_Rule_Is_Valid_After_Validation()
         {
             var rule = new TrueRule().Validate();
             rule.IsValid.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Valid_Rule_Is_Valid_After_Validation_Async()
         {
             var rule = await new TrueRule().ValidateAsync();
             rule.IsValid.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Valid_Rule_Does_Not_Contain_An_Error_Message_After_Validation()
         {
             var rule = new TrueRule().Validate();
             rule.ErrorMessage.ShouldBe(null);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Valid_Rule_Does_Not_Contain_An_Error_Message_After_Validation_Async()
         {
             var rule = await new TrueRule().ValidateAsync();
             rule.ErrorMessage.ShouldBe(null);
         }
 
-        [TestMethod]
+        [Fact]
         public void Invalid_Rule_Is_Invalid_After_Validation()
         {
             var rule = new FalseRule1().Validate();
             rule.IsValid.ShouldBe(false);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Invalid_Rule_Is_Invalid_After_Validation_Async()
         {
             var rule = await new FalseRule1().ValidateAsync();
             rule.IsValid.ShouldBe(false);
         }
 
-        [TestMethod]
+        [Fact]
         public void Invalid_Rule_Contains_An_Error_Message_After_Validation()
         {
             var rule = new FalseRule1().Validate();
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Invalid_Rule_Contains_An_Error_Message_After_Validation_Async()
         {
             var rule = await new FalseRule1().ValidateAsync();
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Valid_Parent_Fails_When_Successor_Fails_Validation()
         {
             var rule1 = new TrueRule().IfValidThenValidate(new FalseRule1()).Validate();
@@ -74,7 +71,7 @@ namespace Peasy.Core.Tests
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Valid_Parent_Fails_When_Successor_Fails_Validation_Async()
         {
             var rule1 = await new TrueRule().IfValidThenValidate(new FalseRule1()).ValidateAsync();
@@ -82,7 +79,7 @@ namespace Peasy.Core.Tests
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Successor_Does_Not_Execute_When_Parent_Fails()
         {
             var rule1 = new FalseRule1().IfValidThenValidate(new FalseRule2()).Validate();
@@ -90,7 +87,7 @@ namespace Peasy.Core.Tests
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Successor_Does_Not_Execute_When_Parent_Fails_Async()
         {
             var rule1 = await new FalseRule1().IfValidThenValidate(new FalseRule2()).ValidateAsync();
@@ -98,7 +95,7 @@ namespace Peasy.Core.Tests
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void All_Remaining_Successors_Skip_Validation_When_First_Successor_Fails()
         {
             var rule1 = new TrueRule()
@@ -108,7 +105,7 @@ namespace Peasy.Core.Tests
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task All_Remaining_Successors_Skip_Validation_When_First_Successor_Fails_Async()
         {
             var rule1 = await new TrueRule()
@@ -118,7 +115,7 @@ namespace Peasy.Core.Tests
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Last_Successor_Validates_When_First_Successors_Pass()
         {
             var rule1 = new TrueRule()
@@ -128,7 +125,7 @@ namespace Peasy.Core.Tests
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Last_Successor_Validates_When_First_Successors_Pass_Async()
         {
             var rule1 = await new TrueRule()
@@ -138,7 +135,7 @@ namespace Peasy.Core.Tests
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Last_Successors_In_Successor_Chain_Are_Skipped_When_First_Successors_Fail()
         {
             var rule = new TrueRule()
@@ -149,7 +146,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Last_Successors_In_Successor_Chain_Are_Skipped_When_First_Successors_Fail_Async()
         {
             var rule = await new TrueRule()
@@ -160,7 +157,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Last_Successor_In_Successor_Chain_Is_Skipped_When_First_Successors_Pass()
         {
             var rule = new TrueRule()
@@ -171,7 +168,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Last_Successor_In_Successor_Chain_Is_Skipped_When_First_Successors_Pass_Async()
         {
             var rule = await new TrueRule()
@@ -182,7 +179,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Parent_Fails_When_Last_Successor_In_Chains_Fails_Validation()
         {
             var rule = new TrueRule()
@@ -193,7 +190,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule3 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Parent_Fails_When_Last_Successor_In_Chains_Fails_Validation_Async()
         {
             var rule = await new TrueRule()
@@ -204,7 +201,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule3 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Three_Rule_Chain_Executes_Successfully()
         {
             var rule = new TrueRule()
@@ -214,7 +211,7 @@ namespace Peasy.Core.Tests
             rule.IsValid.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Three_Rule_Chain_Executes_Successfully_Async()
         {
             var rule = await new TrueRule()
@@ -224,7 +221,7 @@ namespace Peasy.Core.Tests
             rule.IsValid.ShouldBe(true);
         }
 
-        [TestMethod]
+        [Fact]
         public void Three_Rule_Chain_Fail_Skips_Third_In_Chain_When_Second_Fails()
         {
             var rule = new TrueRule()
@@ -234,7 +231,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Three_Rule_Chain_Fail_Skips_Third_In_Chain_When_Second_Fails_Async()
         {
             var rule = await new TrueRule()
@@ -244,7 +241,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Three_Rule_Chain_Hits_Third_In_Chain_And_Fails_Parent()
         {
             var rule = new TrueRule()
@@ -254,7 +251,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Three_Rule_Chain_Hits_Third_In_Chain_And_Fails_Parent_Async()
         {
             var rule = await new TrueRule()
@@ -264,7 +261,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Invokes_IfValidThenExecute()
         {
             var output = string.Empty;
@@ -275,7 +272,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Invokes_IfValidThenExecute_Async()
         {
             var output = string.Empty;
@@ -286,7 +283,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public void Does_Not_Invoke_IfValidThenExecute()
         {
             var output = string.Empty;
@@ -297,7 +294,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Does_Not_Invoke_IfValidThenExecute_Async()
         {
             var output = string.Empty;
@@ -308,7 +305,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public void Invokes_IfInvalidThenExecute()
         {
             var output = string.Empty;
@@ -319,7 +316,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Invokes_IfInvalidThenExecute_Async()
         {
             var output = string.Empty;
@@ -330,7 +327,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public void Does_Not_Invoke_IfInvalidThenExecute()
         {
             var output = string.Empty;
@@ -341,7 +338,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Does_Not_Invoke_IfInvalidThenExecute_Async()
         {
             var output = string.Empty;
@@ -352,7 +349,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public void Successor_Invokes_IfValidThenExecute()
         {
             var output = string.Empty;
@@ -363,7 +360,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Successor_Invokes_IfValidThenExecute_Async()
         {
             var output = string.Empty;
@@ -374,7 +371,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public void Successor_Does_Not_Invoke_IfValidThenExecute()
         {
             var output = string.Empty;
@@ -385,7 +382,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Successor_Does_Not_Invoke_IfValidThenExecute_Async()
         {
             var output = string.Empty;
@@ -396,7 +393,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public void Successor_Invokes_IfInvalidThenExecute()
         {
             var output = string.Empty;
@@ -407,7 +404,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Successor_Invokes_IfInvalidThenExecute_Async()
         {
             var output = string.Empty;
@@ -418,7 +415,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public void Successor_Does_Not_Invoke_IfInvalidThenExecute()
         {
             var output = string.Empty;
@@ -429,7 +426,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Successor_Does_Not_Invoke_IfInvalidThenExecute_Async()
         {
             var output = string.Empty;
@@ -440,7 +437,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe(string.Empty);
         }
 
-        [TestMethod]
+        [Fact]
         public void First_Valid_Rule_In_First_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
@@ -451,7 +448,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task First_Valid_Rule_In_First_Successor_Chain_Should_Execute_Async()
         {
             var output = string.Empty;
@@ -462,7 +459,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public void Second_Valid_Rule_In_First_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
@@ -473,7 +470,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Second_Valid_Rule_In_First_Successor_Chain_Should_Execute_Async()
         {
             var output = string.Empty;
@@ -484,7 +481,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public void First_Valid_Rule_In_Second_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
@@ -495,7 +492,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task First_Valid_Rule_In_Second_Successor_Chain_Should_Execute_Async()
         {
             var output = string.Empty;
@@ -506,7 +503,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public void Second_Invalid_Rule_In_Second_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
@@ -517,7 +514,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task Second_Invalid_Rule_In_Second_Successor_Chain_Should_Execute_Async()
         {
             var output = string.Empty;
@@ -528,7 +525,7 @@ namespace Peasy.Core.Tests
             output.ShouldBe("pass");
         }
 
-        [TestMethod]
+        [Fact]
         public void First_Valid_Rule_In_Second_Successor_Chain_Should_Execute_But_Third_False_Rule_Should_Not()
         {
             var output = string.Empty;
@@ -542,7 +539,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task First_Valid_Rule_In_Second_Successor_Chain_Should_Execute_But_Third_False_Rule_Should_Not_Async()
         {
             var output = string.Empty;
@@ -556,7 +553,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void The_Correct_Association_Is_Set_As_A_Result_Of_Failed_Successor()
         {
             var rule = new TrueRule("Foo")
@@ -566,7 +563,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("Address failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public async Task The_Correct_Association_Is_Set_As_A_Result_Of_Failed_Successor_Async()
         {
             var rule = new TrueRule("Foo")
@@ -576,7 +573,7 @@ namespace Peasy.Core.Tests
             rule.ErrorMessage.ShouldBe("Address failed validation");
         }
 
-        [TestMethod]
+        [Fact]
         public void Allows_access_to_successor_rules_via_IRulesContainer_interface()
         {
             var output = string.Empty;
@@ -588,24 +585,24 @@ namespace Peasy.Core.Tests
                     new FalseRule3()
                 );
 
-            var successors = (rule as IRulesContainer).Rules;
-            successors.Count.ShouldBe(2);
+            var successors = (rule as IRulesContainer).GetRules().ToArray();
+            successors.Count().ShouldBe(2);
 
-            var firstSuccessors = successors.First();
+            var firstSuccessors = successors.First().ToArray();
             firstSuccessors.Count().ShouldBe(2);
 
             firstSuccessors.First().ShouldBeOfType<TrueRule>();
-            (firstSuccessors.First() as IRulesContainer).Rules.Count().ShouldBe(0);
+            (firstSuccessors.First() as IRulesContainer).GetRules().Count().ShouldBe(0);
 
             firstSuccessors.Last().ShouldBeOfType<FalseRule2>();
-            (firstSuccessors.Last() as IRulesContainer).Rules.Count().ShouldBe(0);
+            (firstSuccessors.Last() as IRulesContainer).GetRules().Count().ShouldBe(0);
 
-            var lastSuccessors = successors.Last();
+            var lastSuccessors = successors.Last().ToArray();
             lastSuccessors.Count().ShouldBe(2);
 
             lastSuccessors.First().ShouldBeOfType<TrueRule>();
-            (lastSuccessors.First() as IRulesContainer).Rules.Count().ShouldBe(1);
-            (lastSuccessors.First() as IRulesContainer).Rules.First().First().ShouldBeOfType<FalseRule1>();
+            (lastSuccessors.First() as IRulesContainer).GetRules().Count().ShouldBe(1);
+            (lastSuccessors.First() as IRulesContainer).GetRules().First().ShouldBeOfType<FalseRule1>();
 
             lastSuccessors.Last().ShouldBeOfType<FalseRule3>();
         }

@@ -1,13 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Shouldly;
+﻿using Shouldly;
 using System.Linq;
+using Xunit;
 
 namespace Peasy.Core.Tests.Extensions
 {
-    [TestClass]
     public class IDomainObjectExtensionsTests
     {
-        [TestMethod]
+        [Fact]
         public void GetValidationErrors_returns_no_results()
         {
             var person = new Person()
@@ -20,7 +19,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(0);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationErrors_returns_one_result()
         {
             var person = new Person()
@@ -33,7 +32,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(1);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationErrors_returns_two_results()
         {
             var person = new Person()
@@ -46,7 +45,7 @@ namespace Peasy.Core.Tests.Extensions
             results.Count().ShouldBe(2);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetValidationErrors_returns_three_results()
         {
             var person = new Person()
