@@ -585,26 +585,18 @@ namespace Peasy.Core.Tests
                     new FalseRule3()
                 );
 
-            var successors = (rule as IRulesContainer).GetRules().ToArray();
-            successors.Count().ShouldBe(2);
+            rule.GetSuccessors().Count().ShouldBe(2);
 
-            var firstSuccessors = successors.First().ToArray();
-            firstSuccessors.Count().ShouldBe(2);
+            var firstSuccessor = rule.GetSuccessors().First();
+            firstSuccessor.Rules.Count().ShouldBe(2);
+            firstSuccessor.Rules.First().ShouldBeOfType<TrueRule>();
+            firstSuccessor.Rules.Second().ShouldBeOfType<FalseRule2>();
 
-            firstSuccessors.First().ShouldBeOfType<TrueRule>();
-            (firstSuccessors.First() as IRulesContainer).GetRules().Count().ShouldBe(0);
-
-            firstSuccessors.Last().ShouldBeOfType<FalseRule2>();
-            (firstSuccessors.Last() as IRulesContainer).GetRules().Count().ShouldBe(0);
-
-            var lastSuccessors = successors.Last().ToArray();
-            lastSuccessors.Count().ShouldBe(2);
-
-            lastSuccessors.First().ShouldBeOfType<TrueRule>();
-            (lastSuccessors.First() as IRulesContainer).GetRules().Count().ShouldBe(1);
-            (lastSuccessors.First() as IRulesContainer).GetRules().First().ShouldBeOfType<FalseRule1>();
-
-            lastSuccessors.Last().ShouldBeOfType<FalseRule3>();
+            var secondSuccessor = rule.GetSuccessors().Second();
+            secondSuccessor.Rules.Count().ShouldBe(2);
+            secondSuccessor.Rules.First().ShouldBeOfType<TrueRule>();
+            secondSuccessor.Rules.First().GetSuccessors().Count().ShouldBe(1);
+            secondSuccessor.Rules.First().GetSuccessors().First().Rules.First().ShouldBeOfType<FalseRule1>();
         }
     }
 

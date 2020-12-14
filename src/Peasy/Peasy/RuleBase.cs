@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Peasy
@@ -8,7 +7,7 @@ namespace Peasy
     /// <summary>
     /// A validation rule to run againt records being processed.
     /// </summary>
-    public abstract class RuleBase : IRule, IRulesContainer
+    public abstract class RuleBase : IRule, IRuleSuccessorsContainer
     {
         /// <summary>
         /// The action to perform once when this rule passes validation.
@@ -41,7 +40,13 @@ namespace Peasy
         /// <summary>
         /// Gets or sets the list of <see cref="IRule"/> that should be evaluated upon successful validation.
         /// </summary>
-        private List<IRule[]> Successor { set; get; } = new List<IRule[]>();
+        private List<IRuleSuccessor> Successors { set; get; } = new List<IRuleSuccessor>();
+
+        ///<inheritdoc cref="IRuleSuccessorsContainer.GetSuccessors"/>
+        public IEnumerable<IRuleSuccessor> GetSuccessors()
+        {
+            return Successors;
+        }
 
         /// <summary>
         /// Synchronously validates this rule.
@@ -52,11 +57,11 @@ namespace Peasy
             OnValidate();
             if (IsValid)
             {
-                if (Successor != null)
+                if (Successors != null)
                 {
-                    foreach (var ruleList in Successor)
+                    foreach (var successor in Successors)
                     {
-                        foreach (var rule in ruleList)
+                        foreach (var rule in successor)
                         {
                             rule.Validate();
                             if (!rule.IsValid)
@@ -85,7 +90,7 @@ namespace Peasy
         /// <returns>The supplied <see cref="RuleBase"/>.</returns>
         public RuleBase IfValidThenValidate(params IRule[] rules)
         {
-            Successor.Add(rules);
+            Successors.Add(new RuleSuccessor(rules));
             return this;
         }
 
@@ -152,13 +157,13 @@ namespace Peasy
             await OnValidateAsync();
             if (IsValid)
             {
-                if (Successor != null)
+                if (Successors != null)
                 {
-                    foreach (var ruleList in Successor)
+                    foreach (var successor in Successors)
                     {
-                        var validated = await Task.WhenAll(ruleList.Select(r => r.ValidateAsync()));
-                        foreach (var rule in validated)
+                        foreach (var rule in successor)
                         {
+                            await rule.ValidateAsync();
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage, rule.Association);
@@ -176,16 +181,6 @@ namespace Peasy
                 _ifInvalidThenExecute?.Invoke(this);
             }
             return this;
-        }
-
-        Task<IEnumerable<IRule>> IRulesContainer.GetRulesAsync()
-        {
-            return Task.FromResult(this.Successor.SelectMany(s => s));
-        }
-
-        IEnumerable<IRule> IRulesContainer.GetRules()
-        {
-            return this.Successor.SelectMany(s => s);
         }
     }
 }

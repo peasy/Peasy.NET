@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -171,12 +170,14 @@ namespace Peasy
             return new ExecutionResult { Success = true };
         }
 
-        Task<IEnumerable<IRule>> IRulesContainer.GetRulesAsync()
+        ///<inheritdoc cref="IRulesContainer.GetRulesAsync"/>
+        public Task<IEnumerable<IRule>> GetRulesAsync()
         {
             return OnGetRulesAsync();
         }
 
-        IEnumerable<IRule> IRulesContainer.GetRules()
+        ///<inheritdoc cref="IRulesContainer.GetRules"/>
+        public IEnumerable<IRule> GetRules()
         {
             return OnGetRules();
         }
@@ -352,12 +353,14 @@ namespace Peasy
             return new ExecutionResult<T> { Success = true, Value = value };
         }
 
-        Task<IEnumerable<IRule>> IRulesContainer.GetRulesAsync()
+        ///<inheritdoc cref="IRulesContainer.GetRulesAsync"/>
+        public Task<IEnumerable<IRule>> GetRulesAsync()
         {
             return OnGetRulesAsync();
         }
 
-        IEnumerable<IRule> IRulesContainer.GetRules()
+        ///<inheritdoc cref="IRulesContainer.GetRules"/>
+        public IEnumerable<IRule> GetRules()
         {
             return OnGetRules();
         }
