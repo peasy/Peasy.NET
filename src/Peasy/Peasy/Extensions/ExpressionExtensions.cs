@@ -22,14 +22,12 @@ namespace Peasy.Extensions
                 throw new ArgumentNullException(nameof(propertyExpression));
             }
 
-            var memberExpression = propertyExpression.Body as MemberExpression;
-            if (memberExpression == null)
+            if (!(propertyExpression.Body is MemberExpression memberExpression))
             {
                 throw new ArgumentException("The expression is not a member access expression.", nameof(propertyExpression));
             }
 
-            var property = memberExpression.Member as PropertyInfo;
-            if (property == null)
+            if (!(memberExpression.Member is PropertyInfo))
             {
                 throw new ArgumentException("The member access expression does not access a property.", nameof(propertyExpression));
             }
@@ -50,14 +48,12 @@ namespace Peasy.Extensions
                 throw new ArgumentNullException(nameof(propertyExpression));
             }
 
-            var memberExpression = propertyExpression.Body as MemberExpression;
-            if (memberExpression == null)
+            if (!(propertyExpression.Body is MemberExpression memberExpression))
             {
                 throw new ArgumentException("The expression is not a member access expression.", nameof(propertyExpression));
             }
 
-            var property = memberExpression.Member as PropertyInfo;
-            if (property == null)
+            if (!(memberExpression.Member is PropertyInfo))
             {
                 throw new ArgumentException("The member access expression does not access a property.", nameof(propertyExpression));
             }
@@ -83,14 +79,12 @@ namespace Peasy.Extensions
                 throw new ArgumentNullException(nameof(propertyExpression));
             }
 
-            var memberExpression = propertyExpression.Body as MemberExpression;
-            if (memberExpression == null)
+            if (!(propertyExpression.Body is MemberExpression memberExpression))
             {
                 throw new ArgumentException("The expression is not a member access expression.", nameof(propertyExpression));
             }
 
-            var property = memberExpression.Member as PropertyInfo;
-            if (property == null)
+            if (!(memberExpression.Member is PropertyInfo))
             {
                 throw new ArgumentException("The expression is not accessing a property.", nameof(propertyExpression));
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -81,7 +80,7 @@ namespace Peasy
         /// <summary>
         /// Returns validation results as a result of rule executions
         /// </summary>
-        protected async virtual Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
             var errors = await GetRulesAsync();
             return await errors.GetValidationResultsAsync();
@@ -249,7 +248,7 @@ namespace Peasy
         /// <summary>
         /// Returns validation results as a result of rule executions
         /// </summary>
-        protected async virtual Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
             var errors = await GetRulesAsync();
             return await errors.GetValidationResultsAsync();

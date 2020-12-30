@@ -1,6 +1,4 @@
-﻿using Peasy.Core;
-using Peasy.Core.Tests;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Collections.Generic;
 using System.Linq;

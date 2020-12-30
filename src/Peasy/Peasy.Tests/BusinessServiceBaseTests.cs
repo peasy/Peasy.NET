@@ -49,7 +49,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub(isLatencyProne: false);
             var service = new BusinessServiceBaseMock(proxy);
-            service.UpdateCommand(new Person() { ID = 1, Version = "1" }).Execute();
+            service.UpdateCommand(new Person { ID = 1, Version = "1" }).Execute();
             proxy.GetByIDWasInvoked.ShouldBe(true);
         }
 
@@ -77,7 +77,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
-            service.UpdateCommand(new Person() { ID = 1, Version = "2" }).Execute();
+            service.UpdateCommand(new Person { ID = 1, Version = "2" }).Execute();
         }
 
         [TestMethod]
@@ -85,7 +85,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
-            var result = service.UpdateCommand(new Person() { ID = 1, Name = "Frank Zappa", Version = "1" }).Execute();
+            var result = service.UpdateCommand(new Person { ID = 1, Name = "Frank Zappa", Version = "1" }).Execute();
             result.Value.Name.ShouldBe("George Harrison");
         }
 
@@ -94,7 +94,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
-            var result = service.UpdateCommand(new Person() { ID = 1, ForeignKeyID = 0, Version = "1" }).Execute();
+            var result = service.UpdateCommand(new Person { ID = 1, ForeignKeyID = 0, Version = "1" }).Execute();
             result.Value.ForeignKeyID.ShouldBe(null);
         }
 
@@ -103,7 +103,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
-            var result = service.UpdateCommand(new Person() { ID = 1, ForeignKeyID = 0, Version = "1" }).Execute();
+            var result = service.UpdateCommand(new Person { ID = 1, ForeignKeyID = 0, Version = "1" }).Execute();
             proxy.UpdateWasInvoked.ShouldBe(true);
         }
 
@@ -112,7 +112,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub(isLatencyProne: false);
             var service = new BusinessServiceBaseMock(proxy);
-            await service.UpdateCommand(new Person() { ID = 1, Version = "1" }).ExecuteAsync();
+            await service.UpdateCommand(new Person { ID = 1, Version = "1" }).ExecuteAsync();
             proxy.GetByIDAsyncWasInvoked.ShouldBe(true);
         }
 
@@ -140,7 +140,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
-            await service.UpdateCommand(new Person() { ID = 1, Version = "2" }).ExecuteAsync();
+            await service.UpdateCommand(new Person { ID = 1, Version = "2" }).ExecuteAsync();
         }
 
         [TestMethod]
@@ -148,7 +148,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
-            var result = await service.UpdateCommand(new Person() { ID = 1, Name = "Frank Zappa", Version = "1" }).ExecuteAsync();
+            var result = await service.UpdateCommand(new Person { ID = 1, Name = "Frank Zappa", Version = "1" }).ExecuteAsync();
             result.Value.Name.ShouldBe("George Harrison");
         }
 
@@ -157,7 +157,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
-            var result = await service.UpdateCommand(new Person() { ID = 1, ForeignKeyID = 0, Version = "1" }).ExecuteAsync();
+            var result = await service.UpdateCommand(new Person { ID = 1, ForeignKeyID = 0, Version = "1" }).ExecuteAsync();
             result.Value.ForeignKeyID.ShouldBe(null);
         }
 
@@ -166,7 +166,7 @@ namespace Peasy.Tests
         {
             var proxy = new PersonProxyStub();
             var service = new BusinessServiceBaseMock(proxy);
-            var result = await service.UpdateCommand(new Person() { ID = 1, ForeignKeyID = 0, Version = "1" }).ExecuteAsync();
+            var result = await service.UpdateCommand(new Person { ID = 1, ForeignKeyID = 0, Version = "1" }).ExecuteAsync();
             proxy.UpdateAsyncWasInvoked.ShouldBe(true);
         }
     }
@@ -222,7 +222,7 @@ namespace Peasy.Tests
         {
             GetByIDWasInvoked = true;
             if (id == 1)
-                return new Person() { ID = 1, Name = "George Harrison", Version = "1" };
+                return new Person { ID = 1, Name = "George Harrison", Version = "1" };
 
             return null;
         }
@@ -231,7 +231,7 @@ namespace Peasy.Tests
         {
             GetByIDAsyncWasInvoked = true;
             if (id == 1)
-                return new Person() { ID = 1, Name = "George Harrison", Version = "1" };
+                return new Person { ID = 1, Name = "George Harrison", Version = "1" };
 
             return null;
         }
@@ -249,13 +249,13 @@ namespace Peasy.Tests
         public Person Update(Person entity)
         {
             UpdateWasInvoked = true;
-            return new Person() { Name = entity.Name };
+            return new Person { Name = entity.Name };
         }
 
         public async Task<Person> UpdateAsync(Person entity)
         {
             UpdateAsyncWasInvoked = true;
-            return new Person() { Name = entity.Name };
+            return new Person { Name = entity.Name };
         }
     }
 

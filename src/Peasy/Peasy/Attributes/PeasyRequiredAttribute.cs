@@ -13,28 +13,24 @@ namespace Peasy.Attributes
             var errorMessage = $"The {validationContext.DisplayName} field is required.";
             var validationResult = new ValidationResult(errorMessage, new string[] { validationContext.DisplayName });
 
-            if (value == null) return validationResult;
-
-            if (value is string && string.IsNullOrWhiteSpace(value.ToString()))
+            switch (value)
             {
-                return validationResult;
-            }
-
-            if (value is Guid && Guid.Parse(value.ToString()) == Guid.Empty)
-            {
-                return validationResult;
+                case null:
+                    return validationResult;
+                case string _ when string.IsNullOrWhiteSpace(value.ToString()):
+                    return validationResult;
+                case Guid _ when Guid.Parse(value.ToString()) == Guid.Empty:
+                    return validationResult;
             }
 
             var incoming = value.ToString();
 
-            decimal val = 0;
-            if (Decimal.TryParse(incoming, out val) && val == 0)
+            if (decimal.TryParse(incoming, out var val) && val == 0)
             {
                 return validationResult;
             }
 
-            var date = DateTime.MinValue;
-            if (DateTime.TryParse(incoming, out date) && date == DateTime.MinValue)
+            if (DateTime.TryParse(incoming, out var date) && date == DateTime.MinValue)
             {
                 return validationResult;
             }

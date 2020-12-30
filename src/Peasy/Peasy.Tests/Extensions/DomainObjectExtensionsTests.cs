@@ -1,12 +1,10 @@
 ﻿using Peasy.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
-using System;
 using Peasy.Extensions;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace Peasy.Tests.Extensions
 {
@@ -30,8 +28,7 @@ namespace Peasy.Tests.Extensions
         [TestMethod]
         public void Object_With_Peasy_ForeignKeyAttribute_in_base_class_Should_Revert_Zeros_To_Nulls()
         {
-            var mock = new MockClass2();
-            mock.ForeignKeyID = 0;
+            var mock = new MockClass2 {ForeignKeyID = 0};
             mock.RevertForeignKeysFromZeroToNull();
             mock.ForeignKeyID.ShouldBe(null);
         }
@@ -39,8 +36,7 @@ namespace Peasy.Tests.Extensions
         [TestMethod]
         public void Object_With_Peasy_ForeignKeyAttribute_Should_Revert_Zeros_To_Nulls()
         {
-            var mock = new MockClass2();
-            mock.SomeForeignKeyID = 0;
+            var mock = new MockClass2 {SomeForeignKeyID = 0};
             mock.RevertForeignKeysFromZeroToNull();
             mock.SomeForeignKeyID.ShouldBe(null);
         }
@@ -48,8 +44,8 @@ namespace Peasy.Tests.Extensions
         [TestMethod]
         public void Object_With_NonEditableAttribute_Should_Revert_Values_To_Original()
         {
-            var original = new MockClass2() { Name = "Jimi Hendrix" };
-            var newMock = new MockClass2() { Name = "Jim Morrison" };
+            var original = new MockClass2 { Name = "Jimi Hendrix" };
+            var newMock = new MockClass2 { Name = "Jim Morrison" };
             newMock.RevertNonEditableValues(original);
             newMock.Name.ShouldBe("Jimi Hendrix");
         }
@@ -57,8 +53,8 @@ namespace Peasy.Tests.Extensions
         [TestMethod]
         public void Object_With_NonEditableAttribute_in_base_class_Should_Revert_Values_To_Original()
         {
-            var original = new MockClass2() { SomeValue = "Jimi Hendrix" };
-            var newMock = new MockClass2() { SomeValue = "Jim Morrison" };
+            var original = new MockClass2 { SomeValue = "Jimi Hendrix" };
+            var newMock = new MockClass2 { SomeValue = "Jim Morrison" };
             newMock.RevertNonEditableValues(original);
             newMock.SomeValue.ShouldBe("Jimi Hendrix");
         }
@@ -66,8 +62,8 @@ namespace Peasy.Tests.Extensions
         [TestMethod]
         public void Fifty_Objects_With_NonEditableAttributes_Should_Revert_Values_To_Original()
         {
-            var original = new MockClass2() { Name = "Jimi Hendrix" };
-            var newMocks = 50.Times(i => new MockClass2() { Name = string.Format("Jim Morrison{0}", i) }).ToArray();
+            var original = new MockClass2 { Name = "Jimi Hendrix" };
+            var newMocks = 50.Times(i => new MockClass2 { Name = $"Jim Morrison{i}"}).ToArray();
             Parallel.ForEach(newMocks, mock => mock.RevertNonEditableValues(original));
             newMocks.ShouldAllBe(m => m.Name == "Jimi Hendrix");
         }
