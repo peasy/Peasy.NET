@@ -15,7 +15,7 @@ A middle tier micro-framework for .NET and .NET Core
 </a>-->
 </p>
 
-# Poll (Dec 8, 2020) - Should we remove synchronous support for Peasy.NET?  Please let us know what you [think](https://github.com/peasy/Peasy.NET/issues/21)! 
+# Poll (Jan 3, 2021) - Should we remove synchronous support for Peasy.NET?  Please let us know what you [think](https://github.com/peasy/Peasy.NET/issues/21)! 
 
 # What's a middle tier framework?
 
