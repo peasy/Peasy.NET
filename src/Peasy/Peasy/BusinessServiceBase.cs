@@ -46,17 +46,16 @@ namespace Peasy
             // only perform this if we're not latency prone - keep it close to the server, no need to do this more than once
             if (!IsLatencyProne)
             {
-                var current = context.CurrentEntity;
-                if (current == null) current = GetByID(entity.ID, context);
+                var current = context.CurrentEntity ?? this.GetByID(entity.ID, context);
 
                 if (current == null)
                 {
                     throw new DomainObjectNotFoundException(BuildNotFoundError(entity.ID));
                 }
 
-                if (current is IVersionContainer)
+                if (current is IVersionContainer container)
                 {
-                    var rule = new ConcurrencyCheckRule(current as IVersionContainer, entity as IVersionContainer).Validate();
+                    var rule = new ConcurrencyCheckRule(container, entity as IVersionContainer).Validate();
                     if (!rule.IsValid)
                         throw new ConcurrencyException(rule.ErrorMessage);
                 }
@@ -75,16 +74,15 @@ namespace Peasy
             // only perform this if we're not latency prone - keep it close to the server, no need to do this more than once
             if (!IsLatencyProne)
             {
-                var current = context.CurrentEntity;
-                if (current == null) current = await GetByIDAsync(entity.ID, context);
+                var current = context.CurrentEntity ?? await this.GetByIDAsync(entity.ID, context);
 
                 if (current == null)
                 {
                     throw new DomainObjectNotFoundException(BuildNotFoundError(entity.ID));
                 }
-                if (current is IVersionContainer)
+                if (current is IVersionContainer container)
                 {
-                    var rule = new ConcurrencyCheckRule(current as IVersionContainer, entity as IVersionContainer).Validate();
+                    var rule = new ConcurrencyCheckRule(container, entity as IVersionContainer).Validate();
                     if (!rule.IsValid)
                         throw new ConcurrencyException(rule.ErrorMessage);
 
@@ -96,15 +94,9 @@ namespace Peasy
             return await _dataProxy.UpdateAsync(entity);
         }
 
-        public bool SupportsTransactions
-        {
-            get { return (_dataProxy as IServiceDataProxy<T, TKey>).SupportsTransactions; }
-        }
+        public bool SupportsTransactions => (_dataProxy as IServiceDataProxy<T, TKey>).SupportsTransactions;
 
-        public bool IsLatencyProne
-        {
-            get { return (_dataProxy as IServiceDataProxy<T, TKey>).IsLatencyProne; }
-        }
+        public bool IsLatencyProne => (_dataProxy as IServiceDataProxy<T, TKey>).IsLatencyProne;
 
         protected string BuildNotFoundError(TKey id)
         {

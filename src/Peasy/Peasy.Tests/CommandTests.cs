@@ -1,11 +1,9 @@
-﻿using Peasy.Core;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Shouldly;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace Peasy.Core.Tests
 {
@@ -49,8 +47,7 @@ namespace Peasy.Core.Tests
         [TestMethod]
         public void OnExecute_Is_Not_Invoked_When_Errors_Exist()
         {
-            var mock = new MockCommand();
-            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var mock = new MockCommand {Errors = new[] {new ValidationResult("Object doesn't exist")}};
             mock.Execute();
             mock.OnExecuteWasInvoked.ShouldBe(false);
         }
@@ -58,8 +55,7 @@ namespace Peasy.Core.Tests
         [TestMethod]
         public void ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
         {
-            var mock = new MockCommand();
-            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var mock = new MockCommand {Errors = new[] {new ValidationResult("Object doesn't exist")}};
             var result = mock.Execute();
             result.Success.ShouldBe(false);
         }
@@ -67,8 +63,7 @@ namespace Peasy.Core.Tests
         [TestMethod]
         public void ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
         {
-            var mock = new MockCommand();
-            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var mock = new MockCommand {Errors = new[] {new ValidationResult("Object doesn't exist")}};
             var result = mock.Execute();
             result.Errors.Count().ShouldBe(1);
         }
@@ -100,8 +95,7 @@ namespace Peasy.Core.Tests
         [TestMethod]
         public async Task OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
         {
-            var mock = new MockCommand();
-            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var mock = new MockCommand {Errors = new[] {new ValidationResult("Object doesn't exist")}};
             await mock.ExecuteAsync();
             mock.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }
@@ -161,8 +155,7 @@ namespace Peasy.Core.Tests
         [TestMethod]
         public void Command_of_T_OnExecute_Is_Not_Invoked_When_Errors_Exist()
         {
-            var mock = new MockCommandOfString();
-            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var mock = new MockCommandOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
             mock.Execute();
             mock.OnExecuteWasInvoked.ShouldBe(false);
         }
@@ -170,8 +163,7 @@ namespace Peasy.Core.Tests
         [TestMethod]
         public void Command_of_T_ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
         {
-            var mock = new MockCommandOfString();
-            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var mock = new MockCommandOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
             var result = mock.Execute();
             result.Success.ShouldBe(false);
         }
@@ -179,8 +171,7 @@ namespace Peasy.Core.Tests
         [TestMethod]
         public void Command_of_T_ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
         {
-            var mock = new MockCommandOfString();
-            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var mock = new MockCommandOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
             var result = mock.Execute();
             result.Errors.Count().ShouldBe(1);
         }
@@ -220,8 +211,7 @@ namespace Peasy.Core.Tests
         [TestMethod]
         public async Task Command_of_T_OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
         {
-            var mock = new MockCommandOfString();
-            mock.Errors = new[] { new ValidationResult("Object doesn't exist") };
+            var mock = new MockCommandOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
             await mock.ExecuteAsync();
             mock.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }

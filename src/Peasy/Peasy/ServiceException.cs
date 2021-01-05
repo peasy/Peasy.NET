@@ -2,7 +2,7 @@
 {
     public class ServiceException : System.Exception
     {
-        public ServiceException()   
+        public ServiceException()
         {
         }
 

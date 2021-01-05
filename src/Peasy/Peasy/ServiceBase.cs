@@ -10,12 +10,9 @@ namespace Peasy
     /// </summary>
     public abstract class ServiceBase<T, TKey> : IService<T, TKey> where T : IDomainObject<TKey>, new()
     {
-        protected IDataProxy<T, TKey> _dataProxy;
+        protected readonly IDataProxy<T, TKey> _dataProxy;
 
-        protected IDataProxy<T, TKey> DataProxy
-        {
-            get { return _dataProxy; }
-        }
+        protected IDataProxy<T, TKey> DataProxy => _dataProxy;
 
         public ServiceBase(IDataProxy<T, TKey> dataProxy)
         {

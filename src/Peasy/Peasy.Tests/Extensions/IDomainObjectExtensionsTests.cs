@@ -10,7 +10,7 @@ namespace Peasy.Core.Tests.Extensions
         [TestMethod]
         public void GetValidationErrors_returns_no_results()
         {
-            var person = new Person()
+            var person = new Person
             {
                 ID = 0,
                 First = "Skip",
@@ -23,7 +23,7 @@ namespace Peasy.Core.Tests.Extensions
         [TestMethod]
         public void GetValidationErrors_returns_one_result()
         {
-            var person = new Person()
+            var person = new Person
             {
                 ID = -1,
                 First = "Skip",
@@ -36,7 +36,7 @@ namespace Peasy.Core.Tests.Extensions
         [TestMethod]
         public void GetValidationErrors_returns_two_results()
         {
-            var person = new Person()
+            var person = new Person
             {
                 ID = -1,
                 First = "AnExtremelyLongFirstName",
@@ -49,7 +49,7 @@ namespace Peasy.Core.Tests.Extensions
         [TestMethod]
         public void GetValidationErrors_returns_three_results()
         {
-            var person = new Person()
+            var person = new Person
             {
                 ID = -1,
                 First = "AnExtremelyLongFirstName",

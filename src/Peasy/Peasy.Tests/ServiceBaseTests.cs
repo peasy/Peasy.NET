@@ -1,9 +1,7 @@
-﻿using Peasy.Core;
-using Shouldly;
+﻿using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
