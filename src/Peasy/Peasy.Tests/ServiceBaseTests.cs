@@ -14,7 +14,7 @@ namespace Peasy.Core.Tests
         public void Ensure_Method_Invocations_For_GetAllCommand()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
-            service.GetAllCommand().Execute();
+            var result = service.GetAllCommand().Execute();
             service.OnGetAllCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForGetAllWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForGetAllWasInvoked.ShouldBe(true);
@@ -38,7 +38,7 @@ namespace Peasy.Core.Tests
         public void Ensure_Method_Invocations_For_GetByIDCommand()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
-            service.GetByIDCommand(1).Execute();
+            var result = service.GetByIDCommand(1).Execute();
             service.OnGetByIDCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForGetByIDWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForGetByIDWasInvoked.ShouldBe(true);
@@ -62,7 +62,7 @@ namespace Peasy.Core.Tests
         public void Ensure_Method_Invocations_For_InsertCommand()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
-            service.InsertCommand(new Person()).Execute();
+            var result = service.InsertCommand(new Person()).Execute();
             service.OnInsertCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForInsertWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForInsertWasInvoked.ShouldBe(true);
@@ -86,7 +86,7 @@ namespace Peasy.Core.Tests
         public void Ensure_Method_Invocations_For_Update()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
-            service.UpdateCommand(new Person()).Execute();
+            var result = service.UpdateCommand(new Person()).Execute();
             service.OnUpdateCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForUpdateWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForUpdateWasInvoked.ShouldBe(true);
@@ -110,7 +110,7 @@ namespace Peasy.Core.Tests
         public void Ensure_Method_Invocations_For_Delete()
         {
             var service = new ServiceBaseMock(new PersonProxyStub());
-            service.DeleteCommand(1).Execute();
+            var result = service.DeleteCommand(1).Execute();
             service.OnDeleteCommandInitializationWasInvoked.ShouldBe(true);
             service.GetValidationResultsForDeleteWasInvoked.ShouldBe(true);
             service.GetBusinessRulesForDeleteWasInvoked.ShouldBe(true);

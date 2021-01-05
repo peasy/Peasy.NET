@@ -442,7 +442,7 @@ namespace Peasy.Core.Tests
         public void First_Valid_Rule_In_First_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
-            new TrueRule()
+            var rule = new TrueRule()
                           .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new TrueRule())
                           .IfValidThenValidate(new TrueRule(), new FalseRule3())
                           .Validate();
@@ -453,7 +453,7 @@ namespace Peasy.Core.Tests
         public async Task First_Valid_Rule_In_First_Successor_Chain_Should_Execute_Async()
         {
             var output = string.Empty;
-            await new TrueRule()
+            var rule = await new TrueRule()
                 .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new TrueRule())
                 .IfValidThenValidate(new TrueRule(), new FalseRule3())
                 .ValidateAsync();
@@ -464,7 +464,7 @@ namespace Peasy.Core.Tests
         public void Second_Valid_Rule_In_First_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
-            new TrueRule()
+            var rule = new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule().IfValidThenExecute(r => output = "pass"))
                 .IfValidThenValidate(new TrueRule(), new FalseRule3())
                 .Validate();
@@ -475,7 +475,7 @@ namespace Peasy.Core.Tests
         public async Task Second_Valid_Rule_In_First_Successor_Chain_Should_Execute_Async()
         {
             var output = string.Empty;
-            await new TrueRule()
+            var rule = await new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule().IfValidThenExecute(r => output = "pass"))
                 .IfValidThenValidate(new TrueRule(), new FalseRule3())
                 .ValidateAsync();
@@ -486,7 +486,7 @@ namespace Peasy.Core.Tests
         public void First_Valid_Rule_In_Second_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
-            new TrueRule()
+            var rule = new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
                 .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new FalseRule3())
                 .Validate();
@@ -497,7 +497,7 @@ namespace Peasy.Core.Tests
         public async Task First_Valid_Rule_In_Second_Successor_Chain_Should_Execute_Async()
         {
             var output = string.Empty;
-            await new TrueRule()
+            var rule = await new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
                 .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new FalseRule3())
                 .ValidateAsync();
@@ -508,7 +508,7 @@ namespace Peasy.Core.Tests
         public void Second_Invalid_Rule_In_Second_Successor_Chain_Should_Execute()
         {
             var output = string.Empty;
-            new TrueRule()
+            var rule = new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
                 .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenExecute(r => output = "pass"))
                 .Validate();
@@ -519,7 +519,7 @@ namespace Peasy.Core.Tests
         public async Task Second_Invalid_Rule_In_Second_Successor_Chain_Should_Execute_Async()
         {
             var output = string.Empty;
-            await new TrueRule()
+            var rule = await new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
                 .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenExecute(r => output = "pass"))
                 .ValidateAsync();
