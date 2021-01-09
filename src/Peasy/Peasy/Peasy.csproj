@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
+    <TargetFrameworks>netstandard1.1</TargetFrameworks>
     <NoWarn>1998</NoWarn>
     <Summary>An easy to use middle tier micro-framework for .NET and .NET Core</Summary>
     <Description>Peasy is a middle tier micro-framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</Description>
@@ -10,10 +10,15 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>Peasy</AssemblyName>
     <PackageId>Peasy</PackageId>
-    <PackageIconUrl>https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?raw=1</PackageIconUrl>
     <PackageProjectUrl>https://github.com/ahanusa/Peasy.NET</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageIconUrl>https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?raw=1</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <LangVersion>latest</LangVersion>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\LICENSE.txt" Pack="true" PackagePath="LICENSE.txt"/>
+    <None Include="..\..\..\icon.png" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.4.1" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
