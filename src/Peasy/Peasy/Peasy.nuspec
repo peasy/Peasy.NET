@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Peasy</id>
-    <version>4.2.0</version>
+    <version>5.0.0</version>
     <title>Peasy</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
@@ -11,13 +11,18 @@
     <iconUrl>https://www.dropbox.com/s/2yajr2x9yevvzbm/peasy3.png?raw=1</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Peasy is a middle tier micro-framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</description>
-    <releaseNotes>Introduce IRulesContainer interface that allows probing of rule successors</releaseNotes>
-    <copyright>Copyright 2018</copyright>
+    <releaseNotes>
+      - Repurpose IRulesContainer exposing GetRules/Async()
+      - Introduce IRulesSuccessorContainer and implement in RuleBase, exposing GetSuccessors()
+      - Breaking Change: Remove IRulesContainer from RuleBase in favor of IRulesSuccessorContainer
+      - Introduce IRuleSuccessor and consume from IRulesSuccessorContainer
+    </releaseNotes>
+    <copyright>Copyright 2021</copyright>
     <tags>Middle, Tier, Framework, Business, Logic, Layer</tags>
     <summary>An easy to use middle tier framework for .NET and .NET Core</summary>
     <!-- Insert within the <metadata> element -->
     <dependencies>
-      <dependency id="System.ComponentModel.Annotations" version="4.3.0" />
+      <dependency id="System.ComponentModel.Annotations" version="4.4.1" />
     </dependencies>
   </metadata>
   <files>
