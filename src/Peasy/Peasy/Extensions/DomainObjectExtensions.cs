@@ -17,13 +17,9 @@ namespace Peasy.Extensions
         public static string ClassName<T>(this T domainObject)
         {
             var type = domainObject.GetType().GetTypeInfo();
-            var displayAttribute = type.GetCustomAttributes(true)
-                                       .FirstOrDefault(a => a is PeasyDisplayNameAttribute) as PeasyDisplayNameAttribute;
 
-            if (displayAttribute != null)
-                return displayAttribute.DisplayName;
-
-            return type.Name;
+            return type.GetCustomAttributes(true)
+                .FirstOrDefault(a => a is PeasyDisplayNameAttribute) is PeasyDisplayNameAttribute displayAttribute ? displayAttribute.DisplayName : type.Name;
         }
 
         /// <summary>
@@ -37,10 +33,9 @@ namespace Peasy.Extensions
 
             foreach (var property in foreignKeyProperties)
             {
-                var id = 0;
                 if (property.GetValue(domainObject) != null)
                 {
-                    if (int.TryParse(property.GetValue(domainObject).ToString(), out id))
+                    if (int.TryParse(property.GetValue(domainObject).ToString(), out var id))
                     {
                         if (id == 0)
                             property.SetValue(domainObject, null);
@@ -62,7 +57,8 @@ namespace Peasy.Extensions
                 property.SetValue(changedObject, originalValue);
 
 #if DEBUG
-                Debug.WriteLine(string.Format("REVERTED NON-EDITABLE PROPERTY {0}.{1} FROM {2} TO {3}", changedObject.ClassName(), property.Name, changedValue, originalValue));
+                Debug.WriteLine(
+                    $"REVERTED NON-EDITABLE PROPERTY {changedObject.ClassName()}.{property.Name} FROM {changedValue} TO {originalValue}");
 #endif
             }
         }

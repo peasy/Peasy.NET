@@ -80,7 +80,7 @@ namespace Peasy
         /// <summary>
         /// Returns validation results as a result of rule executions
         /// </summary>
-        protected async virtual Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
             var errors = await OnGetRulesAsync();
             return await errors.GetValidationResultsAsync();
@@ -260,7 +260,7 @@ namespace Peasy
         /// <summary>
         /// Returns validation results as a result of rule executions
         /// </summary>
-        protected async virtual Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
             var errors = await OnGetRulesAsync();
             return await errors.GetValidationResultsAsync();

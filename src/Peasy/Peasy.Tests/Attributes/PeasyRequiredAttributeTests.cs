@@ -48,7 +48,7 @@ namespace Peasy.Tests.Attributes
 
             Should.Throw<ValidationException>(() => attr.Validate(0, context));
         }
-        
+
         [Fact]
         public void Throws_Exception_When_Value_Is_Guid_And_Contains_Guid_Empty()
         {
@@ -64,8 +64,7 @@ namespace Peasy.Tests.Attributes
         {
             var attr = new PeasyRequiredAttribute();
             var foo = new Stub<int>();
-            var context = new ValidationContext(foo);
-            context.MemberName = "Value";
+            var context = new ValidationContext(foo) {MemberName = "Value"};
             var result = attr.GetValidationResult(0, context);
             result.ErrorMessage.ShouldBe("The Value field is required.");
         }
@@ -75,8 +74,7 @@ namespace Peasy.Tests.Attributes
         {
             var attr = new PeasyRequiredAttribute();
             var foo = new StubWithDisplayAttribute<int>();
-            var context = new ValidationContext(foo);
-            context.MemberName = "Value";
+            var context = new ValidationContext(foo) {MemberName = "Value"};
             var result = attr.GetValidationResult(0, context);
             result.ErrorMessage.ShouldBe("The ID field is required.");
         }
