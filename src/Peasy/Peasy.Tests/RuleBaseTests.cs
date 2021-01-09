@@ -597,6 +597,7 @@ namespace Peasy.Core.Tests
             secondSuccessor.Rules.First().ShouldBeOfType<TrueRule>();
             secondSuccessor.Rules.First().GetSuccessors().Count().ShouldBe(1);
             secondSuccessor.Rules.First().GetSuccessors().First().Rules.First().ShouldBeOfType<FalseRule1>();
+            secondSuccessor.Rules.Second().ShouldBeOfType<FalseRule3>();
         }
     }
 
