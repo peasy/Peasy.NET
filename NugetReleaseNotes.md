@@ -11,7 +11,7 @@ From Peasy Project Dir:
 
 From Testing Project Dir (consuming client dir):
 
-`dotnet add package peasy --source=/PathToLocalPeasyProject/bin/Release/Peasy.VERSION_NUMBER.nupkg`
+`dotnet add package peasy --source=/PathToLocalPeasyProject/bin/Release`
 
 # Deploying Package
 

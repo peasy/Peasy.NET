@@ -117,11 +117,11 @@ namespace Peasy
         /// <summary>
         /// Called when the <see cref="M:Peasy.Rules.RuleBase.Validate()"/> method is called.
         /// </summary>
-        /// <returns>
-        /// <c>True</c> if validation succeeded; otherwise <c>false</c>.
-        /// </returns>
         protected virtual void OnValidate() {}
 
+        /// <summary>
+        /// Called when the <see cref="M:Peasy.Rules.RuleBase.ValidateAsync()"/> method is called.
+        /// </summary>
         protected virtual Task OnValidateAsync()
         {
             OnValidate();
@@ -142,6 +142,7 @@ namespace Peasy
         /// Invalidates the rule
         /// </summary>
         /// <param name="errorMessage">The error message to associate with the broken rule</param>
+        /// <param name="association">Sets the <see cref="Association"/> value></param>
         protected virtual void Invalidate(string errorMessage, string association)
         {
             Association = association;

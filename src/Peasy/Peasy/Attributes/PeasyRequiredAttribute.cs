@@ -8,6 +8,7 @@ namespace Peasy.Attributes
     /// </summary>
     public class PeasyRequiredAttribute : ValidationAttribute
     {
+        /// <inheritdoc />
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var errorMessage = $"The {validationContext.DisplayName} field is required.";

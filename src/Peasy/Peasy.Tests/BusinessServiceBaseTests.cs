@@ -1,8 +1,8 @@
-﻿using Peasy.Exception;
+﻿using Peasy.Core.Tests;
+using Peasy.Exception;
 using Shouldly;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -256,18 +256,5 @@ namespace Peasy.Tests
             UpdateAsyncWasInvoked = true;
             return new Person { Name = entity.Name };
         }
-    }
-
-    public class Person : IDomainObject<long>, IVersionContainer
-    {
-        public long ID { get; set; }
-
-        public string Version { get; set; }
-
-        [Editable(false)]
-        public string Name { get; set; }
-
-        [PeasyForeignKey]
-        public int? ForeignKeyID { get; set; }
     }
 }

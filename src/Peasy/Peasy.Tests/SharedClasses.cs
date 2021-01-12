@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Peasy.Attributes;
 
 namespace Peasy.Core.Tests
 {
@@ -89,7 +90,7 @@ namespace Peasy.Core.Tests
         }
     }
 
-    public class Person : IDomainObject<long>
+    public class Person : IDomainObject<long>, IVersionContainer
     {
         [Range(0, 50)]
         public long ID { get; set; }
@@ -97,5 +98,12 @@ namespace Peasy.Core.Tests
         public string First { get; set; }
         [MaxLength(30)]
         public string Last { get; set; }
+        public string Version { get; set; }
+
+        [Editable(false)]
+        public string Name { get; set; }
+
+        [PeasyForeignKey]
+        public int? ForeignKeyID { get; set; }
     }
 }

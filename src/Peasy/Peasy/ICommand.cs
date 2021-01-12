@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace Peasy
 {
+    /// <summary>
+    /// </summary>
     public interface IValidationErrorsContainer
     {
         /// <summary>
@@ -17,6 +19,8 @@ namespace Peasy
         Task<IEnumerable<ValidationResult>> GetErrorsAsync();
     }
 
+    /// <summary>
+    /// </summary>
     public interface ICommand : IValidationErrorsContainer
     {
         /// <summary>
@@ -30,6 +34,8 @@ namespace Peasy
         Task<ExecutionResult> ExecuteAsync();
     }
 
+    /// <summary>
+    /// </summary>
     public interface ICommand<T> : IValidationErrorsContainer
     {
         /// <summary>

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
-namespace Peasy.Extensions
+namespace Peasy.Tests.Extensions
 {
     public static class IntExtensions
     {
@@ -29,5 +29,4 @@ namespace Peasy.Extensions
             }
         }
     }
-
 }

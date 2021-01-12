@@ -5,11 +5,64 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
+using Peasy.Core.Tests;
 
 namespace Peasy.Tests.Extensions
 {
     public class DomainObjectExtensionsTests
     {
+        [Fact]
+        public void GetValidationErrors_returns_no_results()
+        {
+            var person = new Person
+            {
+                ID = 0,
+                First = "Skip",
+                Last = "Jones"
+            };
+            var results = person.GetValidationErrors();
+            results.Count().ShouldBe(0);
+        }
+
+        [Fact]
+        public void GetValidationErrors_returns_one_result()
+        {
+            var person = new Person
+            {
+                ID = -1,
+                First = "Skip",
+                Last = "Jones"
+            };
+            var results = person.GetValidationErrors();
+            results.Count().ShouldBe(1);
+        }
+
+        [Fact]
+        public void GetValidationErrors_returns_two_results()
+        {
+            var person = new Person
+            {
+                ID = -1,
+                First = "AnExtremelyLongFirstName",
+                Last = "Jones"
+            };
+            var results = person.GetValidationErrors();
+            results.Count().ShouldBe(2);
+        }
+
+        [Fact]
+        public void GetValidationErrors_returns_three_results()
+        {
+            var person = new Person
+            {
+                ID = -1,
+                First = "AnExtremelyLongFirstName",
+                Last = "AnExtremelyLongLastNameAnExtremelyLongLastName"
+            };
+            var results = person.GetValidationErrors();
+            results.Count().ShouldBe(3);
+        }
+
         [Fact]
         public void ClassName_Should_Return_Class_Name_Without_Peasy_DisplayNameAttribute()
         {

@@ -2,6 +2,8 @@
 
 namespace Peasy
 {
+    /// <summary>
+    /// </summary>
     public interface IRule
     {
         /// <summary>

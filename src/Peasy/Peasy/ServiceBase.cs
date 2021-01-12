@@ -2,28 +2,44 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Peasy.Extensions;
 
 namespace Peasy
 {
     /// <summary>
     /// Base class of all business services
     /// </summary>
+    /// <typeparam name="T">Any type that implements <see cref="IDomainObject"/>.</typeparam>
+    /// <typeparam name="TKey">Any type.</typeparam>
+    /// <typeparam></typeparam>
     public abstract class ServiceBase<T, TKey> : IService<T, TKey> where T : IDomainObject<TKey>, new()
     {
+        /// <summary>
+        /// Represents the data abstraction that
+        /// </summary>
         protected readonly IDataProxy<T, TKey> _dataProxy;
 
+        /// <summary>
+        /// Represents the data abstraction that
+        /// </summary>
         protected IDataProxy<T, TKey> DataProxy => _dataProxy;
 
+        /// <summary>
+        /// Represents the data abstraction that
+        /// </summary>
         public ServiceBase(IDataProxy<T, TKey> dataProxy)
         {
             _dataProxy = dataProxy;
         }
 
         /// <summary>
-        /// Override this method to perform initialization logic before rule validations for GetByIDCommand.Execute are performed
+        /// The first method invoked within the execution pipleline of the command returned by <see cref="GetByIDCommand"/>
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="context"></param>
+        /// <remarks>
+        /// Override this method to perform initialization logic before rule validations for GetByIDCommand.Execute are performed
+        /// </remarks>
+        /// <param name="id">The id of the resource to retrieve.</param>
+        /// <param name="context">A shared state bag available to all methods within the execution of the command pipeline</param>
         protected virtual void OnGetByIDCommandInitialization(TKey id, ExecutionContext<T> context)
         {
         }
@@ -60,9 +76,9 @@ namespace Peasy
         /// <summary>
         /// Override this method to perform initialization logic before rule validations for InsertCommand.Execute are performed
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="resource"></param>
         /// <param name="context"></param>
-        protected virtual void OnInsertCommandInitialization(T entity, ExecutionContext<T> context)
+        protected virtual void OnInsertCommandInitialization(T resource, ExecutionContext<T> context)
         {
         }
 
@@ -118,6 +134,31 @@ namespace Peasy
         }
 
         /// <summary>
+        /// The second method that executes in the command pipeline returned by <see cref="GetByIDCommand"/>, whose successful execution will determine whether to continue or not. 
+        /// </summary>
+        /// <remarks>
+        /// Override this method to perform initialization logic before rule validations for GetByIDCommand.Execute are performed
+        /// </remarks>
+        /// <param name="id">The id of the resource.</param>
+        /// <param name="context">A shared state bag passed through the execution of the command pipeline</param>
+        /// <summary>
+        /// Override this method to supply custom business rules to GetByIDCommand.Execute()
+        /// </summary>
+        /// <returns>A list of rules</returns>
+        protected virtual IEnumerable<IRule> GetBusinessRulesForGetByID(TKey id, ExecutionContext<T> context)
+        {
+            return Enumerable.Empty<IRule>();
+        }
+
+        /// <summary>
+        /// Override this method to supply custom business rules to GetByIDCommand.ExecuteAsync()
+        /// </summary>
+        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForGetByIDAsync(TKey id, ExecutionContext<T> context)
+        {
+            return Task.FromResult(Enumerable.Empty<IRule>());
+        }
+
+        /// <summary>
         /// Override this method to supply custom business rules to GetAllCommand.Execute()
         /// </summary>
         protected virtual IEnumerable<IRule> GetBusinessRulesForGetAll(ExecutionContext<T> context)
@@ -129,22 +170,6 @@ namespace Peasy
         /// Override this method to supply custom business rules to GetByIDCommand.ExecuteAsync()
         /// </summary>
         protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForGetAllAsync(ExecutionContext<T> context)
-        {
-            return Task.FromResult(Enumerable.Empty<IRule>());
-        }
-
-        /// <summary>
-        /// Override this method to supply custom business rules to GetByIDCommand.Execute()
-        /// </summary>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForGetByID(TKey id, ExecutionContext<T> context)
-        {
-            return Enumerable.Empty<IRule>();
-        }
-
-        /// <summary>
-        /// Override this method to supply custom business rules to GetByIDCommand.ExecuteAsync()
-        /// </summary>
-        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForGetByIDAsync(TKey id, ExecutionContext<T> context)
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
@@ -190,79 +215,162 @@ namespace Peasy
         }
 
         /// <summary>
-        /// Override this method to supply custom business rules to DeleteCommand.ExecuteAsync()
+        /// Builds validation results from the supplied list of IRule
         /// </summary>
+        /// <remarks>
+        /// Override this method to supply custom business rules to DeleteCommand.ExecuteAsync()
+        /// </remarks>
         protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForDeleteAsync(TKey id, ExecutionContext<T> context)
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>
-        /// Builds validation results from the supplied list of IRule
+        /// The third and final method that executes in the command pipeline returned by <see cref="GetByIDCommand"/>, only executes upon successful validation of rules
         /// </summary>
-        /// <param name="businessRules"></param>
-        /// <returns></returns>
-        protected virtual IEnumerable<ValidationResult> GetValidationResults(IEnumerable<IRule> businessRules)
+        /// <remarks>
+        /// Override this method to perform initialization logic before rule validations for GetByIDCommand.Execute are performed
+        /// </remarks>
+        /// <summary>
+        /// Invoked by GetByIDCommand() if validation and business rules execute successfully
+        /// </summary>
+        protected virtual T GetByID(TKey id, ExecutionContext<T> context)
         {
-            var entityName = typeof(T).Name;
-            return businessRules.GetValidationResults(entityName);
+            return _dataProxy.GetByID(id);
         }
 
         /// <summary>
-        /// Supplies validation results to GetAllCommand()
+        /// Invoked by GetByIDCommand() if validation and business rules execute successfully
         /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetAll(ExecutionContext<T> context)
+        protected virtual async Task<T> GetByIDAsync(TKey id, ExecutionContext<T> context)
         {
-            yield break;
+            return await _dataProxy.GetByIDAsync(id);
         }
 
         /// <summary>
-        /// Supplies validation results to GetByIDCommand()
+        /// Invoked by GetAllCommand() if validation and business rules execute successfully
         /// </summary>
+        protected virtual IEnumerable<T> GetAll(ExecutionContext<T> context)
+        {
+            return _dataProxy.GetAll();
+        }
+
+        /// <summary>
+        /// Invoked by GetAllCommand() if validation and business rules execute successfully
+        /// </summary>
+        protected virtual async Task<IEnumerable<T>> GetAllAsync(ExecutionContext<T> context)
+        {
+            return await _dataProxy.GetAllAsync();
+        }
+
+        /// <summary>
+        /// Invoked by InsertCommand() if validation and business rules execute successfully
+        /// </summary>
+        protected virtual T Insert(T entity, ExecutionContext<T> context)
+        {
+            return _dataProxy.Insert(entity);
+        }
+
+        /// <summary>
+        /// Invoked by InsertCommand() if validation and business rules execute successfully
+        /// </summary>
+        protected virtual async Task<T> InsertAsync(T entity, ExecutionContext<T> context)
+        {
+            return await _dataProxy.InsertAsync(entity);
+        }
+
+        /// <summary>
+        /// Invoked by UpdateCommand() if validation and business rules execute successfully
+        /// </summary>
+        protected virtual T Update(T entity, ExecutionContext<T> context)
+        {
+            return _dataProxy.Update(entity);
+        }
+
+        /// <summary>
+        /// Invoked by UpdateCommand() if validation and business rules execute successfully
+        /// </summary>
+        protected virtual async Task<T> UpdateAsync(T entity, ExecutionContext<T> context)
+        {
+            return await _dataProxy.UpdateAsync(entity);
+        }
+
+        /// <summary>
+        /// Invoked by DeleteCommand() if validation and business rules execute successfully
+        /// </summary>
+        protected virtual void Delete(TKey id, ExecutionContext<T> context)
+        {
+            _dataProxy.Delete(id);
+        }
+
+        /// <summary>
+        /// Invoked by DeleteCommand() if validation and business rules execute successfully
+        /// </summary>
+        protected virtual Task DeleteAsync(TKey id, ExecutionContext<T> context)
+        {
+            return _dataProxy.DeleteAsync(id);
+        }
+
+        /// <summary>
+        /// Invoked by <see cref="GetAllErrorsForGetByID" /> and <see cref="GetAllErrorsForGetByIDAsync" />, generates a potential list of <see cref="ValidationResult"/> based on the supplied resource id.
+        /// </summary>
+        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</remarks>
+        /// <param name="id">The id of the resource to retrieve.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/></returns>
         protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetByID(TKey id, ExecutionContext<T> context)
         {
             yield break;
         }
 
         /// <summary>
-        /// Supplies validation results to InsertCommand()
+        /// Invoked by <see cref="GetAllErrorsForGetByID" /> and <see cref="GetAllErrorsForGetByIDAsync" />, generates a potential list of <see cref="ValidationResult"/> based on the supplied resource id.
         /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForInsert(T entity, ExecutionContext<T> context)
-        {
-            return entity.GetValidationErrors();
-        }
-
-        /// <summary>
-        /// Supplies validation results to UpdateCommand()
-        /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForUpdate(T entity, ExecutionContext<T> context)
-        {
-            return entity.GetValidationErrors();
-        }
-
-        /// <summary>
-        /// Supplies validation results to DeleteCommand()
-        /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id, ExecutionContext<T> context)
+        /// <remarks>
+        /// Invoked by <see cref="GetAllErrorsForGetAll" /> and <see cref="GetAllErrorsForGetAllAsync" />, generates a potential list of <see cref="ValidationResult"/>.
+        /// Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
+        /// </remarks>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/></returns>
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForGetAll(ExecutionContext<T> context)
         {
             yield break;
         }
 
         /// <summary>
-        /// Override this method to manipulate error construction.  Ie, you may want to verify that no validation errors exist before invoking potentially expensive business rules method
+        /// Invoked by <see cref="GetAllErrorsForInsert" /> and <see cref="GetAllErrorsForGetByIDAsync" />, generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
-        protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetAll(ExecutionContext<T> context)
+        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</remarks>
+        /// <param name="resource">The resource to insert.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/></returns>
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForInsert(T resource, ExecutionContext<T> context)
         {
-            return GetValidationResultsForGetAll(context).Concat(GetBusinessRulesForGetAll(context).GetValidationResults());
+            return resource.GetValidationErrors();
         }
 
         /// <summary>
-        /// Override this method to manipulate error construction.  Ie, you may want to verify that no validation errors exist before invoking potentially expensive business rules method
+        /// Invoked by <see cref="GetAllErrorsForUpdate" /> and <see cref="GetAllErrorsForUpdateAsync" />, generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
-        protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForGetAllAsync(ExecutionContext<T> context)
+        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</remarks>
+        /// <param name="resource">The resource to insert.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/></returns>
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForUpdate(T resource, ExecutionContext<T> context)
         {
-            var rules = await GetBusinessRulesForGetAllAsync(context);
-            return GetValidationResultsForGetAll(context).Concat(await rules.GetValidationResultsAsync());
+            return resource.GetValidationErrors();
+        }
+
+        /// <summary>
+        /// Invoked by <see cref="GetAllErrorsForDelete" /> and <see cref="GetAllErrorsForDeleteAsync" />, generates a potential list of <see cref="ValidationResult"/> based on the supplied resource id.
+        /// </summary>
+        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</remarks>
+        /// <param name="id">The id of the resource to delete.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/></returns>
+        protected virtual IEnumerable<ValidationResult> GetValidationResultsForDelete(TKey id, ExecutionContext<T> context)
+        {
+            yield break;
         }
 
         /// <summary>
@@ -280,6 +388,32 @@ namespace Peasy
         {
             var rules = await GetBusinessRulesForGetByIDAsync(id, context);
             return GetValidationResultsForGetByID(id, context).Concat(await rules.GetValidationResultsAsync());
+        }
+
+        /// <summary>
+        /// This method is invoked by the command returned by <see cref="GetAllCommand"/>.
+        /// </summary>
+        /// <remarks>
+        /// Override this method to manipulate error construction.  Example: You might want to verify that no validation errors exist before invoking potentially expensive business rules method.
+        /// </remarks>
+        /// <summary>
+        /// Invoked by <see cref="GetAllErrorsForGetAll" /> and <see cref="GetAllErrorsForGetAllAsync" />, generates a potential list of <see cref="ValidationResult"/>.
+        /// </summary>
+        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</remarks>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/></returns>
+        protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetAll(ExecutionContext<T> context)
+        {
+            return GetValidationResultsForGetAll(context).Concat(GetBusinessRulesForGetAll(context).GetValidationResults());
+        }
+
+        /// <summary>
+        /// Override this method to manipulate error construction.  Ie, you may want to verify that no validation errors exist before invoking potentially expensive business rules method
+        /// </summary>
+        protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForGetAllAsync(ExecutionContext<T> context)
+        {
+            var rules = await GetBusinessRulesForGetAllAsync(context);
+            return GetValidationResultsForGetAll(context).Concat(await rules.GetValidationResultsAsync());
         }
 
         /// <summary>
@@ -425,84 +559,5 @@ namespace Peasy
             );
         }
 
-        /// <summary>
-        /// Invoked by GetAllCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual IEnumerable<T> GetAll(ExecutionContext<T> context)
-        {
-            return _dataProxy.GetAll();
-        }
-
-        /// <summary>
-        /// Invoked by GetByIDCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual T GetByID(TKey id, ExecutionContext<T> context)
-        {
-            return _dataProxy.GetByID(id);
-        }
-
-        /// <summary>
-        /// Invoked by InsertCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual T Insert(T entity, ExecutionContext<T> context)
-        {
-            return _dataProxy.Insert(entity);
-        }
-
-        /// <summary>
-        /// Invoked by UpdateCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual T Update(T entity, ExecutionContext<T> context)
-        {
-            return _dataProxy.Update(entity);
-        }
-
-        /// <summary>
-        /// Invoked by DeleteCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual void Delete(TKey id, ExecutionContext<T> context)
-        {
-            _dataProxy.Delete(id);
-        }
-
-        /// <summary>
-        /// Invoked by GetAllCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual async Task<IEnumerable<T>> GetAllAsync(ExecutionContext<T> context)
-        {
-            return await _dataProxy.GetAllAsync();
-        }
-
-        /// <summary>
-        /// Invoked by GetByIDCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual async Task<T> GetByIDAsync(TKey id, ExecutionContext<T> context)
-        {
-            return await _dataProxy.GetByIDAsync(id);
-        }
-
-        /// <summary>
-        /// Invoked by InsertCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual async Task<T> InsertAsync(T entity, ExecutionContext<T> context)
-        {
-            return await _dataProxy.InsertAsync(entity);
-        }
-
-        /// <summary>
-        /// Invoked by UpdateCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual async Task<T> UpdateAsync(T entity, ExecutionContext<T> context)
-        {
-            return await _dataProxy.UpdateAsync(entity);
-        }
-
-        /// <summary>
-        /// Invoked by DeleteCommand() if validation and business rules execute successfully
-        /// </summary>
-        protected virtual Task DeleteAsync(TKey id, ExecutionContext<T> context)
-        {
-            return _dataProxy.DeleteAsync(id);
-        }
     }
 }

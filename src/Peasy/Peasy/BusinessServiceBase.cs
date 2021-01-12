@@ -12,6 +12,8 @@ namespace Peasy
     /// </summary>
     public abstract class BusinessServiceBase<T, TKey> : ServiceBase<T, TKey> where T : IDomainObject<TKey>, new()
     {
+        /// <summary>
+        /// </summary>
         protected BusinessServiceBase(IServiceDataProxy<T, TKey> dataProxy) : base(dataProxy)
         {
         }
@@ -94,10 +96,16 @@ namespace Peasy
             return await _dataProxy.UpdateAsync(entity);
         }
 
+        /// <summary>
+        /// </summary>
         public bool SupportsTransactions => (_dataProxy as IServiceDataProxy<T, TKey>).SupportsTransactions;
 
+        /// <summary>
+        /// </summary>
         public bool IsLatencyProne => (_dataProxy as IServiceDataProxy<T, TKey>).IsLatencyProne;
 
+        /// <summary>
+        /// </summary>
         protected string BuildNotFoundError(TKey id)
         {
             var message = $"{new T().ClassName()} ID {id.ToString()} could not be found.";

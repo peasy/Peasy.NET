@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
+using Peasy.Core.Tests;
 
 namespace Peasy.Tests.Rules
 {

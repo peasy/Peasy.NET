@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 namespace Peasy
 {
+    /// <summary>
+    /// </summary>
     public interface IRulesContainer
     {
         /// <summary>

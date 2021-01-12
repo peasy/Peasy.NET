@@ -9,11 +9,34 @@ using System.Reflection;
 
 namespace Peasy.Extensions
 {
+    /// <summary>
+    /// An extensions class used to perform common tasks against domain objects.
+    /// </summary>
     public static class DomainObjectExtensions
     {
         private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedNonEditableProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
         private static ConcurrentDictionary<Type, PropertyInfo[]> _cachedForeignKeyProperties = new ConcurrentDictionary<Type, PropertyInfo[]>();
 
+        /// <summary>
+        /// Performs validation against a supplied object marked with attributes from the <see cref="System.ComponentModel"/> namespace.
+        /// </summary>
+        /// <typeparam name="T">Any type that inherits <see cref="System.Object"/>.</typeparam>
+        /// <param name="domainObject">The object to perform validation against.</param>
+        /// <returns>An enumerable source of <see cref="ValidationResult"/>.</returns>
+        public static IEnumerable<ValidationResult> GetValidationErrors<T>(this T domainObject) where T : new()
+        {
+            var validationResults = new List<ValidationResult>();
+            var context = new ValidationContext(domainObject);
+            Validator.TryValidateObject(domainObject, context, validationResults, true);
+            return validationResults;
+        }
+
+        /// <summary>
+        /// Returns the name of the supplied type or the value specified by <see cref="Peasy.Attributes.PeasyDisplayNameAttribute"/>if applied to the type.
+        /// </summary>
+        /// <typeparam name="T">Any type that inherits <see cref="System.Object"/></typeparam>
+        /// <param name="domainObject">The object to retrieve the class name from</param>
+        /// <returns>A friendly name describing the type</returns>
         public static string ClassName<T>(this T domainObject)
         {
             var type = domainObject.GetType().GetTypeInfo();
@@ -23,10 +46,10 @@ namespace Peasy.Extensions
         }
 
         /// <summary>
-        /// Changes property values from 0 to NULL for any Nullable<int> property marked with the PeasyForeignKeyAttribute
+        /// Changes property values from 0 to NULL for any <see cref="System.Nullable"/>(<see cref="System.Int32"/>) property marked with the <see cref="PeasyForeignKeyAttribute"/>
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="domainObject"></param>
+        /// <typeparam name="T">Any type that inherits <see cref="System.Object"/></typeparam>
+        /// <param name="domainObject">The object to perform the null operations against</param>
         public static void RevertForeignKeysFromZeroToNull<T>(this T domainObject)
         {
             var foreignKeyProperties = domainObject.GetCachedForeignKeyProperties();
@@ -44,6 +67,12 @@ namespace Peasy.Extensions
             }
         }
 
+        /// <summary>
+        /// Sets any property to the original value when it is marked with the <see cref="EditableAttribute"/> set to false.
+        /// </summary>
+        /// <typeparam name="T">Any type that inherits <see cref="System.Object"/></typeparam>
+        /// <param name="changedObject">The object to perform the revert operations against</param>
+        /// <param name="originalObject">The object to perform the revert operations from</param>
         public static void RevertNonEditableValues<T>(this T changedObject, T originalObject)
         {
             var nonEditableProperties = changedObject.GetCachedNonEditableProperties();
@@ -69,10 +98,7 @@ namespace Peasy.Extensions
             if (!_cachedForeignKeyProperties.ContainsKey(type))
             {
                 var foreignKeyProps = type.GetRuntimeProperties()
-                                          .Where(p => p.GetCustomAttributes(typeof(PeasyForeignKeyAttribute), true)
-                                                       .Any())
-                    // Enforce that only properties of type Nullable<int> marked with the PeasyForeignKey attribute are selected
-                                          //.Where(p => p.PropertyType.gener p.PropertyType.IsGenericType)
+                                          .Where(p => p.GetCustomAttributes(typeof(PeasyForeignKeyAttribute), true).Any())
                                           .Where(p => p.PropertyType == typeof(Nullable<int>));
 
                 _cachedForeignKeyProperties[type] = foreignKeyProps.ToArray();

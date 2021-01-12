@@ -8,7 +8,12 @@ namespace Peasy
     /// </summary>
     public class ExecutionResult
     {
+        /// <summary>
+        /// </summary>
         public bool Success { get; set; }
+
+        /// <summary>
+        /// </summary>
         public IEnumerable<ValidationResult> Errors { get; set; }
     }
 
@@ -17,6 +22,8 @@ namespace Peasy
     /// </summary>
     public class ExecutionResult<T> : ExecutionResult
     {
+        /// <summary>
+        /// </summary>
         public T Value { get; set; }
     }
 }
