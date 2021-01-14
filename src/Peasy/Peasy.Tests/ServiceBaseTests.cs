@@ -374,10 +374,10 @@ namespace Peasy.Core.Tests
             return base.OnUpdateCommandInitializationAsync(entity, context);
         }
 
-        protected override IEnumerable<ValidationResult> GetValidationResultsForUpdate(Person person, ExecutionContext<Person> context)
+        protected override IEnumerable<ValidationResult> GetValidationResultsForUpdate(Person resource, ExecutionContext<Person> context)
         {
             GetValidationResultsForUpdateWasInvoked = true;
-            return base.GetValidationResultsForUpdate(person, context);
+            return base.GetValidationResultsForUpdate(resource, context);
         }
 
         protected override IEnumerable<IRule> GetBusinessRulesForUpdate(Person person, ExecutionContext<Person> context)
