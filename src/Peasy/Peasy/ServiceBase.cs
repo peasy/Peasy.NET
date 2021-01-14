@@ -333,8 +333,8 @@ namespace Peasy
         /// </summary>
         /// <remarks>
         /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="GetByIDCommand"/>, triggered by <see cref="Command.Execute"/>.</para>
-        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
         /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
@@ -345,71 +345,142 @@ namespace Peasy
         }
 
         /// <summary>
+        /// Performs additional business logic and data proxy interaction.
         /// </summary>
+        /// <remarks>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="GetByIDCommand"/>, triggered by <see cref="Command.ExecuteAsync"/>.</para>
+        /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
+        /// </remarks>
+        /// <param name="id">The id of the resource to retrieve.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
+        /// <returns>An awaitable resource returned from <see cref="Peasy.ISupportGetByIDAsync{T, TKey}.GetByIDAsync"/> of <see cref="DataProxy"/>.</returns>
         protected virtual async Task<T> GetByIDAsync(TKey id, ExecutionContext<T> context)
         {
             return await _dataProxy.GetByIDAsync(id);
         }
 
         /// <summary>
-        /// Invoked by GetAllCommand() if validation and business rules execute successfully
+        /// Performs additional business logic and data proxy interaction.
         /// </summary>
+        /// <remarks>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="GetAllCommand"/>, triggered by <see cref="Command.Execute"/>.</para>
+        /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
+        /// </remarks>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
+        /// <returns>A resource list returned from <see cref="Peasy.ISupportGetAll{T}.GetAll"/> of <see cref="DataProxy"/>.</returns>
         protected virtual IEnumerable<T> GetAll(ExecutionContext<T> context)
         {
             return _dataProxy.GetAll();
         }
 
         /// <summary>
-        /// Invoked by GetAllCommand() if validation and business rules execute successfully
+        /// Performs additional business logic and data proxy interaction.
         /// </summary>
+        /// <remarks>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="GetAllCommand"/>, triggered by <see cref="Command.ExecuteAsync"/>.</para>
+        /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
+        /// </remarks>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
+        /// <returns>An awaitable resource list returned from <see cref="Peasy.ISupportGetAllAsync{T}.GetAllAsync"/> of <see cref="DataProxy"/>.</returns>
         protected virtual async Task<IEnumerable<T>> GetAllAsync(ExecutionContext<T> context)
         {
             return await _dataProxy.GetAllAsync();
         }
 
         /// <summary>
-        /// Invoked by InsertCommand() if validation and business rules execute successfully
+        /// Performs additional business logic and data proxy interaction.
         /// </summary>
-        protected virtual T Insert(T entity, ExecutionContext<T> context)
+        /// <remarks>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="InsertCommand"/>, triggered by <see cref="Command.Execute"/>.</para>
+        /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
+        /// </remarks>
+        /// <param name="resource">The resource to insert.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
+        /// <returns>A new resource resulting from a call to <see cref="Peasy.ISupportInsert{T}.Insert"/> of <see cref="DataProxy"/>.</returns>
+        protected virtual T Insert(T resource, ExecutionContext<T> context)
         {
-            return _dataProxy.Insert(entity);
+            return _dataProxy.Insert(resource);
         }
 
         /// <summary>
-        /// Invoked by InsertCommand() if validation and business rules execute successfully
+        /// Performs additional business logic and data proxy interaction.
         /// </summary>
-        protected virtual async Task<T> InsertAsync(T entity, ExecutionContext<T> context)
+        /// <remarks>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="InsertCommand"/>, triggered by <see cref="Command.ExecuteAsync"/>.</para>
+        /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
+        /// </remarks>
+        /// <param name="resource">The resource to insert.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
+        /// <returns>An awaitable new resource resulting from a call to <see cref="Peasy.ISupportInsertAsync{T}.InsertAsync"/> of <see cref="DataProxy"/>.</returns>
+        protected virtual async Task<T> InsertAsync(T resource, ExecutionContext<T> context)
         {
-            return await _dataProxy.InsertAsync(entity);
+            return await _dataProxy.InsertAsync(resource);
         }
 
         /// <summary>
-        /// Invoked by UpdateCommand() if validation and business rules execute successfully
+        /// Performs additional business logic and data proxy interaction.
         /// </summary>
-        protected virtual T Update(T entity, ExecutionContext<T> context)
+        /// <remarks>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="UpdateCommand"/>, triggered by <see cref="Command.Execute"/>.</para>
+        /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
+        /// </remarks>
+        /// <param name="resource">The resource to update.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
+        /// <returns>A new resource resulting from a call to <see cref="Peasy.ISupportUpdate{T}.Update"/> of <see cref="DataProxy"/>.</returns>
+        protected virtual T Update(T resource, ExecutionContext<T> context)
         {
-            return _dataProxy.Update(entity);
+            return _dataProxy.Update(resource);
         }
 
         /// <summary>
-        /// Invoked by UpdateCommand() if validation and business rules execute successfully
+        /// Performs additional business logic and data proxy interaction.
         /// </summary>
-        protected virtual async Task<T> UpdateAsync(T entity, ExecutionContext<T> context)
+        /// <remarks>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="UpdateCommand"/>, triggered by <see cref="Command.ExecuteAsync"/>.</para>
+        /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
+        /// </remarks>
+        /// <param name="resource">The resource to update.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
+        /// <returns>An awaitable new resource resulting from a call to <see cref="Peasy.ISupportUpdateAsync{T}.UpdateAsync"/> of <see cref="DataProxy"/>.</returns>
+        protected virtual async Task<T> UpdateAsync(T resource, ExecutionContext<T> context)
         {
-            return await _dataProxy.UpdateAsync(entity);
+            return await _dataProxy.UpdateAsync(resource);
         }
 
         /// <summary>
-        /// Invoked by DeleteCommand() if validation and business rules execute successfully
+        /// Performs additional business logic and data proxy interaction.
         /// </summary>
+        /// <remarks>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="DeleteCommand"/>, triggered by <see cref="Command.Execute"/>.</para>
+        /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
+        /// </remarks>
+        /// <param name="id">The id of the resource to delete.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
+        /// <returns><see cref="void" /> resulting from a call to <see cref="Peasy.ISupportDelete{T}.Delete"/> of <see cref="DataProxy"/>.</returns>
         protected virtual void Delete(TKey id, ExecutionContext<T> context)
         {
             _dataProxy.Delete(id);
         }
 
         /// <summary>
-        /// Invoked by DeleteCommand() if validation and business rules execute successfully
+        /// Performs additional business logic and data proxy interaction.
         /// </summary>
+        /// <remarks>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="DeleteCommand"/>, triggered by <see cref="Command.ExecuteAsync"/>.</para>
+        /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
+        /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
+        /// </remarks>
+        /// <param name="id">The id of the resource to delete.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
+        /// <returns>An awaitable <see cref="Task" /> resulting from a call to <see cref="Peasy.ISupportDeleteAsync{T}.DeleteAsync"/> of <see cref="DataProxy"/>.</returns>
         protected virtual Task DeleteAsync(TKey id, ExecutionContext<T> context)
         {
             return _dataProxy.DeleteAsync(id);
