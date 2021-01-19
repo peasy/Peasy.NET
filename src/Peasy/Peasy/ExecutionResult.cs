@@ -10,11 +10,11 @@ namespace Peasy
     {
         /// <summary>
         /// </summary>
-        public bool Success { get; set; }
+        public virtual bool Success { get; set; }
 
         /// <summary>
         /// </summary>
-        public IEnumerable<ValidationResult> Errors { get; set; }
+        public virtual IEnumerable<ValidationResult> Errors { get; set; }
     }
 
     /// <summary>
@@ -24,6 +24,6 @@ namespace Peasy
     {
         /// <summary>
         /// </summary>
-        public T Value { get; set; }
+        public virtual T Value { get; set; }
     }
 }
