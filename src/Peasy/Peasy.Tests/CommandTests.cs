@@ -14,63 +14,63 @@ namespace Peasy.Core.Tests
         [Fact]
         public void OnInitialization_Is_Invoked()
         {
-            var mock = new MockCommand();
-            var result = mock.Execute();
-            mock.OnInitializationWasInvoked.ShouldBe(true);
+            var stub = new CommandStub();
+            var result = stub.Execute();
+            stub.OnInitializationWasInvoked.ShouldBe(true);
         }
 
         [Fact]
         public void OnExecute_Is_Invoked_When_No_Errors_Exist()
         {
-            var mock = new MockCommand();
-            var result = mock.Execute();
-            mock.OnExecuteWasInvoked.ShouldBe(true);
+            var stub = new CommandStub();
+            var result = stub.Execute();
+            stub.OnExecuteWasInvoked.ShouldBe(true);
         }
 
         [Fact]
         public void ExecutionResult_Is_Successful_When_Validation_Is_Successful()
         {
-            var mock = new MockCommand();
-            var result = mock.Execute();
+            var stub = new CommandStub();
+            var result = stub.Execute();
             result.Success.ShouldBe(true);
         }
 
         [Fact]
         public void ExecutionResult_Should_Contain_No_Errors_When_Validation_Is_Successful()
         {
-            var mock = new MockCommand();
-            var result = mock.Execute();
+            var stub = new CommandStub();
+            var result = stub.Execute();
             result.Errors.ShouldBe(null);
         }
 
         [Fact]
         public void OnExecute_Is_Not_Invoked_When_Errors_Exist()
         {
-            var mock = new MockCommand {Errors = new[] {new ValidationResult("Object doesn't exist")}};
-            mock.Execute();
-            mock.OnExecuteWasInvoked.ShouldBe(false);
+            var stub = new CommandStub {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            stub.Execute();
+            stub.OnExecuteWasInvoked.ShouldBe(false);
         }
 
         [Fact]
         public void ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
         {
-            var mock = new MockCommand {Errors = new[] {new ValidationResult("Object doesn't exist")}};
-            var result = mock.Execute();
+            var stub = new CommandStub {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var result = stub.Execute();
             result.Success.ShouldBe(false);
         }
 
         [Fact]
         public void ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
         {
-            var mock = new MockCommand {Errors = new[] {new ValidationResult("Object doesn't exist")}};
-            var result = mock.Execute();
+            var stub = new CommandStub {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var result = stub.Execute();
             result.Errors.Count().ShouldBe(1);
         }
 
         [Fact]
         public void ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught()
         {
-            var command = new MockCommandThrowsErrorsOnExecute();
+            var command = new CommandStubThrowsErrorsOnExecute();
             var result = command.Execute();
             result.Errors.Count().ShouldBe(1);
         }
@@ -78,31 +78,31 @@ namespace Peasy.Core.Tests
         [Fact]
         public async Task OnInitializationAsync_Is_Invoked()
         {
-            var mock = new MockCommand();
-            await mock.ExecuteAsync();
-            mock.OnInitializationAsyncWasInvoked.ShouldBe(true);
+            var stub = new CommandStub();
+            await stub.ExecuteAsync();
+            stub.OnInitializationAsyncWasInvoked.ShouldBe(true);
         }
 
         [Fact]
         public async Task OnExecuteAsync_Is_Invoked_When_No_Errors_Exist()
         {
-            var mock = new MockCommand();
-            await mock.ExecuteAsync();
-            mock.OnExecuteAsyncWasInvoked.ShouldBe(true);
+            var stub = new CommandStub();
+            await stub.ExecuteAsync();
+            stub.OnExecuteAsyncWasInvoked.ShouldBe(true);
        }
 
         [Fact]
         public async Task OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
         {
-            var mock = new MockCommand {Errors = new[] {new ValidationResult("Object doesn't exist")}};
-            await mock.ExecuteAsync();
-            mock.OnExecuteAsyncWasInvoked.ShouldBe(false);
+            var stub = new CommandStub {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            await stub.ExecuteAsync();
+            stub.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }
 
         [Fact]
         public async Task ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught_Async()
         {
-            var command = new MockCommandThrowsErrorsOnExecute();
+            var command = new CommandStubThrowsErrorsOnExecute();
             var result = await command.ExecuteAsync();
             result.Errors.Count().ShouldBe(1);
         }
@@ -114,71 +114,71 @@ namespace Peasy.Core.Tests
         [Fact]
         public void Command_of_T_OnInitialization_Is_Invoked()
         {
-            var mock = new MockCommandOfString();
-            var result = mock.Execute();
-            mock.OnInitializationWasInvoked.ShouldBe(true);
+            var stub = new CommandStubOfString();
+            var result = stub.Execute();
+            stub.OnInitializationWasInvoked.ShouldBe(true);
         }
 
         [Fact]
         public void Command_of_T_OnExecute_Is_Invoked_When_No_Errors_Exist()
         {
-            var mock = new MockCommandOfString();
-            var result = mock.Execute();
-            mock.OnExecuteWasInvoked.ShouldBe(true);
+            var stub = new CommandStubOfString();
+            var result = stub.Execute();
+            stub.OnExecuteWasInvoked.ShouldBe(true);
         }
 
         [Fact]
         public void Command_of_T_Execute_Returns_Value_When_No_Errors_Exist()
         {
-            var mock = new MockCommandOfString();
-            var result = mock.Execute();
+            var stub = new CommandStubOfString();
+            var result = stub.Execute();
             result.Value.ShouldBe("some value");
         }
 
         [Fact]
         public void Command_of_T_ExecutionResult_Is_Successful_When_Validation_Is_Successful()
         {
-            var mock = new MockCommandOfString();
-            var result = mock.Execute();
+            var stub = new CommandStubOfString();
+            var result = stub.Execute();
             result.Success.ShouldBe(true);
         }
 
         [Fact]
         public void Command_of_T_ExecutionResult_Should_Contain_No_Errors_When_Validation_Is_Successful()
         {
-            var mock = new MockCommandOfString();
-            var result = mock.Execute();
+            var stub = new CommandStubOfString();
+            var result = stub.Execute();
             result.Errors.ShouldBe(null);
         }
 
         [Fact]
         public void Command_of_T_OnExecute_Is_Not_Invoked_When_Errors_Exist()
         {
-            var mock = new MockCommandOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
-            mock.Execute();
-            mock.OnExecuteWasInvoked.ShouldBe(false);
+            var stub = new CommandStubOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            stub.Execute();
+            stub.OnExecuteWasInvoked.ShouldBe(false);
         }
 
         [Fact]
         public void Command_of_T_ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
         {
-            var mock = new MockCommandOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
-            var result = mock.Execute();
+            var stub = new CommandStubOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var result = stub.Execute();
             result.Success.ShouldBe(false);
         }
 
         [Fact]
         public void Command_of_T_ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
         {
-            var mock = new MockCommandOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
-            var result = mock.Execute();
+            var stub = new CommandStubOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var result = stub.Execute();
             result.Errors.Count().ShouldBe(1);
         }
 
         [Fact]
         public void Command_of_T_ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught()
         {
-            var command = new MockCommandOfStringThrowsErrorsOnExecute();
+            var command = new CommandStubOfStringThrowsErrorsOnExecute();
             var result = command.Execute();
             result.Errors.Count().ShouldBe(1);
         }
@@ -186,39 +186,39 @@ namespace Peasy.Core.Tests
         [Fact]
         public async Task Command_of_T_OnInitializationAsync_Is_Invoked()
         {
-            var mock = new MockCommandOfString();
-            await mock.ExecuteAsync();
-            mock.OnInitializationAsyncWasInvoked.ShouldBe(true);
+            var stub = new CommandStubOfString();
+            await stub.ExecuteAsync();
+            stub.OnInitializationAsyncWasInvoked.ShouldBe(true);
         }
 
         [Fact]
         public async Task Command_of_T_OnExecuteAsync_Is_Invoked_When_No_Errors_Exist()
         {
-            var mock = new MockCommandOfString();
-            await mock.ExecuteAsync();
-            mock.OnExecuteAsyncWasInvoked.ShouldBe(true);
+            var stub = new CommandStubOfString();
+            await stub.ExecuteAsync();
+            stub.OnExecuteAsyncWasInvoked.ShouldBe(true);
        }
 
         [Fact]
         public async Task Command_of_T_Execute_Returns_Value_When_No_Errors_Exist_Async()
         {
-            var mock = new MockCommandOfString();
-            var result = await mock.ExecuteAsync();
+            var stub = new CommandStubOfString();
+            var result = await stub.ExecuteAsync();
             result.Value.ShouldBe("some value");
         }
 
         [Fact]
         public async Task Command_of_T_OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
         {
-            var mock = new MockCommandOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
-            await mock.ExecuteAsync();
-            mock.OnExecuteAsyncWasInvoked.ShouldBe(false);
+            var stub = new CommandStubOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            await stub.ExecuteAsync();
+            stub.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }
 
         [Fact]
         public async Task Command_of_T_ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught_Async()
         {
-            var command = new MockCommandOfStringThrowsErrorsOnExecute();
+            var command = new CommandStubOfStringThrowsErrorsOnExecute();
             var result = await command.ExecuteAsync();
             result.Errors.Count().ShouldBe(1);
         }
@@ -226,9 +226,9 @@ namespace Peasy.Core.Tests
         #endregion
     }
 
-    public class MockCommand : Command
+    public class CommandStub : Command
     {
-        public MockCommand()
+        public CommandStub()
         {
             Errors = Enumerable.Empty<ValidationResult>();
         }
@@ -272,7 +272,7 @@ namespace Peasy.Core.Tests
         }
     }
 
-    public class MockCommandThrowsErrorsOnExecute : Command
+    public class CommandStubThrowsErrorsOnExecute : Command
     {
         protected override void OnExecute()
         {
@@ -285,9 +285,9 @@ namespace Peasy.Core.Tests
         }
     }
 
-    public class MockCommandOfString : Command<string>
+    public class CommandStubOfString : Command<string>
     {
-        public MockCommandOfString ()
+        public CommandStubOfString ()
         {
             Errors = Enumerable.Empty<ValidationResult>();
         }
@@ -332,7 +332,7 @@ namespace Peasy.Core.Tests
         }
     }
 
-    public class MockCommandOfStringThrowsErrorsOnExecute : Command<string>
+    public class CommandStubOfStringThrowsErrorsOnExecute : Command<string>
     {
         protected override string OnExecute()
         {

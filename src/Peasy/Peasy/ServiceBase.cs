@@ -14,12 +14,12 @@ namespace Peasy
     public abstract class ServiceBase<T, TKey> : IService<T, TKey> where T : IDomainObject<TKey>, new()
     {
         /// <summary>
-        /// Represents the data abstraction that provide data access to commands.
+        /// Represents the data abstraction that provides resource access to commands.
         /// </summary>
         protected readonly IDataProxy<T, TKey> _dataProxy;
 
         /// <summary>
-        /// Represents the data abstraction that provide data access to commands.
+        /// Represents the data abstraction that provides resource access to commands.
         /// </summary>
         protected IDataProxy<T, TKey> DataProxy => _dataProxy;
 

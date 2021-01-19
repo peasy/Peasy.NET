@@ -14,7 +14,7 @@ namespace Peasy.Tests
         [Fact]
         public void DeleteCommand_Synchronous_Should_ReturnValidation_Result()
         {
-            var service = new BusinessServiceBaseMock(new PersonProxyStub());
+            var service = new BusinessServiceBaseStub(new PersonProxyStub());
             var result = service.DeleteCommand(0).Execute();
             result.Errors.Count().ShouldBe(1);
         }
@@ -22,7 +22,7 @@ namespace Peasy.Tests
         [Fact]
         public async Task DeleteCommand_Asynchronous_Should_Return_Validation_Result()
         {
-            var service = new BusinessServiceBaseMock(new PersonProxyStub());
+            var service = new BusinessServiceBaseStub(new PersonProxyStub());
             var result = await service.DeleteCommand(0).ExecuteAsync();
             result.Errors.Count().ShouldBe(1);
         }
@@ -30,7 +30,7 @@ namespace Peasy.Tests
         [Fact]
         public void GetByIDCommand_Synchronous_Should_Return_Validation_Result()
         {
-            var service = new BusinessServiceBaseMock(new PersonProxyStub());
+            var service = new BusinessServiceBaseStub(new PersonProxyStub());
             var result = service.GetByIDCommand(0).Execute();
             result.Errors.Count().ShouldBe(1);
         }
@@ -38,7 +38,7 @@ namespace Peasy.Tests
         [Fact]
         public async Task GetByIDCommand_Asynchronous_Should_Return_Validation_Result()
         {
-            var service = new BusinessServiceBaseMock(new PersonProxyStub());
+            var service = new BusinessServiceBaseStub(new PersonProxyStub());
             var result = await service.GetByIDCommand(0).ExecuteAsync();
             result.Errors.Count().ShouldBe(1);
         }
@@ -47,7 +47,7 @@ namespace Peasy.Tests
         public void Non_Latency_Prone_Should_Not_Invoke_DataProxy_GetByID_On_Update()
         {
             var proxy = new PersonProxyStub(isLatencyProne: false);
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             service.UpdateCommand(new Person { ID = 1, Version = "1" }).Execute();
             proxy.GetByIDWasInvoked.ShouldBe(true);
         }
@@ -56,7 +56,7 @@ namespace Peasy.Tests
         public void Latency_Prone_Should_Not_Invoke_DataProxy_GetByID_On_Update()
         {
             var proxy = new PersonProxyStub(isLatencyProne: true);
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             service.UpdateCommand(new Person()).Execute();
             proxy.GetByIDWasInvoked.ShouldBe(false);
         }
@@ -65,7 +65,7 @@ namespace Peasy.Tests
         public void UpdateCommand_Throws_DomainNotFoundException()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
 
             Should.Throw<DomainObjectNotFoundException>(() => service.UpdateCommand(new Person()).Execute());
         }
@@ -74,7 +74,7 @@ namespace Peasy.Tests
         public void UpdateCommand_Throws_ConcurrencyException()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
 
             Should.Throw<ConcurrencyException>(() => service.UpdateCommand(new Person() { ID = 1, Version = "2" }).Execute());
         }
@@ -83,7 +83,7 @@ namespace Peasy.Tests
         public void UpdateCommand_Reverts_Non_Editable_Values()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             var result = service.UpdateCommand(new Person { ID = 1, Name = "Frank Zappa", Version = "1" }).Execute();
             result.Value.Name.ShouldBe("George Harrison");
         }
@@ -92,7 +92,7 @@ namespace Peasy.Tests
         public void UpdateCommand_Reverts_PeasyForeignKey_Values()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             var result = service.UpdateCommand(new Person { ID = 1, ForeignKeyID = 0, Version = "1" }).Execute();
             result.Value.ForeignKeyID.ShouldBe(null);
         }
@@ -101,7 +101,7 @@ namespace Peasy.Tests
         public void DataProxy_Update_Should_Be_Invoked()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             var result = service.UpdateCommand(new Person { ID = 1, ForeignKeyID = 0, Version = "1" }).Execute();
             proxy.UpdateWasInvoked.ShouldBe(true);
         }
@@ -110,7 +110,7 @@ namespace Peasy.Tests
         public async Task Non_Latency_Prone_Should_Not_Invoke_DataProxy_GetByID_On_UpdateAsync()
         {
             var proxy = new PersonProxyStub(isLatencyProne: false);
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             await service.UpdateCommand(new Person { ID = 1, Version = "1" }).ExecuteAsync();
             proxy.GetByIDAsyncWasInvoked.ShouldBe(true);
         }
@@ -119,7 +119,7 @@ namespace Peasy.Tests
         public async Task Latency_Prone_Should_Not_Invoke_DataProxy_GetByID_On_UpdateAsync()
         {
             var proxy = new PersonProxyStub(isLatencyProne: true);
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             await service.UpdateCommand(new Person()).ExecuteAsync();
             proxy.GetByIDAsyncWasInvoked.ShouldBe(false);
         }
@@ -128,7 +128,7 @@ namespace Peasy.Tests
         public async Task UpdateCommandAsync_Throws_DomainNotFoundException()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
 
             await Should.ThrowAsync<DomainObjectNotFoundException>(() => service.UpdateCommand(new Person()).ExecuteAsync());
         }
@@ -137,7 +137,7 @@ namespace Peasy.Tests
         public async Task UpdateCommandAsync_Throws_ConcurrencyException()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
 
             await Should.ThrowAsync<ConcurrencyException>(() => service.UpdateCommand(new Person() { ID = 1, Version = "2" }).ExecuteAsync());
         }
@@ -146,7 +146,7 @@ namespace Peasy.Tests
         public async Task UpdateCommandAsync_Reverts_NonEditable_Values()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             var result = await service.UpdateCommand(new Person { ID = 1, Name = "Frank Zappa", Version = "1" }).ExecuteAsync();
             result.Value.Name.ShouldBe("George Harrison");
         }
@@ -155,7 +155,7 @@ namespace Peasy.Tests
         public async Task UpdateCommandAsync_Reverts_PeasyForeignKey_Values()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             var result = await service.UpdateCommand(new Person { ID = 1, ForeignKeyID = 0, Version = "1" }).ExecuteAsync();
             result.Value.ForeignKeyID.ShouldBe(null);
         }
@@ -164,15 +164,15 @@ namespace Peasy.Tests
         public async Task DataProxy_UpdateAsync_Should_Be_Invoked()
         {
             var proxy = new PersonProxyStub();
-            var service = new BusinessServiceBaseMock(proxy);
+            var service = new BusinessServiceBaseStub(proxy);
             var result = await service.UpdateCommand(new Person { ID = 1, ForeignKeyID = 0, Version = "1" }).ExecuteAsync();
             proxy.UpdateAsyncWasInvoked.ShouldBe(true);
         }
     }
 
-    public class BusinessServiceBaseMock : BusinessServiceBase<Person, long>
+    public class BusinessServiceBaseStub : BusinessServiceBase<Person, long>
     {
-        public BusinessServiceBaseMock(IServiceDataProxy<Person, long> dataProxy) : base(dataProxy)
+        public BusinessServiceBaseStub(IServiceDataProxy<Person, long> dataProxy) : base(dataProxy)
         {
         }
     }
