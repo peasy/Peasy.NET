@@ -1,417 +1,359 @@
-﻿﻿using Shouldly;
+﻿﻿using Moq;
+using Shouldly;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Peasy.Core.Tests
+namespace Peasy.Core.Tests.CommandTests
 {
     public class CommandTests
     {
-        #region Command
+        #region Synchronous
 
         [Fact]
-        public void OnInitialization_Is_Invoked()
+        public void Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations()
         {
-            var stub = new CommandStub();
-            var result = stub.Execute();
-            stub.OnInitializationWasInvoked.ShouldBe(true);
-        }
+            var doerOfThings = new Mock<IDoThings>();
+            var command = new CommandStub(doerOfThings.Object);
 
-        [Fact]
-        public void OnGetRules_Is_Invoked()
-        {
-            var stub = new CommandStub();
-            var result = stub.Execute();
-            stub.OnGetRulesWasInvoked.ShouldBe(true);
-        }
-
-        [Fact]
-        public void OnGetErrors_Is_Invoked()
-        {
-            var stub = new CommandStub();
-            var result = stub.Execute();
-            stub.OnGetErrorsWasInvoked.ShouldBe(true);
-        }
-
-        [Fact]
-        public void OnExecute_Is_Invoked_When_No_Errors_Exist()
-        {
-            var stub = new CommandStub();
-            var result = stub.Execute();
-            stub.OnExecuteWasInvoked.ShouldBe(true);
-        }
-
-        [Fact]
-        public void ExecutionResult_Is_Successful_When_Validation_Is_Successful()
-        {
-            var stub = new CommandStub();
-            var result = stub.Execute();
-            result.Success.ShouldBe(true);
-        }
-
-        [Fact]
-        public void ExecutionResult_Should_Contain_No_Errors_When_Validation_Is_Successful()
-        {
-            var stub = new CommandStub();
-            var result = stub.Execute();
-            result.Errors.ShouldBe(null);
-        }
-
-        [Fact]
-        public void OnExecute_Is_Not_Invoked_When_Errors_Exist()
-        {
-            var stub = new CommandStub { Errors = new[] { new ValidationResult("Object doesn't exist") } };
-            stub.Execute();
-            stub.OnExecuteWasInvoked.ShouldBe(false);
-        }
-
-        [Fact]
-        public void ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
-        {
-            var stub = new CommandStub { Errors = new[] { new ValidationResult("Object doesn't exist") } };
-            var result = stub.Execute();
-            result.Success.ShouldBe(false);
-        }
-
-        [Fact]
-        public void ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
-        {
-            var stub = new CommandStub { Errors = new[] { new ValidationResult("Object doesn't exist") } };
-            var result = stub.Execute();
-            result.Errors.Count().ShouldBe(1);
-        }
-
-        [Fact]
-        public void ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught()
-        {
-            var command = new CommandStubThrowsErrorsOnExecute();
             var result = command.Execute();
+
+            result.Success.ShouldBeTrue();
+            result.Errors.ShouldBeNull();
+
+            doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnExecute"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Once);
+        }
+
+        [Fact]
+        public void Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_All_Rules_Pass()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var command = new CommandStub(doerOfThings.Object, new IRule[] { new TrueRule(), new TrueRule() });
+
+            var result = command.Execute();
+
+            result.Success.ShouldBeTrue();
+            result.Errors.ShouldBeNull();
+
+            doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnExecute"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Once);
+        }
+
+        [Fact]
+        public void Fails_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_Any_Rules_Fail()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var rules = new IRule[] { new TrueRule(), new FalseRule1() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            var result = command.Execute();
+
+            result.Success.ShouldBeFalse();
             result.Errors.Count().ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
+
+            doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnExecute"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Never);
         }
 
         [Fact]
-        public async Task OnInitializationAsync_Is_Invoked()
+        public void Fails_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_Any_Validation_Results_Exist()
         {
-            var stub = new CommandStub();
-            await stub.ExecuteAsync();
-            stub.OnInitializationAsyncWasInvoked.ShouldBe(true);
-        }
+            var doerOfThings = new Mock<IDoThings>();
+            var validationResult = new ValidationResult("You shall not pass");
+            var command = new CommandStub(doerOfThings.Object, new [] { validationResult });
 
-        [Fact]
-        public async Task OnGetRulesAsync_Is_Invoked()
-        {
-            var stub = new CommandStub();
-            await stub.ExecuteAsync();
-            stub.OnGetRulesAsyncWasInvoked.ShouldBe(true);
-        }
+            var result = command.Execute();
 
-        [Fact]
-        public async Task OnGetErrorsAsync_Is_Invoked()
-        {
-            var stub = new CommandStub();
-            await stub.ExecuteAsync();
-            stub.OnGetErrorsAsyncWasInvoked.ShouldBe(true);
-        }
-
-        [Fact]
-        public async Task OnExecuteAsync_Is_Invoked_When_No_Errors_Exist()
-        {
-            var stub = new CommandStub();
-            await stub.ExecuteAsync();
-            stub.OnExecuteAsyncWasInvoked.ShouldBe(true);
-       }
-
-        [Fact]
-        public async Task OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
-        {
-            var stub = new CommandStub { Errors = new[] { new ValidationResult("Object doesn't exist") } };
-            await stub.ExecuteAsync();
-            stub.OnExecuteAsyncWasInvoked.ShouldBe(false);
-        }
-
-        [Fact]
-        public async Task ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught_Async()
-        {
-            var command = new CommandStubThrowsErrorsOnExecute();
-            var result = await command.ExecuteAsync();
+            result.Success.ShouldBeFalse();
             result.Errors.Count().ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe("You shall not pass");
+
+            doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnExecute"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Never);
+        }
+
+        [Fact]
+        public void Fails_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_A_ServiceException_Is_Caught()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            doerOfThings.Setup(d => d.DoSomething()).Throws(new ServiceException("You shall not pass"));
+            var command = new CommandStub(doerOfThings.Object);
+
+            var result = command.Execute();
+
+            result.Success.ShouldBeFalse();
+            result.Errors.Count().ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe("You shall not pass");
+
+            doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnExecute"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Never);
         }
 
         #endregion
 
-        #region Command<T>
+        #region Asynchronous
 
         [Fact]
-        public void Command_of_T_OnInitialization_Is_Invoked()
+        public async Task Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations_Async()
         {
-            var stub = new CommandStubOfString();
-            var result = stub.Execute();
-            stub.OnInitializationWasInvoked.ShouldBe(true);
-        }
+            var doerOfThings = new Mock<IDoThings>();
+            var command = new CommandStub(doerOfThings.Object);
 
-        [Fact]
-        public void Command_of_T_OnExecute_Is_Invoked_When_No_Errors_Exist()
-        {
-            var stub = new CommandStubOfString();
-            var result = stub.Execute();
-            stub.OnExecuteWasInvoked.ShouldBe(true);
-        }
-
-        [Fact]
-        public void Command_of_T_Execute_Returns_Value_When_No_Errors_Exist()
-        {
-            var stub = new CommandStubOfString();
-            var result = stub.Execute();
-            result.Value.ShouldBe("some value");
-        }
-
-        [Fact]
-        public void Command_of_T_ExecutionResult_Is_Successful_When_Validation_Is_Successful()
-        {
-            var stub = new CommandStubOfString();
-            var result = stub.Execute();
-            result.Success.ShouldBe(true);
-        }
-
-        [Fact]
-        public void Command_of_T_ExecutionResult_Should_Contain_No_Errors_When_Validation_Is_Successful()
-        {
-            var stub = new CommandStubOfString();
-            var result = stub.Execute();
-            result.Errors.ShouldBe(null);
-        }
-
-        [Fact]
-        public void Command_of_T_OnExecute_Is_Not_Invoked_When_Errors_Exist()
-        {
-            var stub = new CommandStubOfString { Errors = new[] { new ValidationResult("Object doesn't exist") } };
-            stub.Execute();
-            stub.OnExecuteWasInvoked.ShouldBe(false);
-        }
-
-        [Fact]
-        public void Command_of_T_ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
-        {
-            var stub = new CommandStubOfString { Errors = new[] { new ValidationResult("Object doesn't exist") } };
-            var result = stub.Execute();
-            result.Success.ShouldBe(false);
-        }
-
-        [Fact]
-        public void Command_of_T_ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
-        {
-            var stub = new CommandStubOfString { Errors = new[] { new ValidationResult("Object doesn't exist") } };
-            var result = stub.Execute();
-            result.Errors.Count().ShouldBe(1);
-        }
-
-        [Fact]
-        public void Command_of_T_ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught()
-        {
-            var command = new CommandStubOfStringThrowsErrorsOnExecute();
-            var result = command.Execute();
-            result.Errors.Count().ShouldBe(1);
-        }
-
-        [Fact]
-        public async Task Command_of_T_OnInitializationAsync_Is_Invoked()
-        {
-            var stub = new CommandStubOfString();
-            await stub.ExecuteAsync();
-            stub.OnInitializationAsyncWasInvoked.ShouldBe(true);
-        }
-
-        [Fact]
-        public async Task Command_of_T_OnExecuteAsync_Is_Invoked_When_No_Errors_Exist()
-        {
-            var stub = new CommandStubOfString();
-            await stub.ExecuteAsync();
-            stub.OnExecuteAsyncWasInvoked.ShouldBe(true);
-       }
-
-        [Fact]
-        public async Task Command_of_T_Execute_Returns_Value_When_No_Errors_Exist_Async()
-        {
-            var stub = new CommandStubOfString();
-            var result = await stub.ExecuteAsync();
-            result.Value.ShouldBe("some value");
-        }
-
-        [Fact]
-        public async Task Command_of_T_OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
-        {
-            var stub = new CommandStubOfString { Errors = new[] { new ValidationResult("Object doesn't exist") } };
-            await stub.ExecuteAsync();
-            stub.OnExecuteAsyncWasInvoked.ShouldBe(false);
-        }
-
-        [Fact]
-        public async Task Command_of_T_ExecutionResult_Should_Contain_Errors_When_ServiceException_Is_Caught_Async()
-        {
-            var command = new CommandStubOfStringThrowsErrorsOnExecute();
             var result = await command.ExecuteAsync();
+
+            result.Success.ShouldBeTrue();
+            result.Errors.ShouldBeNull();
+
+            doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Once);
+        }
+
+        [Fact]
+        public async Task Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_All_Rules_Pass_Async()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var command = new CommandStub(doerOfThings.Object, new IRule[] { new TrueRule(), new TrueRule() });
+
+            var result = await command.ExecuteAsync();
+
+            result.Success.ShouldBeTrue();
+            result.Errors.ShouldBeNull();
+
+            doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Once);
+        }
+
+        [Fact]
+        public async Task Fails_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_Any_Rules_Fail_Async()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var rules = new IRule[] { new TrueRule(), new FalseRule1() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            var result = await command.ExecuteAsync();
+
+            result.Success.ShouldBeFalse();
             result.Errors.Count().ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
+
+            doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Never);
+        }
+
+        [Fact]
+        public async Task Fails_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_Any_Validation_Results_Exist_Async()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var validationResult = new ValidationResult("You shall not pass");
+            var command = new CommandStub(doerOfThings.Object, new [] { validationResult });
+
+            var result = await command.ExecuteAsync();
+
+            result.Success.ShouldBeFalse();
+            result.Errors.Count().ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe("You shall not pass");
+
+            doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Never);
+        }
+
+        [Fact]
+        public async Task Fails_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_A_ServiceException_Is_Caught_Async()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            doerOfThings.Setup(d => d.DoSomething()).Throws(new ServiceException("You shall not pass"));
+            var command = new CommandStub(doerOfThings.Object);
+
+            var result = await command.ExecuteAsync();
+
+            result.Success.ShouldBeFalse();
+            result.Errors.Count().ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe("You shall not pass");
+
+            doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnServiceException"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Never);
+        }
+
+        #endregion
+
+        #region IRulesContainer Support
+
+        [Fact]
+        public void Allows_Retrieval_Of_Configured_Rules()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var rules = new IRule[] { new TrueRule(), new FalseRule1() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            command.GetRules().ShouldBe(rules);
+        }
+
+        #endregion
+
+        #region IValidationErrorsContainer Support
+
+        [Fact]
+        public void Allows_Execution_Of_Rules_Via_Supported_Interface()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var rules = new IRule[] { new TrueRule(), new FalseRule1() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            var errors = command.GetErrors().ToArray();
+
+            errors.Count().ShouldBe(1);
+            errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         #endregion
     }
+    public interface IDoThings
+    {
+        void Log(string message);
+        void DoSomething();
+        string GetValue();
+    }
 
     public class CommandStub : Command
     {
-        public CommandStub()
+        private IEnumerable<IRule> _rules;
+        private IEnumerable<ValidationResult> _validationResults;
+        private IDoThings _doerOfThings;
+
+        public CommandStub(IDoThings doerOfThings)
         {
-            // Errors = Enumerable.Empty<ValidationResult>();
+            _doerOfThings = doerOfThings;
         }
 
-        public CommandStub(IEnumerable<ValidationResult> validationResults)
+        public CommandStub(IDoThings doerOfThings, IEnumerable<IRule> rules) : this(doerOfThings)
         {
-            Errors = validationResults;
+            _rules = rules;
         }
 
-        public IEnumerable<ValidationResult> Errors { get; set; }
-        public bool OnInitializationWasInvoked { get; private set; }
-        public bool OnExecuteWasInvoked { get; private set; }
-        public bool OnInitializationAsyncWasInvoked { get; private set; }
-        public bool OnExecuteAsyncWasInvoked { get; private set; }
-        public bool OnGetRulesWasInvoked { get; private set; }
-        public bool OnGetRulesAsyncWasInvoked { get; private set; }
-        public bool OnGetErrorsWasInvoked { get; private set; }
-        public bool OnGetErrorsAsyncWasInvoked { get; private set; }
+        public CommandStub(IDoThings doerOfThings, IEnumerable<ValidationResult> validationResults) : this(doerOfThings)
+        {
+            _validationResults = validationResults;
+        }
 
         protected override void OnInitialization()
         {
-            OnInitializationWasInvoked = true;
-            base.OnInitialization();
+            _doerOfThings.Log(nameof(OnInitialization));
         }
 
         protected override Task OnInitializationAsync()
         {
-            OnInitializationAsyncWasInvoked = true;
-            return base.OnInitializationAsync();
-        }
-
-        protected override IEnumerable<IRule> OnGetRules()
-        {
-            OnGetRulesWasInvoked = true;
-            return base.OnGetRules();
-        }
-        protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
-        {
-            OnGetRulesAsyncWasInvoked = true;
-            return base.OnGetRulesAsync();
+            _doerOfThings.Log(nameof(OnInitializationAsync));
+            return Task.CompletedTask;
         }
 
         protected override IEnumerable<ValidationResult> OnGetErrors()
         {
-            OnGetErrorsWasInvoked = true;
-            return Errors ?? base.OnGetErrors();
+            _doerOfThings.Log(nameof(OnGetErrors));
+            return _validationResults ?? base.OnGetErrors();
         }
 
         protected async override Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
-            OnGetErrorsAsyncWasInvoked = true;
-            return Errors ?? await base.OnGetErrorsAsync();
+            _doerOfThings.Log(nameof(OnGetErrorsAsync));
+            return _validationResults ?? await base.OnGetErrorsAsync();
+        }
+
+        protected override IEnumerable<IRule> OnGetRules()
+        {
+            _doerOfThings.Log(nameof(OnGetRules));
+            return _rules ?? base.OnGetRules();
+        }
+
+        protected async override Task<IEnumerable<IRule>> OnGetRulesAsync()
+        {
+            _doerOfThings.Log(nameof(OnGetRulesAsync));
+            return _rules ?? await base.OnGetRulesAsync();
         }
 
         protected override void OnExecute()
         {
-            OnExecuteWasInvoked = true;
+            _doerOfThings.Log(nameof(OnExecute));
+            _doerOfThings.DoSomething();
             base.OnExecute();
         }
 
         protected override Task OnExecuteAsync()
         {
-            OnExecuteAsyncWasInvoked = true;
+            _doerOfThings.Log(nameof(OnExecuteAsync));
+            _doerOfThings.DoSomething();
             return base.OnExecuteAsync();
         }
-    }
 
-    public class CommandStubThrowsErrorsOnExecute : Command
-    {
-        protected override void OnExecute()
+        protected override ExecutionResult OnFailedExecution(IEnumerable<ValidationResult> validationResults)
         {
-            throw new ServiceException("An error occurred");
+            _doerOfThings.Log(nameof(OnFailedExecution));
+            return base.OnFailedExecution(validationResults);
         }
 
-        protected override Task OnExecuteAsync()
+        protected override ExecutionResult OnServiceException(ServiceException exception)
         {
-            throw new ServiceException("An error occurred");
-        }
-    }
-
-    public class CommandStubOfString : Command<string>
-    {
-        public CommandStubOfString ()
-        {
-            Errors = Enumerable.Empty<ValidationResult>();
+            _doerOfThings.Log(nameof(OnServiceException));
+            return base.OnServiceException(exception);
         }
 
-        public IEnumerable<ValidationResult> Errors { get; set; }
-        public bool OnInitializationWasInvoked { get; set; }
-        public bool OnExecuteWasInvoked { get; set; }
-        public bool OnInitializationAsyncWasInvoked { get; set; }
-        public bool OnExecuteAsyncWasInvoked { get; set; }
-        public bool OnGetRulesWasInvoked { get; set; }
-        public bool OnGetRulesAsyncWasInvoked { get; set; }
-
-        protected override void OnInitialization()
+        protected override ExecutionResult OnSuccessfulExecution()
         {
-            OnInitializationWasInvoked = true;
-            base.OnInitialization();
-        }
-
-        protected override Task OnInitializationAsync()
-        {
-            OnInitializationAsyncWasInvoked = true;
-            return base.OnInitializationAsync();
-        }
-
-        protected override IEnumerable<ValidationResult> OnGetErrors()
-        {
-            return Errors;
-        }
-
-        protected override Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
-        {
-            return Task.FromResult(GetErrors());
-        }
-
-        protected override IEnumerable<IRule> OnGetRules()
-        {
-            OnGetRulesWasInvoked = true;
-            return base.OnGetRules();
-        }
-        protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
-        {
-            OnGetRulesAsyncWasInvoked = true;
-            return base.OnGetRulesAsync();
-        }
-
-        protected override string OnExecute()
-        {
-            OnExecuteWasInvoked = true;
-            return "some value";
-        }
-
-        protected override Task<string> OnExecuteAsync()
-        {
-            OnExecuteAsyncWasInvoked = true;
-            return Task.FromResult("some value");
-        }
-    }
-
-    public class CommandStubOfStringThrowsErrorsOnExecute : Command<string>
-    {
-        protected override string OnExecute()
-        {
-            throw new ServiceException("An error occurred");
-        }
-
-        protected override Task<string> OnExecuteAsync()
-        {
-            throw new ServiceException("An error occurred");
+            _doerOfThings.Log(nameof(OnSuccessfulExecution));
+            return base.OnSuccessfulExecution();
         }
     }
 }
