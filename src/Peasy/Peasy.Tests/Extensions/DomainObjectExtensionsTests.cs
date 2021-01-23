@@ -66,63 +66,63 @@ namespace Peasy.Tests.Extensions
         [Fact]
         public void ClassName_Should_Return_Class_Name_Without_Peasy_DisplayNameAttribute()
         {
-            var className = new MockClass().ClassName();
-            className.ShouldBe("MockClass");
+            var className = new StubClass().ClassName();
+            className.ShouldBe("StubClass");
         }
 
         [Fact]
         public void ClassName_Should_Return_Name_Of_Peasy_DisplayNameAttribute()
         {
-            var className = new MockClass2().ClassName();
-            className.ShouldBe("Mock II");
+            var className = new StubClass2().ClassName();
+            className.ShouldBe("Stub II");
         }
 
         [Fact]
         public void Object_With_Peasy_ForeignKeyAttribute_in_base_class_Should_Revert_Zeros_To_Nulls()
         {
-            var mock = new MockClass2 {ForeignKeyID = 0};
-            mock.RevertForeignKeysFromZeroToNull();
-            mock.ForeignKeyID.ShouldBe(null);
+            var stub = new StubClass2 {ForeignKeyID = 0};
+            stub.RevertForeignKeysFromZeroToNull();
+            stub.ForeignKeyID.ShouldBe(null);
         }
 
         [Fact]
         public void Object_With_Peasy_ForeignKeyAttribute_Should_Revert_Zeros_To_Nulls()
         {
-            var mock = new MockClass2 {SomeForeignKeyID = 0};
-            mock.RevertForeignKeysFromZeroToNull();
-            mock.SomeForeignKeyID.ShouldBe(null);
+            var stub = new StubClass2 {SomeForeignKeyID = 0};
+            stub.RevertForeignKeysFromZeroToNull();
+            stub.SomeForeignKeyID.ShouldBe(null);
         }
 
         [Fact]
         public void Object_With_NonEditableAttribute_Should_Revert_Values_To_Original()
         {
-            var original = new MockClass2 { Name = "Jimi Hendrix" };
-            var newMock = new MockClass2 { Name = "Jim Morrison" };
-            newMock.RevertNonEditableValues(original);
-            newMock.Name.ShouldBe("Jimi Hendrix");
+            var original = new StubClass2 { Name = "Jimi Hendrix" };
+            var newStub = new StubClass2 { Name = "Jim Morrison" };
+            newStub.RevertNonEditableValues(original);
+            newStub.Name.ShouldBe("Jimi Hendrix");
         }
 
         [Fact]
         public void Object_With_NonEditableAttribute_in_base_class_Should_Revert_Values_To_Original()
         {
-            var original = new MockClass2 { SomeValue = "Jimi Hendrix" };
-            var newMock = new MockClass2 { SomeValue = "Jim Morrison" };
-            newMock.RevertNonEditableValues(original);
-            newMock.SomeValue.ShouldBe("Jimi Hendrix");
+            var original = new StubClass2 { SomeValue = "Jimi Hendrix" };
+            var newStub = new StubClass2 { SomeValue = "Jim Morrison" };
+            newStub.RevertNonEditableValues(original);
+            newStub.SomeValue.ShouldBe("Jimi Hendrix");
         }
 
         [Fact]
         public void Fifty_Objects_With_NonEditableAttributes_Should_Revert_Values_To_Original()
         {
-            var original = new MockClass2 { Name = "Jimi Hendrix" };
-            var newMocks = 50.Times(i => new MockClass2 { Name = $"Jim Morrison{i}"}).ToArray();
-            Parallel.ForEach(newMocks, mock => mock.RevertNonEditableValues(original));
-            newMocks.ShouldAllBe(m => m.Name == "Jimi Hendrix");
+            var original = new StubClass2 { Name = "Jimi Hendrix" };
+            var newStubs = 50.Times(i => new StubClass2 { Name = $"Jim Morrison{i}"}).ToArray();
+            Parallel.ForEach(newStubs, stub => stub.RevertNonEditableValues(original));
+            newStubs.ShouldAllBe(m => m.Name == "Jimi Hendrix");
         }
     }
 
 
-    public class MockClass
+    public class StubClass
     {
         [Editable(false)]
         public string SomeValue { get; set; }
@@ -131,8 +131,8 @@ namespace Peasy.Tests.Extensions
         public int? ForeignKeyID { get; set; }
     }
 
-    [PeasyDisplayName("Mock II")]
-    public class MockClass2 : MockClass
+    [PeasyDisplayName("Stub II")]
+    public class StubClass2 : StubClass
     {
         public int ID { get; set; }
 

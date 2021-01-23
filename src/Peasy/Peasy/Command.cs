@@ -8,16 +8,14 @@ namespace Peasy
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of code
     /// </summary>
-    public abstract class Command : ICommand, IRulesContainer
+    public abstract class Command : ICommand, IRulesContainer, IValidationErrorsContainer
     {
-        /// <summary>
-        /// Synchronously orchestrates command initialization, rule execution, and command execution
-        /// </summary>
+        ///<inheritdoc cref="ICommand.Execute"/>
         public virtual ExecutionResult Execute()
         {
             OnInitialization();
 
-            var validationResults = GetErrors().ToArray();
+            var validationResults = OnGetErrors().ToArray();
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
@@ -33,14 +31,12 @@ namespace Peasy
             return OnSuccessfulExecution();
         }
 
-        /// <summary>
-        /// Asynchronously orchestrates command initialization, rule execution, and command execution
-        /// </summary>
+        ///<inheritdoc cref="ICommand.ExecuteAsync"/>
         public virtual async Task<ExecutionResult> ExecuteAsync()
         {
             await OnInitializationAsync();
 
-            var validationResults = (await GetErrorsAsync()).ToArray();
+            var validationResults = (await OnGetErrorsAsync()).ToArray();
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
@@ -57,13 +53,18 @@ namespace Peasy
         }
 
         /// <summary>
-        /// Invoked synchronously before rule execution
+        /// Invoked synchronously before rule execution.
         /// </summary>
+        /// <remarks>Override this method to perform invoke initialization logic before rule executions occur.</remarks>
         protected virtual void OnInitialization() { }
 
         /// <summary>
-        /// Invoked asynchronously before rule execution
+        /// Invoked asynchronously before rule execution.
         /// </summary>
+        /// <remarks>Override this method to perform invoke initialization logic before rule executions occur.</remarks>
+        /// <returns>
+        /// An awaitable task.
+        /// </returns>
         protected virtual Task OnInitializationAsync()
         {
             return Task.FromResult<object>(null);
@@ -82,8 +83,8 @@ namespace Peasy
         /// </summary>
         protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
-            var errors = await OnGetRulesAsync();
-            return await errors.GetValidationResultsAsync();
+            var rules = await OnGetRulesAsync();
+            return await rules.GetValidationResultsAsync();
         }
 
         /// <summary>
@@ -122,22 +123,6 @@ namespace Peasy
         }
 
         /// <summary>
-        /// Synchronously returns a list of validation results as a result of rule execution(s)
-        /// </summary>
-        public virtual IEnumerable<ValidationResult> GetErrors()
-        {
-            return OnGetErrors();
-        }
-
-        /// <summary>
-        /// Asynchronously returns a list of validation results as a result of rule execution(s)
-        /// </summary>
-        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
-        {
-            return OnGetErrorsAsync();
-        }
-
-        /// <summary>
         /// Invoked when an exception of type Peasy.ServiceException is caught
         /// </summary>
         /// <remarks>
@@ -170,6 +155,18 @@ namespace Peasy
             return new ExecutionResult { Success = true };
         }
 
+        ///<inheritdoc cref="IValidationErrorsContainer.GetErrors"/>
+        public IEnumerable<ValidationResult> GetErrors()
+        {
+            return OnGetErrors();
+        }
+
+        ///<inheritdoc cref="IValidationErrorsContainer.GetErrorsAsync"/>
+        public Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return OnGetErrorsAsync();
+        }
+
         ///<inheritdoc cref="IRulesContainer.GetRulesAsync"/>
         public Task<IEnumerable<IRule>> GetRulesAsync()
         {
@@ -188,14 +185,12 @@ namespace Peasy
     /// </summary>
     public abstract class Command<T> : ICommand<T>, IRulesContainer
     {
-        /// <summary>
-        /// Synchronously orchestrates command initialization, rule execution, and command execution
-        /// </summary>
+        ///<inheritdoc cref="ICommand{T}.Execute"/>
         public virtual ExecutionResult<T> Execute()
         {
             OnInitialization();
 
-            var validationResults = GetErrors().ToArray();
+            var validationResults = OnGetErrors().ToArray();
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
@@ -212,14 +207,12 @@ namespace Peasy
             return OnSuccessfulExecution(result);
         }
 
-        /// <summary>
-        /// Asynchronously orchestrates command initialization, rule execution, and command execution
-        /// </summary>
+        ///<inheritdoc cref="ICommand{T}.ExecuteAsync"/>
         public virtual async Task<ExecutionResult<T>> ExecuteAsync()
         {
             await OnInitializationAsync();
 
-            var validationResults = (await GetErrorsAsync()).ToArray();
+            var validationResults = (await OnGetErrorsAsync()).ToArray();
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
@@ -237,13 +230,18 @@ namespace Peasy
         }
 
         /// <summary>
-        /// Invoked synchronously before rule execution
+        /// Invoked synchronously before rule execution.
         /// </summary>
+        /// <remarks>Override this method to perform invoke initialization logic before rule executions occur.</remarks>
         protected virtual void OnInitialization() { }
 
         /// <summary>
-        /// Invoked asynchronously before rule execution
+        /// Invoked asynchronously before rule execution.
         /// </summary>
+        /// <remarks>Override this method to perform invoke initialization logic before rule executions occur.</remarks>
+        /// <returns>
+        /// An awaitable task.
+        /// </returns>
         protected virtual Task OnInitializationAsync()
         {
             return Task.FromResult<object>(null);
@@ -262,8 +260,8 @@ namespace Peasy
         /// </summary>
         protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
-            var errors = await OnGetRulesAsync();
-            return await errors.GetValidationResultsAsync();
+            var rules = await OnGetRulesAsync();
+            return await rules.GetValidationResultsAsync();
         }
 
         /// <summary>
@@ -305,22 +303,6 @@ namespace Peasy
         }
 
         /// <summary>
-        /// Synchronously returns a list of validation results as a result of rule execution(s)
-        /// </summary>
-        public virtual IEnumerable<ValidationResult> GetErrors()
-        {
-            return OnGetErrors();
-        }
-
-        /// <summary>
-        /// Asynchronously returns a list of validation results as a result of rule execution(s)
-        /// </summary>
-        public virtual Task<IEnumerable<ValidationResult>> GetErrorsAsync()
-        {
-            return OnGetErrorsAsync();
-        }
-
-        /// <summary>
         /// Invoked when an exception of type Peasy.ServiceException is caught
         /// </summary>
         /// <remarks>
@@ -351,6 +333,18 @@ namespace Peasy
         protected virtual ExecutionResult<T> OnSuccessfulExecution(T value)
         {
             return new ExecutionResult<T> { Success = true, Value = value };
+        }
+
+        ///<inheritdoc cref="IValidationErrorsContainer.GetErrors"/>
+        public IEnumerable<ValidationResult> GetErrors()
+        {
+            return OnGetErrors();
+        }
+
+        ///<inheritdoc cref="IValidationErrorsContainer.GetErrorsAsync"/>
+        public Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        {
+            return OnGetErrorsAsync();
         }
 
         ///<inheritdoc cref="IRulesContainer.GetRulesAsync"/>

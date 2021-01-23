@@ -4,17 +4,23 @@ using System.Threading.Tasks;
 namespace Peasy
 {
     /// <summary>
+    /// Exposes configured validation and business rules.
     /// </summary>
     public interface IRulesContainer
     {
         /// <summary>
-        /// Asynchronously returns a list of configured rules
+        /// Returns a list of configured rules.
         /// </summary>
-        Task<IEnumerable<IRule>> GetRulesAsync();
+        /// <returns>
+        /// A list of <see cref="IRule"/>.
+        /// </returns>
+
+        IEnumerable<IRule> GetRules();
 
         /// <summary>
-        /// Synchronously returns returns a list of configured rules
+        /// Returns a list of configured rules.
         /// </summary>
-        IEnumerable<IRule> GetRules();
+        /// An awaitable list of <see cref="IRule"/>.
+        Task<IEnumerable<IRule>> GetRulesAsync();
     }
 }

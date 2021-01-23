@@ -220,16 +220,16 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public override IEnumerable<ValidationResult> GetErrors()
+        protected override IEnumerable<ValidationResult> OnGetErrors()
         {
-            return (_getErrorsMethod ?? base.GetErrors)();
+            return (_getErrorsMethod ?? base.OnGetErrors)();
         }
 
         /// <summary>
         /// </summary>
-        public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        protected override Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
-            return (_getErrorsAsyncMethod ?? base.GetErrorsAsync)();
+            return (_getErrorsAsyncMethod ?? base.OnGetErrorsAsync)();
         }
 
         /// <summary>
@@ -445,14 +445,14 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public override IEnumerable<ValidationResult> GetErrors()
+        protected override IEnumerable<ValidationResult> OnGetErrors()
         {
-            return (_getErrorsMethod ?? base.GetErrors)();
+            return (_getErrorsMethod ?? base.OnGetErrors)();
         }
 
         /// <summary>
         /// </summary>
-        public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        protected override Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
             return (_getErrorsAsyncMethod ?? base.OnGetErrorsAsync)();
         }

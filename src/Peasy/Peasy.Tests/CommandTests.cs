@@ -20,6 +20,22 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
+        public void OnGetRules_Is_Invoked()
+        {
+            var stub = new CommandStub();
+            var result = stub.Execute();
+            stub.OnGetRulesWasInvoked.ShouldBe(true);
+        }
+
+        [Fact]
+        public void OnGetErrors_Is_Invoked()
+        {
+            var stub = new CommandStub();
+            var result = stub.Execute();
+            stub.OnGetErrorsWasInvoked.ShouldBe(true);
+        }
+
+        [Fact]
         public void OnExecute_Is_Invoked_When_No_Errors_Exist()
         {
             var stub = new CommandStub();
@@ -46,7 +62,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public void OnExecute_Is_Not_Invoked_When_Errors_Exist()
         {
-            var stub = new CommandStub {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var stub = new CommandStub { Errors = new[] { new ValidationResult("Object doesn't exist") } };
             stub.Execute();
             stub.OnExecuteWasInvoked.ShouldBe(false);
         }
@@ -54,7 +70,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public void ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
         {
-            var stub = new CommandStub {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var stub = new CommandStub { Errors = new[] { new ValidationResult("Object doesn't exist") } };
             var result = stub.Execute();
             result.Success.ShouldBe(false);
         }
@@ -62,7 +78,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public void ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
         {
-            var stub = new CommandStub {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var stub = new CommandStub { Errors = new[] { new ValidationResult("Object doesn't exist") } };
             var result = stub.Execute();
             result.Errors.Count().ShouldBe(1);
         }
@@ -84,6 +100,22 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
+        public async Task OnGetRulesAsync_Is_Invoked()
+        {
+            var stub = new CommandStub();
+            await stub.ExecuteAsync();
+            stub.OnGetRulesAsyncWasInvoked.ShouldBe(true);
+        }
+
+        [Fact]
+        public async Task OnGetErrorsAsync_Is_Invoked()
+        {
+            var stub = new CommandStub();
+            await stub.ExecuteAsync();
+            stub.OnGetErrorsAsyncWasInvoked.ShouldBe(true);
+        }
+
+        [Fact]
         public async Task OnExecuteAsync_Is_Invoked_When_No_Errors_Exist()
         {
             var stub = new CommandStub();
@@ -94,7 +126,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public async Task OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
         {
-            var stub = new CommandStub {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var stub = new CommandStub { Errors = new[] { new ValidationResult("Object doesn't exist") } };
             await stub.ExecuteAsync();
             stub.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }
@@ -154,7 +186,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public void Command_of_T_OnExecute_Is_Not_Invoked_When_Errors_Exist()
         {
-            var stub = new CommandStubOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var stub = new CommandStubOfString { Errors = new[] { new ValidationResult("Object doesn't exist") } };
             stub.Execute();
             stub.OnExecuteWasInvoked.ShouldBe(false);
         }
@@ -162,7 +194,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public void Command_of_T_ExecutionResult_Is_Not_Successful_When_Validation_Is_Not_Successful()
         {
-            var stub = new CommandStubOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var stub = new CommandStubOfString { Errors = new[] { new ValidationResult("Object doesn't exist") } };
             var result = stub.Execute();
             result.Success.ShouldBe(false);
         }
@@ -170,7 +202,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public void Command_of_T_ExecutionResult_Should_Contain_Errors_When_Validation_Is_Not_Successful()
         {
-            var stub = new CommandStubOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var stub = new CommandStubOfString { Errors = new[] { new ValidationResult("Object doesn't exist") } };
             var result = stub.Execute();
             result.Errors.Count().ShouldBe(1);
         }
@@ -210,7 +242,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public async Task Command_of_T_OnExecuteAsync_Is_Not_Invoked_When_Errors_Exist()
         {
-            var stub = new CommandStubOfString {Errors = new[] {new ValidationResult("Object doesn't exist")}};
+            var stub = new CommandStubOfString { Errors = new[] { new ValidationResult("Object doesn't exist") } };
             await stub.ExecuteAsync();
             stub.OnExecuteAsyncWasInvoked.ShouldBe(false);
         }
@@ -230,45 +262,69 @@ namespace Peasy.Core.Tests
     {
         public CommandStub()
         {
-            Errors = Enumerable.Empty<ValidationResult>();
+            // Errors = Enumerable.Empty<ValidationResult>();
+        }
+
+        public CommandStub(IEnumerable<ValidationResult> validationResults)
+        {
+            Errors = validationResults;
         }
 
         public IEnumerable<ValidationResult> Errors { get; set; }
-        public bool OnInitializationWasInvoked { get; set; }
-        public bool OnExecuteWasInvoked { get; set; }
-        public bool OnInitializationAsyncWasInvoked { get; set; }
-        public bool OnExecuteAsyncWasInvoked { get; set; }
+        public bool OnInitializationWasInvoked { get; private set; }
+        public bool OnExecuteWasInvoked { get; private set; }
+        public bool OnInitializationAsyncWasInvoked { get; private set; }
+        public bool OnExecuteAsyncWasInvoked { get; private set; }
+        public bool OnGetRulesWasInvoked { get; private set; }
+        public bool OnGetRulesAsyncWasInvoked { get; private set; }
+        public bool OnGetErrorsWasInvoked { get; private set; }
+        public bool OnGetErrorsAsyncWasInvoked { get; private set; }
 
         protected override void OnInitialization()
         {
             OnInitializationWasInvoked = true;
+            base.OnInitialization();
         }
 
         protected override Task OnInitializationAsync()
         {
             OnInitializationAsyncWasInvoked = true;
-            return Task.FromResult(true);
+            return base.OnInitializationAsync();
         }
 
-        public override IEnumerable<ValidationResult> GetErrors()
+        protected override IEnumerable<IRule> OnGetRules()
         {
-            return Errors;
+            OnGetRulesWasInvoked = true;
+            return base.OnGetRules();
+        }
+        protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
+        {
+            OnGetRulesAsyncWasInvoked = true;
+            return base.OnGetRulesAsync();
         }
 
-        public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        protected override IEnumerable<ValidationResult> OnGetErrors()
         {
-            return Task.FromResult(GetErrors());
+            OnGetErrorsWasInvoked = true;
+            return Errors ?? base.OnGetErrors();
+        }
+
+        protected async override Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        {
+            OnGetErrorsAsyncWasInvoked = true;
+            return Errors ?? await base.OnGetErrorsAsync();
         }
 
         protected override void OnExecute()
         {
             OnExecuteWasInvoked = true;
+            base.OnExecute();
         }
 
         protected override Task OnExecuteAsync()
         {
             OnExecuteAsyncWasInvoked = true;
-            return Task.FromResult(true);
+            return base.OnExecuteAsync();
         }
     }
 
@@ -297,26 +353,40 @@ namespace Peasy.Core.Tests
         public bool OnExecuteWasInvoked { get; set; }
         public bool OnInitializationAsyncWasInvoked { get; set; }
         public bool OnExecuteAsyncWasInvoked { get; set; }
+        public bool OnGetRulesWasInvoked { get; set; }
+        public bool OnGetRulesAsyncWasInvoked { get; set; }
 
         protected override void OnInitialization()
         {
             OnInitializationWasInvoked = true;
+            base.OnInitialization();
         }
 
         protected override Task OnInitializationAsync()
         {
             OnInitializationAsyncWasInvoked = true;
-            return Task.FromResult(true);
+            return base.OnInitializationAsync();
         }
 
-        public override IEnumerable<ValidationResult> GetErrors()
+        protected override IEnumerable<ValidationResult> OnGetErrors()
         {
             return Errors;
         }
 
-        public override Task<IEnumerable<ValidationResult>> GetErrorsAsync()
+        protected override Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
             return Task.FromResult(GetErrors());
+        }
+
+        protected override IEnumerable<IRule> OnGetRules()
+        {
+            OnGetRulesWasInvoked = true;
+            return base.OnGetRules();
+        }
+        protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
+        {
+            OnGetRulesAsyncWasInvoked = true;
+            return base.OnGetRulesAsync();
         }
 
         protected override string OnExecute()

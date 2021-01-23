@@ -1,51 +1,42 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Peasy
 {
     /// <summary>
+    /// Represents a logical unit of work
     /// </summary>
-    public interface IValidationErrorsContainer
+    public interface ICommand
     {
         /// <summary>
-        /// Synchronously returns a list of validation results as a result of rule execution(s)
+        /// Synchronously orchestrates command initialization, rule execution, and command execution.
         /// </summary>
-        IEnumerable<ValidationResult> GetErrors();
-
-        /// <summary>
-        /// Asynchronously returns a list of validation results as a result of rule execution(s)
-        /// </summary>
-        Task<IEnumerable<ValidationResult>> GetErrorsAsync();
-    }
-
-    /// <summary>
-    /// </summary>
-    public interface ICommand : IValidationErrorsContainer
-    {
-        /// <summary>
-        /// Synchronously orchestrates command initialization, rule execution, and command execution
-        /// </summary>
+        /// <returns>
+        /// An <see cref="ExecutionResult"/>.
+        /// </returns>
         ExecutionResult Execute();
 
         /// <summary>
-        /// Asynchronously orchestrates command initialization, rule execution, and command execution
+        /// Asynchronously orchestrates command initialization, rule execution, and command execution.
         /// </summary>
+        /// An awaitable <see cref="ExecutionResult"/>.
         Task<ExecutionResult> ExecuteAsync();
     }
 
     /// <summary>
+    /// Represents a logical unit of work
     /// </summary>
-    public interface ICommand<T> : IValidationErrorsContainer
+    public interface ICommand<T>
     {
         /// <summary>
-        /// Synchronously orchestrates command initialization, rule execution, and command execution
+        /// Synchronously orchestrates command initialization, rule execution, and command execution.
         /// </summary>
+        /// An <see cref="ExecutionResult{T}"/>.
         ExecutionResult<T> Execute();
 
         /// <summary>
-        /// Asynchronously orchestrates command initialization, rule execution, and command execution
+        /// Asynchronously orchestrates command initialization, rule execution, and command execution.
         /// </summary>
+        /// An awaitable <see cref="ExecutionResult{T}"/>.
         Task<ExecutionResult<T>> ExecuteAsync();
     }
 }
