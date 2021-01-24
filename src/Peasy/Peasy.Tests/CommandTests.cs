@@ -247,7 +247,7 @@ namespace Peasy.Core.Tests.CommandTests
         #region IValidationErrorsContainer Support
 
         [Fact]
-        public void Allows_Execution_Of_Rules_Via_Supported_Interface()
+        public void Allows_Execution_Of_Configured_Rules()
         {
             var doerOfThings = new Mock<IDoThings>();
             var rules = new IRule[] { new TrueRule(), new FalseRule1() };

@@ -9,7 +9,7 @@ namespace Peasy
     public interface IRulesContainer
     {
         /// <summary>
-        /// Returns a list of configured rules.
+        /// Composes a list of business and validation rules.
         /// </summary>
         /// <returns>
         /// A list of <see cref="IRule"/>.
@@ -18,7 +18,7 @@ namespace Peasy
         IEnumerable<IRule> GetRules();
 
         /// <summary>
-        /// Returns a list of configured rules.
+        /// Composes a list of business and validation rules.
         /// </summary>
         /// An awaitable list of <see cref="IRule"/>.
         Task<IEnumerable<IRule>> GetRulesAsync();

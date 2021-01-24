@@ -10,7 +10,7 @@ namespace Peasy
     public interface IValidationErrorsContainer
     {
         /// <summary>
-        /// Returns a list of validation results as the result of rule execution(s).
+        /// Returns a potential list of <see cref="ValidationResult"/> resulting from rule executions.
         /// </summary>
         /// <returns>
         /// A list of <see cref="ValidationResult"/>.
@@ -18,7 +18,7 @@ namespace Peasy
         IEnumerable<ValidationResult> GetErrors();
 
         /// <summary>
-        /// Returns a list of validation results as the result of rule execution(s).
+        /// Returns a potential list of <see cref="ValidationResult"/> resulting from rule executions.
         /// </summary>
         /// An awaitable list of <see cref="ValidationResult"/>.
         Task<IEnumerable<ValidationResult>> GetErrorsAsync();
