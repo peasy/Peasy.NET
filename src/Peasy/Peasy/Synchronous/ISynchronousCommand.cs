@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Peasy
+﻿namespace Peasy.Synchronous
 {
     /// <summary>
     /// Represents a logical unit of work.

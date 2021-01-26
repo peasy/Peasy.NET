@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Peasy
+namespace Peasy.Synchronous
 {
     /// <summary>
     /// Exposes configured validation and business rules.

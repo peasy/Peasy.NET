@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Peasy
+namespace Peasy.Synchronous
 {
     /// <summary>
     /// </summary>

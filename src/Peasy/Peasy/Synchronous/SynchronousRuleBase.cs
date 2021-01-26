@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace Peasy
+namespace Peasy.Synchronous
 {
     /// <summary>
     /// A validation rule to run againt records being processed.

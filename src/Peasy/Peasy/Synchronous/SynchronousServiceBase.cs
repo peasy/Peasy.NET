@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading.Tasks;
 using Peasy.Extensions;
+using Peasy;
 
-namespace Peasy
+namespace Peasy.Synchronous
 {
     /// <summary>
     /// Serves as the base class of all business services and represents an <see cref="ISynchronousCommand"/> factory.
@@ -181,7 +181,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
-        /// <returns>A resource returned from <see cref="Peasy.ISupportSynchronousGetByID{T, TKey}.GetByID"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns>A resource returned from <see cref="ISupportSynchronousGetByID{T, TKey}.GetByID"/> of <see cref="DataProxy"/>.</returns>
         protected virtual T OnGetByIDCommandValidationSuccess(TKey id, ExecutionContext<T> context)
         {
             return _dataProxy.GetByID(id);
@@ -196,7 +196,7 @@ namespace Peasy
         /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
-        /// <returns>A resource list returned from <see cref="Peasy.ISupportSynchronousGetAll{T}.GetAll"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns>A resource list returned from <see cref="ISupportSynchronousGetAll{T}.GetAll"/> of <see cref="DataProxy"/>.</returns>
         protected virtual IEnumerable<T> OnGetAllCommandValidationSuccess(ExecutionContext<T> context)
         {
             return _dataProxy.GetAll();
@@ -212,7 +212,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
-        /// <returns>An updated representation of the resource resulting from a call to <see cref="Peasy.ISupportSynchronousInsert{T}.Insert"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns>An updated representation of the resource resulting from a call to <see cref="ISupportSynchronousInsert{T}.Insert"/> of <see cref="DataProxy"/>.</returns>
         protected virtual T OnInsertCommandValidationSuccess(T resource, ExecutionContext<T> context)
         {
             return _dataProxy.Insert(resource);
@@ -228,7 +228,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
-        /// <returns>An updated representation of the resource resulting from a call to <see cref="Peasy.ISupportSynchronousUpdate{T}.Update"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns>An updated representation of the resource resulting from a call to <see cref="ISupportSynchronousUpdate{T}.Update"/> of <see cref="DataProxy"/>.</returns>
         protected virtual T OnUpdateCommandValidationSuccess(T resource, ExecutionContext<T> context)
         {
             return _dataProxy.Update(resource);
@@ -244,7 +244,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
-        /// <returns><see cref="void"/> resulting from a call to <see cref="Peasy.ISupportSynchronousDelete{T}.Delete"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns><see cref="void"/> resulting from a call to <see cref="ISupportSynchronousDelete{T}.Delete"/> of <see cref="DataProxy"/>.</returns>
         protected virtual void OnDeleteCommandValidationSuccess(TKey id, ExecutionContext<T> context)
         {
             _dataProxy.Delete(id);

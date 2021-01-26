@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Peasy
+﻿namespace Peasy.Synchronous
 {
     /// <summary>
     /// </summary>
