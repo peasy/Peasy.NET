@@ -2,20 +2,22 @@
 
 namespace Peasy
 {
-    /// <inheritdoc cref="IDataProxy{T, TKey}"/>
-    public interface ISupportCRUD<T, TKey> :
-        ISupportGetAll<T>,
-        ISupportGetByID<T, TKey>,
-        ISupportInsert<T>,
-        ISupportUpdate<T>,
-        ISupportDelete<TKey>
+    /// <summary>
+    /// Represents a data abstraction for consumption by services, commands, and rules.
+    /// </summary>
+    public interface ISynchronousDataProxy<T, TKey> :
+        ISupportSynchronousGetAll<T>,
+        ISupportSynchronousGetByID<T, TKey>,
+        ISupportSynchronousInsert<T>,
+        ISupportSynchronousUpdate<T>,
+        ISupportSynchronousDelete<TKey>
     {
     }
 
     /// <summary>
     /// Represents a data abstraction that retrieves all domain objects or resources from a source.
     /// </summary>
-    public interface ISupportGetAll<T>
+    public interface ISupportSynchronousGetAll<T>
     {
         /// <summary>
         /// Retrieves all domain objects or resources from a source.
@@ -27,7 +29,7 @@ namespace Peasy
     /// <summary>
     /// Represents a data abstraction that retrieves a domain object or resource from a source specified by an identifier.
     /// </summary>
-    public interface ISupportGetByID<T, TKey>
+    public interface ISupportSynchronousGetByID<T, TKey>
     {
         /// <summary>
         /// Retrieves a domain object or resource from a source specified by an identifier.
@@ -40,7 +42,7 @@ namespace Peasy
     /// <summary>
     /// Represents a data abstraction that creates a new domain object or resource.
     /// </summary>
-    public interface ISupportInsert<T>
+    public interface ISupportSynchronousInsert<T>
     {
         /// <summary>
         /// Creates a new domain object or resource.
@@ -55,7 +57,7 @@ namespace Peasy
     /// <summary>
     /// Represents a data abstraction that updates an existing domain object or resource.
     /// </summary>
-    public interface ISupportUpdate<T>
+    public interface ISupportSynchronousUpdate<T>
     {
         /// <summary>
         /// Updates an existing domain object or resource.
@@ -70,7 +72,7 @@ namespace Peasy
     /// <summary>
     /// Represents a data abstraction that deletes a domain object or resource from a source specified by an identifier.
     /// </summary>
-    public interface ISupportDelete<TKey>
+    public interface ISupportSynchronousDelete<TKey>
     {
         /// <summary>
         /// Deletes a domain object or resource from a source specified by an identifier.
