@@ -15,9 +15,9 @@ namespace Peasy
         {
             OnInitialization();
 
-            var validationResults = OnValidate().ToArray();
+            var errors = OnValidate().ToArray();
 
-            if (validationResults.Any()) return OnFailedExecution(validationResults);
+            if (errors.Any()) return OnFailedExecution(errors);
 
             try
             {
@@ -36,9 +36,9 @@ namespace Peasy
         {
             await OnInitializationAsync();
 
-            var validationResults = (await OnValidateAsync()).ToArray();
+            var errors = (await OnValidateAsync()).ToArray();
 
-            if (validationResults.Any()) return OnFailedExecution(validationResults);
+            if (errors.Any()) return OnFailedExecution(errors);
 
             try
             {

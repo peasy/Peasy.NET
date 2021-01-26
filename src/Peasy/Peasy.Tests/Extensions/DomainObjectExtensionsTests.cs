@@ -20,7 +20,7 @@ namespace Peasy.Tests.Extensions
                 First = "Skip",
                 Last = "Jones"
             };
-            var results = person.GetValidationErrors();
+            var results = person.Validate();
             results.Count().ShouldBe(0);
         }
 
@@ -33,7 +33,7 @@ namespace Peasy.Tests.Extensions
                 First = "Skip",
                 Last = "Jones"
             };
-            var results = person.GetValidationErrors();
+            var results = person.Validate();
             results.Count().ShouldBe(1);
         }
 
@@ -46,7 +46,7 @@ namespace Peasy.Tests.Extensions
                 First = "AnExtremelyLongFirstName",
                 Last = "Jones"
             };
-            var results = person.GetValidationErrors();
+            var results = person.Validate();
             results.Count().ShouldBe(2);
         }
 
@@ -59,7 +59,7 @@ namespace Peasy.Tests.Extensions
                 First = "AnExtremelyLongFirstName",
                 Last = "AnExtremelyLongLastNameAnExtremelyLongLastName"
             };
-            var results = person.GetValidationErrors();
+            var results = person.Validate();
             results.Count().ShouldBe(3);
         }
 

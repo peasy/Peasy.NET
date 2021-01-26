@@ -523,7 +523,7 @@ namespace Peasy
         /// <returns>A list of <see cref="ValidationResult"/></returns>
         protected virtual IEnumerable<ValidationResult> GetValidationResultsForInsert(T resource, ExecutionContext<T> context)
         {
-            return resource.GetValidationErrors();
+            return resource.Validate();
         }
 
         /// <summary>
@@ -538,7 +538,7 @@ namespace Peasy
         /// <returns>A list of <see cref="ValidationResult"/></returns>
         protected virtual IEnumerable<ValidationResult> GetValidationResultsForUpdate(T resource, ExecutionContext<T> context)
         {
-            return resource.GetValidationErrors();
+            return resource.Validate();
         }
 
         /// <summary>
