@@ -218,28 +218,28 @@ namespace Peasy.Core.Tests
             return base.GetBusinessRulesForGetAllAsync(context);
         }
 
-        protected override IEnumerable<ValidationResult> GetAllErrorsForGetAll(ExecutionContext<Person> context)
+        protected override IEnumerable<ValidationResult> OnGetAllCommandValidation(ExecutionContext<Person> context)
         {
             GetAllErrorsForGetAllWasInvoked = true;
-            return base.GetAllErrorsForGetAll(context);
+            return base.OnGetAllCommandValidation(context);
         }
 
-        protected override Task<IEnumerable<ValidationResult>> GetAllErrorsForGetAllAsync(ExecutionContext<Person> context)
+        protected override Task<IEnumerable<ValidationResult>> OnGetAllCommandValidationAsync(ExecutionContext<Person> context)
         {
             GetAllErrorsForGetAllAsyncWasInvoked = true;
-            return base.GetAllErrorsForGetAllAsync(context);
+            return base.OnGetAllCommandValidationAsync(context);
         }
 
-        protected override IEnumerable<Person> GetAll(ExecutionContext<Person> context)
+        protected override IEnumerable<Person> OnGetAllCommandValidationSuccess(ExecutionContext<Person> context)
         {
             GetAllWasInvoked = true;
-            return base.GetAll(context);
+            return base.OnGetAllCommandValidationSuccess(context);
         }
 
-        protected override Task<IEnumerable<Person>> GetAllAsync(ExecutionContext<Person> context)
+        protected override Task<IEnumerable<Person>> OnGetAllCommandValidationSuccessAsync(ExecutionContext<Person> context)
         {
             GetAllAsyncWasInvoked = true;
-            return base.GetAllAsync(context);
+            return base.OnGetAllCommandValidationSuccessAsync(context);
         }
 
         #endregion
@@ -276,28 +276,28 @@ namespace Peasy.Core.Tests
             return base.GetBusinessRulesForGetByIDAsync(id, context);
         }
 
-        protected override IEnumerable<ValidationResult> GetAllErrorsForGetByID(long id, ExecutionContext<Person> context)
+        protected override IEnumerable<ValidationResult> OnGetByIDCommandValidation(long id, ExecutionContext<Person> context)
         {
             GetAllErrorsForGetByIDWasInvoked = true;
-            return base.GetAllErrorsForGetByID(id, context);
+            return base.OnGetByIDCommandValidation(id, context);
         }
 
-        protected override Task<IEnumerable<ValidationResult>> GetAllErrorsForGetByIDAsync(long id, ExecutionContext<Person> context)
+        protected override Task<IEnumerable<ValidationResult>> OnGetByIDCommandValidationAsync(long id, ExecutionContext<Person> context)
         {
             GetAllErrorsForGetByIDAsyncWasInvoked = true;
-            return base.GetAllErrorsForGetByIDAsync(id, context);
+            return base.OnGetByIDCommandValidationAsync(id, context);
         }
 
-        protected override Person GetByID(long id, ExecutionContext<Person> context)
+        protected override Person OnGetByIDCommandValidationSuccess(long id, ExecutionContext<Person> context)
         {
             GetByIDWasInvoked = true;
-            return base.GetByID(id, context);
+            return base.OnGetByIDCommandValidationSuccess(id, context);
         }
 
-        protected override Task<Person> GetByIDAsync(long id, ExecutionContext<Person> context)
+        protected override Task<Person> OnGetByIDCommandValidationSuccessAsync(long id, ExecutionContext<Person> context)
         {
             GetByIDAsyncWasInvoked = true;
-            return base.GetByIDAsync(id, context);
+            return base.OnGetByIDCommandValidationSuccessAsync(id, context);
         }
 
         #endregion
@@ -334,28 +334,28 @@ namespace Peasy.Core.Tests
             return base.GetBusinessRulesForInsertAsync(person, context);
         }
 
-        protected override IEnumerable<ValidationResult> GetAllErrorsForInsert(Person person, ExecutionContext<Person> context)
+        protected override IEnumerable<ValidationResult> OnInsertCommandValidation(Person person, ExecutionContext<Person> context)
         {
             GetAllErrorsForInsertWasInvoked = true;
-            return base.GetAllErrorsForInsert(person, context);
+            return base.OnInsertCommandValidation(person, context);
         }
 
-        protected override Task<IEnumerable<ValidationResult>> GetAllErrorsForInsertAsync(Person person, ExecutionContext<Person> context)
+        protected override Task<IEnumerable<ValidationResult>> OnInsertCommandValidationAsync(Person person, ExecutionContext<Person> context)
         {
             GetAllErrorsForInsertAsyncWasInvoked = true;
-            return base.GetAllErrorsForInsertAsync(person, context);
+            return base.OnInsertCommandValidationAsync(person, context);
         }
 
-        protected override Person Insert(Person person, ExecutionContext<Person> context)
+        protected override Person OnInsertCommandValidationSuccess(Person person, ExecutionContext<Person> context)
         {
             InsertWasInvoked = true;
-            return base.Insert(person, context);
+            return base.OnInsertCommandValidationSuccess(person, context);
         }
 
-        protected override Task<Person> InsertAsync(Person person, ExecutionContext<Person> context)
+        protected override Task<Person> OnInsertCommandValidationSuccessAsync(Person person, ExecutionContext<Person> context)
         {
             InsertAsyncWasInvoked = true;
-            return base.InsertAsync(person, context);
+            return base.OnInsertCommandValidationSuccessAsync(person, context);
         }
 
         #endregion
@@ -392,28 +392,28 @@ namespace Peasy.Core.Tests
             return base.GetBusinessRulesForUpdateAsync(person, context);
         }
 
-        protected override IEnumerable<ValidationResult> GetAllErrorsForUpdate(Person person, ExecutionContext<Person> context)
+        protected override IEnumerable<ValidationResult> OnUpdateCommandValidation(Person person, ExecutionContext<Person> context)
         {
             GetAllErrorsForUpdateWasInvoked = true;
-            return base.GetAllErrorsForUpdate(person, context);
+            return base.OnUpdateCommandValidation(person, context);
         }
 
-        protected override Task<IEnumerable<ValidationResult>> GetAllErrorsForUpdateAsync(Person person, ExecutionContext<Person> context)
+        protected override Task<IEnumerable<ValidationResult>> OnUpdateCommandValidationAsync(Person person, ExecutionContext<Person> context)
         {
             GetAllErrorsForUpdateAsyncWasInvoked = true;
-            return base.GetAllErrorsForUpdateAsync(person, context);
+            return base.OnUpdateCommandValidationAsync(person, context);
         }
 
-        protected override Person Update(Person person, ExecutionContext<Person> context)
+        protected override Person OnUpdateCommandValidationSuccess(Person person, ExecutionContext<Person> context)
         {
             UpdateWasInvoked = true;
-            return base.Update(person, context);
+            return base.OnUpdateCommandValidationSuccess(person, context);
         }
 
-        protected override Task<Person> UpdateAsync(Person person, ExecutionContext<Person> context)
+        protected override Task<Person> OnUpdateCommandValidationSuccessAsync(Person person, ExecutionContext<Person> context)
         {
             UpdateAsyncWasInvoked = true;
-            return base.UpdateAsync(person, context);
+            return base.OnUpdateCommandValidationSuccessAsync(person, context);
         }
 
         #endregion
@@ -443,28 +443,28 @@ namespace Peasy.Core.Tests
             return base.GetBusinessRulesForDeleteAsync(id, context);
         }
 
-        protected override IEnumerable<ValidationResult> GetAllErrorsForDelete(long id, ExecutionContext<Person> context)
+        protected override IEnumerable<ValidationResult> OnDeleteCommandValidation(long id, ExecutionContext<Person> context)
         {
             GetAllErrorsForDeleteWasInvoked = true;
-            return base.GetAllErrorsForDelete(id, context);
+            return base.OnDeleteCommandValidation(id, context);
         }
 
-        protected override Task<IEnumerable<ValidationResult>> GetAllErrorsForDeleteAsync(long id, ExecutionContext<Person> context)
+        protected override Task<IEnumerable<ValidationResult>> OnDeleteCommandValidationAsync(long id, ExecutionContext<Person> context)
         {
             GetAllErrorsForDeleteAsyncWasInvoked = true;
-            return base.GetAllErrorsForDeleteAsync(id, context);
+            return base.OnDeleteCommandValidationAsync(id, context);
         }
 
-        protected override void Delete(long id, ExecutionContext<Person> context)
+        protected override void OnDeleteCommandValidationSuccess(long id, ExecutionContext<Person> context)
         {
             DeleteWasInvoked = true;
-            base.Delete(id, context);
+            base.OnDeleteCommandValidationSuccess(id, context);
         }
 
-        protected override Task DeleteAsync(long id, ExecutionContext<Person> context)
+        protected override Task OnDeleteCommandValidationSuccessAsync(long id, ExecutionContext<Person> context)
         {
             DeleteAsyncWasInvoked = true;
-            return base.DeleteAsync(id, context);
+            return base.OnDeleteCommandValidationSuccessAsync(id, context);
         }
 
         protected override Task OnDeleteCommandInitializationAsync(long id, ExecutionContext<Person> context)

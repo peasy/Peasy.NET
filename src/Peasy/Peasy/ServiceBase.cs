@@ -335,7 +335,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
         /// <returns>A resource returned from <see cref="Peasy.ISupportGetByID{T, TKey}.GetByID"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual T GetByID(TKey id, ExecutionContext<T> context)
+        protected virtual T OnGetByIDCommandValidationSuccess(TKey id, ExecutionContext<T> context)
         {
             return _dataProxy.GetByID(id);
         }
@@ -351,7 +351,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
         /// <returns>An awaitable resource returned from <see cref="Peasy.ISupportGetByIDAsync{T, TKey}.GetByIDAsync"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual async Task<T> GetByIDAsync(TKey id, ExecutionContext<T> context)
+        protected virtual async Task<T> OnGetByIDCommandValidationSuccessAsync(TKey id, ExecutionContext<T> context)
         {
             return await _dataProxy.GetByIDAsync(id);
         }
@@ -366,7 +366,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
         /// <returns>A resource list returned from <see cref="Peasy.ISupportGetAll{T}.GetAll"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual IEnumerable<T> GetAll(ExecutionContext<T> context)
+        protected virtual IEnumerable<T> OnGetAllCommandValidationSuccess(ExecutionContext<T> context)
         {
             return _dataProxy.GetAll();
         }
@@ -381,7 +381,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
         /// <returns>An awaitable resource list returned from <see cref="Peasy.ISupportGetAllAsync{T}.GetAllAsync"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual async Task<IEnumerable<T>> GetAllAsync(ExecutionContext<T> context)
+        protected virtual async Task<IEnumerable<T>> OnGetAllCommandValidationSuccessAsync(ExecutionContext<T> context)
         {
             return await _dataProxy.GetAllAsync();
         }
@@ -397,7 +397,7 @@ namespace Peasy
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
         /// <returns>An updated representation of the resource resulting from a call to <see cref="Peasy.ISupportInsert{T}.Insert"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual T Insert(T resource, ExecutionContext<T> context)
+        protected virtual T OnInsertCommandValidationSuccess(T resource, ExecutionContext<T> context)
         {
             return _dataProxy.Insert(resource);
         }
@@ -413,7 +413,7 @@ namespace Peasy
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
         /// <returns>An awaitable updated representation of the resource resulting from a call to <see cref="Peasy.ISupportInsertAsync{T}.InsertAsync"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual async Task<T> InsertAsync(T resource, ExecutionContext<T> context)
+        protected virtual async Task<T> OnInsertCommandValidationSuccessAsync(T resource, ExecutionContext<T> context)
         {
             return await _dataProxy.InsertAsync(resource);
         }
@@ -429,7 +429,7 @@ namespace Peasy
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
         /// <returns>An updated representation of the resource resulting from a call to <see cref="Peasy.ISupportUpdate{T}.Update"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual T Update(T resource, ExecutionContext<T> context)
+        protected virtual T OnUpdateCommandValidationSuccess(T resource, ExecutionContext<T> context)
         {
             return _dataProxy.Update(resource);
         }
@@ -445,7 +445,7 @@ namespace Peasy
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
         /// <returns>An awaitable updated representation of the resource resulting from a call to <see cref="Peasy.ISupportUpdateAsync{T}.UpdateAsync"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual async Task<T> UpdateAsync(T resource, ExecutionContext<T> context)
+        protected virtual async Task<T> OnUpdateCommandValidationSuccessAsync(T resource, ExecutionContext<T> context)
         {
             return await _dataProxy.UpdateAsync(resource);
         }
@@ -461,7 +461,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
         /// <returns><see cref="void"/> resulting from a call to <see cref="Peasy.ISupportDelete{T}.Delete"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual void Delete(TKey id, ExecutionContext<T> context)
+        protected virtual void OnDeleteCommandValidationSuccess(TKey id, ExecutionContext<T> context)
         {
             _dataProxy.Delete(id);
         }
@@ -477,7 +477,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
         /// <returns>An awaitable <see cref="Task"/> resulting from a call to <see cref="Peasy.ISupportDeleteAsync{T}.DeleteAsync"/> of <see cref="DataProxy"/>.</returns>
-        protected virtual Task DeleteAsync(TKey id, ExecutionContext<T> context)
+        protected virtual Task OnDeleteCommandValidationSuccessAsync(TKey id, ExecutionContext<T> context)
         {
             return _dataProxy.DeleteAsync(id);
         }
@@ -486,7 +486,7 @@ namespace Peasy
         /// Generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="GetAllErrorsForGetByID"/> and <see cref="GetAllErrorsForGetByIDAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnGetByIDCommandValidation"/> and <see cref="OnGetByIDCommandValidationAsync"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to retrieve.</param>
@@ -501,7 +501,7 @@ namespace Peasy
         /// Generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="GetAllErrorsForGetAll"/> and <see cref="GetAllErrorsForGetAllAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnGetAllCommandValidation"/> and <see cref="OnGetAllCommandValidationAsync"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
@@ -515,7 +515,7 @@ namespace Peasy
         /// Generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="GetAllErrorsForInsert"/> and <see cref="GetAllErrorsForInsertAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnInsertCommandValidation"/> and <see cref="OnInsertCommandValidationAsync"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
@@ -530,7 +530,7 @@ namespace Peasy
         /// Generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="GetAllErrorsForUpdate"/> and <see cref="GetAllErrorsForUpdateAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnUpdateCommandValidation"/> and <see cref="OnUpdateCommandValidationAsync"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
@@ -545,7 +545,7 @@ namespace Peasy
         /// Generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="GetAllErrorsForDelete"/> and <see cref="GetAllErrorsForDeleteAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnDeleteCommandValidation"/> and <see cref="OnDeleteCommandValidationAsync"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to delete.</param>
@@ -565,7 +565,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
         /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetByID(TKey id, ExecutionContext<T> context)
+        protected virtual IEnumerable<ValidationResult> OnGetByIDCommandValidation(TKey id, ExecutionContext<T> context)
         {
             return GetValidationResultsForGetByID(id, context).Concat(GetBusinessRulesForGetByID(id, context).GetValidationResults());
         }
@@ -579,7 +579,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="ValidationResult"/></returns>
-        protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForGetByIDAsync(TKey id, ExecutionContext<T> context)
+        protected virtual async Task<IEnumerable<ValidationResult>> OnGetByIDCommandValidationAsync(TKey id, ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForGetByIDAsync(id, context);
             return GetValidationResultsForGetByID(id, context).Concat(await rules.GetValidationResultsAsync());
@@ -593,7 +593,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
         /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> GetAllErrorsForGetAll(ExecutionContext<T> context)
+        protected virtual IEnumerable<ValidationResult> OnGetAllCommandValidation(ExecutionContext<T> context)
         {
             return GetValidationResultsForGetAll(context).Concat(GetBusinessRulesForGetAll(context).GetValidationResults());
         }
@@ -606,7 +606,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="ValidationResult"/></returns>
-        protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForGetAllAsync(ExecutionContext<T> context)
+        protected virtual async Task<IEnumerable<ValidationResult>> OnGetAllCommandValidationAsync(ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForGetAllAsync(context);
             return GetValidationResultsForGetAll(context).Concat(await rules.GetValidationResultsAsync());
@@ -621,7 +621,7 @@ namespace Peasy
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
         /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> GetAllErrorsForInsert(T resource, ExecutionContext<T> context)
+        protected virtual IEnumerable<ValidationResult> OnInsertCommandValidation(T resource, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForInsert(resource, context);
             var businessRuleErrors = GetBusinessRulesForInsert(resource, context).GetValidationResults();
@@ -637,7 +637,7 @@ namespace Peasy
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="ValidationResult"/></returns>
-        protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForInsertAsync(T resource, ExecutionContext<T> context)
+        protected virtual async Task<IEnumerable<ValidationResult>> OnInsertCommandValidationAsync(T resource, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForInsert(resource, context);
             var rules = await GetBusinessRulesForInsertAsync(resource, context);
@@ -653,7 +653,7 @@ namespace Peasy
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
         /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> GetAllErrorsForUpdate(T resource, ExecutionContext<T> context)
+        protected virtual IEnumerable<ValidationResult> OnUpdateCommandValidation(T resource, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForUpdate(resource, context);
             var businessRuleErrors = GetBusinessRulesForUpdate(resource, context).GetValidationResults();
@@ -669,7 +669,7 @@ namespace Peasy
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="ValidationResult"/></returns>
-        protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForUpdateAsync(T resource, ExecutionContext<T> context)
+        protected virtual async Task<IEnumerable<ValidationResult>> OnUpdateCommandValidationAsync(T resource, ExecutionContext<T> context)
         {
             var validationErrors = GetValidationResultsForUpdate(resource, context);
             var rules = await GetBusinessRulesForUpdateAsync(resource, context);
@@ -685,7 +685,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
         /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> GetAllErrorsForDelete(TKey id, ExecutionContext<T> context)
+        protected virtual IEnumerable<ValidationResult> OnDeleteCommandValidation(TKey id, ExecutionContext<T> context)
         {
             return GetValidationResultsForDelete(id, context).Concat(GetBusinessRulesForDelete(id, context).GetValidationResults());
         }
@@ -699,7 +699,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="ValidationResult"/></returns>
-        protected virtual async Task<IEnumerable<ValidationResult>> GetAllErrorsForDeleteAsync(TKey id, ExecutionContext<T> context)
+        protected virtual async Task<IEnumerable<ValidationResult>> OnDeleteCommandValidationAsync(TKey id, ExecutionContext<T> context)
         {
             var rules = await GetBusinessRulesForDeleteAsync(id, context);
             return GetValidationResultsForDelete(id, context).Concat(await rules.GetValidationResultsAsync());
@@ -717,10 +717,10 @@ namespace Peasy
             (
                 initializationMethod: () => OnGetByIDCommandInitialization(id, context),
                 initializationAsyncMethod: () => OnGetByIDCommandInitializationAsync(id, context),
-                getErrorsMethod: () => GetAllErrorsForGetByID(id, context),
-                getErrorsAsyncMethod: () => GetAllErrorsForGetByIDAsync(id, context),
-                executeMethod: () => GetByID(id, context),
-                executeAsyncMethod: () => GetByIDAsync(id, context)
+                validationMethod: () => OnGetByIDCommandValidation(id, context),
+                validationAsyncMethod: () => OnGetByIDCommandValidationAsync(id, context),
+                executeMethod: () => OnGetByIDCommandValidationSuccess(id, context),
+                executeAsyncMethod: () => OnGetByIDCommandValidationSuccessAsync(id, context)
             );
         }
 
@@ -735,10 +735,10 @@ namespace Peasy
             (
                 initializationMethod: () => OnGetAllCommandInitialization(context),
                 initializationAsyncMethod: () => OnGetAllCommandInitializationAsync(context),
-                getErrorsMethod: () => GetAllErrorsForGetAll(context),
-                getErrorsAsyncMethod: () => GetAllErrorsForGetAllAsync(context),
-                executeMethod: () => GetAll(context),
-                executeAsyncMethod: () => GetAllAsync(context)
+                validationMethod: () => OnGetAllCommandValidation(context),
+                validationAsyncMethod: () => OnGetAllCommandValidationAsync(context),
+                executeMethod: () => OnGetAllCommandValidationSuccess(context),
+                executeAsyncMethod: () => OnGetAllCommandValidationSuccessAsync(context)
             );
         }
 
@@ -754,10 +754,10 @@ namespace Peasy
             (
                 initializationMethod: () => OnInsertCommandInitialization(resource, context),
                 initializationAsyncMethod: () => OnInsertCommandInitializationAsync(resource, context),
-                getErrorsMethod: () => GetAllErrorsForInsert(resource, context),
-                getErrorsAsyncMethod: () => GetAllErrorsForInsertAsync(resource, context),
-                executeMethod: () => Insert(resource, context),
-                executeAsyncMethod: () => InsertAsync(resource, context)
+                validationMethod: () => OnInsertCommandValidation(resource, context),
+                validationAsyncMethod: () => OnInsertCommandValidationAsync(resource, context),
+                executeMethod: () => OnInsertCommandValidationSuccess(resource, context),
+                executeAsyncMethod: () => OnInsertCommandValidationSuccessAsync(resource, context)
             );
         }
 
@@ -773,10 +773,10 @@ namespace Peasy
             (
                 initializationMethod: () => OnUpdateCommandInitialization(resource, context),
                 initializationAsyncMethod: () => OnUpdateCommandInitializationAsync(resource, context),
-                getErrorsMethod: () => GetAllErrorsForUpdate(resource, context),
-                getErrorsAsyncMethod: () => GetAllErrorsForUpdateAsync(resource, context),
-                executeMethod: () => Update(resource, context),
-                executeAsyncMethod: () => UpdateAsync(resource, context)
+                validationMethod: () => OnUpdateCommandValidation(resource, context),
+                validationAsyncMethod: () => OnUpdateCommandValidationAsync(resource, context),
+                executeMethod: () => OnUpdateCommandValidationSuccess(resource, context),
+                executeAsyncMethod: () => OnUpdateCommandValidationSuccessAsync(resource, context)
             );
         }
 
@@ -792,10 +792,10 @@ namespace Peasy
             (
                 initializationMethod: () => OnDeleteCommandInitialization(id, context),
                 initializationAsyncMethod: () => OnDeleteCommandInitializationAsync(id, context),
-                getErrorsMethod: () => GetAllErrorsForDelete(id, context),
-                getErrorsAsyncMethod: () => GetAllErrorsForDeleteAsync(id, context),
-                executeMethod: () => Delete(id, context),
-                executeAsyncMethod: () => DeleteAsync(id, context)
+                validationMethod: () => OnDeleteCommandValidation(id, context),
+                validationAsyncMethod: () => OnDeleteCommandValidationAsync(id, context),
+                executeMethod: () => OnDeleteCommandValidationSuccess(id, context),
+                executeAsyncMethod: () => OnDeleteCommandValidationSuccessAsync(id, context)
             );
         }
 

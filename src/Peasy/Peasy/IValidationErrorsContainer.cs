@@ -24,4 +24,24 @@ namespace Peasy
         Task<IEnumerable<ValidationResult>> GetErrorsAsync();
     }
 
+    /// <summary>
+    /// Supports runn
+    /// </summary>
+    public interface ISupportValidation
+    {
+        /// <summary>
+        /// Returns a potential list of <see cref="ValidationResult"/> resulting from rule executions.
+        /// </summary>
+        /// <returns>
+        /// A list of <see cref="ValidationResult"/>.
+        /// </returns>
+        IEnumerable<ValidationResult> Validate();
+
+        /// <summary>
+        /// Returns a potential list of <see cref="ValidationResult"/> resulting from rule executions.
+        /// </summary>
+        /// An awaitable list of <see cref="ValidationResult"/>.
+        Task<IEnumerable<ValidationResult>> ValidateAsync();
+    }
+
 }

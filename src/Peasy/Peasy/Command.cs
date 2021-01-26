@@ -8,14 +8,14 @@ namespace Peasy
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command : ICommand, IRulesContainer, IValidationErrorsContainer
+    public abstract class Command : ICommand, IRulesContainer, ISupportValidation
     {
         /// <inheritdoc cref="ICommand.Execute"/>
         public virtual ExecutionResult Execute()
         {
             OnInitialization();
 
-            var validationResults = OnGetErrors().ToArray();
+            var validationResults = OnValidate().ToArray();
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
@@ -36,7 +36,7 @@ namespace Peasy
         {
             await OnInitializationAsync();
 
-            var validationResults = (await OnGetErrorsAsync()).ToArray();
+            var validationResults = (await OnValidateAsync()).ToArray();
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
@@ -82,7 +82,7 @@ namespace Peasy
         /// <para>Override this method to manipulate how rules are invoked.</para>
         /// </remarks>
         /// <returns>A potential list of errors resulting from rule executions.</returns>
-        protected virtual IEnumerable<ValidationResult> OnGetErrors()
+        protected virtual IEnumerable<ValidationResult> OnValidate()
         {
             return OnGetRules().GetValidationResults();
         }
@@ -95,7 +95,7 @@ namespace Peasy
         /// <para>Override this method to manipulate how rules are invoked.</para>
         /// </remarks>
         /// <returns>A potential awaitable list of errors resulting from rule executions.</returns>
-        protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        protected virtual async Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
             var rules = await OnGetRulesAsync();
             return await rules.GetValidationResultsAsync();
@@ -186,18 +186,6 @@ namespace Peasy
             return new ExecutionResult { Success = true };
         }
 
-        /// <inheritdoc cref="IValidationErrorsContainer.GetErrors"/>
-        public IEnumerable<ValidationResult> GetErrors()
-        {
-            return OnGetErrors();
-        }
-
-        /// <inheritdoc cref="IValidationErrorsContainer.GetErrorsAsync"/>
-        public Task<IEnumerable<ValidationResult>> GetErrorsAsync()
-        {
-            return OnGetErrorsAsync();
-        }
-
         /// <inheritdoc cref="IRulesContainer.GetRulesAsync"/>
         public Task<IEnumerable<IRule>> GetRulesAsync()
         {
@@ -209,19 +197,31 @@ namespace Peasy
         {
             return OnGetRules();
         }
+
+        /// <inheritdoc cref="ISupportValidation.Validate"/>
+        public IEnumerable<ValidationResult> Validate()
+        {
+            return OnValidate();
+        }
+
+        /// <inheritdoc cref="ISupportValidation.ValidateAsync"/>
+        public Task<IEnumerable<ValidationResult>> ValidateAsync()
+        {
+            return OnValidateAsync();
+        }
     }
 
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command<T> : ICommand<T>, IRulesContainer
+    public abstract class Command<T> : ICommand<T>, IRulesContainer, ISupportValidation
     {
         /// <inheritdoc cref="ICommand{T}.Execute"/>
         public virtual ExecutionResult<T> Execute()
         {
             OnInitialization();
 
-            var validationResults = OnGetErrors().ToArray();
+            var validationResults = OnValidate().ToArray();
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
@@ -243,7 +243,7 @@ namespace Peasy
         {
             await OnInitializationAsync();
 
-            var validationResults = (await OnGetErrorsAsync()).ToArray();
+            var validationResults = (await OnValidateAsync()).ToArray();
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
@@ -290,7 +290,7 @@ namespace Peasy
         /// <para>Override this method to manipulate how rules are invoked.</para>
         /// </remarks>
         /// <returns>A potential list of errors resulting from rule executions.</returns>
-        protected virtual IEnumerable<ValidationResult> OnGetErrors()
+        protected virtual IEnumerable<ValidationResult> OnValidate()
         {
             return OnGetRules().GetValidationResults();
         }
@@ -303,7 +303,7 @@ namespace Peasy
         /// <para>Override this method to manipulate how rules are invoked.</para>
         /// </remarks>
         /// <returns>A potential awaitable list of errors resulting from rule executions.</returns>
-        protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        protected virtual async Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
             var rules = await OnGetRulesAsync();
             return await rules.GetValidationResultsAsync();
@@ -398,18 +398,6 @@ namespace Peasy
             return new ExecutionResult<T> { Success = true, Value = value };
         }
 
-        /// <inheritdoc cref="IValidationErrorsContainer.GetErrors"/>
-        public IEnumerable<ValidationResult> GetErrors()
-        {
-            return OnGetErrors();
-        }
-
-        /// <inheritdoc cref="IValidationErrorsContainer.GetErrorsAsync"/>
-        public Task<IEnumerable<ValidationResult>> GetErrorsAsync()
-        {
-            return OnGetErrorsAsync();
-        }
-
         /// <inheritdoc cref="IRulesContainer.GetRulesAsync"/>
         public Task<IEnumerable<IRule>> GetRulesAsync()
         {
@@ -420,6 +408,18 @@ namespace Peasy
         public IEnumerable<IRule> GetRules()
         {
             return OnGetRules();
+        }
+
+        /// <inheritdoc cref="ISupportValidation.Validate"/>
+        public IEnumerable<ValidationResult> Validate()
+        {
+            return OnValidate();
+        }
+
+        /// <inheritdoc cref="ISupportValidation.ValidateAsync"/>
+        public Task<IEnumerable<ValidationResult>> ValidateAsync()
+        {
+            return OnValidateAsync();
         }
     }
 }

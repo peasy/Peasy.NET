@@ -26,7 +26,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBe("You shall pass");
 
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
@@ -48,7 +48,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBe("You shall pass");
 
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
@@ -71,7 +71,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBeNull();
 
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
@@ -94,7 +94,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBeNull();
 
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
@@ -117,7 +117,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBeNull();
 
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrors"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
@@ -143,7 +143,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBe("You shall pass");
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
@@ -165,7 +165,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBe("You shall pass");
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
@@ -188,7 +188,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBeNull();
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
@@ -211,7 +211,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBeNull();
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
@@ -234,7 +234,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Value.ShouldBeNull();
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnGetErrorsAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
@@ -267,7 +267,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             var rules = new IRule[] { new TrueRule(), new FalseRule1() };
             var command = new CommandStub(doerOfThings.Object, rules);
 
-            var errors = command.GetErrors().ToArray();
+            var errors = command.Validate().ToArray();
 
             errors.Count().ShouldBe(1);
             errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
@@ -314,16 +314,16 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             return Task.CompletedTask;
         }
 
-        protected override IEnumerable<ValidationResult> OnGetErrors()
+        protected override IEnumerable<ValidationResult> OnValidate()
         {
-            _doerOfThings.Log(nameof(OnGetErrors));
-            return _validationResults ?? base.OnGetErrors();
+            _doerOfThings.Log(nameof(OnValidate));
+            return _validationResults ?? base.OnValidate();
         }
 
-        protected async override Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        protected async override Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
-            _doerOfThings.Log(nameof(OnGetErrorsAsync));
-            return _validationResults ?? await base.OnGetErrorsAsync();
+            _doerOfThings.Log(nameof(OnValidateAsync));
+            return _validationResults ?? await base.OnValidateAsync();
         }
 
         protected override IEnumerable<IRule> OnGetRules()

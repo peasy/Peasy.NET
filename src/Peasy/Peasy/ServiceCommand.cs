@@ -19,11 +19,11 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        protected Func<IEnumerable<ValidationResult>> _getErrorsMethod;
+        protected Func<IEnumerable<ValidationResult>> _validationMethod;
 
         /// <summary>
         /// </summary>
-        protected Func<Task<IEnumerable<ValidationResult>>> _getErrorsAsyncMethod;
+        protected Func<Task<IEnumerable<ValidationResult>>> _validationAsyncMethod;
 
         /// <summary>
         /// </summary>
@@ -45,8 +45,8 @@ namespace Peasy
         /// </summary>
         public ServiceCommand(Action initializationMethod,
                               Func<Task> initializationAsyncMethod,
-                              Func<IEnumerable<ValidationResult>> getErrorsMethod,
-                              Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod,
+                              Func<IEnumerable<ValidationResult>> validationMethod,
+                              Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod,
                               Func<IEnumerable<IRule>> getRulesMethod,
                               Func<Task<IEnumerable<IRule>>> getRulesAsyncMethod,
                               Action executeMethod,
@@ -56,8 +56,8 @@ namespace Peasy
             _initializationAsyncMethod = initializationAsyncMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
-            _getErrorsMethod = getErrorsMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationMethod = validationMethod;
+            _validationAsyncMethod = validationAsyncMethod;
             _getBusinessRulesMethod = getRulesMethod;
             _getBusinessRulesAsyncMethod = getRulesAsyncMethod;
         }
@@ -66,8 +66,8 @@ namespace Peasy
         /// </summary>
         public ServiceCommand(Action initializationMethod,
                               Func<Task> initializationAsyncMethod,
-                              Func<IEnumerable<ValidationResult>> getErrorsMethod,
-                              Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod,
+                              Func<IEnumerable<ValidationResult>> validationMethod,
+                              Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod,
                               Action executeMethod,
                               Func<Task> executeAsyncMethod)
         {
@@ -75,8 +75,8 @@ namespace Peasy
             _initializationAsyncMethod = initializationAsyncMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
-            _getErrorsMethod = getErrorsMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationMethod = validationMethod;
+            _validationAsyncMethod = validationAsyncMethod;
         }
 
         /// <summary>
@@ -107,10 +107,10 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public ServiceCommand(Func<IEnumerable<ValidationResult>> getErrorsMethod, Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod, Action executeMethod, Func<Task> executeAsyncMethod)
+        public ServiceCommand(Func<IEnumerable<ValidationResult>> validationMethod, Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod, Action executeMethod, Func<Task> executeAsyncMethod)
         {
-            _getErrorsMethod = getErrorsMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationMethod = validationMethod;
+            _validationAsyncMethod = validationAsyncMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
         }
@@ -125,18 +125,18 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public ServiceCommand(Action executeMethod, Func<IEnumerable<ValidationResult>> getErrorsMethod)
+        public ServiceCommand(Action executeMethod, Func<IEnumerable<ValidationResult>> validationMethod)
         {
             _executeMethod = executeMethod;
-            _getErrorsMethod = getErrorsMethod;
+            _validationMethod = validationMethod;
         }
 
         /// <summary>
         /// </summary>
-        public ServiceCommand(Func<Task> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod)
+        public ServiceCommand(Func<Task> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod)
         {
             _executeAsyncMethod = executeAsyncMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationAsyncMethod = validationAsyncMethod;
         }
 
         /// <summary>
@@ -183,11 +183,11 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public ServiceCommand(Func<Task> initializationAsyncMethod, Func<Task> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod)
+        public ServiceCommand(Func<Task> initializationAsyncMethod, Func<Task> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod)
         {
             _initializationAsyncMethod = initializationAsyncMethod;
             _executeAsyncMethod = executeAsyncMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationAsyncMethod = validationAsyncMethod;
         }
 
         /// <summary>
@@ -220,16 +220,16 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        protected override IEnumerable<ValidationResult> OnGetErrors()
+        protected override IEnumerable<ValidationResult> OnValidate()
         {
-            return (_getErrorsMethod ?? base.OnGetErrors)();
+            return (_validationMethod ?? base.OnValidate)();
         }
 
         /// <summary>
         /// </summary>
-        protected override Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        protected override Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
-            return (_getErrorsAsyncMethod ?? base.OnGetErrorsAsync)();
+            return (_validationAsyncMethod ?? base.OnValidateAsync)();
         }
 
         /// <summary>
@@ -253,8 +253,8 @@ namespace Peasy
     {
         private Action _initializationMethod;
         private Func<Task> _initializationAsyncMethod;
-        private Func<IEnumerable<ValidationResult>> _getErrorsMethod;
-        private Func<Task<IEnumerable<ValidationResult>>> _getErrorsAsyncMethod;
+        private Func<IEnumerable<ValidationResult>> _validationMethod;
+        private Func<Task<IEnumerable<ValidationResult>>> _validationAsyncMethod;
         private Func<T> _executeMethod;
         private Func<Task<T>> _executeAsyncMethod;
 
@@ -270,8 +270,8 @@ namespace Peasy
         /// </summary>
         public ServiceCommand(Action initializationMethod,
                               Func<Task> initializationAsyncMethod,
-                              Func<IEnumerable<ValidationResult>> getErrorsMethod,
-                              Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod,
+                              Func<IEnumerable<ValidationResult>> validationMethod,
+                              Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod,
                               Func<IEnumerable<IRule>> getBusinessRulesMethod,
                               Func<Task<IEnumerable<IRule>>> getBusinessRulesAsyncMethod,
                               Func<T> executeMethod,
@@ -281,8 +281,8 @@ namespace Peasy
             _initializationAsyncMethod = initializationAsyncMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
-            _getErrorsMethod = getErrorsMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationMethod = validationMethod;
+            _validationAsyncMethod = validationAsyncMethod;
             _getBusinessRulesMethod = getBusinessRulesMethod;
             _getBusinessRulesAsyncMethod = getBusinessRulesAsyncMethod;
         }
@@ -291,8 +291,8 @@ namespace Peasy
         /// </summary>
         public ServiceCommand(Action initializationMethod,
                               Func<Task> initializationAsyncMethod,
-                              Func<IEnumerable<ValidationResult>> getErrorsMethod,
-                              Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod,
+                              Func<IEnumerable<ValidationResult>> validationMethod,
+                              Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod,
                               Func<T> executeMethod,
                               Func<Task<T>> executeAsyncMethod)
         {
@@ -300,8 +300,8 @@ namespace Peasy
             _initializationAsyncMethod = initializationAsyncMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
-            _getErrorsMethod = getErrorsMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationMethod = validationMethod;
+            _validationAsyncMethod = validationAsyncMethod;
         }
 
         /// <summary>
@@ -332,10 +332,10 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public ServiceCommand(Func<IEnumerable<ValidationResult>> getErrorsMethod, Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod, Func<T> executeMethod, Func<Task<T>> executeAsyncMethod)
+        public ServiceCommand(Func<IEnumerable<ValidationResult>> validationMethod, Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod, Func<T> executeMethod, Func<Task<T>> executeAsyncMethod)
         {
-            _getErrorsMethod = getErrorsMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationMethod = validationMethod;
+            _validationAsyncMethod = validationAsyncMethod;
             _executeMethod = executeMethod;
             _executeAsyncMethod = executeAsyncMethod;
         }
@@ -350,18 +350,18 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public ServiceCommand(Func<T> executeMethod, Func<IEnumerable<ValidationResult>> getErrorsMethod)
+        public ServiceCommand(Func<T> executeMethod, Func<IEnumerable<ValidationResult>> validationMethod)
         {
             _executeMethod = executeMethod;
-            _getErrorsMethod = getErrorsMethod;
+            _validationMethod = validationMethod;
         }
 
         /// <summary>
         /// </summary>
-        public ServiceCommand(Func<Task<T>> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod)
+        public ServiceCommand(Func<Task<T>> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod)
         {
             _executeAsyncMethod = executeAsyncMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationAsyncMethod = validationAsyncMethod;
         }
 
         /// <summary>
@@ -408,11 +408,11 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public ServiceCommand(Func<Task> initializationAsyncMethod, Func<Task<T>> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> getErrorsAsyncMethod)
+        public ServiceCommand(Func<Task> initializationAsyncMethod, Func<Task<T>> executeAsyncMethod, Func<Task<IEnumerable<ValidationResult>>> validationAsyncMethod)
         {
             _initializationAsyncMethod = initializationAsyncMethod;
             _executeAsyncMethod = executeAsyncMethod;
-            _getErrorsAsyncMethod = getErrorsAsyncMethod;
+            _validationAsyncMethod = validationAsyncMethod;
         }
 
         /// <summary>
@@ -445,16 +445,16 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        protected override IEnumerable<ValidationResult> OnGetErrors()
+        protected override IEnumerable<ValidationResult> OnValidate()
         {
-            return (_getErrorsMethod ?? base.OnGetErrors)();
+            return (_validationMethod ?? base.OnValidate)();
         }
 
         /// <summary>
         /// </summary>
-        protected override Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
+        protected override Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
-            return (_getErrorsAsyncMethod ?? base.OnGetErrorsAsync)();
+            return (_validationAsyncMethod ?? base.OnValidateAsync)();
         }
 
         /// <summary>
