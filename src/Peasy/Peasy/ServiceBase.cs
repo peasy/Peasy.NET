@@ -177,7 +177,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
         /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForGetByID(TKey id, ExecutionContext<T> context)
+        protected virtual IEnumerable<IRule> OnGetBusinessRulesForGetByID(TKey id, ExecutionContext<T> context)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -193,7 +193,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="IRule"/></returns>
-        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForGetByIDAsync(TKey id, ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> OnGetBusinessRulesForGetByIDAsync(TKey id, ExecutionContext<T> context)
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
@@ -208,7 +208,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
         /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForGetAll(ExecutionContext<T> context)
+        protected virtual IEnumerable<IRule> OnGetBusinessRulesForGetAll(ExecutionContext<T> context)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -223,7 +223,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="IRule"/></returns>
-        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForGetAllAsync(ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> OnGetBusinessRulesForGetAllAsync(ExecutionContext<T> context)
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
@@ -239,7 +239,7 @@ namespace Peasy
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
         /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForInsert(T resource, ExecutionContext<T> context)
+        protected virtual IEnumerable<IRule> OnGetBusinessRulesForInsert(T resource, ExecutionContext<T> context)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -255,7 +255,7 @@ namespace Peasy
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="IRule"/></returns>
-        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForInsertAsync(T resource, ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> OnGetBusinessRulesForInsertAsync(T resource, ExecutionContext<T> context)
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
@@ -271,7 +271,7 @@ namespace Peasy
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
         /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForUpdate(T resource, ExecutionContext<T> context)
+        protected virtual IEnumerable<IRule> OnGetBusinessRulesForUpdate(T resource, ExecutionContext<T> context)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -287,7 +287,7 @@ namespace Peasy
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="IRule"/></returns>
-        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForUpdateAsync(T resource, ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> OnGetBusinessRulesForUpdateAsync(T resource, ExecutionContext<T> context)
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
@@ -303,7 +303,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
         /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> GetBusinessRulesForDelete(TKey id, ExecutionContext<T> context)
+        protected virtual IEnumerable<IRule> OnGetBusinessRulesForDelete(TKey id, ExecutionContext<T> context)
         {
             return Enumerable.Empty<IRule>();
         }
@@ -319,7 +319,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="IRule"/></returns>
-        protected virtual Task<IEnumerable<IRule>> GetBusinessRulesForDeleteAsync(TKey id, ExecutionContext<T> context)
+        protected virtual Task<IEnumerable<IRule>> OnGetBusinessRulesForDeleteAsync(TKey id, ExecutionContext<T> context)
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
@@ -543,7 +543,7 @@ namespace Peasy
         }
 
         /// <summary>
-        /// Combines the results of <see cref="OnValidateIdForGetByID"/> and <see cref="GetBusinessRulesForGetByID"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Combines the results of <see cref="OnValidateIdForGetByID"/> and <see cref="OnGetBusinessRulesForGetByID"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -553,11 +553,11 @@ namespace Peasy
         /// <returns>A list of <see cref="ValidationResult"/></returns>
         protected virtual IEnumerable<ValidationResult> OnPerformGetByIDCommandValidation(TKey id, ExecutionContext<T> context)
         {
-            return OnValidateIdForGetByID(id, context).Concat(GetBusinessRulesForGetByID(id, context).ValidateAll());
+            return OnValidateIdForGetByID(id, context).Concat(OnGetBusinessRulesForGetByID(id, context).ValidateAll());
         }
 
         /// <summary>
-        /// Combines the results of <see cref="OnValidateIdForGetByID"/> and <see cref="GetBusinessRulesForGetByIDAsync"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Combines the results of <see cref="OnValidateIdForGetByID"/> and <see cref="OnGetBusinessRulesForGetByIDAsync"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -568,12 +568,12 @@ namespace Peasy
         protected virtual async Task<IEnumerable<ValidationResult>> OnPerformGetByIDCommandValidationAsync(TKey id, ExecutionContext<T> context)
         {
             var validationErrors = OnValidateIdForGetByID(id, context);
-            var rules = await GetBusinessRulesForGetByIDAsync(id, context);
+            var rules = await OnGetBusinessRulesForGetByIDAsync(id, context);
             return validationErrors.Concat(await rules.ValidateAllAsync());
         }
 
         /// <summary>
-        /// Invokes <see cref="GetBusinessRulesForGetAll"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Invokes <see cref="OnGetBusinessRulesForGetAll"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -582,11 +582,11 @@ namespace Peasy
         /// <returns>A list of <see cref="ValidationResult"/></returns>
         protected virtual IEnumerable<ValidationResult> OnPerformGetAllCommandValidation(ExecutionContext<T> context)
         {
-            return GetBusinessRulesForGetAll(context).ValidateAll();
+            return OnGetBusinessRulesForGetAll(context).ValidateAll();
         }
 
         /// <summary>
-        /// Invokes <see cref="GetBusinessRulesForGetAllAsync"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Invokes <see cref="OnGetBusinessRulesForGetAllAsync"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -595,12 +595,12 @@ namespace Peasy
         /// <returns>An awaitable list of <see cref="ValidationResult"/></returns>
         protected virtual async Task<IEnumerable<ValidationResult>> OnPerformGetAllCommandValidationAsync(ExecutionContext<T> context)
         {
-            var rules = await GetBusinessRulesForGetAllAsync(context);
+            var rules = await OnGetBusinessRulesForGetAllAsync(context);
             return await rules.ValidateAllAsync();
         }
 
         /// <summary>
-        /// Combines the results of <see cref="OnValidateObjectForInsert"/> and <see cref="GetBusinessRulesForInsert"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Combines the results of <see cref="OnValidateObjectForInsert"/> and <see cref="OnGetBusinessRulesForInsert"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -611,12 +611,12 @@ namespace Peasy
         protected virtual IEnumerable<ValidationResult> OnPerformInsertCommandValidation(T resource, ExecutionContext<T> context)
         {
             var validationErrors = OnValidateObjectForInsert(resource, context);
-            var businessRuleErrors = GetBusinessRulesForInsert(resource, context).ValidateAll();
+            var businessRuleErrors = OnGetBusinessRulesForInsert(resource, context).ValidateAll();
             return validationErrors.Concat(businessRuleErrors);
         }
 
         /// <summary>
-        /// Combines the results of <see cref="OnValidateObjectForInsert"/> and <see cref="GetBusinessRulesForInsertAsync"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Combines the results of <see cref="OnValidateObjectForInsert"/> and <see cref="OnGetBusinessRulesForInsertAsync"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -627,12 +627,12 @@ namespace Peasy
         protected virtual async Task<IEnumerable<ValidationResult>> OnPerformInsertCommandValidationAsync(T resource, ExecutionContext<T> context)
         {
             var validationErrors = OnValidateObjectForInsert(resource, context);
-            var rules = await GetBusinessRulesForInsertAsync(resource, context);
+            var rules = await OnGetBusinessRulesForInsertAsync(resource, context);
             return validationErrors.Concat(await rules.ValidateAllAsync());
         }
 
         /// <summary>
-        /// Combines the results of <see cref="OnValidateObjectForUpdate"/> and <see cref="GetBusinessRulesForUpdate"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Combines the results of <see cref="OnValidateObjectForUpdate"/> and <see cref="OnGetBusinessRulesForUpdate"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -643,12 +643,12 @@ namespace Peasy
         protected virtual IEnumerable<ValidationResult> OnPerformUpdateCommandValidation(T resource, ExecutionContext<T> context)
         {
             var validationErrors = OnValidateObjectForUpdate(resource, context);
-            var businessRuleErrors = GetBusinessRulesForUpdate(resource, context).ValidateAll();
+            var businessRuleErrors = OnGetBusinessRulesForUpdate(resource, context).ValidateAll();
             return validationErrors.Concat(businessRuleErrors);
         }
 
         /// <summary>
-        /// Combines the results of <see cref="OnValidateObjectForUpdate"/> and <see cref="GetBusinessRulesForUpdateAsync"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Combines the results of <see cref="OnValidateObjectForUpdate"/> and <see cref="OnGetBusinessRulesForUpdateAsync"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -659,12 +659,12 @@ namespace Peasy
         protected virtual async Task<IEnumerable<ValidationResult>> OnPerformUpdateCommandValidationAsync(T resource, ExecutionContext<T> context)
         {
             var validationErrors = OnValidateObjectForUpdate(resource, context);
-            var rules = await GetBusinessRulesForUpdateAsync(resource, context);
+            var rules = await OnGetBusinessRulesForUpdateAsync(resource, context);
             return validationErrors.Concat(await rules.ValidateAllAsync());
         }
 
         /// <summary>
-        /// Combines the results of <see cref="OnValidateIdForDelete"/> and <see cref="GetBusinessRulesForDelete"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Combines the results of <see cref="OnValidateIdForDelete"/> and <see cref="OnGetBusinessRulesForDelete"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -674,11 +674,11 @@ namespace Peasy
         /// <returns>A list of <see cref="ValidationResult"/></returns>
         protected virtual IEnumerable<ValidationResult> OnPerformDeleteCommandValidation(TKey id, ExecutionContext<T> context)
         {
-            return OnValidateIdForDelete(id, context).Concat(GetBusinessRulesForDelete(id, context).ValidateAll());
+            return OnValidateIdForDelete(id, context).Concat(OnGetBusinessRulesForDelete(id, context).ValidateAll());
         }
 
         /// <summary>
-        /// Combines the results of <see cref="OnValidateIdForDelete"/> and <see cref="GetBusinessRulesForDeleteAsync"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// Combines the results of <see cref="OnValidateIdForDelete"/> and <see cref="OnGetBusinessRulesForDeleteAsync"/> to generate potential list of <see cref="ValidationResult"/>.
         /// </summary>
         /// <remarks>Override this method to manipulate the creation of a list o <see cref="ValidationResult"/>.
         /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
@@ -689,7 +689,7 @@ namespace Peasy
         protected virtual async Task<IEnumerable<ValidationResult>> OnPerformDeleteCommandValidationAsync(TKey id, ExecutionContext<T> context)
         {
             var validationErrors = OnValidateIdForDelete(id, context);
-            var rules = await GetBusinessRulesForDeleteAsync(id, context);
+            var rules = await OnGetBusinessRulesForDeleteAsync(id, context);
             return validationErrors.Concat(await rules.ValidateAllAsync());
         }
 
