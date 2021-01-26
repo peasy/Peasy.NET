@@ -12,7 +12,7 @@ namespace Peasy.Tests.Extensions
     public class DomainObjectExtensionsTests
     {
         [Fact]
-        public void GetValidationErrors_returns_no_results()
+        public void Validate_returns_no_results()
         {
             var person = new Person
             {
@@ -25,7 +25,7 @@ namespace Peasy.Tests.Extensions
         }
 
         [Fact]
-        public void GetValidationErrors_returns_one_result()
+        public void Validate_returns_one_result()
         {
             var person = new Person
             {
@@ -38,7 +38,7 @@ namespace Peasy.Tests.Extensions
         }
 
         [Fact]
-        public void GetValidationErrors_returns_two_results()
+        public void Validate_returns_two_results()
         {
             var person = new Person
             {
@@ -51,7 +51,7 @@ namespace Peasy.Tests.Extensions
         }
 
         [Fact]
-        public void GetValidationErrors_returns_three_results()
+        public void Validate_returns_three_results()
         {
             var person = new Person
             {

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Peasy
 {
@@ -25,13 +26,13 @@ namespace Peasy
         bool IsValid { get; }
 
         /// <summary>
-        /// Synchronously validates this rule.
+        /// Synchronously executes this rule.
         /// </summary>
-        IRule Validate();
+        IRule Execute();
 
         /// <summary>
-        /// Asynchronously validates this rule.
+        /// Asynchronously executes this rule.
         /// </summary>
-        Task<IRule> ValidateAsync();
+        Task<IRule> ExecuteAsync();
     }
 }

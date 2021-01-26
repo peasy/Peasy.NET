@@ -10,63 +10,63 @@ namespace Peasy.Core.Tests
         [Fact]
         public void Valid_Rule_Is_Valid_After_Validation()
         {
-            var rule = new TrueRule().Validate();
+            var rule = new TrueRule().Execute();
             rule.IsValid.ShouldBe(true);
         }
 
         [Fact]
         public async Task Valid_Rule_Is_Valid_After_Validation_Async()
         {
-            var rule = await new TrueRule().ValidateAsync();
+            var rule = await new TrueRule().ExecuteAsync();
             rule.IsValid.ShouldBe(true);
         }
 
         [Fact]
         public void Valid_Rule_Does_Not_Contain_An_Error_Message_After_Validation()
         {
-            var rule = new TrueRule().Validate();
+            var rule = new TrueRule().Execute();
             rule.ErrorMessage.ShouldBe(null);
         }
 
         [Fact]
         public async Task Valid_Rule_Does_Not_Contain_An_Error_Message_After_Validation_Async()
         {
-            var rule = await new TrueRule().ValidateAsync();
+            var rule = await new TrueRule().ExecuteAsync();
             rule.ErrorMessage.ShouldBe(null);
         }
 
         [Fact]
         public void Invalid_Rule_Is_Invalid_After_Validation()
         {
-            var rule = new FalseRule1().Validate();
+            var rule = new FalseRule1().Execute();
             rule.IsValid.ShouldBe(false);
         }
 
         [Fact]
         public async Task Invalid_Rule_Is_Invalid_After_Validation_Async()
         {
-            var rule = await new FalseRule1().ValidateAsync();
+            var rule = await new FalseRule1().ExecuteAsync();
             rule.IsValid.ShouldBe(false);
         }
 
         [Fact]
         public void Invalid_Rule_Contains_An_Error_Message_After_Validation()
         {
-            var rule = new FalseRule1().Validate();
+            var rule = new FalseRule1().Execute();
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
         public async Task Invalid_Rule_Contains_An_Error_Message_After_Validation_Async()
         {
-            var rule = await new FalseRule1().ValidateAsync();
+            var rule = await new FalseRule1().ExecuteAsync();
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
         public void Valid_Parent_Fails_When_Successor_Fails_Validation()
         {
-            var rule1 = new TrueRule().IfValidThenValidate(new FalseRule1()).Validate();
+            var rule1 = new TrueRule().IfValidThenValidate(new FalseRule1()).Execute();
             rule1.IsValid.ShouldBe(false);
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -74,7 +74,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public async Task Valid_Parent_Fails_When_Successor_Fails_Validation_Async()
         {
-            var rule1 = await new TrueRule().IfValidThenValidate(new FalseRule1()).ValidateAsync();
+            var rule1 = await new TrueRule().IfValidThenValidate(new FalseRule1()).ExecuteAsync();
             rule1.IsValid.ShouldBe(false);
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -82,7 +82,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public void Successor_Does_Not_Execute_When_Parent_Fails()
         {
-            var rule1 = new FalseRule1().IfValidThenValidate(new FalseRule2()).Validate();
+            var rule1 = new FalseRule1().IfValidThenValidate(new FalseRule2()).Execute();
             rule1.IsValid.ShouldBe(false);
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -90,7 +90,7 @@ namespace Peasy.Core.Tests
         [Fact]
         public async Task Successor_Does_Not_Execute_When_Parent_Fails_Async()
         {
-            var rule1 = await new FalseRule1().IfValidThenValidate(new FalseRule2()).ValidateAsync();
+            var rule1 = await new FalseRule1().IfValidThenValidate(new FalseRule2()).ExecuteAsync();
             rule1.IsValid.ShouldBe(false);
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -100,7 +100,7 @@ namespace Peasy.Core.Tests
         {
             var rule1 = new TrueRule()
                                 .IfValidThenValidate(new FalseRule1(), new FalseRule2(), new FalseRule3())
-                                .Validate();
+                                .Execute();
             rule1.IsValid.ShouldBe(false);
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -110,7 +110,7 @@ namespace Peasy.Core.Tests
         {
             var rule1 = await new TrueRule()
                                 .IfValidThenValidate(new FalseRule1(), new FalseRule2(), new FalseRule3())
-                                .ValidateAsync();
+                                .ExecuteAsync();
             rule1.IsValid.ShouldBe(false);
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -120,7 +120,7 @@ namespace Peasy.Core.Tests
         {
             var rule1 = new TrueRule()
                                 .IfValidThenValidate(new TrueRule(), new TrueRule(), new FalseRule1())
-                                .Validate();
+                                .Execute();
             rule1.IsValid.ShouldBe(false);
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -130,7 +130,7 @@ namespace Peasy.Core.Tests
         {
             var rule1 = await new TrueRule()
                                 .IfValidThenValidate(new TrueRule(), new TrueRule(), new FalseRule1())
-                                .ValidateAsync();
+                                .ExecuteAsync();
             rule1.IsValid.ShouldBe(false);
             rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -141,7 +141,7 @@ namespace Peasy.Core.Tests
             var rule = new TrueRule()
                               .IfValidThenValidate(new TrueRule(), new FalseRule1())
                               .IfValidThenValidate(new FalseRule2(), new FalseRule3())
-                              .Validate();
+                              .Execute();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -152,7 +152,7 @@ namespace Peasy.Core.Tests
             var rule = await new TrueRule()
                               .IfValidThenValidate(new TrueRule(), new FalseRule1())
                               .IfValidThenValidate(new FalseRule2(), new FalseRule3())
-                              .ValidateAsync();
+                              .ExecuteAsync();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -163,7 +163,7 @@ namespace Peasy.Core.Tests
             var rule = new TrueRule()
                               .IfValidThenValidate(new TrueRule(), new TrueRule())
                               .IfValidThenValidate(new FalseRule2(), new FalseRule3())
-                              .Validate();
+                              .Execute();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
@@ -174,7 +174,7 @@ namespace Peasy.Core.Tests
             var rule = await new TrueRule()
                               .IfValidThenValidate(new TrueRule(), new TrueRule())
                               .IfValidThenValidate(new FalseRule2(), new FalseRule3())
-                              .ValidateAsync();
+                              .ExecuteAsync();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
@@ -185,7 +185,7 @@ namespace Peasy.Core.Tests
             var rule = new TrueRule()
                               .IfValidThenValidate(new TrueRule(), new TrueRule())
                               .IfValidThenValidate(new TrueRule(), new FalseRule3())
-                              .Validate();
+                              .Execute();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule3 failed validation");
         }
@@ -196,7 +196,7 @@ namespace Peasy.Core.Tests
             var rule = await new TrueRule()
                               .IfValidThenValidate(new TrueRule(), new TrueRule())
                               .IfValidThenValidate(new TrueRule(), new FalseRule3())
-                              .ValidateAsync();
+                              .ExecuteAsync();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule3 failed validation");
         }
@@ -206,7 +206,7 @@ namespace Peasy.Core.Tests
         {
             var rule = new TrueRule()
                             .IfValidThenValidate(new TrueRule()
-                                                      .IfValidThenValidate(new TrueRule())).Validate();
+                                                      .IfValidThenValidate(new TrueRule())).Execute();
 
             rule.IsValid.ShouldBe(true);
         }
@@ -216,7 +216,7 @@ namespace Peasy.Core.Tests
         {
             var rule = await new TrueRule()
                             .IfValidThenValidate(new TrueRule()
-                                                      .IfValidThenValidate(new TrueRule())).ValidateAsync();
+                                                      .IfValidThenValidate(new TrueRule())).ExecuteAsync();
 
             rule.IsValid.ShouldBe(true);
         }
@@ -226,7 +226,7 @@ namespace Peasy.Core.Tests
         {
             var rule = new TrueRule()
                             .IfValidThenValidate(new FalseRule1()
-                                                      .IfValidThenValidate(new FalseRule2())).Validate();
+                                                      .IfValidThenValidate(new FalseRule2())).Execute();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -236,7 +236,7 @@ namespace Peasy.Core.Tests
         {
             var rule = await new TrueRule()
                             .IfValidThenValidate(new FalseRule1()
-                                                      .IfValidThenValidate(new FalseRule2())).ValidateAsync();
+                                                      .IfValidThenValidate(new FalseRule2())).ExecuteAsync();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -246,7 +246,7 @@ namespace Peasy.Core.Tests
         {
             var rule = new TrueRule()
                             .IfValidThenValidate(new TrueRule()
-                                                      .IfValidThenValidate(new FalseRule1())).Validate();
+                                                      .IfValidThenValidate(new FalseRule1())).Execute();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -256,7 +256,7 @@ namespace Peasy.Core.Tests
         {
             var rule = await new TrueRule()
                             .IfValidThenValidate(new TrueRule()
-                                                      .IfValidThenValidate(new FalseRule1())).ValidateAsync();
+                                                      .IfValidThenValidate(new FalseRule1())).ExecuteAsync();
             rule.IsValid.ShouldBe(false);
             rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -266,8 +266,8 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             new TrueRule()
-                    .IfValidThenExecute(rule => output = "pass")
-                    .Validate();
+                    .IfValidThenInvoke(rule => output = "pass")
+                    .Execute();
 
             output.ShouldBe("pass");
         }
@@ -277,8 +277,8 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             await new TrueRule()
-                    .IfValidThenExecute(rule => output = "pass")
-                    .ValidateAsync();
+                    .IfValidThenInvoke(rule => output = "pass")
+                    .ExecuteAsync();
 
             output.ShouldBe("pass");
         }
@@ -288,8 +288,8 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             new FalseRule1()
-                    .IfValidThenExecute(rule => output = "pass")
-                    .Validate();
+                    .IfValidThenInvoke(rule => output = "pass")
+                    .Execute();
 
             output.ShouldBe(string.Empty);
         }
@@ -299,8 +299,8 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             await new FalseRule1()
-                    .IfValidThenExecute(rule => output = "pass")
-                    .ValidateAsync();
+                    .IfValidThenInvoke(rule => output = "pass")
+                    .ExecuteAsync();
 
             output.ShouldBe(string.Empty);
         }
@@ -310,8 +310,8 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             new FalseRule1()
-                    .IfInvalidThenExecute(rule => output = "pass")
-                    .Validate();
+                    .IfInvalidThenInvoke(rule => output = "pass")
+                    .Execute();
 
             output.ShouldBe("pass");
         }
@@ -321,8 +321,8 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             await new FalseRule1()
-                    .IfInvalidThenExecute(rule => output = "pass")
-                    .ValidateAsync();
+                    .IfInvalidThenInvoke(rule => output = "pass")
+                    .ExecuteAsync();
 
             output.ShouldBe("pass");
         }
@@ -332,8 +332,8 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             new TrueRule()
-                   .IfInvalidThenExecute(rule => output = "pass")
-                   .Validate();
+                   .IfInvalidThenInvoke(rule => output = "pass")
+                   .Execute();
 
             output.ShouldBe(string.Empty);
         }
@@ -343,8 +343,8 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             await new TrueRule()
-                   .IfInvalidThenExecute(rule => output = "pass")
-                   .ValidateAsync();
+                   .IfInvalidThenInvoke(rule => output = "pass")
+                   .ExecuteAsync();
 
             output.ShouldBe(string.Empty);
         }
@@ -355,7 +355,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             new TrueRule()
                     .IfValidThenValidate(new TrueRule()
-                                                .IfValidThenExecute(r => output = "pass")).Validate();
+                                                .IfValidThenInvoke(r => output = "pass")).Execute();
 
             output.ShouldBe("pass");
         }
@@ -366,7 +366,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             await new TrueRule()
                     .IfValidThenValidate(new TrueRule()
-                                                .IfValidThenExecute(r => output = "pass")).ValidateAsync();
+                                                .IfValidThenInvoke(r => output = "pass")).ExecuteAsync();
 
             output.ShouldBe("pass");
         }
@@ -377,7 +377,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             new TrueRule()
                 .IfValidThenValidate(new FalseRule1()
-                                         .IfValidThenExecute(r => output = "pass")).Validate();
+                                         .IfValidThenInvoke(r => output = "pass")).Execute();
 
             output.ShouldBe(string.Empty);
         }
@@ -388,7 +388,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             await new TrueRule()
                 .IfValidThenValidate(new FalseRule1()
-                                         .IfValidThenExecute(r => output = "pass")).ValidateAsync();
+                                         .IfValidThenInvoke(r => output = "pass")).ExecuteAsync();
 
             output.ShouldBe(string.Empty);
         }
@@ -399,7 +399,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             new TrueRule()
                 .IfValidThenValidate(new FalseRule1()
-                                         .IfInvalidThenExecute(r => output = "pass")).Validate();
+                                         .IfInvalidThenInvoke(r => output = "pass")).Execute();
 
             output.ShouldBe("pass");
         }
@@ -410,7 +410,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             await new TrueRule()
                 .IfValidThenValidate(new FalseRule1()
-                                         .IfInvalidThenExecute(r => output = "pass")).ValidateAsync();
+                                         .IfInvalidThenInvoke(r => output = "pass")).ExecuteAsync();
 
             output.ShouldBe("pass");
         }
@@ -421,7 +421,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             new TrueRule()
                 .IfValidThenValidate(new TrueRule()
-                                         .IfInvalidThenExecute(r => output = "pass")).Validate();
+                                         .IfInvalidThenInvoke(r => output = "pass")).Execute();
 
             output.ShouldBe(string.Empty);
         }
@@ -432,7 +432,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             await new TrueRule()
                 .IfValidThenValidate(new TrueRule()
-                                         .IfInvalidThenExecute(r => output = "pass")).ValidateAsync();
+                                         .IfInvalidThenInvoke(r => output = "pass")).ExecuteAsync();
 
             output.ShouldBe(string.Empty);
         }
@@ -442,9 +442,9 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             var rule = new TrueRule()
-                          .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new TrueRule())
+                          .IfValidThenValidate(new TrueRule().IfValidThenInvoke(r => output = "pass"), new TrueRule())
                           .IfValidThenValidate(new TrueRule(), new FalseRule3())
-                          .Validate();
+                          .Execute();
             output.ShouldBe("pass");
         }
 
@@ -453,9 +453,9 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             var rule = await new TrueRule()
-                .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new TrueRule())
+                .IfValidThenValidate(new TrueRule().IfValidThenInvoke(r => output = "pass"), new TrueRule())
                 .IfValidThenValidate(new TrueRule(), new FalseRule3())
-                .ValidateAsync();
+                .ExecuteAsync();
             output.ShouldBe("pass");
         }
 
@@ -464,9 +464,9 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             var rule = new TrueRule()
-                .IfValidThenValidate(new TrueRule(), new TrueRule().IfValidThenExecute(r => output = "pass"))
+                .IfValidThenValidate(new TrueRule(), new TrueRule().IfValidThenInvoke(r => output = "pass"))
                 .IfValidThenValidate(new TrueRule(), new FalseRule3())
-                .Validate();
+                .Execute();
             output.ShouldBe("pass");
         }
 
@@ -475,9 +475,9 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             var rule = await new TrueRule()
-                .IfValidThenValidate(new TrueRule(), new TrueRule().IfValidThenExecute(r => output = "pass"))
+                .IfValidThenValidate(new TrueRule(), new TrueRule().IfValidThenInvoke(r => output = "pass"))
                 .IfValidThenValidate(new TrueRule(), new FalseRule3())
-                .ValidateAsync();
+                .ExecuteAsync();
             output.ShouldBe("pass");
         }
 
@@ -487,8 +487,8 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var rule = new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
-                .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new FalseRule3())
-                .Validate();
+                .IfValidThenValidate(new TrueRule().IfValidThenInvoke(r => output = "pass"), new FalseRule3())
+                .Execute();
             output.ShouldBe("pass");
         }
 
@@ -498,8 +498,8 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var rule = await new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
-                .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new FalseRule3())
-                .ValidateAsync();
+                .IfValidThenValidate(new TrueRule().IfValidThenInvoke(r => output = "pass"), new FalseRule3())
+                .ExecuteAsync();
             output.ShouldBe("pass");
         }
 
@@ -509,8 +509,8 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var rule = new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
-                .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenExecute(r => output = "pass"))
-                .Validate();
+                .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenInvoke(r => output = "pass"))
+                .Execute();
             output.ShouldBe("pass");
         }
 
@@ -520,8 +520,8 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var rule = await new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
-                .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenExecute(r => output = "pass"))
-                .ValidateAsync();
+                .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenInvoke(r => output = "pass"))
+                .ExecuteAsync();
             output.ShouldBe("pass");
         }
 
@@ -531,9 +531,9 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var output2 = string.Empty;
             var rule = new TrueRule()
-                              .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new TrueRule())
-                              .IfValidThenValidate(new FalseRule2().IfValidThenExecute(r => output2 = "pass"), new FalseRule3())
-                              .Validate();
+                              .IfValidThenValidate(new TrueRule().IfValidThenInvoke(r => output = "pass"), new TrueRule())
+                              .IfValidThenValidate(new FalseRule2().IfValidThenInvoke(r => output2 = "pass"), new FalseRule3())
+                              .Execute();
             output.ShouldBe("pass");
             output2.ShouldBe(string.Empty);
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
@@ -545,9 +545,9 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var output2 = string.Empty;
             var rule = await new TrueRule()
-                              .IfValidThenValidate(new TrueRule().IfValidThenExecute(r => output = "pass"), new TrueRule())
-                              .IfValidThenValidate(new FalseRule2().IfValidThenExecute(r => output2 = "pass"), new FalseRule3())
-                              .ValidateAsync();
+                              .IfValidThenValidate(new TrueRule().IfValidThenInvoke(r => output = "pass"), new TrueRule())
+                              .IfValidThenValidate(new FalseRule2().IfValidThenInvoke(r => output2 = "pass"), new FalseRule3())
+                              .ExecuteAsync();
             output.ShouldBe("pass");
             output2.ShouldBe(string.Empty);
             rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
@@ -558,7 +558,7 @@ namespace Peasy.Core.Tests
         {
             var rule = new TrueRule("Foo")
                 .IfValidThenValidate(new TrueRule(), new FalseRuleWithAssociation("Address"));
-            rule.Validate();
+            rule.Execute();
             rule.Association.ShouldBe("Address");
             rule.ErrorMessage.ShouldBe("Address failed validation");
         }
@@ -568,7 +568,7 @@ namespace Peasy.Core.Tests
         {
             var rule = new TrueRule("Foo")
                 .IfValidThenValidate(new TrueRule(), new FalseRuleWithAssociation("Address"));
-            await rule.ValidateAsync();
+            await rule.ExecuteAsync();
             rule.Association.ShouldBe("Address");
             rule.ErrorMessage.ShouldBe("Address failed validation");
         }

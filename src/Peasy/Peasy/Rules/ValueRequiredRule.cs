@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Peasy.Rules
 {
@@ -61,6 +62,13 @@ namespace Peasy.Rules
         {
             if (!_validate())
                 Invalidate(_errorMessage, _fieldName);
+        }
+
+        /// <summary>
+        /// </summary>
+        protected override Task OnValidateAsync()
+        {
+            return Task.FromResult(base.OnValidateAsync());
         }
     }
 }

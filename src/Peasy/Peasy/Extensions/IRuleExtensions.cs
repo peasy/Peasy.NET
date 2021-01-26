@@ -19,9 +19,9 @@ namespace Peasy
         /// </returns>
         /// <param name="businessRules">An enumerable list of <see cref="IRule"/> to execute</param>
         /// <param name="entityName">The name to assign to the <see cref="System.ComponentModel.DataAnnotations.ValidationResult.MemberNames"/> return value.</param>
-        public static IEnumerable<ValidationResult> GetValidationResults(this IEnumerable<IRule> businessRules, string entityName)
+        public static IEnumerable<ValidationResult> ValidateAll(this IEnumerable<IRule> businessRules, string entityName)
         {
-            var rules = businessRules.Select(rule => rule.Validate())
+            var rules = businessRules.Select(rule => rule.Execute())
                                      .Where(rule => !rule.IsValid)
                                      .Select(rule => new ValidationResult(rule.ErrorMessage, new string[] { entityName ?? rule.Association ?? string.Empty }));
             return rules;
@@ -34,9 +34,21 @@ namespace Peasy
         /// List of <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/> for any failed rules.
         /// </returns>
         /// <param name="businessRules">An enumerable list of <see cref="IRule"/> to execute.</param>
-        public static IEnumerable<ValidationResult> GetValidationResults(this IEnumerable<IRule> businessRules)
+        public static IEnumerable<ValidationResult> ValidateAll(this IEnumerable<IRule> businessRules)
         {
-            return IRuleExtensions.GetValidationResults(businessRules, null);
+            return IRuleExtensions.ValidateAll(businessRules, null);
+        }
+
+        /// <summary>
+        /// Synchronously invokes the rules.
+        /// </summary>
+        /// <returns>
+        /// List of <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/> for any failed rules.
+        /// </returns>
+        /// <param name="businessRules">An enumerable list of <see cref="IRule"/> to execute.</param>
+        public static IEnumerable<ValidationResult> InvokeAll(this IEnumerable<IRule> businessRules)
+        {
+            return IRuleExtensions.ValidateAll(businessRules, null);
         }
 
         /// <summary>
@@ -46,9 +58,9 @@ namespace Peasy
         /// List of <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/> if the rule fails execution.
         /// </returns>
         /// <param name="businessRule">A rule that implements <see cref="IRule"/>.</param>
-        public static IEnumerable<ValidationResult> GetValidationResults(this IRule businessRule)
+        public static IEnumerable<ValidationResult> Validate(this IRule businessRule)
         {
-            return IRuleExtensions.GetValidationResults(new [] { businessRule }, null);
+            return IRuleExtensions.ValidateAll(new [] { businessRule }, null);
         }
 
         /// <summary>
@@ -59,9 +71,9 @@ namespace Peasy
         /// </returns>
         /// <param name="businessRule">A rule that implements <see cref="IRule"/>.</param>
         /// <typeparam name="T">A type that inherits from <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/>.</typeparam>
-        public static IEnumerable<T> GetValidationResults<T>(this IRule businessRule) where T : ValidationResult
+        public static IEnumerable<T> Validate<T>(this IRule businessRule) where T : ValidationResult
         {
-            return GetValidationResults<T>(businessRule.ToArray(), null);
+            return ValidateAll<T>(businessRule.ToArray(), null);
         }
 
         /// <summary>
@@ -72,9 +84,9 @@ namespace Peasy
         /// </returns>
         /// <param name="businessRules">An enumerable list of <see cref="IRule"/> to execute.</param>
         /// <typeparam name="T">A type that inherits from <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/>.</typeparam>
-        public static IEnumerable<T> GetValidationResults<T>(this IEnumerable<IRule> businessRules) where T : ValidationResult
+        public static IEnumerable<T> ValidateAll<T>(this IEnumerable<IRule> businessRules) where T : ValidationResult
         {
-            return GetValidationResults<T>(businessRules, null);
+            return ValidateAll<T>(businessRules, null);
         }
 
         /// <summary>
@@ -86,9 +98,9 @@ namespace Peasy
         /// <param name="businessRules">An enumerable list of <see cref="IRule"/> to execute.</param>
         /// <typeparam name="T">A type that inherits from <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/>.</typeparam>
         /// <param name="entityName">The name to assign to the <see cref="System.ComponentModel.DataAnnotations.ValidationResult.MemberNames" /> return values.</param>
-        public static IEnumerable<T> GetValidationResults<T>(this IEnumerable<IRule> businessRules, string entityName) where T : ValidationResult
+        public static IEnumerable<T> ValidateAll<T>(this IEnumerable<IRule> businessRules, string entityName) where T : ValidationResult
         {
-            var rules = businessRules.Select(rule => rule.Validate())
+            var rules = businessRules.Select(rule => rule.Execute())
                                      .Where(rule => !rule.IsValid)
                                      .Select(rule =>
                                      {
@@ -105,9 +117,9 @@ namespace Peasy
         /// </returns>
         /// <param name="businessRules">An enumerable list of <see cref="IRule"/> to execute.</param>
         /// <param name="entityName">The name to assign to the <see cref="System.ComponentModel.DataAnnotations.ValidationResult.MemberNames" /> return values.</param>
-        public static async Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IEnumerable<IRule> businessRules, string entityName)
+        public static async Task<IEnumerable<ValidationResult>> ValidateAllAsync(this IEnumerable<IRule> businessRules, string entityName)
         {
-            var rules  = await Task.WhenAll(businessRules.Select(r => r.ValidateAsync()));
+            var rules  = await Task.WhenAll(businessRules.Select(r => r.ExecuteAsync()));
             return rules.Where(rule => !rule.IsValid)
                         .Select(rule => new ValidationResult(rule.ErrorMessage, new string[] { entityName ?? rule.Association ?? string.Empty }));
         }
@@ -119,9 +131,9 @@ namespace Peasy
         /// List of <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/> for any failed rules.
         /// </returns>
         /// <param name="businessRules">An enumerable list of <see cref="IRule"/> to execute.</param>
-        public static Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IEnumerable<IRule> businessRules)
+        public static Task<IEnumerable<ValidationResult>> ValidateAllAsync(this IEnumerable<IRule> businessRules)
         {
-            return IRuleExtensions.GetValidationResultsAsync(businessRules, null);
+            return IRuleExtensions.ValidateAllAsync(businessRules, null);
         }
 
         /// <summary>
@@ -131,9 +143,9 @@ namespace Peasy
         /// List of <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/> if the rule fails execution.
         /// </returns>
         /// <param name="businessRule">A rule that implements <see cref="IRule"/>.</param>
-        public static Task<IEnumerable<ValidationResult>> GetValidationResultsAsync(this IRule businessRule)
+        public static Task<IEnumerable<ValidationResult>> ValidateAsync(this IRule businessRule)
         {
-            return IRuleExtensions.GetValidationResultsAsync(businessRule.ToArray(), null);
+            return IRuleExtensions.ValidateAllAsync(businessRule.ToArray(), null);
         }
 
         /// <summary>
@@ -144,9 +156,9 @@ namespace Peasy
         /// </returns>
         /// <param name="businessRule">A rule that implements <see cref="IRule"/>.</param>
         /// <typeparam name="T">A type that inherits from <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/>.</typeparam>
-        public static Task<IEnumerable<T>> GetValidationResultsAsync<T>(this IRule businessRule) where T : ValidationResult
+        public static Task<IEnumerable<T>> ValidateAsync<T>(this IRule businessRule) where T : ValidationResult
         {
-            return GetValidationResultsAsync<T>(businessRule.ToArray(), null);
+            return ValidateAllAsync<T>(businessRule.ToArray(), null);
         }
 
         /// <summary>
@@ -157,9 +169,9 @@ namespace Peasy
         /// </returns>
         /// <param name="businessRules">An enumerable list of <see cref="IRule"/> to execute.</param>
         /// <typeparam name="T">A type that inherits from <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/>.</typeparam>
-        public static Task<IEnumerable<T>> GetValidationResultsAsync<T>(this IEnumerable<IRule> businessRules) where T : ValidationResult
+        public static Task<IEnumerable<T>> ValidateAllAsync<T>(this IEnumerable<IRule> businessRules) where T : ValidationResult
         {
-            return GetValidationResultsAsync<T>(businessRules, null);
+            return ValidateAllAsync<T>(businessRules, null);
         }
 
         /// <summary>
@@ -171,9 +183,9 @@ namespace Peasy
         /// <param name="businessRules">An enumerable list of <see cref="IRule"/> to execute.</param>
         /// <typeparam name="T">A type that inherits from <see cref="System.ComponentModel.DataAnnotations.ValidationResult"/>.</typeparam>
         /// <param name="entityName">The name to assign to the <see cref="System.ComponentModel.DataAnnotations.ValidationResult.MemberNames" /> return values.</param>
-        public static async Task<IEnumerable<T>> GetValidationResultsAsync<T>(this IEnumerable<IRule> businessRules, string entityName) where T : ValidationResult
+        public static async Task<IEnumerable<T>> ValidateAllAsync<T>(this IEnumerable<IRule> businessRules, string entityName) where T : ValidationResult
         {
-            var rules = await Task.WhenAll(businessRules.Select(rule => rule.ValidateAsync()));
+            var rules = await Task.WhenAll(businessRules.Select(rule => rule.ExecuteAsync()));
 
             return rules.Where(rule => !rule.IsValid)
                         .Select(rule =>

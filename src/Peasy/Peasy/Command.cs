@@ -84,7 +84,7 @@ namespace Peasy
         /// <returns>A potential list of errors resulting from rule executions.</returns>
         protected virtual IEnumerable<ValidationResult> OnValidate()
         {
-            return OnGetRules().GetValidationResults();
+            return OnGetRules().ValidateAll();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Peasy
         protected virtual async Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
             var rules = await OnGetRulesAsync();
-            return await rules.GetValidationResultsAsync();
+            return await rules.ValidateAllAsync();
         }
 
         /// <summary>
@@ -292,7 +292,7 @@ namespace Peasy
         /// <returns>A potential list of errors resulting from rule executions.</returns>
         protected virtual IEnumerable<ValidationResult> OnValidate()
         {
-            return OnGetRules().GetValidationResults();
+            return OnGetRules().ValidateAll();
         }
 
         /// <summary>
@@ -306,7 +306,7 @@ namespace Peasy
         protected virtual async Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
             var rules = await OnGetRulesAsync();
-            return await rules.GetValidationResultsAsync();
+            return await rules.ValidateAllAsync();
         }
 
         /// <summary>

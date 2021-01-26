@@ -12,12 +12,12 @@ namespace Peasy
         /// <summary>
         /// The action to perform once when this rule passes validation.
         /// </summary>
-        protected Action<IRule> _ifValidThenExecute;
+        protected Action<IRule> _ifValidThenInvoke;
 
         /// <summary>
         /// The action to perform once when this rule fails validation.
         /// </summary>
-        protected Action<IRule> _ifInvalidThenExecute;
+        protected Action<IRule> _ifInvalidThenInvoke;
 
         /// <summary>
         /// Gets or sets a string that associates this rule with a field. This is helpful for validation errors
@@ -51,7 +51,7 @@ namespace Peasy
         /// <summary>
         /// Synchronously validates this rule.
         /// </summary>
-        public IRule Validate()
+        public IRule Execute()
         {
             IsValid = true;
             OnValidate();
@@ -63,22 +63,22 @@ namespace Peasy
                     {
                         foreach (var rule in successor)
                         {
-                            rule.Validate();
+                            rule.Execute();
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage, rule.Association);
-                                _ifInvalidThenExecute?.Invoke(this);
+                                _ifInvalidThenInvoke?.Invoke(this);
                                 break; // early exit, don't bother further rule execution
                             }
                         }
                         if (!IsValid) break;
                     }
                 }
-                _ifValidThenExecute?.Invoke(this);
+                _ifValidThenInvoke?.Invoke(this);
             }
             else
             {
-                _ifInvalidThenExecute?.Invoke(this);
+                _ifInvalidThenInvoke?.Invoke(this);
             }
             return this;
         }
@@ -98,9 +98,9 @@ namespace Peasy
         /// Executes the supplied action upon successful validation.
         /// </summary>
         /// <param name="method">The action to perform.</param>
-        public RuleBase IfValidThenExecute(Action<IRule> method)
+        public RuleBase IfValidThenInvoke(Action<IRule> method)
         {
-            _ifValidThenExecute = method;
+            _ifValidThenInvoke = method;
             return this;
         }
 
@@ -108,9 +108,9 @@ namespace Peasy
         /// Executes the supplied action upon failed validation.
         /// </summary>
         /// <param name="method">The action to perform.</param>
-        public RuleBase IfInvalidThenExecute(Action<IRule> method)
+        public RuleBase IfInvalidThenInvoke(Action<IRule> method)
         {
-            _ifInvalidThenExecute = method;
+            _ifInvalidThenInvoke = method;
             return this;
         }
 
@@ -152,7 +152,7 @@ namespace Peasy
         /// <summary>
         /// Asynchronously validates this rule.
         /// </summary>
-        public async Task<IRule> ValidateAsync()
+        public async Task<IRule> ExecuteAsync()
         {
             IsValid = true;
             await OnValidateAsync();
@@ -164,22 +164,22 @@ namespace Peasy
                     {
                         foreach (var rule in successor)
                         {
-                            await rule.ValidateAsync();
+                            await rule.ExecuteAsync();
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage, rule.Association);
-                                _ifInvalidThenExecute?.Invoke(this);
+                                _ifInvalidThenInvoke?.Invoke(this);
                                 break; // early exit, don't bother further rule execution
                             }
                         }
                         if (!IsValid) break;
                     }
                 }
-                _ifValidThenExecute?.Invoke(this);
+                _ifValidThenInvoke?.Invoke(this);
             }
             else
             {
-                _ifInvalidThenExecute?.Invoke(this);
+                _ifInvalidThenInvoke?.Invoke(this);
             }
             return this;
         }
