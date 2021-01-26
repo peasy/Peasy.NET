@@ -7,17 +7,17 @@ namespace Peasy
     /// <summary>
     /// A validation rule to run againt records being processed.
     /// </summary>
-    public abstract class RuleBase : IRule, IRuleSuccessorsContainer<IRule>
+    public abstract class SynchronousRuleBase : ISynchronousRule, IRuleSuccessorsContainer<ISynchronousRule>
     {
         /// <summary>
         /// The action to perform once when this rule passes validation.
         /// </summary>
-        protected Action<IRule> _ifValidThenInvoke;
+        protected Action<ISynchronousRule> _ifValidThenInvoke;
 
         /// <summary>
         /// The action to perform once when this rule fails validation.
         /// </summary>
-        protected Action<IRule> _ifInvalidThenInvoke;
+        protected Action<ISynchronousRule> _ifInvalidThenInvoke;
 
         /// <summary>
         /// Gets or sets a string that associates this rule with a field. This is helpful for validation errors
@@ -38,23 +38,23 @@ namespace Peasy
         public bool IsValid { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the list of <see cref="IRule"/> that should be evaluated upon successful validation.
+        /// Gets or sets the list of <see cref="ISynchronousRule"/> that should be evaluated upon successful validation.
         /// </summary>
-        private List<IRuleSuccessor<IRule>> Successors { set; get; } = new List<IRuleSuccessor<IRule>>();
+        private List<IRuleSuccessor<ISynchronousRule>> Successors { set; get; } = new List<IRuleSuccessor<ISynchronousRule>>();
 
         ///<inheritdoc cref="IRuleSuccessorsContainer{T}.GetSuccessors"/>
-        public IEnumerable<IRuleSuccessor<IRule>> GetSuccessors()
+        public IEnumerable<IRuleSuccessor<ISynchronousRule>> GetSuccessors()
         {
             return Successors;
         }
 
         /// <summary>
-        /// Asynchronously validates this rule.
+        /// Synchronously validates this rule.
         /// </summary>
-        public async Task<IRule> ExecuteAsync()
+        public ISynchronousRule Execute()
         {
             IsValid = true;
-            await OnValidateAsync();
+            OnValidate();
             if (IsValid)
             {
                 if (Successors != null)
@@ -63,7 +63,7 @@ namespace Peasy
                     {
                         foreach (var rule in successor)
                         {
-                            await rule.ExecuteAsync();
+                            rule.Execute();
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage, rule.Association);
@@ -84,13 +84,13 @@ namespace Peasy
         }
 
         /// <summary>
-        /// Validates the supplied list of <see cref="IRule"/> upon successful validation.
+        /// Validates the supplied list of <see cref="ISynchronousRule"/> upon successful validation.
         /// </summary>
-        /// <param name="rules">The <see cref="IRule"/>.</param>
+        /// <param name="rules">The <see cref="ISynchronousRule"/>.</param>
         /// <returns>The supplied <see cref="RuleBase"/>.</returns>
-        public RuleBase IfValidThenValidate(params IRule[] rules)
+        public SynchronousRuleBase IfValidThenValidate(params ISynchronousRule[] rules)
         {
-            Successors.Add(new RuleSuccessor<IRule>(rules));
+            Successors.Add(new RuleSuccessor<ISynchronousRule>(rules));
             return this;
         }
 
@@ -98,7 +98,7 @@ namespace Peasy
         /// Executes the supplied action upon successful validation.
         /// </summary>
         /// <param name="method">The action to perform.</param>
-        public RuleBase IfValidThenInvoke(Action<IRule> method)
+        public SynchronousRuleBase IfValidThenInvoke(Action<ISynchronousRule> method)
         {
             _ifValidThenInvoke = method;
             return this;
@@ -108,19 +108,16 @@ namespace Peasy
         /// Executes the supplied action upon failed validation.
         /// </summary>
         /// <param name="method">The action to perform.</param>
-        public RuleBase IfInvalidThenInvoke(Action<IRule> method)
+        public SynchronousRuleBase IfInvalidThenInvoke(Action<ISynchronousRule> method)
         {
             _ifInvalidThenInvoke = method;
             return this;
         }
 
         /// <summary>
-        /// Called when the <see cref="M:Peasy.Rules.RuleBase.ExecuteAsync()"/> method is called.
+        /// Called when the <see cref="M:Peasy.Rules.RuleBase.Execute()"/> method is called.
         /// </summary>
-        protected virtual Task OnValidateAsync()
-        {
-            return Task.FromResult<object>(null);
-        }
+        protected virtual void OnValidate() {}
 
         /// <summary>
         /// Invalidates the rule
@@ -142,6 +139,5 @@ namespace Peasy
             Association = association;
             Invalidate(errorMessage);
         }
-
     }
 }

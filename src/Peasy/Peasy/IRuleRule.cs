@@ -4,7 +4,7 @@ namespace Peasy
 {
     /// <summary>
     /// </summary>
-    public interface IAsyncRule
+    public interface IRule
     {
         /// <summary>
         /// Gets or sets a string that associates this rule with a field. This is helpful for validation errors

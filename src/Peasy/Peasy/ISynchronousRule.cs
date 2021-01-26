@@ -5,7 +5,7 @@ namespace Peasy
 {
     /// <summary>
     /// </summary>
-    public interface IRule
+    public interface ISynchronousRule
     {
         /// <summary>
         /// Gets or sets a string that associates this rule with a field. This is helpful for validation errors
@@ -28,11 +28,6 @@ namespace Peasy
         /// <summary>
         /// Synchronously executes this rule.
         /// </summary>
-        IRule Execute();
-
-        /// <summary>
-        /// Asynchronously executes this rule.
-        /// </summary>
-        Task<IRule> ExecuteAsync();
+        ISynchronousRule Execute();
     }
 }

@@ -70,9 +70,9 @@ namespace Peasy
         /// <para>Override this method to supply custom business rules to execute.</para>
         /// </remarks>
         /// <returns>A list of business and validation rules.</returns>
-        protected virtual IEnumerable<IRule> OnGetRules()
+        protected virtual IEnumerable<ISynchronousRule> OnGetRules()
         {
-            return Enumerable.Empty<IRule>();
+            return Enumerable.Empty<ISynchronousRule>();
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="ISynchronousRulesContainer.GetRules"/>
-        public IEnumerable<IRule> GetRules()
+        public IEnumerable<ISynchronousRule> GetRules()
         {
             return OnGetRules();
         }
@@ -195,9 +195,9 @@ namespace Peasy
         /// <para>Override this method to supply custom business rules to execute.</para>
         /// </remarks>
         /// <returns>A list of business and validation rules.</returns>
-        protected virtual IEnumerable<IRule> OnGetRules()
+        protected virtual IEnumerable<ISynchronousRule> OnGetRules()
         {
-            return Enumerable.Empty<IRule>();
+            return Enumerable.Empty<ISynchronousRule>();
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="ISynchronousRulesContainer.GetRules"/>
-        public IEnumerable<IRule> GetRules()
+        public IEnumerable<ISynchronousRule> GetRules()
         {
             return OnGetRules();
         }

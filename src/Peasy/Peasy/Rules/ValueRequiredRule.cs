@@ -56,13 +56,13 @@ namespace Peasy.Rules
             _validate = () => value != Guid.Empty;
         }
 
-        /// <summary>
-        /// </summary>
-        protected override void OnValidate()
-        {
-            if (!_validate())
-                Invalidate(_errorMessage, _fieldName);
-        }
+        // /// <summary>
+        // /// </summary>
+        // protected override void OnValidate()
+        // {
+        //     if (!_validate())
+        //         Invalidate(_errorMessage, _fieldName);
+        // }
 
         /// <summary>
         /// </summary>

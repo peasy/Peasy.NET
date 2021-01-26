@@ -22,14 +22,14 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        protected Func<IEnumerable<IRule>> _getBusinessRulesMethod;
+        protected Func<IEnumerable<ISynchronousRule>> _getBusinessRulesMethod;
 
         /// <summary>
         /// </summary>
         public SynchronousServiceCommand(
             Action initializationMethod,
             Func<IEnumerable<ValidationResult>> validationMethod,
-            Func<IEnumerable<IRule>> getRulesMethod,
+            Func<IEnumerable<ISynchronousRule>> getRulesMethod,
             Action executeMethod)
         {
             _initializationMethod = initializationMethod;
@@ -54,7 +54,7 @@ namespace Peasy
         /// </summary>
         public SynchronousServiceCommand(
             Action initializationMethod,
-            Func<IEnumerable<IRule>> getBusinessRulesMethod,
+            Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod,
             Action executeMethod)
         {
             _initializationMethod = initializationMethod;
@@ -87,7 +87,7 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public SynchronousServiceCommand(Func<IEnumerable<IRule>> getBusinessRulesMethod, Action executeMethod)
+        public SynchronousServiceCommand(Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod, Action executeMethod)
         {
             _executeMethod = executeMethod;
             _getBusinessRulesMethod = getBusinessRulesMethod;
@@ -96,7 +96,7 @@ namespace Peasy
         /// <summary>
         /// </summary>
         public SynchronousServiceCommand(
-            Func<IEnumerable<IRule>> getBusinessRulesMethod,
+            Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod,
             Func<IEnumerable<ValidationResult>> validationMethod,
             Action executeMethod)
         {
@@ -128,7 +128,7 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        protected override IEnumerable<IRule> OnGetRules()
+        protected override IEnumerable<ISynchronousRule> OnGetRules()
         {
             return (_getBusinessRulesMethod ?? base.OnGetRules)();
         }
@@ -141,14 +141,14 @@ namespace Peasy
         private Action _initializationMethod;
         private Func<IEnumerable<ValidationResult>> _validationMethod;
         private Func<T> _executeMethod;
-        private Func<IEnumerable<IRule>> _getBusinessRulesMethod;
+        private Func<IEnumerable<ISynchronousRule>> _getBusinessRulesMethod;
 
         /// <summary>
         /// </summary>
         public SynchronousServiceCommand(
             Action initializationMethod,
             Func<IEnumerable<ValidationResult>> validationMethod,
-            Func<IEnumerable<IRule>> getBusinessRulesMethod,
+            Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod,
             Func<T> executeMethod)
         {
             _initializationMethod = initializationMethod;
@@ -173,7 +173,7 @@ namespace Peasy
         /// </summary>
         public SynchronousServiceCommand(
             Action initializationMethod,
-            Func<IEnumerable<IRule>> getBusinessRulesMethod,
+            Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod,
             Func<T> executeMethod)
         {
             _initializationMethod = initializationMethod;
@@ -206,7 +206,7 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public SynchronousServiceCommand(Func<IEnumerable<IRule>> getBusinessRulesMethod, Func<T> executeMethod)
+        public SynchronousServiceCommand(Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod, Func<T> executeMethod)
         {
             _executeMethod = executeMethod;
             _getBusinessRulesMethod = getBusinessRulesMethod;
@@ -215,7 +215,7 @@ namespace Peasy
         /// <summary>
         /// </summary>
         public SynchronousServiceCommand(
-            Func<IEnumerable<IRule>> getBusinessRulesMethod,
+            Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod,
             Func<IEnumerable<ValidationResult>> validationMethod,
             Func<T> executeMethod)
         {
@@ -247,7 +247,7 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        protected override IEnumerable<IRule> OnGetRules()
+        protected override IEnumerable<ISynchronousRule> OnGetRules()
         {
             return (_getBusinessRulesMethod ?? base.OnGetRules)();
         }

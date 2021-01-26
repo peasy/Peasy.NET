@@ -102,10 +102,10 @@ namespace Peasy
         /// </remarks>
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
-        /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> OnGetBusinessRulesForGetByID(TKey id, ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
+        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForGetByID(TKey id, ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Enumerable.Empty<ISynchronousRule>();
         }
 
         /// <summary>
@@ -117,10 +117,10 @@ namespace Peasy
         /// <para>The successful invocation of the returned rules will determine whether or not to proceed with command pipeline execution.</para>
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
-        /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> OnGetBusinessRulesForGetAll(ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
+        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForGetAll(ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Enumerable.Empty<ISynchronousRule>();
         }
 
         /// <summary>
@@ -133,10 +133,10 @@ namespace Peasy
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
-        /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> OnGetBusinessRulesForInsert(T resource, ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
+        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForInsert(T resource, ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Enumerable.Empty<ISynchronousRule>();
         }
 
         /// <summary>
@@ -149,10 +149,10 @@ namespace Peasy
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
-        /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> OnGetBusinessRulesForUpdate(T resource, ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
+        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForUpdate(T resource, ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Enumerable.Empty<ISynchronousRule>();
         }
 
         /// <summary>
@@ -165,10 +165,10 @@ namespace Peasy
         /// </remarks>
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
-        /// <returns>A list of <see cref="IRule"/></returns>
-        protected virtual IEnumerable<IRule> OnGetBusinessRulesForDelete(TKey id, ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
+        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForDelete(TKey id, ExecutionContext<T> context)
         {
-            return Enumerable.Empty<IRule>();
+            return Enumerable.Empty<ISynchronousRule>();
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
-        /// <returns>An updated representation of the resource resulting from a call to <see cref="Peasy.ISupportInsert{T}.Insert"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns>An updated representation of the resource resulting from a call to <see cref="Peasy.ISupportSynchronousInsert{T}.Insert"/> of <see cref="DataProxy"/>.</returns>
         protected virtual T OnInsertCommandValidationSuccess(T resource, ExecutionContext<T> context)
         {
             return _dataProxy.Insert(resource);
@@ -254,7 +254,7 @@ namespace Peasy
         /// Generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="OnPerformGetByIDCommandValidation"/> and <see cref="OnPerformGetByIDCommandValidationAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnPerformGetByIDCommandValidation"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to retrieve.</param>
@@ -269,7 +269,7 @@ namespace Peasy
         /// Performs validation against the supplied resource by validating property values applied with attributes of type <see cref="ValidationAttribute"/>.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="OnPerformInsertCommandValidation"/> and <see cref="OnPerformInsertCommandValidationAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnPerformInsertCommandValidation"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
@@ -284,7 +284,7 @@ namespace Peasy
         /// Performs validation against the supplied resource by validating property values applied with attributes of type <see cref="ValidationAttribute"/>.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="OnPerformUpdateCommandValidation"/> and <see cref="OnPerformUpdateCommandValidationAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnPerformUpdateCommandValidation"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
@@ -299,7 +299,7 @@ namespace Peasy
         /// Performs validation against the supplied id.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="OnPerformDeleteCommandValidation"/> and <see cref="OnPerformDeleteCommandValidationAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnPerformDeleteCommandValidation"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to delete.</param>
@@ -394,11 +394,8 @@ namespace Peasy
             return new SynchronousServiceCommand<T>
             (
                 initializationMethod: () => OnGetByIDCommandInitialization(id, context),
-                initializationAsyncMethod: () => OnGetByIDCommandInitializationAsync(id, context),
                 validationMethod: () => OnPerformGetByIDCommandValidation(id, context),
-                validationAsyncMethod: () => OnPerformGetByIDCommandValidationAsync(id, context),
-                executeMethod: () => OnGetByIDCommandValidationSuccess(id, context),
-                executeAsyncMethod: () => OnGetByIDCommandValidationSuccessAsync(id, context)
+                executeMethod: () => OnGetByIDCommandValidationSuccess(id, context)
             );
         }
 
@@ -412,11 +409,8 @@ namespace Peasy
             return new SynchronousServiceCommand<IEnumerable<T>>
             (
                 initializationMethod: () => OnGetAllCommandInitialization(context),
-                initializationAsyncMethod: () => OnGetAllCommandInitializationAsync(context),
                 validationMethod: () => OnPerformGetAllCommandValidation(context),
-                validationAsyncMethod: () => OnPerformGetAllCommandValidationAsync(context),
-                executeMethod: () => OnGetAllCommandValidationSuccess(context),
-                executeAsyncMethod: () => OnGetAllCommandValidationSuccessAsync(context)
+                executeMethod: () => OnGetAllCommandValidationSuccess(context)
             );
         }
 
@@ -431,11 +425,8 @@ namespace Peasy
             return new SynchronousServiceCommand<T>
             (
                 initializationMethod: () => OnInsertCommandInitialization(resource, context),
-                initializationAsyncMethod: () => OnInsertCommandInitializationAsync(resource, context),
                 validationMethod: () => OnPerformInsertCommandValidation(resource, context),
-                validationAsyncMethod: () => OnPerformInsertCommandValidationAsync(resource, context),
-                executeMethod: () => OnInsertCommandValidationSuccess(resource, context),
-                executeAsyncMethod: () => OnInsertCommandValidationSuccessAsync(resource, context)
+                executeMethod: () => OnInsertCommandValidationSuccess(resource, context)
             );
         }
 
@@ -450,11 +441,8 @@ namespace Peasy
             return new SynchronousServiceCommand<T>
             (
                 initializationMethod: () => OnUpdateCommandInitialization(resource, context),
-                initializationAsyncMethod: () => OnUpdateCommandInitializationAsync(resource, context),
                 validationMethod: () => OnPerformUpdateCommandValidation(resource, context),
-                validationAsyncMethod: () => OnPerformUpdateCommandValidationAsync(resource, context),
-                executeMethod: () => OnUpdateCommandValidationSuccess(resource, context),
-                executeAsyncMethod: () => OnUpdateCommandValidationSuccessAsync(resource, context)
+                executeMethod: () => OnUpdateCommandValidationSuccess(resource, context)
             );
         }
 
@@ -469,11 +457,8 @@ namespace Peasy
             return new SynchronousServiceCommand
             (
                 initializationMethod: () => OnDeleteCommandInitialization(id, context),
-                initializationAsyncMethod: () => OnDeleteCommandInitializationAsync(id, context),
                 validationMethod: () => OnPerformDeleteCommandValidation(id, context),
-                validationAsyncMethod: () => OnPerformDeleteCommandValidationAsync(id, context),
-                executeMethod: () => OnDeleteCommandValidationSuccess(id, context),
-                executeAsyncMethod: () => OnDeleteCommandValidationSuccessAsync(id, context)
+                executeMethod: () => OnDeleteCommandValidationSuccess(id, context)
             );
         }
 

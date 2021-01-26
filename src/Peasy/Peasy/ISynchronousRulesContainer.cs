@@ -14,13 +14,6 @@ namespace Peasy
         /// <returns>
         /// A list of <see cref="IRule"/>.
         /// </returns>
-
-        IEnumerable<IRule> GetRules();
-
-        /// <summary>
-        /// Composes a list of business and validation rules.
-        /// </summary>
-        /// An awaitable list of <see cref="IRule"/>.
-        Task<IEnumerable<IRule>> GetRulesAsync();
+        IEnumerable<ISynchronousRule> GetRules();
     }
 }

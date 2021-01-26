@@ -8,15 +8,15 @@ namespace Peasy
     /// <summary>
     /// Represents a concrete implementation of IRuleSuccessor for internal use only
     /// </summary>
-    internal class RuleSuccessor : List<IRule>, IRuleSuccessor
+    internal class RuleSuccessor<T> : List<T>, IRuleSuccessor<T>
     {
-        public RuleSuccessor(IEnumerable<IRule> rule)
+        public RuleSuccessor(IEnumerable<T> rule)
         {
             this.AddRange(rule);
         }
 
-        ///<inheritdoc cref="IRuleSuccessor.Rules"/>
-        public IEnumerable<IRule> Rules
+        ///<inheritdoc cref="IRuleSuccessor{T}.Rules"/>
+        public IEnumerable<T> Rules
         {
             get { return this.AsEnumerable(); }
         }
