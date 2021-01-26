@@ -12,7 +12,7 @@ namespace Peasy
     {
         public RuleSuccessor(IEnumerable<IRule> rule)
         {
-            this.AddRange(rule);            
+            this.AddRange(rule);
         }
 
         ///<inheritdoc cref="IRuleSuccessor.Rules"/>

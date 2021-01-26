@@ -23,9 +23,9 @@ namespace Peasy
             {
                 OnExecute();
             }
-            catch (ServiceException ex)
+            catch (PeasyException ex)
             {
-                return OnServiceException(ex);
+                return OnPeasyExceptionHandled(ex);
             }
 
             return OnSuccessfulExecution();
@@ -44,9 +44,9 @@ namespace Peasy
             {
                 await OnExecuteAsync();
             }
-            catch (ServiceException ex)
+            catch (PeasyException ex)
             {
-                return OnServiceException(ex);
+                return OnPeasyExceptionHandled(ex);
             }
 
             return OnSuccessfulExecution();
@@ -68,7 +68,7 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to perform initialization logic before rule executions occur.</para>
         /// </remarks>
-        /// <returns>An awaitable <see cref="Task"/>.</returns>
+        /// <returns>An awaitable task.</returns>
         protected virtual Task OnInitializationAsync()
         {
             return Task.FromResult<object>(null);
@@ -81,7 +81,7 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
         /// <para>Override this method to manipulate how rules are invoked.</para>
         /// </remarks>
-        /// <returns>A potential list of <see cref="ValidationResult"/> resulting from rule executions.</returns>
+        /// <returns>A potential list of errors resulting from rule executions.</returns>
         protected virtual IEnumerable<ValidationResult> OnGetErrors()
         {
             return OnGetRules().GetValidationResults();
@@ -94,7 +94,7 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to manipulate how rules are invoked.</para>
         /// </remarks>
-        /// <returns>A potential awaitable list of <see cref="ValidationResult"/> resulting from rule executions.</returns>
+        /// <returns>A potential awaitable list of errors resulting from rule executions.</returns>
         protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
             var rules = await OnGetRulesAsync();
@@ -117,7 +117,7 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/> if all rule validations are successful.</para>
         /// <para>Override this method to perform custom application logic.</para>
         /// </remarks>
-        /// <returns>An awaitable <see cref="Task"/>.</returns>
+        /// <returns>An awaitable task.</returns>
         protected virtual Task OnExecuteAsync()
         {
             return Task.FromResult<object>(null);
@@ -130,7 +130,7 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
         /// <para>Override this method to supply custom business rules to execute.</para>
         /// </remarks>
-        /// <returns>A list of <see cref="IRule"/>.</returns>
+        /// <returns>A list of business and validation rules.</returns>
         protected virtual IEnumerable<IRule> OnGetRules()
         {
             return Enumerable.Empty<IRule>();
@@ -143,20 +143,20 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to supply custom business rules to execute.</para>
         /// </remarks>
-        /// <returns>An awaitable list of <see cref="IRule"/>.</returns>
+        /// <returns>An awaitable list of business and validation rules.</returns>
         protected virtual Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>
-        /// Invoked when an exception of type <see cref="ServiceException"/> is handled.
+        /// Invoked when an exception of type <see cref="PeasyException"/> is handled.
         /// </summary>
         /// <remarks>
-        /// Override this method to return a custom execution result of type <see cref="ExecutionResult"/> or to further manipulate it when a <see cref="ServiceException"/> is handled.
+        /// Override this method to return a custom execution result of type <see cref="ExecutionResult"/> or to further manipulate it when a <see cref="PeasyException"/> is handled.
         /// </remarks>
-        /// <returns>A failed <see cref="ExecutionResult"/>.</returns>
-        protected virtual ExecutionResult OnServiceException(ServiceException exception)
+        /// <returns>A failed execution result.</returns>
+        protected virtual ExecutionResult OnPeasyExceptionHandled(PeasyException exception)
         {
             return OnFailedExecution(new[] { new ValidationResult(exception.Message) });
         }
@@ -168,7 +168,7 @@ namespace Peasy
         /// <para>Override this method to return a custom execution result of type <see cref="ExecutionResult"/> or to further manipulate it.</para>
         /// <para>Override this method to return custom validation results of type <see cref="ValidationResult"/> or to further manipulate them.</para>
         /// </remarks>
-        /// <returns>A failed <see cref="ExecutionResult"/>.</returns>
+        /// <returns>A failed execution result.</returns>
         protected virtual ExecutionResult OnFailedExecution(IEnumerable<ValidationResult> validationResults)
         {
             return new ExecutionResult { Success = false, Errors = validationResults };
@@ -180,7 +180,7 @@ namespace Peasy
         /// <remarks>
         /// Override this method to return a custom execution result of type <see cref="ExecutionResult"/> or to further manipulate it.
         /// </remarks>
-        /// <returns>A successful <see cref="ExecutionResult"/>.</returns>
+        /// <returns>A successful execution result.</returns>
         protected virtual ExecutionResult OnSuccessfulExecution()
         {
             return new ExecutionResult { Success = true };
@@ -230,9 +230,9 @@ namespace Peasy
             {
                 result = OnExecute();
             }
-            catch (ServiceException ex)
+            catch (PeasyException ex)
             {
-                return OnServiceException(ex);
+                return OnPeasyExceptionHandled(ex);
             }
 
             return OnSuccessfulExecution(result);
@@ -252,9 +252,9 @@ namespace Peasy
             {
                 result = await OnExecuteAsync();
             }
-            catch (ServiceException ex)
+            catch (PeasyException ex)
             {
-                return OnServiceException(ex);
+                return OnPeasyExceptionHandled(ex);
             }
 
             return OnSuccessfulExecution(result);
@@ -276,7 +276,7 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to perform initialization logic before rule executions occur.</para>
         /// </remarks>
-        /// <returns>An awaitable <see cref="Task"/>.</returns>
+        /// <returns>An awaitable task.</returns>
         protected virtual Task OnInitializationAsync()
         {
             return Task.FromResult<object>(null);
@@ -289,7 +289,7 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
         /// <para>Override this method to manipulate how rules are invoked.</para>
         /// </remarks>
-        /// <returns>A potential list of <see cref="ValidationResult"/> resulting from rule executions.</returns>
+        /// <returns>A potential list of errors resulting from rule executions.</returns>
         protected virtual IEnumerable<ValidationResult> OnGetErrors()
         {
             return OnGetRules().GetValidationResults();
@@ -302,7 +302,7 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to manipulate how rules are invoked.</para>
         /// </remarks>
-        /// <returns>A potential awaitable list of <see cref="ValidationResult"/> resulting from rule executions.</returns>
+        /// <returns>A potential awaitable list of errors resulting from rule executions.</returns>
         protected virtual async Task<IEnumerable<ValidationResult>> OnGetErrorsAsync()
         {
             var rules = await OnGetRulesAsync();
@@ -342,7 +342,7 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
         /// <para>Override this method to supply custom business rules to execute.</para>
         /// </remarks>
-        /// <returns>A list of <see cref="IRule"/>.</returns>
+        /// <returns>A list of business and validation rules.</returns>
         protected virtual IEnumerable<IRule> OnGetRules()
         {
             return Enumerable.Empty<IRule>();
@@ -355,20 +355,20 @@ namespace Peasy
         /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to supply custom business rules to execute.</para>
         /// </remarks>
-        /// <returns>An awaitable list of <see cref="IRule"/>.</returns>
+        /// <returns>An awaitable list of business and validation rules.</returns>
         protected virtual Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
             return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>
-        /// Invoked when an exception of type <see cref="ServiceException"/> is handled.
+        /// Invoked when an exception of type <see cref="PeasyException"/> is handled.
         /// </summary>
         /// <remarks>
-        /// Override this method to return a custom execution result of type <see cref="ExecutionResult{T}"/> or to further manipulate it when a <see cref="ServiceException"/> is handled.
+        /// Override this method to return a custom execution result of type <see cref="ExecutionResult{T}"/> or to further manipulate it when a <see cref="PeasyException"/> is handled.
         /// </remarks>
-        /// <returns>A failed execution result of type <see cref="ExecutionResult{T}"/>.</returns>
-        protected virtual ExecutionResult<T> OnServiceException(ServiceException exception)
+        /// <returns>A failed execution result.</returns>
+        protected virtual ExecutionResult<T> OnPeasyExceptionHandled(PeasyException exception)
         {
             return OnFailedExecution(new[] { new ValidationResult(exception.Message) });
         }
@@ -380,7 +380,7 @@ namespace Peasy
         /// <para>Override this method to return a custom execution result of type <see cref="ExecutionResult{T}"/> or to further manipulate it.</para>
         /// <para>Override this method to return custom validation results of type <see cref="ValidationResult"/> or to further manipulate them.</para>
         /// </remarks>
-        /// <returns>A failed execution result of type <see cref="ExecutionResult{T}"/>.</returns>
+        /// <returns>A failed execution result.</returns>
         protected virtual ExecutionResult<T> OnFailedExecution(ValidationResult[] validationResults)
         {
             return new ExecutionResult<T> { Success = false, Errors = validationResults };
@@ -392,7 +392,7 @@ namespace Peasy
         /// <remarks>
         /// Override this method to return a custom execution result of type <see cref="ExecutionResult{T}"/> or to further manipulate it.
         /// </remarks>
-        /// <returns>A successful execution result of type <see cref="ExecutionResult{T}"/>.</returns>
+        /// <returns>A successful execution result.</returns>
         protected virtual ExecutionResult<T> OnSuccessfulExecution(T value)
         {
             return new ExecutionResult<T> { Success = true, Value = value };

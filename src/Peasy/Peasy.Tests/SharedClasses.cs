@@ -90,7 +90,7 @@ namespace Peasy.Core.Tests
         }
     }
 
-    public class Person : IDomainObject<long>, IVersionContainer
+    public class Person : IDomainObject<long>
     {
         [Range(0, 50)]
         public long ID { get; set; }

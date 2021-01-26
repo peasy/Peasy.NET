@@ -12,13 +12,16 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Peasy is a middle tier micro-framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</description>
     <releaseNotes>
-      - Repurpose IRulesContainer exposing GetRules/Async()
-      - Introduce IRulesSuccessorContainer and implement in RuleBase, exposing GetSuccessors()
+      - THIS IS A SIGNIFICANT VERSION UPGRADE AND CONTAINS BREAKING CHANGES
+      - Repurposes IRulesContainer exposing GetRules/Async()
+      - Repurposes PeasyException and removes ServiceException, DomainObjectNotFoundException, ConcurrencyException
+      - Introduces IRulesSuccessorContainer and implement in RuleBase, exposing GetSuccessors()
       - Breaking Change: Remove IRulesContainer from RuleBase in favor of IRulesSuccessorContainer
-      - Introduce IRuleSuccessor and consume from IRulesSuccessorContainer
-      - Introduce IDataProxyContainer and consume from ServiceBase
+      - Introduces IRuleSuccessor and consume from IRulesSuccessorContainer
+      - Introduces IDataProxyContainer and consume from ServiceBase
       - Better code documentation
       - REMOVES: ExpressionExtensions, IDomainExtensions..................
+      - REMOVES: BusinessServiceBase, ILatencyProneStatusProvider, IServiceDataProxy
     </releaseNotes>
     <copyright>Copyright 2021</copyright>
     <tags>Middle, Tier, Framework, Business, Logic, Layer</tags>

@@ -11,7 +11,7 @@ namespace Peasy
         /// Synchronously orchestrates command initialization, rule execution, and application logic.
         /// </summary>
         /// <returns>
-        /// An <see cref="ExecutionResult"/>.
+        /// An execution result.
         /// </returns>
         ExecutionResult Execute();
 
@@ -19,7 +19,7 @@ namespace Peasy
         /// Asynchronously orchestrates command initialization, rule execution, and application logic.
         /// </summary>
         /// <returns>
-        /// An awaitable <see cref="ExecutionResult"/>.
+        /// An awaitable execution result.
         /// </returns>
         Task<ExecutionResult> ExecuteAsync();
     }
@@ -33,7 +33,7 @@ namespace Peasy
         /// Synchronously orchestrates command initialization, rule execution, and application logic.
         /// </summary>
         /// <returns>
-        /// An <see cref="ExecutionResult{T}"/>.
+        /// An execution result.
         /// </returns>
         ExecutionResult<T> Execute();
 
@@ -41,7 +41,7 @@ namespace Peasy
         /// Asynchronously orchestrates command initialization, rule execution, and application logic.
         /// </summary>
         /// <returns>
-        /// An awaitable <see cref="ExecutionResult{T}"/>.
+        /// An awaitable execution result.
         /// </returns>
         Task<ExecutionResult<T>> ExecuteAsync();
     }

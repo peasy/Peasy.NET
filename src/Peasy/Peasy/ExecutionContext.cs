@@ -16,6 +16,9 @@ namespace Peasy
         /// <summary>
         /// Represents a state bag that the current <see cref="Command"/> pipeline can access.
         /// </summary>
+        /// <remarks>
+        /// Use this dictionary to share state between command pipeline method invocations.
+        /// </remarks>
         public Dictionary<string, object> Data { get; set; }
     }
 }

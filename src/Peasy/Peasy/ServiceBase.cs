@@ -13,14 +13,10 @@ namespace Peasy
     /// <typeparam name="TKey">Any type.</typeparam>
     public abstract class ServiceBase<T, TKey> : IService<T, TKey> where T : IDomainObject<TKey>, new()
     {
-        /// <summary>
-        /// Represents the data abstraction that provides resource access to commands.
-        /// </summary>
+        /// <inheritdoc cref="IDataProxy{T, TKey}"/>
         protected readonly IDataProxy<T, TKey> _dataProxy;
 
-        /// <summary>
-        /// Represents the data abstraction that provides resource access to commands.
-        /// </summary>
+        /// <inheritdoc cref="IDataProxy{T, TKey}"/>
         protected IDataProxy<T, TKey> DataProxy => _dataProxy;
 
         /// <summary>
@@ -400,7 +396,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
-        /// <returns>A new resource resulting from a call to <see cref="Peasy.ISupportInsert{T}.Insert"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns>An updated representation of the resource resulting from a call to <see cref="Peasy.ISupportInsert{T}.Insert"/> of <see cref="DataProxy"/>.</returns>
         protected virtual T Insert(T resource, ExecutionContext<T> context)
         {
             return _dataProxy.Insert(resource);
@@ -416,7 +412,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
-        /// <returns>An awaitable new resource resulting from a call to <see cref="Peasy.ISupportInsertAsync{T}.InsertAsync"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns>An awaitable updated representation of the resource resulting from a call to <see cref="Peasy.ISupportInsertAsync{T}.InsertAsync"/> of <see cref="DataProxy"/>.</returns>
         protected virtual async Task<T> InsertAsync(T resource, ExecutionContext<T> context)
         {
             return await _dataProxy.InsertAsync(resource);
@@ -432,7 +428,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
-        /// <returns>A new resource resulting from a call to <see cref="Peasy.ISupportUpdate{T}.Update"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns>An updated representation of the resource resulting from a call to <see cref="Peasy.ISupportUpdate{T}.Update"/> of <see cref="DataProxy"/>.</returns>
         protected virtual T Update(T resource, ExecutionContext<T> context)
         {
             return _dataProxy.Update(resource);
@@ -448,7 +444,7 @@ namespace Peasy
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
-        /// <returns>An awaitable new resource resulting from a call to <see cref="Peasy.ISupportUpdateAsync{T}.UpdateAsync"/> of <see cref="DataProxy"/>.</returns>
+        /// <returns>An awaitable updated representation of the resource resulting from a call to <see cref="Peasy.ISupportUpdateAsync{T}.UpdateAsync"/> of <see cref="DataProxy"/>.</returns>
         protected virtual async Task<T> UpdateAsync(T resource, ExecutionContext<T> context)
         {
             return await _dataProxy.UpdateAsync(resource);
