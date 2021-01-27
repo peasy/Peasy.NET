@@ -138,7 +138,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
 
         #endregion
 
-        #region IValidationErrorsContainer Support
+        #region ISupportValidation Support
 
         [Fact]
         public async Task Allows_Execution_Of_Configured_Rules()
@@ -147,7 +147,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             var rules = new IRule[] { new TrueRule(), new FalseRule1() };
             var command = new CommandStub(doerOfThings.Object, rules);
 
-            var errors = (await command.ValidateAsync()).ToArray();
+            var errors = (await command.ValidateAsync()).Results.ToArray();
 
             errors.Count().ShouldBe(1);
             errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");

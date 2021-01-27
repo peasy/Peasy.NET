@@ -146,7 +146,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             var rules = new ISynchronousRule[] { new SynchronousTrueRule(), new SynchronousFalseRule1() };
             var command = new SynchronousCommandStub(doerOfThings.Object, rules);
 
-            var errors = command.Validate().ToArray();
+            var errors = command.Validate().Results.ToArray();
 
             errors.Count().ShouldBe(1);
             errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");

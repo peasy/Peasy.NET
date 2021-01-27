@@ -131,7 +131,7 @@ namespace Peasy.Core.Tests.CommandTests
 
         #endregion
 
-        #region IValidationErrorsContainer Support
+        #region ISupportValidation Support
 
         [Fact]
         public async Task Allows_Validation_Of_Configured_Rules()
@@ -140,10 +140,45 @@ namespace Peasy.Core.Tests.CommandTests
             var rules = new IRule[] { new TrueRule(), new FalseRule1() };
             var command = new CommandStub(doerOfThings.Object, rules);
 
-            var errors = (await command.ValidateAsync()).ToArray();
+            var errors = (await command.ValidateAsync()).Results.ToArray();
 
             errors.Count().ShouldBe(1);
             errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
+
+        [Fact]
+        public async Task Operation_Cannot_Complete_If_Any_Rules_Fail_Validation()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var rules = new IRule[] { new TrueRule(), new FalseRule1() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            var result = await command.ValidateAsync();
+
+            result.CanContinue.ShouldBe(false);
+            result.CompletePipelineExecution.ShouldBeNull();
+            result.Results.Count().ShouldBe(1);
+            result.Results.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
+
+        [Fact]
+        public async Task Operation_Can_Complete_If_Rules_Pass_Validation_And_Complete_Validation_With_Successful_Validation_Results()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var rules = new IRule[] { new TrueRule(), new TrueRule() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            var validationResult = await command.ValidateAsync();
+
+            validationResult.CanContinue.ShouldBeTrue();
+            validationResult.Results.Count().ShouldBe(0);
+
+            var executionResult = await validationResult.CompletePipelineExecution();
+            executionResult.Success.ShouldBeTrue();
+
+            doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Once);
         }
 
         #endregion

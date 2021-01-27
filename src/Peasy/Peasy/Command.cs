@@ -8,7 +8,7 @@ namespace Peasy
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command : ICommand, IRulesContainer, ISupportValidation
+    public abstract class Command : ICommand, IRulesContainer, ISupportValidation<ExecutionResult>
     {
         /// <inheritdoc cref="ICommand.ExecuteAsync"/>
         public virtual async Task<ExecutionResult> ExecuteAsync()
@@ -19,6 +19,12 @@ namespace Peasy
 
             if (errors.Any()) return OnFailedExecution(errors);
 
+            return await OnComplete();
+        }
+
+        ///
+        protected async virtual Task<ExecutionResult> OnComplete()
+        {
             try
             {
                 await OnExecuteAsync();
@@ -122,22 +128,23 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="IRulesContainer.GetRulesAsync"/>
-        public Task<IEnumerable<IRule>> GetRulesAsync()
+        public virtual Task<IEnumerable<IRule>> GetRulesAsync()
         {
             return OnGetRulesAsync();
         }
 
-        /// <inheritdoc cref="ISupportValidation.ValidateAsync"/>
-        public Task<IEnumerable<ValidationResult>> ValidateAsync()
+        /// <inheritdoc cref="ISupportValidation{T}.ValidateAsync"/>
+        public async virtual Task<ValidationOperation<ExecutionResult>> ValidateAsync()
         {
-            return OnValidateAsync();
+            var results = await OnValidateAsync();
+            return new ValidationOperation<ExecutionResult>(results, OnComplete);
         }
     }
 
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command<T> : ICommand<T>, IRulesContainer, ISupportValidation
+    public abstract class Command<T> : ICommand<T>, IRulesContainer, ISupportValidation<ExecutionResult<T>>
     {
         /// <inheritdoc cref="ICommand{T}.ExecuteAsync"/>
         public virtual async Task<ExecutionResult<T>> ExecuteAsync()
@@ -148,6 +155,12 @@ namespace Peasy
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
+            return await OnComplete();
+        }
+
+        ///
+        protected async virtual Task<ExecutionResult<T>> OnComplete()
+        {
             T result;
             try
             {
@@ -252,15 +265,16 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="IRulesContainer.GetRulesAsync"/>
-        public Task<IEnumerable<IRule>> GetRulesAsync()
+        public virtual Task<IEnumerable<IRule>> GetRulesAsync()
         {
             return OnGetRulesAsync();
         }
 
-        /// <inheritdoc cref="ISupportValidation.ValidateAsync"/>
-        public Task<IEnumerable<ValidationResult>> ValidateAsync()
+        /// <inheritdoc cref="ISupportValidation{T}.ValidateAsync"/>
+        public async virtual Task<ValidationOperation<ExecutionResult<T>>> ValidateAsync()
         {
-            return OnValidateAsync();
+            var results = await OnValidateAsync();
+            return new ValidationOperation<ExecutionResult<T>>(results, OnComplete);
         }
     }
 }

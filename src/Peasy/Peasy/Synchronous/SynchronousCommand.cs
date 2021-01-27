@@ -7,7 +7,7 @@ namespace Peasy.Synchronous
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand : ISynchronousCommand, ISynchronousRulesContainer, ISupportSynchronousValidation
+    public abstract class SynchronousCommand : ISynchronousCommand, ISynchronousRulesContainer, ISupportSynchronousValidation<ExecutionResult>
     {
         /// <inheritdoc cref="ISynchronousCommand.Execute"/>
         public virtual ExecutionResult Execute()
@@ -18,6 +18,12 @@ namespace Peasy.Synchronous
 
             if (errors.Any()) return OnFailedExecution(errors);
 
+            return OnComplete();
+        }
+
+        ///
+        protected virtual ExecutionResult OnComplete()
+        {
             try
             {
                 OnExecute();
@@ -117,17 +123,18 @@ namespace Peasy.Synchronous
             return OnGetRules();
         }
 
-        /// <inheritdoc cref="ISupportSynchronousValidation.Validate"/>
-        public IEnumerable<ValidationResult> Validate()
+        /// <inheritdoc cref="ISupportSynchronousValidation{T}.Validate"/>
+        public SynchronousValidationOperation<ExecutionResult> Validate()
         {
-            return OnValidate();
+            var results = OnValidate();
+            return new SynchronousValidationOperation<ExecutionResult>(results, OnComplete);
         }
     }
 
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand<T> : ISynchronousCommand<T>, ISynchronousRulesContainer, ISupportSynchronousValidation
+    public abstract class SynchronousCommand<T> : ISynchronousCommand<T>, ISynchronousRulesContainer, ISupportSynchronousValidation<ExecutionResult<T>>
     {
         /// <inheritdoc cref="ISynchronousCommand{T}.Execute"/>
         public virtual ExecutionResult<T> Execute()
@@ -138,6 +145,12 @@ namespace Peasy.Synchronous
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
+            return OnComplete();
+        }
+
+        ///
+        protected virtual ExecutionResult<T> OnComplete()
+        {
             T result;
             try
             {
@@ -242,10 +255,11 @@ namespace Peasy.Synchronous
             return OnGetRules();
         }
 
-        /// <inheritdoc cref="ISupportSynchronousValidation.Validate"/>
-        public IEnumerable<ValidationResult> Validate()
+        /// <inheritdoc cref="ISupportSynchronousValidation{T}.Validate"/>
+        public SynchronousValidationOperation<ExecutionResult<T>> Validate()
         {
-            return OnValidate();
+            var results = OnValidate();
+            return new SynchronousValidationOperation<ExecutionResult<T>>(results, OnComplete);
         }
     }
 }
