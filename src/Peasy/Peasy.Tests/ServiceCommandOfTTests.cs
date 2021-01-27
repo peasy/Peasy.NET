@@ -100,20 +100,6 @@ namespace Peasy.Tests.Rules
         }
 
         [Fact]
-        public async Task ServiceCommandOfT_Composition_8()
-        {
-            var command = new ServiceCommand<Person>
-            (
-                validationAsyncMethod,
-                executeAsyncMethod
-            );
-
-            await command.ExecuteAsync();
-
-            _count.ShouldBe("24");
-        }
-
-        [Fact]
         public async Task ServiceCommandOfT_Composition_9()
         {
             var command = new ServiceCommand<Person>
@@ -140,21 +126,6 @@ namespace Peasy.Tests.Rules
             await command.ExecuteAsync();
 
             _count.ShouldBe("134");
-        }
-
-        [Fact]
-        public async Task ServiceCommandOfT_Composition_14()
-        {
-            var command = new ServiceCommand<Person>
-            (
-                getBusinessRulesAsyncMethod,
-                validationAsyncMethod,
-                executeAsyncMethod
-            );
-
-            await command.ExecuteAsync();
-
-            _count.ShouldBe("234");
         }
     }
 }

@@ -32,7 +32,7 @@ namespace Peasy.Core.Tests
         public void Invalid_Rule_Contains_An_Error_Message_After_Validation()
         {
             var rule = new SynchronousFalseRule1().Execute();
-            rule.ErrorMessage.ShouldBe("SynchronousFalseRule1 failed validation");
+            rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace Peasy.Core.Tests
         {
             var rule1 = new SynchronousTrueRule().IfValidThenValidate(new SynchronousFalseRule1()).Execute();
             rule1.IsValid.ShouldBe(false);
-            rule1.ErrorMessage.ShouldBe("SynchronousFalseRule1 failed validation");
+            rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace Peasy.Core.Tests
         {
             var rule1 = new SynchronousFalseRule1().IfValidThenValidate(new SynchronousFalseRule2()).Execute();
             rule1.IsValid.ShouldBe(false);
-            rule1.ErrorMessage.ShouldBe("SynchronousFalseRule1 failed validation");
+            rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace Peasy.Core.Tests
                                 .IfValidThenValidate(new SynchronousFalseRule1(), new SynchronousFalseRule2(), new SynchronousFalseRule3())
                                 .Execute();
             rule1.IsValid.ShouldBe(false);
-            rule1.ErrorMessage.ShouldBe("SynchronousFalseRule1 failed validation");
+            rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace Peasy.Core.Tests
                                 .IfValidThenValidate(new SynchronousTrueRule(), new SynchronousTrueRule(), new SynchronousFalseRule1())
                                 .Execute();
             rule1.IsValid.ShouldBe(false);
-            rule1.ErrorMessage.ShouldBe("SynchronousFalseRule1 failed validation");
+            rule1.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace Peasy.Core.Tests
                               .IfValidThenValidate(new SynchronousFalseRule2(), new SynchronousFalseRule3())
                               .Execute();
             rule.IsValid.ShouldBe(false);
-            rule.ErrorMessage.ShouldBe("SynchronousFalseRule1 failed validation");
+            rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace Peasy.Core.Tests
                               .IfValidThenValidate(new SynchronousFalseRule2(), new SynchronousFalseRule3())
                               .Execute();
             rule.IsValid.ShouldBe(false);
-            rule.ErrorMessage.ShouldBe("SynchronousFalseRule2 failed validation");
+            rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
         [Fact]
@@ -101,7 +101,7 @@ namespace Peasy.Core.Tests
                               .IfValidThenValidate(new SynchronousTrueRule(), new SynchronousFalseRule3())
                               .Execute();
             rule.IsValid.ShouldBe(false);
-            rule.ErrorMessage.ShouldBe("SynchronousFalseRule3 failed validation");
+            rule.ErrorMessage.ShouldBe("FalseRule3 failed validation");
         }
 
         [Fact]
@@ -121,7 +121,7 @@ namespace Peasy.Core.Tests
                             .IfValidThenValidate(new SynchronousFalseRule1()
                                                       .IfValidThenValidate(new SynchronousFalseRule2())).Execute();
             rule.IsValid.ShouldBe(false);
-            rule.ErrorMessage.ShouldBe("SynchronousFalseRule1 failed validation");
+            rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
@@ -131,7 +131,7 @@ namespace Peasy.Core.Tests
                             .IfValidThenValidate(new SynchronousTrueRule()
                                                       .IfValidThenValidate(new SynchronousFalseRule1())).Execute();
             rule.IsValid.ShouldBe(false);
-            rule.ErrorMessage.ShouldBe("SynchronousFalseRule1 failed validation");
+            rule.ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
@@ -277,7 +277,7 @@ namespace Peasy.Core.Tests
                               .Execute();
             output.ShouldBe("pass");
             output2.ShouldBe(string.Empty);
-            rule.ErrorMessage.ShouldBe("SynchronousFalseRule2 failed validation");
+            rule.ErrorMessage.ShouldBe("FalseRule2 failed validation");
         }
 
         [Fact]

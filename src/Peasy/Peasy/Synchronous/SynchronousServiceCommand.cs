@@ -29,20 +29,6 @@ namespace Peasy.Synchronous
         public SynchronousServiceCommand(
             Action initializationMethod,
             Func<IEnumerable<ValidationResult>> validationMethod,
-            Func<IEnumerable<ISynchronousRule>> getRulesMethod,
-            Action executeMethod)
-        {
-            _initializationMethod = initializationMethod;
-            _executeMethod = executeMethod;
-            _validationMethod = validationMethod;
-            _getBusinessRulesMethod = getRulesMethod;
-        }
-
-        /// <summary>
-        /// </summary>
-        public SynchronousServiceCommand(
-            Action initializationMethod,
-            Func<IEnumerable<ValidationResult>> validationMethod,
             Action executeMethod)
         {
             _initializationMethod = initializationMethod;
@@ -95,18 +81,6 @@ namespace Peasy.Synchronous
 
         /// <summary>
         /// </summary>
-        public SynchronousServiceCommand(
-            Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod,
-            Func<IEnumerable<ValidationResult>> validationMethod,
-            Action executeMethod)
-        {
-            _executeMethod = executeMethod;
-            _getBusinessRulesMethod = getBusinessRulesMethod;
-            _validationMethod = validationMethod;
-        }
-
-        /// <summary>
-        /// </summary>
         protected override void OnInitialization()
         {
             (_initializationMethod ?? base.OnInitialization)();
@@ -142,20 +116,6 @@ namespace Peasy.Synchronous
         private Func<IEnumerable<ValidationResult>> _validationMethod;
         private Func<T> _executeMethod;
         private Func<IEnumerable<ISynchronousRule>> _getBusinessRulesMethod;
-
-        /// <summary>
-        /// </summary>
-        public SynchronousServiceCommand(
-            Action initializationMethod,
-            Func<IEnumerable<ValidationResult>> validationMethod,
-            Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod,
-            Func<T> executeMethod)
-        {
-            _initializationMethod = initializationMethod;
-            _executeMethod = executeMethod;
-            _validationMethod = validationMethod;
-            _getBusinessRulesMethod = getBusinessRulesMethod;
-        }
 
         /// <summary>
         /// </summary>
@@ -210,18 +170,6 @@ namespace Peasy.Synchronous
         {
             _executeMethod = executeMethod;
             _getBusinessRulesMethod = getBusinessRulesMethod;
-        }
-
-        /// <summary>
-        /// </summary>
-        public SynchronousServiceCommand(
-            Func<IEnumerable<ISynchronousRule>> getBusinessRulesMethod,
-            Func<IEnumerable<ValidationResult>> validationMethod,
-            Func<T> executeMethod)
-        {
-            _executeMethod = executeMethod;
-            _getBusinessRulesMethod = getBusinessRulesMethod;
-            _validationMethod = validationMethod;
         }
 
         /// <summary>

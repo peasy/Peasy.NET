@@ -97,20 +97,6 @@ namespace Peasy.Tests.Rules
         }
 
         [Fact]
-        public async Task ServiceCommand_Composition_7()
-        {
-            var command = new SynchronousServiceCommand
-            (
-                validationMethod,
-                executeMethod
-            );
-
-            command.Execute();
-
-            _count.ShouldBe("24");
-        }
-
-        [Fact]
         public async Task ServiceCommand_Composition_9()
         {
             var command = new SynchronousServiceCommand
@@ -129,14 +115,15 @@ namespace Peasy.Tests.Rules
         {
             var command = new SynchronousServiceCommand
             (
+                initializationMethod,
                 getBusinessRulesMethod,
-                validationMethod,
                 executeMethod
             );
 
             command.Execute();
 
-            _count.ShouldBe("234");
+            _count.ShouldBe("134");
         }
+
     }
 }

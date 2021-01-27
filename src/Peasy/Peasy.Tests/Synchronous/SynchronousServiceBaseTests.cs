@@ -110,6 +110,11 @@ namespace Peasy.Core.Tests
                 OnGetAllCommandInitializationWasInvoked = true;
                 base.OnGetAllCommandInitialization(context);
             }
+            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForGetAll(ExecutionContext<Person> context)
+            {
+                OnGetBusinessRulesForGetAllWasInvoked = true;
+                return base.OnGetBusinessRulesForGetAll(context);
+            }
 
             protected override IEnumerable<ValidationResult> OnPerformGetAllCommandValidation(ExecutionContext<Person> context)
             {
@@ -137,6 +142,12 @@ namespace Peasy.Core.Tests
             {
                 OnValidateIdForGetByIDWasInvoked = true;
                 return base.OnValidateIdForGetByID(id, context);
+            }
+
+            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForGetByID(long id, ExecutionContext<Person> context)
+            {
+                OnGetBusinessRulesForGetByIDWasInvoked = true;
+                return base.OnGetBusinessRulesForGetByID(id, context);
             }
 
             protected override IEnumerable<ValidationResult> OnPerformGetByIDCommandValidation(long id, ExecutionContext<Person> context)
@@ -167,6 +178,12 @@ namespace Peasy.Core.Tests
                 return base.OnValidateObjectForInsert(resource, context);
             }
 
+            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForInsert(Person resource, ExecutionContext<Person> context)
+            {
+                OnGetBusinessRulesForInsertWasInvoked = true;
+                return base.OnGetBusinessRulesForInsert(resource, context);
+            }
+
             protected override IEnumerable<ValidationResult> OnPerformInsertCommandValidation(Person person, ExecutionContext<Person> context)
             {
                 OnPerformInsertCommandValidationWasInvoked = true;
@@ -195,6 +212,12 @@ namespace Peasy.Core.Tests
                 return base.OnValidateObjectForUpdate(resource, context);
             }
 
+            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForUpdate(Person resource, ExecutionContext<Person> context)
+            {
+                OnGetBusinessRulesForUpdateWasInvoked = true;
+                return base.OnGetBusinessRulesForUpdate(resource, context);
+            }
+
             protected override IEnumerable<ValidationResult> OnPerformUpdateCommandValidation(Person person, ExecutionContext<Person> context)
             {
                 OnPerformUpdateCommandValidationWasInvoked = true;
@@ -220,6 +243,12 @@ namespace Peasy.Core.Tests
             {
                 OnValidateIdForDeleteWasInvoked = true;
                 return base.OnValidateIdForDelete(id, context);
+            }
+
+            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForDelete(long id, ExecutionContext<Person> context)
+            {
+                OnGetBusinessRulesForDeleteWasInvoked = true;
+                return base.OnGetBusinessRulesForDelete(id, context);
             }
 
             protected override IEnumerable<ValidationResult> OnPerformDeleteCommandValidation(long id, ExecutionContext<Person> context)

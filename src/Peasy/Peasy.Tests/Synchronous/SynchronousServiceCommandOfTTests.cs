@@ -127,20 +127,5 @@ namespace Peasy.Tests.Rules
 
             _count.ShouldBe("34");
         }
-
-        [Fact]
-        public void ServiceCommandOfT_Composition_13()
-        {
-            var command = new SynchronousServiceCommand<Person>
-            (
-                getBusinessRulesMethod,
-                validationMethod,
-                executeMethod
-            );
-
-            command.Execute();
-
-            _count.ShouldBe("234");
-        }
     }
 }

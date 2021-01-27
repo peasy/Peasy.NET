@@ -29,20 +29,6 @@ namespace Peasy
         /// </summary>
         public ServiceCommand(
             Func<Task> initializationMethod,
-            Func<Task<IEnumerable<IRule>>> getRulesMethod,
-            Func<Task<IEnumerable<ValidationResult>>> validationMethod,
-            Func<Task> executeMethod)
-        {
-            _initializationMethod = initializationMethod;
-            _executeMethod = executeMethod;
-            _validationMethod = validationMethod;
-            _getBusinessRulesMethod = getRulesMethod;
-        }
-
-        /// <summary>
-        /// </summary>
-        public ServiceCommand(
-            Func<Task> initializationMethod,
             Func<Task<IEnumerable<ValidationResult>>> validationMethod,
             Func<Task> executeMethod)
         {
@@ -96,18 +82,6 @@ namespace Peasy
 
         /// <summary>
         /// </summary>
-        public ServiceCommand(
-            Func<Task<IEnumerable<IRule>>> getBusinessRulesMethod,
-            Func<Task<IEnumerable<ValidationResult>>> validationMethod,
-            Func<Task> executeMethod)
-        {
-            _executeMethod = executeMethod;
-            _getBusinessRulesMethod = getBusinessRulesMethod;
-            _validationMethod = validationMethod;
-        }
-
-        /// <summary>
-        /// </summary>
         protected override async Task OnInitializationAsync()
         {
             await (_initializationMethod ?? base.OnInitializationAsync)();
@@ -143,20 +117,6 @@ namespace Peasy
         private Func<Task<IEnumerable<ValidationResult>>> _validationMethod;
         private Func<Task<T>> _executeMethod;
         private Func<Task<IEnumerable<IRule>>> _getBusinessRulesMethod;
-
-        /// <summary>
-        /// </summary>
-        public ServiceCommand(
-            Func<Task> initializationMethod,
-            Func<Task<IEnumerable<IRule>>> getBusinessRulesMethod,
-            Func<Task<IEnumerable<ValidationResult>>> validationMethod,
-            Func<Task<T>> executeMethod)
-        {
-            _initializationMethod = initializationMethod;
-            _executeMethod = executeMethod;
-            _validationMethod = validationMethod;
-            _getBusinessRulesMethod = getBusinessRulesMethod;
-        }
 
         /// <summary>
         /// </summary>
@@ -211,18 +171,6 @@ namespace Peasy
         {
             _executeMethod = executeMethod;
             _getBusinessRulesMethod = getBusinessRulesMethod;
-        }
-
-        /// <summary>
-        /// </summary>
-        public ServiceCommand(
-            Func<Task<IEnumerable<IRule>>> getBusinessRulesMethod,
-            Func<Task<IEnumerable<ValidationResult>>> validationMethod,
-            Func<Task<T>> executeMethod)
-        {
-            _executeMethod = executeMethod;
-            _getBusinessRulesMethod = getBusinessRulesMethod;
-            _validationMethod = validationMethod;
         }
 
         /// <summary>
