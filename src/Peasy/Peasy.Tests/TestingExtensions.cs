@@ -1,31 +1,42 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Peasy.Synchronous;
 
 namespace Peasy.Core.Tests
 {
     public static class TestingExtensions
     {
-        public static IEnumerable<IRuleSuccessor> GetSuccessors(this IRule container)
+        public static IEnumerable<IRuleSuccessor<T>> GetSuccessors<T>(this T container)
         {
-            return (container as IRuleSuccessorsContainer).GetSuccessors();
+            return (container as IRuleSuccessorsContainer<T>).GetSuccessors();
         }
 
-        public static IRule Second(this IEnumerable<IRule> rules)
+        // public static IEnumerable<IRuleSuccessor<IRule>> GetSuccessors(this IRule container)
+        // {
+        //     return (container as IRuleSuccessorsContainer<IRule>).GetSuccessors();
+        // }
+
+        // public static IEnumerable<IRuleSuccessor<ISynchronousRule>> GetSuccessors(this ISynchronousRule container)
+        // {
+        //     return (container as IRuleSuccessorsContainer<ISynchronousRule>).GetSuccessors();
+        // }
+
+        public static T Second<T>(this IEnumerable<T> rules)
         {
             return rules.ElementAt(1);
         }
 
-        public static IRuleSuccessor Second(this IEnumerable<IRuleSuccessor> rules)
+        public static IRuleSuccessor<T> Second<T>(this IEnumerable<IRuleSuccessor<T>> rules)
         {
             return rules.ElementAt(1);
         }
 
-        public static IRule Third(this IEnumerable<IRule> rules)
+        public static T Third<T>(this IEnumerable<T> rules)
         {
             return rules.ElementAt(2);
         }
 
-        public static IRuleSuccessor Third(this IEnumerable<IRuleSuccessor> rules)
+        public static IRuleSuccessor<T> Third<T>(this IEnumerable<IRuleSuccessor<T>> rules)
         {
             return rules.ElementAt(2);
         }

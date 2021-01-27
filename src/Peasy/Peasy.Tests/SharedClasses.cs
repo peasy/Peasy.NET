@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Peasy.Attributes;
+using Peasy.Synchronous;
 
 namespace Peasy.Core.Tests
 {
@@ -23,12 +24,6 @@ namespace Peasy.Core.Tests
 
     public class FalseRule1 : RuleBase
     {
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = "FalseRule1 failed validation";
-        }
-
         protected override Task OnValidateAsync()
         {
             IsValid = false;
@@ -44,12 +39,6 @@ namespace Peasy.Core.Tests
             Association = association;
         }
 
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = $"{Association} failed validation";
-        }
-
         protected override Task OnValidateAsync()
         {
             IsValid = false;
@@ -60,12 +49,6 @@ namespace Peasy.Core.Tests
 
     public class FalseRule2 : RuleBase
     {
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = "FalseRule2 failed validation";
-        }
-
         protected override Task OnValidateAsync()
         {
             IsValid = false;
@@ -76,17 +59,64 @@ namespace Peasy.Core.Tests
 
     public class FalseRule3 : RuleBase
     {
-        protected override void OnValidate()
-        {
-            IsValid = false;
-            ErrorMessage = "FalseRule3 failed validation";
-        }
-
         protected override Task OnValidateAsync()
         {
             IsValid = false;
             ErrorMessage = "FalseRule3 failed validation";
             return Task.CompletedTask;
+        }
+    }
+
+    public class SynchronousTrueRule : SynchronousRuleBase
+    {
+        public SynchronousTrueRule()
+        {
+        }
+
+        public SynchronousTrueRule(string association)
+        {
+            Association = association;
+        }
+    }
+
+    public class SynchronousFalseRule1 : SynchronousRuleBase
+    {
+        protected override void OnValidate()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule1 failed validation";
+        }
+    }
+
+    public class SynchronousFalseRuleWithAssociation : SynchronousRuleBase
+    {
+        public SynchronousFalseRuleWithAssociation(string association)
+        {
+            Association = association;
+        }
+
+        protected override void OnValidate()
+        {
+            IsValid = false;
+            ErrorMessage = $"{Association} failed validation";
+        }
+    }
+
+    public class SynchronousFalseRule2 : SynchronousRuleBase
+    {
+        protected override void OnValidate()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule2 failed validation";
+        }
+    }
+
+    public class SynchronousFalseRule3 : SynchronousRuleBase
+    {
+        protected override void OnValidate()
+        {
+            IsValid = false;
+            ErrorMessage = "FalseRule3 failed validation";
         }
     }
 

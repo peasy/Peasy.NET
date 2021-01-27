@@ -111,6 +111,19 @@ namespace Peasy
         }
 
         /// <summary>
+        /// Invokes supplied rules based on the successful execution of all of these rules.
+        /// </summary>
+        /// <returns>
+        /// An single rule of type <see cref="ISynchronousRule"/>.
+        /// </returns>
+        /// <param name="businessRules">An enumerable list of <see cref="ISynchronousRule"/> to execute.</param>
+        /// <param name="rules">An enumerable list of <see cref="ISynchronousRule"/> to execute if all of these rules have successful execution.</param>
+        public static ISynchronousRule IfAllValidThenValidate(this IEnumerable<ISynchronousRule> businessRules, params ISynchronousRule[] rules)
+        {
+            return new SynchronousValidRule().IfValidThenValidate(businessRules.ToArray()).IfValidThenValidate(rules);
+        }
+
+        /// <summary>
         /// Wraps the rule in an array
         /// </summary>
         /// <returns>
@@ -222,7 +235,6 @@ namespace Peasy
         }
     }
 
-    internal class ValidRule: RuleBase
-    {
-    }
+    internal class ValidRule: RuleBase { }
+    internal class SynchronousValidRule: SynchronousRuleBase { }
 }

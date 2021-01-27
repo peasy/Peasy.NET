@@ -1,4 +1,5 @@
-﻿using Shouldly;
+﻿using Peasy.Synchronous;
+using Shouldly;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Returns_One_Validation_Result()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule(), new FalseRule1(), new TrueRule()
+                new SynchronousTrueRule(), new SynchronousFalseRule1(), new SynchronousTrueRule()
             };
             rules.ValidateAll().Count().ShouldBe(1);
         }
@@ -22,9 +23,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Returns_One_Validation_Result_Of_The_Correct_Type()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule(), new FalseRule1(), new TrueRule()
+                new SynchronousTrueRule(), new SynchronousFalseRule1(), new SynchronousTrueRule()
             };
             var results = rules.ValidateAll<CustomValidationResult>();
             results.Count().ShouldBe(1);
@@ -34,9 +35,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void Validate_IRule_Returns_One_Validation_Result()
         {
-            var rule = new TrueRule().IfValidThenValidate
+            var rule = new SynchronousTrueRule().IfValidThenValidate
             (
-                new TrueRule(), new FalseRule1(), new TrueRule()
+                new SynchronousTrueRule(), new SynchronousFalseRule1(), new SynchronousTrueRule()
             );
             rule.Validate().Count().ShouldBe(1);
         }
@@ -44,9 +45,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void Validate_Of_T_IRule_Returns_One_Validation_Result()
         {
-            var rule = new TrueRule().IfValidThenValidate
+            var rule = new SynchronousTrueRule().IfValidThenValidate
             (
-                new TrueRule(), new FalseRule1(), new TrueRule()
+                new SynchronousTrueRule(), new SynchronousFalseRule1(), new SynchronousTrueRule()
             );
             var results = rule.Validate<CustomValidationResult>();
             results.Count().ShouldBe(1);
@@ -56,9 +57,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Returns_Two_Validation_Results()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new FalseRule1(), new FalseRule2(), new TrueRule()
+                new SynchronousFalseRule1(), new SynchronousFalseRule2(), new SynchronousTrueRule()
             };
             rules.ValidateAll().Count().ShouldBe(2);
         }
@@ -66,9 +67,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Returns_Two_Validation_Results()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new FalseRule1(), new FalseRule2(), new TrueRule()
+                new SynchronousFalseRule1(), new SynchronousFalseRule2(), new SynchronousTrueRule()
             };
             var results = rules.ValidateAll<CustomValidationResult>();
             results.Count().ShouldBe(2);
@@ -79,9 +80,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Returns_Three_Validation_Results()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule(), new FalseRule1(), new FalseRule2(), new TrueRule(), new FalseRule3()
+                new SynchronousTrueRule(), new SynchronousFalseRule1(), new SynchronousFalseRule2(), new SynchronousTrueRule(), new SynchronousFalseRule3()
             };
             rules.ValidateAll().Count().ShouldBe(3);
         }
@@ -89,9 +90,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Returns_Three_Validation_Results()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule(), new FalseRule1(), new FalseRule2(), new TrueRule(), new FalseRule3()
+                new SynchronousTrueRule(), new SynchronousFalseRule1(), new SynchronousFalseRule2(), new SynchronousTrueRule(), new SynchronousFalseRule3()
             };
             var results = rules.ValidateAll<CustomValidationResult>();
             results.Count().ShouldBe(3);
@@ -103,9 +104,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Returns_One_Validation_Result_When_Nested_Rule_Fails()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule().IfValidThenValidate(new FalseRule1()), new TrueRule()
+                new SynchronousTrueRule().IfValidThenValidate(new SynchronousFalseRule1()), new SynchronousTrueRule()
             };
             rules.ValidateAll().Count().ShouldBe(1);
         }
@@ -113,9 +114,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Returns_One_Validation_Result_When_Nested_Rule_Fails()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule().IfValidThenValidate(new FalseRule1()), new TrueRule()
+                new SynchronousTrueRule().IfValidThenValidate(new SynchronousFalseRule1()), new SynchronousTrueRule()
             };
             var results = rules.ValidateAll<CustomValidationResult>();
             results.Count().ShouldBe(1);
@@ -125,9 +126,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Returns_Two_Validation_Results_When_Nested_Rule_Fails()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule().IfValidThenValidate(new FalseRule1()), new FalseRule2()
+                new SynchronousTrueRule().IfValidThenValidate(new SynchronousFalseRule1()), new SynchronousFalseRule2()
             };
             rules.ValidateAll().Count().ShouldBe(2);
         }
@@ -135,9 +136,9 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Returns_Two_Validation_Results_When_Nested_Rule_Fails()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule().IfValidThenValidate(new FalseRule1()), new FalseRule2()
+                new SynchronousTrueRule().IfValidThenValidate(new SynchronousFalseRule1()), new SynchronousFalseRule2()
             };
             var results = rules.ValidateAll<CustomValidationResult>();
             results.Count().ShouldBe(2);
@@ -148,11 +149,11 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Returns_Three_Validation_Results_Nested_Rules_Fail()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule().IfValidThenValidate(new FalseRule1()),
-                new TrueRule().IfValidThenValidate(new FalseRule2()),
-                new FalseRule3()
+                new SynchronousTrueRule().IfValidThenValidate(new SynchronousFalseRule1()),
+                new SynchronousTrueRule().IfValidThenValidate(new SynchronousFalseRule2()),
+                new SynchronousFalseRule3()
             };
             rules.ValidateAll().Count().ShouldBe(3);
         }
@@ -160,11 +161,11 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Returns_Three_Validation_Results_Nested_Rules_Fail()
         {
-            var rules = new List<IRule>
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule().IfValidThenValidate(new FalseRule1()),
-                new TrueRule().IfValidThenValidate(new FalseRule2()),
-                new FalseRule3()
+                new SynchronousTrueRule().IfValidThenValidate(new SynchronousFalseRule1()),
+                new SynchronousTrueRule().IfValidThenValidate(new SynchronousFalseRule2()),
+                new SynchronousFalseRule3()
             };
             var results = rules.ValidateAll<CustomValidationResult>();
             results.Count().ShouldBe(3);
@@ -176,7 +177,7 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Returns_Two_Validation_Results_With_Correct_Messages()
         {
-            var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
+            var rules = new List<ISynchronousRule> { new SynchronousFalseRule1(), new SynchronousFalseRule2() };
             var results = rules.ValidateAll();
             results.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
             results.Last().ErrorMessage.ShouldBe("FalseRule2 failed validation");
@@ -185,7 +186,7 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Returns_Two_Validation_Results_With_Correct_Messages()
         {
-            var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
+            var rules = new List<ISynchronousRule> { new SynchronousFalseRule1(), new SynchronousFalseRule2() };
             var results = rules.ValidateAll<CustomValidationResult>();
             results.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
             results.Last().ErrorMessage.ShouldBe("FalseRule2 failed validation");
@@ -194,7 +195,7 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Sets_Validation_Result_Member_Name_To_Empty_String()
         {
-            var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
+            var rules = new List<ISynchronousRule> { new SynchronousFalseRule1(), new SynchronousFalseRule2() };
             var results = rules.ValidateAll();
             results.First().MemberNames.First().ShouldBe(string.Empty);
             results.Last().MemberNames.First().ShouldBe(string.Empty);
@@ -203,7 +204,7 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Sets_Validation_Result_Member_Name_To_Empty_String()
         {
-            var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
+            var rules = new List<ISynchronousRule> { new SynchronousFalseRule1(), new SynchronousFalseRule2() };
             var results = rules.ValidateAll<CustomValidationResult>();
             results.First().MemberNames.First().ShouldBe(string.Empty);
             results.Last().MemberNames.First().ShouldBe(string.Empty);
@@ -212,7 +213,7 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Sets_Validation_Result_Member_Name_Explicitly()
         {
-            var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
+            var rules = new List<ISynchronousRule> { new SynchronousFalseRule1(), new SynchronousFalseRule2() };
             var results = rules.ValidateAll("MyEntity");
             results.First().MemberNames.First().ShouldBe("MyEntity");
             results.Last().MemberNames.First().ShouldBe("MyEntity");
@@ -221,7 +222,7 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Sets_Validation_Result_Member_Name_Explicitly()
         {
-            var rules = new List<IRule> { new FalseRule1(), new FalseRule2() };
+            var rules = new List<ISynchronousRule> { new SynchronousFalseRule1(), new SynchronousFalseRule2() };
             var results = rules.ValidateAll<CustomValidationResult>("MyEntity");
             results.First().MemberNames.First().ShouldBe("MyEntity");
             results.Last().MemberNames.First().ShouldBe("MyEntity");
@@ -230,7 +231,7 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Sets_Validation_Result_Member_Name_From_Association_Property()
         {
-            var rules = new List<IRule> { new FalseRuleWithAssociation("Name"), new FalseRuleWithAssociation("Address") };
+            var rules = new List<ISynchronousRule> { new SynchronousFalseRuleWithAssociation("Name"), new SynchronousFalseRuleWithAssociation("Address") };
             var results = rules.ValidateAll().ToArray();
             results.First().MemberNames.First().ShouldBe("Name");
             results.Last().MemberNames.First().ShouldBe("Address");
@@ -239,7 +240,7 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Sets_Validation_Result_Member_Name_From_Association_Property()
         {
-            var rules = new List<IRule> { new FalseRuleWithAssociation("Name"), new FalseRuleWithAssociation("Address") };
+            var rules = new List<ISynchronousRule> { new SynchronousFalseRuleWithAssociation("Name"), new SynchronousFalseRuleWithAssociation("Address") };
             var results = rules.ValidateAll<CustomValidationResult>();
             results.First().MemberNames.First().ShouldBe("Name");
             results.Last().MemberNames.First().ShouldBe("Address");
@@ -248,10 +249,10 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Returns_Association_Property_With_Nested_Rules()
         {
-            var ruleWithAssociation = new FalseRuleWithAssociation("Address");
-            var rules = new List<IRule>
+            var ruleWithAssociation = new SynchronousFalseRuleWithAssociation("Address");
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule().IfValidThenValidate(ruleWithAssociation), new TrueRule()
+                new SynchronousTrueRule().IfValidThenValidate(ruleWithAssociation), new SynchronousTrueRule()
             };
 
             var results = rules.ValidateAll();
@@ -261,10 +262,10 @@ namespace Peasy.Core.Tests.Extensions
         [Fact]
         public void ValidateAll_Of_T_Returns_Association_Property_With_Nested_Rules()
         {
-            var ruleWithAssociation = new FalseRuleWithAssociation("Address");
-            var rules = new List<IRule>
+            var ruleWithAssociation = new SynchronousFalseRuleWithAssociation("Address");
+            var rules = new List<ISynchronousRule>
             {
-                new TrueRule().IfValidThenValidate(ruleWithAssociation), new TrueRule()
+                new SynchronousTrueRule().IfValidThenValidate(ruleWithAssociation), new SynchronousTrueRule()
             };
 
             var results = rules.ValidateAll<CustomValidationResult>();
@@ -531,8 +532,8 @@ namespace Peasy.Core.Tests.Extensions
         public void IfAllValidateThenValidate_Validates_On_Success()
         {
             var number = 0;
-            var rules = new List<IRule> { new TrueRule(), new TrueRule() };
-            var rule = rules.IfAllValidThenValidate(new TrueRule().IfValidThenInvoke((r) => number = 42));
+            var rules = new List<ISynchronousRule> { new SynchronousTrueRule(), new SynchronousTrueRule() };
+            var rule = rules.IfAllValidThenValidate(new SynchronousTrueRule().IfValidThenInvoke((r) => number = 42));
             rule.Execute();
             number.ShouldBe(42);
         }
@@ -541,9 +542,29 @@ namespace Peasy.Core.Tests.Extensions
         public void IfAllValidateThenValidate_Does_Not_Validate_On_Failure()
         {
             var number = 0;
+            var rules = new List<ISynchronousRule> { new SynchronousTrueRule(), new SynchronousFalseRule1() };
+            var rule = rules.IfAllValidThenValidate(new SynchronousTrueRule().IfValidThenInvoke((r) => number = 42));
+            rule.Execute();
+            number.ShouldBe(0);
+        }
+
+        [Fact]
+        public async Task IfAllValidateThenValidate_Validates_On_Success_Async()
+        {
+            var number = 0;
+            var rules = new List<IRule> { new TrueRule(), new TrueRule() };
+            var rule = rules.IfAllValidThenValidate(new TrueRule().IfValidThenInvoke((r) => number = 42));
+            await rule.ExecuteAsync();
+            number.ShouldBe(42);
+        }
+
+        [Fact]
+        public async Task IfAllValidateThenValidate_Does_Not_Validate_On_Failure_Async()
+        {
+            var number = 0;
             var rules = new List<IRule> { new TrueRule(), new FalseRule1() };
             var rule = rules.IfAllValidThenValidate(new TrueRule().IfValidThenInvoke((r) => number = 42));
-            rule.Execute();
+            await rule.ExecuteAsync();
             number.ShouldBe(0);
         }
     }
