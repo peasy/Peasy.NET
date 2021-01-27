@@ -261,7 +261,12 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var rule = await new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
-                .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenInvoke(r => output = "pass"))
+                .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenInvokeAsync(async rule =>
+                {
+                    await Task.Delay(6000);
+                    // await Task.CompletedTask;
+                    output = "pass";
+                }))
                 .ExecuteAsync();
             output.ShouldBe("pass");
         }

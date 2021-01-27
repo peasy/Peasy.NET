@@ -18,6 +18,7 @@ namespace Peasy
         /// The action to perform once when this rule fails validation.
         /// </summary>
         protected Action<IRule> _ifInvalidThenInvoke;
+        private Func<IRule, Task> _ifInvalidThenInvokeAsync;
 
         /// <summary>
         /// Gets or sets a string that associates this rule with a field. This is helpful for validation errors
@@ -68,6 +69,7 @@ namespace Peasy
                             {
                                 Invalidate(rule.ErrorMessage, rule.Association);
                                 _ifInvalidThenInvoke?.Invoke(this);
+                                await (_ifInvalidThenInvokeAsync?.Invoke(this) ?? Task.CompletedTask);
                                 break; // early exit, don't bother further rule execution
                             }
                         }
@@ -79,6 +81,7 @@ namespace Peasy
             else
             {
                 _ifInvalidThenInvoke?.Invoke(this);
+                await (_ifInvalidThenInvokeAsync?.Invoke(this) ?? Task.CompletedTask);
             }
             return this;
         }
@@ -111,6 +114,16 @@ namespace Peasy
         public RuleBase IfInvalidThenInvoke(Action<IRule> method)
         {
             _ifInvalidThenInvoke = method;
+            return this;
+        }
+
+        /// <summary>
+        /// Executes the supplied action upon failed validation.
+        /// </summary>
+        /// <param name="method">The action to perform.</param>
+        public RuleBase IfInvalidThenInvokeAsync(Func<IRule, Task> method)
+        {
+            _ifInvalidThenInvokeAsync = method;
             return this;
         }
 
