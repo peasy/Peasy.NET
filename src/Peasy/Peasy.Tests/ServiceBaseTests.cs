@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
+using Peasy.Extensions;
 
 namespace Peasy.Core.Tests
 {
@@ -21,11 +22,12 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
-        public async Task Ensure_Method_Invocations_For_GetAllCommandAsync_I()
+        public async Task GetAllCommand_Properly_Supports_ISupportValidation()
         {
             var service = new ServiceBaseStub(new PersonProxyStub());
-            var command = service.GetAllCommand() as ISupportValidation<ExecutionResult<IEnumerable<Person>>>;
-            var validationResult = command.ValidateAsync();
+            var validationResult = await service.GetAllCommand().ValidateAsync();
+            var executionResult = await validationResult.CompleteCommandExecutionAsync();
+            executionResult.Success.ShouldBeTrue();
         }
 
         [Fact]
@@ -41,6 +43,15 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
+        public async Task GetByIDCommand_Properly_Supports_ISupportValidation()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var validatonResult = await service.GetByIDCommand(123).ValidateAsync();
+            var executionResult = await validatonResult.CompleteCommandExecutionAsync();
+            executionResult.Success.ShouldBeTrue();
+        }
+
+        [Fact]
         public async Task Ensure_Method_Invocations_For_InsertCommandAsync()
         {
             var service = new ServiceBaseStub(new PersonProxyStub());
@@ -50,6 +61,16 @@ namespace Peasy.Core.Tests
             service.OnGetBusinessRulesForInsertAsyncWasInvoked.ShouldBe(true);
             service.OnPerformInsertCommandValidationAsyncWasInvoked.ShouldBe(true);
             service.OnInsertCommandValidationSuccessAsyncWasInvoked.ShouldBe(true);
+        }
+
+        [Fact]
+        public async Task InsertCommand_Properly_Supports_ISupportValidation()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var data = new Person();
+            var validatonResult = await service.InsertCommand(data).ValidateAsync();
+            var executionResult = await validatonResult.CompleteCommandExecutionAsync();
+            executionResult.Success.ShouldBeTrue();
         }
 
         [Fact]
@@ -65,6 +86,16 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
+        public async Task UpdateCommand_Properly_Supports_ISupportValidation()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var data = new Person();
+            var validatonResult = await service.UpdateCommand(data).ValidateAsync();
+            var executionResult = await validatonResult.CompleteCommandExecutionAsync();
+            executionResult.Success.ShouldBeTrue();
+        }
+
+        [Fact]
         public async Task Ensure_Method_Invocations_For_DeleteCommandAsync()
         {
             var service = new ServiceBaseStub(new PersonProxyStub());
@@ -75,6 +106,23 @@ namespace Peasy.Core.Tests
             service.OnPerformDeleteCommandValidationAsyncWasInvoked.ShouldBe(true);
             service.OnDeleteCommandValidationSuccessAsyncWasInvoked.ShouldBe(true);
         }
+
+        [Fact]
+        public async Task DeleteCommand_Properly_Supports_ISupportValidation()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var validationOperation = await service.DeleteCommand(123).ValidateAsync();
+            if (validationOperation.CanContinue)
+            {
+                var executionResult = await validationOperation.CompleteCommandExecutionAsync();
+                executionResult.Success.ShouldBeTrue();
+            }
+            else
+            {
+                System.Console.WriteLine(validationOperation.Results);
+            }
+        }
+
         public class ServiceBaseStub : ServiceBase<Person, long>
         {
             #region Properties

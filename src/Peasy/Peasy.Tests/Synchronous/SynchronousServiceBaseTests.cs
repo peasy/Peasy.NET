@@ -4,6 +4,7 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
 using Peasy.Synchronous;
+using Peasy.Extensions;
 
 namespace Peasy.Core.Tests
 {
@@ -21,6 +22,15 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
+        public void GetAllCommand_Properly_Supports_ISupportValidation()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var validationResult = service.GetAllCommand().Validate();
+            var executionResult = validationResult.CompleteCommandExecution();
+            executionResult.Success.ShouldBeTrue();
+        }
+
+        [Fact]
         public void Ensure_Method_Invocations_For_GetByIDCommand()
         {
             var service = new ServiceBaseStub(new PersonProxyStub());
@@ -30,6 +40,15 @@ namespace Peasy.Core.Tests
             service.OnGetBusinessRulesForGetByIDWasInvoked.ShouldBe(true);
             service.OnPerformGetByIDCommandValidationWasInvoked.ShouldBe(true);
             service.OnGetByIDCommandValidationSuccessWasInvoked.ShouldBe(true);
+        }
+
+        [Fact]
+        public void GetByIDCommand_Properly_Supports_ISupportValidation()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var validatonResult = service.GetByIDCommand(123).Validate();
+            var executionResult = validatonResult.CompleteCommandExecution();
+            executionResult.Success.ShouldBeTrue();
         }
 
         [Fact]
@@ -45,6 +64,16 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
+        public void InsertCommand_Properly_Supports_ISupportValidation()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var data = new Person();
+            var validatonResult = service.InsertCommand(data).Validate();
+            var executionResult = validatonResult.CompleteCommandExecution();
+            executionResult.Success.ShouldBeTrue();
+        }
+
+        [Fact]
         public void Ensure_Method_Invocations_For_Update()
         {
             var service = new ServiceBaseStub(new PersonProxyStub());
@@ -57,6 +86,16 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
+        public void UpdateCommand_Properly_Supports_ISupportValidation()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var data = new Person();
+            var validatonResult = service.UpdateCommand(data).Validate();
+            var executionResult = validatonResult.CompleteCommandExecution();
+            executionResult.Success.ShouldBeTrue();
+        }
+
+        [Fact]
         public void Ensure_Method_Invocations_For_Delete()
         {
             var service = new ServiceBaseStub(new PersonProxyStub());
@@ -66,6 +105,15 @@ namespace Peasy.Core.Tests
             service.OnGetBusinessRulesForDeleteWasInvoked.ShouldBe(true);
             service.OnPerformDeleteCommandValidationWasInvoked.ShouldBe(true);
             service.OnDeleteCommandValidationSuccessWasInvoked.ShouldBe(true);
+        }
+
+        [Fact]
+        public void DeleteCommand_Properly_Supports_ISupportValidation()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var validatonResult = service.DeleteCommand(123).Validate();
+            var executionResult = validatonResult.CompleteCommandExecution();
+            executionResult.Success.ShouldBeTrue();
         }
 
         public class ServiceBaseStub : SynchronousServiceBase<Person, long>

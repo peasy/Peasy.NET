@@ -8,7 +8,7 @@ namespace Peasy
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command : ICommand, IRulesContainer, ISupportValidation<ExecutionResult>
+    public abstract class Command : ICommand, IRulesContainer, ISupportValidation
     {
         /// <inheritdoc cref="ICommand.ExecuteAsync"/>
         public virtual async Task<ExecutionResult> ExecuteAsync()
@@ -134,7 +134,7 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="ISupportValidation{T}.ValidateAsync"/>
-        public async virtual Task<ValidationOperation<ExecutionResult>> ValidateAsync()
+        public async virtual Task<IValidationOperation<ExecutionResult>> ValidateAsync()
         {
             var results = await OnValidateAsync();
             return new ValidationOperation<ExecutionResult>(results, OnComplete);
@@ -144,7 +144,7 @@ namespace Peasy
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command<T> : ICommand<T>, IRulesContainer, ISupportValidation<ExecutionResult<T>>
+    public abstract class Command<T> : ICommand<T>, IRulesContainer, ISupportValidation<T>
     {
         /// <inheritdoc cref="ICommand{T}.ExecuteAsync"/>
         public virtual async Task<ExecutionResult<T>> ExecuteAsync()
@@ -271,7 +271,7 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="ISupportValidation{T}.ValidateAsync"/>
-        public async virtual Task<ValidationOperation<ExecutionResult<T>>> ValidateAsync()
+        public async virtual Task<IValidationOperation<ExecutionResult<T>>> ValidateAsync()
         {
             var results = await OnValidateAsync();
             return new ValidationOperation<ExecutionResult<T>>(results, OnComplete);

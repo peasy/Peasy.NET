@@ -7,7 +7,7 @@ namespace Peasy.Synchronous
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand : ISynchronousCommand, ISynchronousRulesContainer, ISupportSynchronousValidation<ExecutionResult>
+    public abstract class SynchronousCommand : ISynchronousCommand, ISynchronousRulesContainer, ISupportSynchronousValidation
     {
         /// <inheritdoc cref="ISynchronousCommand.Execute"/>
         public virtual ExecutionResult Execute()
@@ -124,7 +124,7 @@ namespace Peasy.Synchronous
         }
 
         /// <inheritdoc cref="ISupportSynchronousValidation{T}.Validate"/>
-        public SynchronousValidationOperation<ExecutionResult> Validate()
+        public ISynchronousValidationOperation<ExecutionResult> Validate()
         {
             var results = OnValidate();
             return new SynchronousValidationOperation<ExecutionResult>(results, OnComplete);
@@ -134,7 +134,7 @@ namespace Peasy.Synchronous
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand<T> : ISynchronousCommand<T>, ISynchronousRulesContainer, ISupportSynchronousValidation<ExecutionResult<T>>
+    public abstract class SynchronousCommand<T> : ISynchronousCommand<T>, ISynchronousRulesContainer, ISupportSynchronousValidation<T>
     {
         /// <inheritdoc cref="ISynchronousCommand{T}.Execute"/>
         public virtual ExecutionResult<T> Execute()
@@ -256,7 +256,7 @@ namespace Peasy.Synchronous
         }
 
         /// <inheritdoc cref="ISupportSynchronousValidation{T}.Validate"/>
-        public SynchronousValidationOperation<ExecutionResult<T>> Validate()
+        public ISynchronousValidationOperation<ExecutionResult<T>> Validate()
         {
             var results = OnValidate();
             return new SynchronousValidationOperation<ExecutionResult<T>>(results, OnComplete);
