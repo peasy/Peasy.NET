@@ -11,7 +11,7 @@ namespace Peasy
         /// Performs validation by invoking configured rules.
         /// </summary>
         /// <returns>An awaitable command validation result.</returns>
-        Task<ICommandValidationResult<ExecutionResult>> ValidateAsync();
+        Task<ICommandValidationResult> ValidateAsync();
     }
 
     /// <summary>
@@ -23,6 +23,6 @@ namespace Peasy
         /// Performs validation by invoking configured rules.
         /// </summary>
         /// <returns>An awaitable command validation result.</returns>
-        Task<ICommandValidationResult<ExecutionResult<T>>> ValidateAsync();
+        Task<ICommandValidationResult<T>> ValidateAsync();
     }
 }

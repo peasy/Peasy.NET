@@ -9,7 +9,7 @@ namespace Peasy.Synchronous
         /// Performs validation by invoking configured rules.
         /// </summary>
         /// <returns>A command validation result.</returns>
-        ISynchronousCommandValidationResult<ExecutionResult> Validate();
+        ISynchronousCommandValidationResult Validate();
     }
 
     /// <summary>
@@ -21,6 +21,6 @@ namespace Peasy.Synchronous
         /// Performs validation by invoking configured rules.
         /// </summary>
         /// <returns>A command validation result.</returns>
-        ISynchronousCommandValidationResult<ExecutionResult<T>> Validate();
+        ISynchronousCommandValidationResult<T> Validate();
     }
 }

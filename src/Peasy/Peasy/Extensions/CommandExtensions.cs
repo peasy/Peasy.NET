@@ -8,7 +8,7 @@ namespace Peasy.Extensions
     public static class CommandExtensions
     {
         ///
-        public static async Task<ICommandValidationResult<ExecutionResult>> ValidateAsync(this ICommand command)
+        public static async Task<ICommandValidationResult> ValidateAsync(this ICommand command)
         {
             var validationSupporter = command as ISupportCommandValidation;
             if (validationSupporter == null) throw new InvalidCastException("Supplied ICommand does not implement ISupportValidation interface.");
@@ -17,7 +17,7 @@ namespace Peasy.Extensions
         }
 
         ///
-        public static async Task<ICommandValidationResult<ExecutionResult<T>>> ValidateAsync<T>(this ICommand<T> command)
+        public static async Task<ICommandValidationResult<T>> ValidateAsync<T>(this ICommand<T> command)
         {
             var validationSupporter = command as ISupportCommandValidation<T>;
             if (validationSupporter == null) throw new InvalidCastException("Supplied ICommand does not implement ISupportValidation<T> interface.");
@@ -26,7 +26,7 @@ namespace Peasy.Extensions
         }
 
         ///
-        public static ISynchronousCommandValidationResult<ExecutionResult> Validate(this ISynchronousCommand command)
+        public static ISynchronousCommandValidationResult Validate(this ISynchronousCommand command)
         {
             var validationSupporter = command as ISupportSynchronousCommandValidation;
             if (validationSupporter == null) throw new InvalidCastException("Supplied ICommand does not implement ISupportValidation interface.");
@@ -35,7 +35,7 @@ namespace Peasy.Extensions
         }
 
         ///
-        public static ISynchronousCommandValidationResult<ExecutionResult<T>> Validate<T>(this ISynchronousCommand<T> command)
+        public static ISynchronousCommandValidationResult<T> Validate<T>(this ISynchronousCommand<T> command)
         {
             var validationSupporter = command as ISupportSynchronousCommandValidation<T>;
             if (validationSupporter == null) throw new InvalidCastException("Supplied ICommand does not implement ISupportValidation<T> interface.");

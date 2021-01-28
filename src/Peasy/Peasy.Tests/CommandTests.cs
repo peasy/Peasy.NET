@@ -140,7 +140,7 @@ namespace Peasy.Core.Tests.CommandTests
             var rules = new IRule[] { new TrueRule(), new FalseRule1() };
             var command = new CommandStub(doerOfThings.Object, rules);
 
-            var errors = (await command.ValidateAsync()).Results.ToArray();
+            var errors = (await command.ValidateAsync()).Errors.ToArray();
 
             errors.Count().ShouldBe(1);
             errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
@@ -156,9 +156,8 @@ namespace Peasy.Core.Tests.CommandTests
             var result = await command.ValidateAsync();
 
             result.CanContinue.ShouldBe(false);
-            result.CompleteCommandExecutionAsync.ShouldBeNull();
-            result.Results.Count().ShouldBe(1);
-            result.Results.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
+            result.Errors.Count().ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
         [Fact]
@@ -171,7 +170,7 @@ namespace Peasy.Core.Tests.CommandTests
             var validationResult = await command.ValidateAsync();
 
             validationResult.CanContinue.ShouldBeTrue();
-            validationResult.Results.Count().ShouldBe(0);
+            validationResult.Errors.Count().ShouldBe(0);
 
             var executionResult = await validationResult.CompleteCommandExecutionAsync();
             executionResult.Success.ShouldBeTrue();
@@ -188,7 +187,7 @@ namespace Peasy.Core.Tests.CommandTests
             var validationResult = await command.ValidateAsync();
 
             validationResult.CanContinue.ShouldBeTrue();
-            validationResult.Results.Count().ShouldBe(0);
+            validationResult.Errors.Count().ShouldBe(0);
 
             var executionResult = await validationResult.CompleteCommandExecutionAsync();
 

@@ -134,10 +134,10 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="ISupportCommandValidation{T}.ValidateAsync"/>
-        public async virtual Task<ICommandValidationResult<ExecutionResult>> ValidateAsync()
+        public async virtual Task<ICommandValidationResult> ValidateAsync()
         {
-            var results = await OnValidateAsync();
-            return new CommandValidationResult<ExecutionResult>(results, OnComplete);
+            var results = (await OnValidateAsync()).ToArray();
+            return new CommandValidationResult(results, OnComplete);
         }
     }
 
@@ -271,10 +271,10 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="ISupportCommandValidation{T}.ValidateAsync"/>
-        public async virtual Task<ICommandValidationResult<ExecutionResult<T>>> ValidateAsync()
+        public async virtual Task<ICommandValidationResult<T>> ValidateAsync()
         {
-            var results = await OnValidateAsync();
-            return new CommandValidationResult<ExecutionResult<T>>(results, OnComplete);
+            var results = (await OnValidateAsync()).ToArray();
+            return new CommandValidationResult<T>(results, OnComplete);
         }
     }
 }

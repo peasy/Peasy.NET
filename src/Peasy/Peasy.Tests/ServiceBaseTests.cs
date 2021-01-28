@@ -112,15 +112,8 @@ namespace Peasy.Core.Tests
         {
             var service = new ServiceBaseStub(new PersonProxyStub());
             var validationOperation = await service.DeleteCommand(123).ValidateAsync();
-            if (validationOperation.CanContinue)
-            {
-                var executionResult = await validationOperation.CompleteCommandExecutionAsync();
-                executionResult.Success.ShouldBeTrue();
-            }
-            else
-            {
-                System.Console.WriteLine(validationOperation.Results);
-            }
+            var executionResult = await validationOperation.CompleteCommandExecutionAsync();
+            executionResult.Success.ShouldBeTrue();
         }
 
         public class ServiceBaseStub : ServiceBase<Person, long>

@@ -124,10 +124,10 @@ namespace Peasy.Synchronous
         }
 
         /// <inheritdoc cref="ISupportSynchronousCommandValidation{T}.Validate"/>
-        public ISynchronousCommandValidationResult<ExecutionResult> Validate()
+        public ISynchronousCommandValidationResult Validate()
         {
-            var results = OnValidate();
-            return new SynchronousCommandValidationResult<ExecutionResult>(results, OnComplete);
+            var results = OnValidate().ToArray();
+            return new SynchronousCommandValidationResult(results, OnComplete);
         }
     }
 
@@ -256,10 +256,10 @@ namespace Peasy.Synchronous
         }
 
         /// <inheritdoc cref="ISupportSynchronousCommandValidation{T}.Validate"/>
-        public ISynchronousCommandValidationResult<ExecutionResult<T>> Validate()
+        public ISynchronousCommandValidationResult<T> Validate()
         {
-            var results = OnValidate();
-            return new SynchronousCommandValidationResult<ExecutionResult<T>>(results, OnComplete);
+            var results = OnValidate().ToArray();
+            return new SynchronousCommandValidationResult<T>(results, OnComplete);
         }
     }
 }

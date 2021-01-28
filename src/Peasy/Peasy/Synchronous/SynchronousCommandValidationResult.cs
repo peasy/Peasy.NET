@@ -1,28 +1,64 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace Peasy.Synchronous
 {
-    ///
-    public class SynchronousCommandValidationResult<T> : CommandValidationResultBase, ISynchronousCommandValidationResult<T>
+    /// <inheritdoc cref="ICommandValidationResult"/>
+    public class SynchronousCommandValidationResult : CommandValidationResultBase, ISynchronousCommandValidationResult
     {
-        ///
-        private Func<T> _continuationFunction;
+        /// <summary>The command completion function.</summary>
+        protected Func<ExecutionResult> _continuationFunction;
 
-        ///
-        public SynchronousCommandValidationResult(IEnumerable<ValidationResult> results, Func<T> completionFunction)
+        /// <summary>
+        /// Initializes a new instance of the Peasy.SynchronousCommandValidationResult class with a list of potential errors and a command completion function.
+        /// </summary>
+        /// <param name="errors">A potential list of errors resulting from rule executions.</param>
+        /// <param name="continuationFunction">A function that allows the continuation of command execution.</param>
+        public SynchronousCommandValidationResult(IEnumerable<ValidationResult> errors, Func<ExecutionResult> continuationFunction)
         {
-            Results = results;
-            CompleteCommandExecution = completionFunction;
+            Errors = errors;
+            _continuationFunction = continuationFunction;
         }
 
-        ///
-        public Func<T> CompleteCommandExecution
+        /// <inheritdoc cref="ISynchronousCommandValidationResult.CompleteCommandExecution"/>
+        /// <exception cref="System.InvalidOperationException">Thrown when accessed after validation fails.</exception>
+        public virtual Func<ExecutionResult> CompleteCommandExecution
         {
-            get { return CanContinue ? _continuationFunction : null; }
-            private set { _continuationFunction = value; }
+            get
+            {
+                if (CanContinue) return _continuationFunction;
+                throw new InvalidOperationException("Cannot complete command execution because validation was not successful");
+            }
+        }
+    }
+
+    /// <inheritdoc cref="ISynchronousCommandValidationResult{T}"/>
+    public class SynchronousCommandValidationResult<T> : CommandValidationResultBase, ISynchronousCommandValidationResult<T>
+    {
+        /// <summary>The command completion function.</summary>
+        protected Func<ExecutionResult<T>> _continuationFunction;
+
+        /// <summary>
+        /// Initializes a new instance of the Peasy.SynchronousCommandValidationResult class with a list of potential errors and a command completion function.
+        /// </summary>
+        /// <param name="errors">A potential list of errors resulting from rule executions.</param>
+        /// <param name="continuationFunction">A function that allows the continuation of command execution.</param>
+        public SynchronousCommandValidationResult(IEnumerable<ValidationResult> errors, Func<ExecutionResult<T>> continuationFunction)
+        {
+            Errors = errors;
+            _continuationFunction = continuationFunction;
+        }
+
+        /// <inheritdoc cref="ISynchronousCommandValidationResult{T}.CompleteCommandExecution"/>
+        /// <exception cref="System.InvalidOperationException">Thrown when accessed after validation fails.</exception>
+        public virtual Func<ExecutionResult<T>> CompleteCommandExecution
+        {
+            get
+            {
+                if (CanContinue) return _continuationFunction;
+                throw new InvalidOperationException("Cannot complete command execution because validation was not successful");
+            }
         }
     }
 
