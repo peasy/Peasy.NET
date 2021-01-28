@@ -21,6 +21,14 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
+        public async Task Ensure_Method_Invocations_For_GetAllCommandAsync_I()
+        {
+            var service = new ServiceBaseStub(new PersonProxyStub());
+            var command = service.GetAllCommand() as ISupportValidation<ExecutionResult<IEnumerable<Person>>>;
+            var validationResult = command.ValidateAsync();
+        }
+
+        [Fact]
         public async Task Ensure_Method_Invocations_For_GetByIDCommandAsync()
         {
             var service = new ServiceBaseStub(new PersonProxyStub());

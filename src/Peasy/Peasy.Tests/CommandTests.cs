@@ -156,7 +156,7 @@ namespace Peasy.Core.Tests.CommandTests
             var result = await command.ValidateAsync();
 
             result.CanContinue.ShouldBe(false);
-            result.CompletePipelineExecution.ShouldBeNull();
+            result.CompleteCommandExecutionAsync.ShouldBeNull();
             result.Results.Count().ShouldBe(1);
             result.Results.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
@@ -173,16 +173,33 @@ namespace Peasy.Core.Tests.CommandTests
             validationResult.CanContinue.ShouldBeTrue();
             validationResult.Results.Count().ShouldBe(0);
 
-            var executionResult = await validationResult.CompletePipelineExecution();
+            var executionResult = await validationResult.CompleteCommandExecutionAsync();
             executionResult.Success.ShouldBeTrue();
+        }
 
-            doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
-            doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
-            doerOfThings.Verify(d => d.Log("OnSuccessfulExecution"), Times.Once);
+        [Fact]
+        public async Task Completion_Properly_Handles_Caught_Peasy_Exception()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            doerOfThings.Setup(d => d.DoSomething()).Throws(new PeasyException("You shall not pass"));
+            var rules = new IRule[] { new TrueRule(), new TrueRule() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            var validationResult = await command.ValidateAsync();
+
+            validationResult.CanContinue.ShouldBeTrue();
+            validationResult.Results.Count().ShouldBe(0);
+
+            var executionResult = await validationResult.CompleteCommandExecutionAsync();
+
+            executionResult.Success.ShouldBeFalse();
+            executionResult.Errors.Count().ShouldBe(1);
+            executionResult.Errors.First().ErrorMessage.ShouldBe("You shall not pass");
         }
 
         #endregion
     }
+
     public interface IDoThings
     {
         void Log(string message);
