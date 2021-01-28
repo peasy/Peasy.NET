@@ -6,13 +6,13 @@ using System.Linq;
 namespace Peasy.Synchronous
 {
     ///
-    public class SynchronousValidationOperation<T> : ValidationOperationBase, ISynchronousValidationOperation<T>
+    public class SynchronousCommandValidationResult<T> : CommandValidationResultBase, ISynchronousCommandValidationResult<T>
     {
         ///
         private Func<T> _continuationFunction;
 
         ///
-        public SynchronousValidationOperation(IEnumerable<ValidationResult> results, Func<T> completionFunction)
+        public SynchronousCommandValidationResult(IEnumerable<ValidationResult> results, Func<T> completionFunction)
         {
             Results = results;
             CompleteCommandExecution = completionFunction;

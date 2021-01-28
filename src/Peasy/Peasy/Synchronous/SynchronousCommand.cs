@@ -7,7 +7,7 @@ namespace Peasy.Synchronous
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand : ISynchronousCommand, ISynchronousRulesContainer, ISupportSynchronousValidation
+    public abstract class SynchronousCommand : ISynchronousCommand, ISynchronousRulesContainer, ISupportSynchronousCommandValidation
     {
         /// <inheritdoc cref="ISynchronousCommand.Execute"/>
         public virtual ExecutionResult Execute()
@@ -123,18 +123,18 @@ namespace Peasy.Synchronous
             return OnGetRules();
         }
 
-        /// <inheritdoc cref="ISupportSynchronousValidation{T}.Validate"/>
-        public ISynchronousValidationOperation<ExecutionResult> Validate()
+        /// <inheritdoc cref="ISupportSynchronousCommandValidation{T}.Validate"/>
+        public ISynchronousCommandValidationResult<ExecutionResult> Validate()
         {
             var results = OnValidate();
-            return new SynchronousValidationOperation<ExecutionResult>(results, OnComplete);
+            return new SynchronousCommandValidationResult<ExecutionResult>(results, OnComplete);
         }
     }
 
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand<T> : ISynchronousCommand<T>, ISynchronousRulesContainer, ISupportSynchronousValidation<T>
+    public abstract class SynchronousCommand<T> : ISynchronousCommand<T>, ISynchronousRulesContainer, ISupportSynchronousCommandValidation<T>
     {
         /// <inheritdoc cref="ISynchronousCommand{T}.Execute"/>
         public virtual ExecutionResult<T> Execute()
@@ -255,11 +255,11 @@ namespace Peasy.Synchronous
             return OnGetRules();
         }
 
-        /// <inheritdoc cref="ISupportSynchronousValidation{T}.Validate"/>
-        public ISynchronousValidationOperation<ExecutionResult<T>> Validate()
+        /// <inheritdoc cref="ISupportSynchronousCommandValidation{T}.Validate"/>
+        public ISynchronousCommandValidationResult<ExecutionResult<T>> Validate()
         {
             var results = OnValidate();
-            return new SynchronousValidationOperation<ExecutionResult<T>>(results, OnComplete);
+            return new SynchronousCommandValidationResult<ExecutionResult<T>>(results, OnComplete);
         }
     }
 }

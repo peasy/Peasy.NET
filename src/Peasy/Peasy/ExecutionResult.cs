@@ -23,11 +23,6 @@ namespace Peasy
         /// </summary>
         /// <returns>A list of errors if <see cref="Success"/> is <see langword="false"/>, otherwise <see langword="null"/>.</returns>
         public virtual IEnumerable<ValidationResult> Errors { get; set; }
-
-        internal object First()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>

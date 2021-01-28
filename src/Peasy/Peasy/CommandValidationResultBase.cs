@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Peasy
 {
     ///
-    public abstract class ValidationOperationBase
+    public abstract class CommandValidationResultBase
     {
         ///
         public virtual bool CanContinue => !(Results.Any());
@@ -17,13 +17,13 @@ namespace Peasy
     }
 
     ///
-    public class ValidationOperation<T> : ValidationOperationBase, IValidationOperation<T>
+    public class CommandValidationResult<T> : CommandValidationResultBase, ICommandValidationResult<T>
     {
         ///
         private Func<Task<T>> _continuationFunction;
 
         ///
-        public ValidationOperation(IEnumerable<ValidationResult> results, Func<Task<T>> completionFunction)
+        public CommandValidationResult(IEnumerable<ValidationResult> results, Func<Task<T>> completionFunction)
         {
             Results = results;
             CompleteCommandExecutionAsync = completionFunction;

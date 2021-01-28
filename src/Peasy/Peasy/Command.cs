@@ -8,7 +8,7 @@ namespace Peasy
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command : ICommand, IRulesContainer, ISupportValidation
+    public abstract class Command : ICommand, IRulesContainer, ISupportCommandValidation
     {
         /// <inheritdoc cref="ICommand.ExecuteAsync"/>
         public virtual async Task<ExecutionResult> ExecuteAsync()
@@ -133,18 +133,18 @@ namespace Peasy
             return OnGetRulesAsync();
         }
 
-        /// <inheritdoc cref="ISupportValidation{T}.ValidateAsync"/>
-        public async virtual Task<IValidationOperation<ExecutionResult>> ValidateAsync()
+        /// <inheritdoc cref="ISupportCommandValidation{T}.ValidateAsync"/>
+        public async virtual Task<ICommandValidationResult<ExecutionResult>> ValidateAsync()
         {
             var results = await OnValidateAsync();
-            return new ValidationOperation<ExecutionResult>(results, OnComplete);
+            return new CommandValidationResult<ExecutionResult>(results, OnComplete);
         }
     }
 
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command<T> : ICommand<T>, IRulesContainer, ISupportValidation<T>
+    public abstract class Command<T> : ICommand<T>, IRulesContainer, ISupportCommandValidation<T>
     {
         /// <inheritdoc cref="ICommand{T}.ExecuteAsync"/>
         public virtual async Task<ExecutionResult<T>> ExecuteAsync()
@@ -270,11 +270,11 @@ namespace Peasy
             return OnGetRulesAsync();
         }
 
-        /// <inheritdoc cref="ISupportValidation{T}.ValidateAsync"/>
-        public async virtual Task<IValidationOperation<ExecutionResult<T>>> ValidateAsync()
+        /// <inheritdoc cref="ISupportCommandValidation{T}.ValidateAsync"/>
+        public async virtual Task<ICommandValidationResult<ExecutionResult<T>>> ValidateAsync()
         {
             var results = await OnValidateAsync();
-            return new ValidationOperation<ExecutionResult<T>>(results, OnComplete);
+            return new CommandValidationResult<ExecutionResult<T>>(results, OnComplete);
         }
     }
 }

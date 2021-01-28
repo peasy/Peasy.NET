@@ -6,7 +6,7 @@ namespace Peasy.Synchronous
 {
     /// <summary>
     /// </summary>
-    public interface ISynchronousValidationOperation<T>
+    public interface ISynchronousCommandValidationResult<T>
     {
         ///
         IEnumerable<ValidationResult> Results { get; }
