@@ -383,11 +383,7 @@ namespace Peasy.Synchronous
             return OnValidateIdForDelete(id, context).Concat(OnGetBusinessRulesForDelete(id, context).ValidateAll());
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes resource retrieval logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <param name="id">The id of the resource to retrieve.</param>
-        /// <returns>An invokable <see cref="ICommand{T}"/></returns>
+        /// <inheritdoc cref="ISupportSynchronousGetByIDCommand{T, TKey}.GetByIDCommand"/>
         public virtual ISynchronousCommand<T> GetByIDCommand(TKey id)
         {
             var context = new ExecutionContext<T>();
@@ -399,10 +395,7 @@ namespace Peasy.Synchronous
             );
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes multiple resource retrieval logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <returns>An invokable ICommand&lt;T[]&gt;</returns>
+        /// <inheritdoc cref="ISupportSynchronousGetAllCommand{T}.GetAllCommand"/>
         public virtual ISynchronousCommand<IEnumerable<T>> GetAllCommand()
         {
             var context = new ExecutionContext<T>();
@@ -414,11 +407,7 @@ namespace Peasy.Synchronous
             );
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes resource insertion logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <param name="resource">The resource to insert.</param>
-        /// <returns>An invokable <see cref="ICommand{T}"/></returns>
+        /// <inheritdoc cref="ISupportSynchronousInsertCommand{T}.InsertCommand"/>
         public virtual ISynchronousCommand<T> InsertCommand(T resource)
         {
             var context = new ExecutionContext<T>();
@@ -430,11 +419,7 @@ namespace Peasy.Synchronous
             );
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes resource update logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <param name="resource">The resource to update.</param>
-        /// <returns>An invokable <see cref="ICommand{T}"/></returns>
+        /// <inheritdoc cref="ISupportSynchronousUpdateCommand{T}.UpdateCommand"/>
         public virtual ISynchronousCommand<T> UpdateCommand(T resource)
         {
             var context = new ExecutionContext<T>();
@@ -446,11 +431,7 @@ namespace Peasy.Synchronous
             );
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes resource deletion logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <param name="id">The id of the resource to delete.</param>
-        /// <returns>An invokable <see cref="ICommand"/></returns>
+        /// <inheritdoc cref="ISupportSynchronousDeleteCommand{TKey}.DeleteCommand"/>
         public virtual ISynchronousCommand DeleteCommand(TKey id)
         {
             var context = new ExecutionContext<T>();

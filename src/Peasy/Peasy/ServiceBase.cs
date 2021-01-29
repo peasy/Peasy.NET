@@ -9,7 +9,7 @@ namespace Peasy
     /// <summary>
     /// Serves as the base class of all business services and represents an <see cref="ICommand"/> factory.
     /// </summary>
-    /// <typeparam name="T">Any type that implements <see cref="IDomainObject{TKey}"/>.</typeparam>
+    /// <typeparam name="T">Represents a domain object or resource and can be any type that implements <see cref="IDomainObject{TKey}"/>.</typeparam>
     /// <typeparam name="TKey">Any type.</typeparam>
     public abstract class ServiceBase<T, TKey> : IService<T, TKey> where T : IDomainObject<TKey>, new()
     {
@@ -398,11 +398,7 @@ namespace Peasy
             return validationErrors.Concat(await rules.ValidateAllAsync());
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes resource retrieval logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <param name="id">The id of the resource to retrieve.</param>
-        /// <returns>An invokable <see cref="ICommand{T}"/></returns>
+        /// <inheritdoc cref="ISupportGetByIDCommand{T, TKey}.GetByIDCommand"/>
         public virtual ICommand<T> GetByIDCommand(TKey id)
         {
             var context = new ExecutionContext<T>();
@@ -414,10 +410,7 @@ namespace Peasy
             );
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes multiple resource retrieval logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <returns>An invokable ICommand&lt;T[]&gt;</returns>
+        /// <inheritdoc cref="ISupportGetAllCommand{T}.GetAllCommand"/>
         public virtual ICommand<IEnumerable<T>> GetAllCommand()
         {
             var context = new ExecutionContext<T>();
@@ -429,11 +422,7 @@ namespace Peasy
             );
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes resource insertion logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <param name="resource">The resource to insert.</param>
-        /// <returns>An invokable <see cref="ICommand{T}"/></returns>
+        /// <inheritdoc cref="ISupportInsertCommand{T}.InsertCommand"/>
         public virtual ICommand<T> InsertCommand(T resource)
         {
             var context = new ExecutionContext<T>();
@@ -445,11 +434,7 @@ namespace Peasy
             );
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes resource update logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <param name="resource">The resource to update.</param>
-        /// <returns>An invokable <see cref="ICommand{T}"/></returns>
+        /// <inheritdoc cref="ISupportUpdateCommand{T}.UpdateCommand"/>
         public virtual ICommand<T> UpdateCommand(T resource)
         {
             var context = new ExecutionContext<T>();
@@ -461,11 +446,7 @@ namespace Peasy
             );
         }
 
-        /// <summary>
-        /// Composes a <see cref="Command"/> that invokes resource deletion logic based upon successful execution of business and validation rules.
-        /// </summary>
-        /// <param name="id">The id of the resource to delete.</param>
-        /// <returns>An invokable <see cref="ICommand"/></returns>
+        /// <inheritdoc cref="ISupportDeleteCommand{TKey}.DeleteCommand"/>
         public virtual ICommand DeleteCommand(TKey id)
         {
             var context = new ExecutionContext<T>();
