@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Xunit;
 
-namespace Peasy.Core.Tests.CommandTestsOfT
+namespace Peasy.Core.Tests.SynchronousCommandTestsOfT
 {
-    public class SynchronousCommandTestsOfT
+    public class Tests
     {
         [Fact]
         public void Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations()

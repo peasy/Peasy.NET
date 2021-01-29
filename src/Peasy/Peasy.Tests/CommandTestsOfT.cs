@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Peasy.Core.Tests.CommandTestsOfT
 {
-    public class CommandTestsOfT
+    public class Tests
     {
         [Fact]
         public async Task Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations_Async()
@@ -206,12 +206,6 @@ namespace Peasy.Core.Tests.CommandTestsOfT
         }
 
         #endregion
-    }
-
-    public interface IDoThings
-    {
-        void Log(string message);
-        string GetValue();
     }
 
     public class CommandStub : Command<string>
