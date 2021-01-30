@@ -208,7 +208,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
         #endregion
     }
 
-    public class CommandStub : Command<string>
+    public class CommandStub : CommandBase<string>
     {
         private IEnumerable<IRule> _rules;
         private IEnumerable<ValidationResult> _validationResults;

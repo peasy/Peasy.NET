@@ -8,7 +8,7 @@ namespace Peasy
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command : ICommand, IRulesContainer, ISupportCommandValidation
+    public abstract class CommandBase : ICommand, IRulesContainer, ISupportCommandValidation
     {
         /// <inheritdoc cref="ICommand.ExecuteAsync"/>
         public virtual async Task<ExecutionResult> ExecuteAsync()
@@ -144,7 +144,7 @@ namespace Peasy
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class Command<T> : ICommand<T>, IRulesContainer, ISupportCommandValidation<T>
+    public abstract class CommandBase<T> : ICommand<T>, IRulesContainer, ISupportCommandValidation<T>
     {
         /// <inheritdoc cref="ICommand{T}.ExecuteAsync"/>
         public virtual async Task<ExecutionResult<T>> ExecuteAsync()

@@ -207,7 +207,7 @@ namespace Peasy.Core.Tests.SynchronousCommandTestsOfT
         #endregion
     }
 
-    public class SynchronousCommandStub : SynchronousCommand<string>
+    public class SynchronousCommandStub : SynchronousCommandBase<string>
     {
         private IEnumerable<ISynchronousRule> _rules;
         private IEnumerable<ValidationResult> _validationResults;

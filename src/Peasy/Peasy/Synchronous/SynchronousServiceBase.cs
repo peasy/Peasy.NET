@@ -32,7 +32,7 @@ namespace Peasy.Synchronous
         /// Performs initialization logic.
         /// </summary>
         /// <remarks>
-        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="GetByIDCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="GetByIDCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to perform initialization logic before rule validations are invoked by the command returned by <see cref="GetByIDCommand"/>.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to retrieve.</param>
@@ -45,7 +45,7 @@ namespace Peasy.Synchronous
         /// Performs initialization logic.
         /// </summary>
         /// <remarks>
-        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="GetAllCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="GetAllCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to perform initialization logic before rule validations are invoked by the command returned by <see cref="GetAllCommand"/>.</para>
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
@@ -57,7 +57,7 @@ namespace Peasy.Synchronous
         /// Performs initialization logic.
         /// </summary>
         /// <remarks>
-        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="InsertCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="InsertCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to perform initialization logic before rule validations are invoked by the command returned by <see cref="InsertCommand"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
@@ -70,7 +70,7 @@ namespace Peasy.Synchronous
         /// Performs initialization logic.
         /// </summary>
         /// <remarks>
-        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="UpdateCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="UpdateCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to perform initialization logic before rule validations are invoked by the command returned by <see cref="UpdateCommand"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
@@ -83,7 +83,7 @@ namespace Peasy.Synchronous
         /// Performs initialization logic.
         /// </summary>
         /// <remarks>
-        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="DeleteCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>The first method invoked within the execution pipeline of the command returned by <see cref="DeleteCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to perform initialization logic before rule validations are invoked by the command returned by <see cref="DeleteCommand"/>.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to delete.</param>
@@ -96,7 +96,7 @@ namespace Peasy.Synchronous
         /// Returns a list of business rules to be executed within the execution pipeline of the command returned by <see cref="GetByIDCommand"/>.
         /// </summary>
         /// <remarks>
-        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="GetByIDCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="GetByIDCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to supply business rules for invocation by the command returned by <see cref="GetByIDCommand"/>.</para>
         /// <para>The successful invocation of the returned rules will determine whether or not to proceed with command pipeline execution.</para>
         /// </remarks>
@@ -112,7 +112,7 @@ namespace Peasy.Synchronous
         /// Returns a list of business rules to be executed within the execution pipeline of the command returned by <see cref="GetAllCommand"/>.
         /// </summary>
         /// <remarks>
-        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="GetAllCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="GetAllCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to supply business rules for invocation by the command returned by <see cref="GetAllCommand"/>.</para>
         /// <para>The successful invocation of the returned rules will determine whether or not to proceed with command pipeline execution.</para>
         /// </remarks>
@@ -127,7 +127,7 @@ namespace Peasy.Synchronous
         /// Returns a list of business rules to be executed within the execution pipeline of the command returned by <see cref="InsertCommand"/>.
         /// </summary>
         /// <remarks>
-        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="InsertCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="InsertCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to supply business rules for invocation by the command returned by <see cref="InsertCommand"/>.</para>
         /// <para>The successful invocation of the returned rules will determine whether or not to proceed with command pipeline execution.</para>
         /// </remarks>
@@ -143,7 +143,7 @@ namespace Peasy.Synchronous
         /// Returns a list of business rules to be executed within the execution pipeline of the command returned by <see cref="UpdateCommand"/>.
         /// </summary>
         /// <remarks>
-        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="UpdateCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="UpdateCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to supply business rules for invocation by the command returned by <see cref="UpdateCommand"/>.</para>
         /// <para>The successful invocation of the returned rules will determine whether or not to proceed with command pipeline execution.</para>
         /// </remarks>
@@ -159,7 +159,7 @@ namespace Peasy.Synchronous
         /// Returns a list of business rules to be executed within the execution pipeline of the command returned by <see cref="DeleteCommand"/>.
         /// </summary>
         /// <remarks>
-        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="DeleteCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the second method invoked within the execution pipeline of the command returned by <see cref="DeleteCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to supply business rules for invocation by the command returned by <see cref="DeleteCommand"/>.</para>
         /// <para>The successful invocation of the returned rules will determine whether or not to proceed with command pipeline execution.</para>
         /// </remarks>
@@ -175,7 +175,7 @@ namespace Peasy.Synchronous
         /// Performs additional business logic and data proxy interaction.
         /// </summary>
         /// <remarks>
-        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="GetByIDCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="GetByIDCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
         /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
         /// </remarks>
@@ -191,7 +191,7 @@ namespace Peasy.Synchronous
         /// Performs additional business logic and data proxy interaction.
         /// </summary>
         /// <remarks>
-        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="GetAllCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="GetAllCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
         /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
         /// </remarks>
@@ -206,7 +206,7 @@ namespace Peasy.Synchronous
         /// Performs additional business logic and data proxy interaction.
         /// </summary>
         /// <remarks>
-        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="InsertCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="InsertCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
         /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
         /// </remarks>
@@ -222,7 +222,7 @@ namespace Peasy.Synchronous
         /// Performs additional business logic and data proxy interaction.
         /// </summary>
         /// <remarks>
-        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="UpdateCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="UpdateCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
         /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
         /// </remarks>
@@ -238,7 +238,7 @@ namespace Peasy.Synchronous
         /// Performs additional business logic and data proxy interaction.
         /// </summary>
         /// <remarks>
-        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="DeleteCommand"/>, triggered by <see cref="SynchronousCommand.Execute"/>.</para>
+        /// <para>This is the third and final method invoked within the execution pipeline of the command returned by <see cref="DeleteCommand"/>, triggered by <see cref="SynchronousCommandBase.Execute"/>.</para>
         /// <para>Override this method to invoke custom business logic and data proxy interaction.</para>
         /// <para>This method is only invoked based on the successful validation of all configured validation and business rules.</para>
         /// </remarks>

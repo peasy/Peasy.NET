@@ -199,7 +199,7 @@ namespace Peasy.Core.Tests.CommandTests
         #endregion
     }
 
-    public class CommandStub : Command
+    public class CommandStub : CommandBase
     {
         private IEnumerable<IRule> _rules;
         private IEnumerable<ValidationResult> _validationResults;

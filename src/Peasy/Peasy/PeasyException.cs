@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Peasy
 {
     /// <summary>
-    /// An exception that when thrown, will be handled by the execution pipeline in <see cref="Command"/> and <see cref="Command{T}"/>.
+    /// An exception that when thrown, will be handled by the execution pipeline in <see cref="CommandBase"/> and <see cref="CommandBase{T}"/>.
     /// </summary>
     /// <remarks>
     /// Errors of this type will be handled during command execution and used to create a failed <see cref="ValidationResult"/>.

@@ -7,31 +7,31 @@ namespace Peasy.Synchronous
     /// <summary>
     /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command implementation.
     /// </summary>
-    public class SynchronousServiceCommand : SynchronousCommand
+    public class SynchronousServiceCommand : SynchronousCommandBase
     {
         /// <summary>
         /// Performs initialization logic.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommand.Execute"/></remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommandBase.Execute"/></remarks>
         protected Action _initializationMethod;
 
         /// <summary>
         /// Performs rule validations.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommand.Execute"/>.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommandBase.Execute"/>.</remarks>
         /// <returns>A potential list of errors resulting from rule executions.</returns>
         protected Func<IEnumerable<ValidationResult>> _validationMethod;
 
         /// <summary>
         /// Executes application logic.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommand.Execute"/> if all rule validations are successful.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommandBase.Execute"/> if all rule validations are successful.</remarks>
         protected Action _executeMethod;
 
         /// <summary>
         /// Composes a list of business and validation rules to execute.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommand.Execute"/>.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommandBase.Execute"/>.</remarks>
         /// <returns>A list of business and validation rules.</returns>
         protected Func<IEnumerable<ISynchronousRule>> _getBusinessRulesMethod;
 
@@ -109,25 +109,25 @@ namespace Peasy.Synchronous
             _getBusinessRulesMethod = getBusinessRulesMethod;
         }
 
-        /// <inheritdoc cref="SynchronousCommand.OnInitialization"/>
+        /// <inheritdoc cref="SynchronousCommandBase.OnInitialization"/>
         protected override void OnInitialization()
         {
             (_initializationMethod ?? base.OnInitialization)();
         }
 
-        /// <inheritdoc cref="SynchronousCommand.OnExecute"/>
+        /// <inheritdoc cref="SynchronousCommandBase.OnExecute"/>
         protected override void OnExecute()
         {
             (_executeMethod ?? base.OnExecute)();
         }
 
-        /// <inheritdoc cref="SynchronousCommand.OnValidate"/>
+        /// <inheritdoc cref="SynchronousCommandBase.OnValidate"/>
         protected override IEnumerable<ValidationResult> OnValidate()
         {
             return (_validationMethod ?? base.OnValidate)();
         }
 
-        /// <inheritdoc cref="SynchronousCommand.OnGetRules"/>
+        /// <inheritdoc cref="SynchronousCommandBase.OnGetRules"/>
         protected override IEnumerable<ISynchronousRule> OnGetRules()
         {
             return (_getBusinessRulesMethod ?? base.OnGetRules)();
@@ -137,31 +137,31 @@ namespace Peasy.Synchronous
     /// <summary>
     /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command implementation.
     /// </summary>
-    public class SynchronousServiceCommand<T> : SynchronousCommand<T>
+    public class SynchronousServiceCommand<T> : SynchronousCommandBase<T>
     {
         /// <summary>
         /// Performs initialization logic.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommand{T}.Execute"/></remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommandBase{T}.Execute"/></remarks>
         protected Action _initializationMethod;
 
         /// <summary>
         /// Performs rule validations.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommand{T}.Execute"/>.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommandBase{T}.Execute"/>.</remarks>
         /// <returns>A potential list of errors resulting from rule executions.</returns>
         protected Func<IEnumerable<ValidationResult>> _validationMethod;
 
         /// <summary>
         /// Executes application logic.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommand{T}.Execute"/> if all rule validations are successful.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommandBase{T}.Execute"/> if all rule validations are successful.</remarks>
         protected Func<T> _executeMethod;
 
         /// <summary>
         /// Composes a list of business and validation rules to execute.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommand{T}.Execute"/>.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="SynchronousCommandBase{T}.Execute"/>.</remarks>
         /// <returns>A list of business and validation rules.</returns>
         protected Func<IEnumerable<ISynchronousRule>> _getBusinessRulesMethod;
 
@@ -239,25 +239,25 @@ namespace Peasy.Synchronous
             _getBusinessRulesMethod = getBusinessRulesMethod;
         }
 
-        /// <inheritdoc cref="SynchronousCommand{T}.OnInitialization"/>
+        /// <inheritdoc cref="SynchronousCommandBase{T}.OnInitialization"/>
         protected override void OnInitialization()
         {
             (_initializationMethod ?? base.OnInitialization)();
         }
 
-        /// <inheritdoc cref="SynchronousCommand{T}.OnExecute"/>
+        /// <inheritdoc cref="SynchronousCommandBase{T}.OnExecute"/>
         protected override T OnExecute()
         {
             return (_executeMethod ?? base.OnExecute)();
         }
 
-        /// <inheritdoc cref="SynchronousCommand{T}.OnValidate"/>
+        /// <inheritdoc cref="SynchronousCommandBase{T}.OnValidate"/>
         protected override IEnumerable<ValidationResult> OnValidate()
         {
             return (_validationMethod ?? base.OnValidate)();
         }
 
-        /// <inheritdoc cref="SynchronousCommand{T}.OnGetRules"/>
+        /// <inheritdoc cref="SynchronousCommandBase{T}.OnGetRules"/>
         protected override IEnumerable<ISynchronousRule> OnGetRules()
         {
             return (_getBusinessRulesMethod ?? base.OnGetRules)();

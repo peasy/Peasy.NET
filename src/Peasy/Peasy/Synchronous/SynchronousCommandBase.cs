@@ -7,7 +7,7 @@ namespace Peasy.Synchronous
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand : ISynchronousCommand, ISynchronousRulesContainer, ISupportSynchronousCommandValidation
+    public abstract class SynchronousCommandBase : ISynchronousCommand, ISynchronousRulesContainer, ISupportSynchronousCommandValidation
     {
         /// <inheritdoc cref="ISynchronousCommand.Execute"/>
         public virtual ExecutionResult Execute()
@@ -137,7 +137,7 @@ namespace Peasy.Synchronous
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand<T> : ISynchronousCommand<T>, ISynchronousRulesContainer, ISupportSynchronousCommandValidation<T>
+    public abstract class SynchronousCommandBase<T> : ISynchronousCommand<T>, ISynchronousRulesContainer, ISupportSynchronousCommandValidation<T>
     {
         /// <inheritdoc cref="ISynchronousCommand{T}.Execute"/>
         public virtual ExecutionResult<T> Execute()

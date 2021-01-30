@@ -8,32 +8,32 @@ namespace Peasy
     /// <summary>
     /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command implementation.
     /// </summary>
-    public class ServiceCommand : Command
+    public class ServiceCommand : CommandBase
     {
         /// <summary>
         /// Performs initialization logic.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="Command.ExecuteAsync"/></remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="CommandBase.ExecuteAsync"/></remarks>
         protected Func<Task> _initializationMethod;
 
         /// <summary>
         /// Performs rule validations.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="Command.ExecuteAsync"/>.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="CommandBase.ExecuteAsync"/>.</remarks>
         /// <returns>A potential awaitable list of errors resulting from rule executions.</returns>
         protected Func<Task<IEnumerable<ValidationResult>>> _validationMethod;
 
         /// <summary>
         /// Executes application logic.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="Command.ExecuteAsync"/> if all rule validations are successful.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="CommandBase.ExecuteAsync"/> if all rule validations are successful.</remarks>
         /// <returns>An awaitable task.</returns>
         protected Func<Task> _executeMethod;
 
         /// <summary>
         /// Composes a list of business and validation rules to execute.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="Command.ExecuteAsync"/>.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="CommandBase.ExecuteAsync"/>.</remarks>
         /// <returns>An awaitable list of business and validation rules.</returns>
         protected Func<Task<IEnumerable<IRule>>> _getBusinessRulesMethod;
 
@@ -111,25 +111,25 @@ namespace Peasy
             _getBusinessRulesMethod = getBusinessRulesMethod;
         }
 
-        /// <inheritdoc cref="Command.OnInitializationAsync"/>
+        /// <inheritdoc cref="CommandBase.OnInitializationAsync"/>
         protected override async Task OnInitializationAsync()
         {
             await (_initializationMethod ?? base.OnInitializationAsync)();
         }
 
-        /// <inheritdoc cref="Command.OnExecuteAsync"/>
+        /// <inheritdoc cref="CommandBase.OnExecuteAsync"/>
         protected override async Task OnExecuteAsync()
         {
             await (_executeMethod ?? base.OnExecuteAsync)();
         }
 
-        /// <inheritdoc cref="Command.OnValidateAsync"/>
+        /// <inheritdoc cref="CommandBase.OnValidateAsync"/>
         protected override Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
             return (_validationMethod ?? base.OnValidateAsync)();
         }
 
-        /// <inheritdoc cref="Command.OnGetRulesAsync"/>
+        /// <inheritdoc cref="CommandBase.OnGetRulesAsync"/>
         protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
             return (_getBusinessRulesMethod ?? base.OnGetRulesAsync)();
@@ -139,32 +139,32 @@ namespace Peasy
     /// <summary>
     /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command implementation.
     /// </summary>
-    public class ServiceCommand<T> : Command<T>
+    public class ServiceCommand<T> : CommandBase<T>
     {
         /// <summary>
         /// Performs initialization logic.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="Command{T}.ExecuteAsync"/></remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="CommandBase{T}.ExecuteAsync"/></remarks>
         protected Func<Task> _initializationMethod;
 
         /// <summary>
         /// Performs rule validations.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="Command{T}.ExecuteAsync"/>.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="CommandBase{T}.ExecuteAsync"/>.</remarks>
         /// <returns>A potential awaitable list of errors resulting from rule executions.</returns>
         protected Func<Task<IEnumerable<ValidationResult>>> _validationMethod;
 
         /// <summary>
         /// Executes application logic.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="Command{T}.ExecuteAsync"/> if all rule validations are successful.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="CommandBase{T}.ExecuteAsync"/> if all rule validations are successful.</remarks>
         /// <returns>An awaitable task.</returns>
         protected Func<Task<T>> _executeMethod;
 
         /// <summary>
         /// Composes a list of business and validation rules to execute.
         /// </summary>
-        /// <remarks>Invoked within the execution pipeline triggered by <see cref="Command{T}.ExecuteAsync"/>.</remarks>
+        /// <remarks>Invoked within the execution pipeline triggered by <see cref="CommandBase{T}.ExecuteAsync"/>.</remarks>
         /// <returns>An awaitable list of business and validation rules.</returns>
         protected Func<Task<IEnumerable<IRule>>> _getBusinessRulesMethod;
 
@@ -242,25 +242,25 @@ namespace Peasy
             _getBusinessRulesMethod = getBusinessRulesMethod;
         }
 
-        /// <inheritdoc cref="Command{T}.OnInitializationAsync"/>
+        /// <inheritdoc cref="CommandBase{T}.OnInitializationAsync"/>
         protected override async Task OnInitializationAsync()
         {
             await (_initializationMethod ?? base.OnInitializationAsync)();
         }
 
-        /// <inheritdoc cref="Command{T}.OnExecuteAsync"/>
+        /// <inheritdoc cref="CommandBase{T}.OnExecuteAsync"/>
         protected override Task<T> OnExecuteAsync()
         {
             return (_executeMethod ?? base.OnExecuteAsync)();
         }
 
-        /// <inheritdoc cref="Command{T}.OnValidateAsync"/>
+        /// <inheritdoc cref="CommandBase{T}.OnValidateAsync"/>
         protected override Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
             return (_validationMethod ?? base.OnValidateAsync)();
         }
 
-        /// <inheritdoc cref="Command{T}.OnGetRulesAsync"/>
+        /// <inheritdoc cref="CommandBase{T}.OnGetRulesAsync"/>
         protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
             return (_getBusinessRulesMethod ?? base.OnGetRulesAsync)();
