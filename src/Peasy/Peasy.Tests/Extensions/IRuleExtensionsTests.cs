@@ -553,7 +553,7 @@ namespace Peasy.Core.Tests.Extensions
         {
             var number = 0;
             var rules = new List<IRule> { new TrueRule(), new TrueRule() };
-            var rule = rules.IfAllValidThenValidate(new TrueRule().IfValidThenInvoke((r) => number = 42));
+            var rule = rules.IfAllValidThenValidate(new TrueRule().IfValidThenInvoke(async (r) => number = 42));
             await rule.ExecuteAsync();
             number.ShouldBe(42);
         }
@@ -563,7 +563,7 @@ namespace Peasy.Core.Tests.Extensions
         {
             var number = 0;
             var rules = new List<IRule> { new TrueRule(), new FalseRule1() };
-            var rule = rules.IfAllValidThenValidate(new TrueRule().IfValidThenInvoke((r) => number = 42));
+            var rule = rules.IfAllValidThenValidate(new TrueRule().IfValidThenInvoke(async (r) => number = 42));
             await rule.ExecuteAsync();
             number.ShouldBe(0);
         }

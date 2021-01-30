@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Xunit;
 
-namespace Peasy.Core.Tests.CommandTestsOfT
+namespace Peasy.Core.Tests.SynchronousCommandTestsOfT
 {
-    public class SynchronousCommandTestsOfT
+    public class Tests
     {
         [Fact]
         public void Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations()
@@ -137,7 +137,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
 
         #endregion
 
-        #region IValidationErrorsContainer Support
+        #region ISupportValidation Support
 
         [Fact]
         public void Allows_Execution_Of_Configured_Rules()
@@ -146,16 +146,68 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             var rules = new ISynchronousRule[] { new SynchronousTrueRule(), new SynchronousFalseRule1() };
             var command = new SynchronousCommandStub(doerOfThings.Object, rules);
 
-            var errors = command.Validate().ToArray();
+            var errors = command.Validate().Errors.ToArray();
 
             errors.Count().ShouldBe(1);
             errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
+        [Fact]
+        public void Operation_Cannot_Complete_If_Any_Rules_Fail_Validation()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var rules = new ISynchronousRule[] { new SynchronousTrueRule(), new SynchronousFalseRule1() };
+            var command = new SynchronousCommandStub(doerOfThings.Object, rules);
+
+            var result = command.Validate();
+
+            result.CanContinue.ShouldBe(false);
+            result.Errors.Count().ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
+
+        [Fact]
+        public void Operation_Can_Complete_If_Rules_Pass_Validation_And_Complete_Validation_With_Successful_Validation_Results()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            doerOfThings.Setup(d => d.GetValue()).Returns("You shall pass");
+            var rules = new ISynchronousRule[] { new SynchronousTrueRule(), new SynchronousTrueRule() };
+            var command = new SynchronousCommandStub(doerOfThings.Object, rules);
+
+            var validationResult = command.Validate();
+
+            validationResult.CanContinue.ShouldBeTrue();
+            validationResult.Errors.Count().ShouldBe(0);
+
+            var executionResult = validationResult.CompleteCommandExecution();
+            executionResult.Success.ShouldBeTrue();
+            executionResult.Value.ShouldBe("You shall pass");
+        }
+
+        [Fact]
+        public void Completion_Properly_Handles_Caught_Peasy_Exception()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            doerOfThings.Setup(d => d.GetValue()).Throws(new PeasyException("You shall not pass"));
+            var rules = new ISynchronousRule[] { new SynchronousTrueRule(), new SynchronousTrueRule() };
+            var command = new SynchronousCommandStub(doerOfThings.Object, rules);
+
+            var validationResult = command.Validate();
+
+            validationResult.CanContinue.ShouldBeTrue();
+            validationResult.Errors.Count().ShouldBe(0);
+
+            var executionResult = validationResult.CompleteCommandExecution();
+
+            executionResult.Success.ShouldBeFalse();
+            executionResult.Errors.Count().ShouldBe(1);
+            executionResult.Errors.First().ErrorMessage.ShouldBe("You shall not pass");
+        }
+
         #endregion
     }
 
-    public class SynchronousCommandStub : SynchronousCommand<string>
+    public class SynchronousCommandStub : SynchronousCommandBase<string>
     {
         private IEnumerable<ISynchronousRule> _rules;
         private IEnumerable<ValidationResult> _validationResults;

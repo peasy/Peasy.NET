@@ -4,11 +4,11 @@ using System.ComponentModel.DataAnnotations;
 namespace Peasy.Attributes
 {
     /// <summary>
-    /// Validates that non-zero values are supplied for int, decimal or non-default values for dates and guids
+    /// Validates that non-zero values are supplied for int, decimal or non-default values for dates and guids.
     /// </summary>
     public class PeasyRequiredAttribute : ValidationAttribute
     {
-        /// <inheritdoc />
+        /// <inheritdoc cref="ValidationAttribute.IsValid"/>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var errorMessage = $"The {validationContext.DisplayName} field is required.";

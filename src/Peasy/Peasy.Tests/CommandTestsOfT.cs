@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Peasy.Core.Tests.CommandTestsOfT
 {
-    public class CommandTestsOfT
+    public class Tests
     {
         [Fact]
         public async Task Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations_Async()
@@ -138,7 +138,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
 
         #endregion
 
-        #region IValidationErrorsContainer Support
+        #region ISupportValidation Support
 
         [Fact]
         public async Task Allows_Execution_Of_Configured_Rules()
@@ -147,22 +147,68 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             var rules = new IRule[] { new TrueRule(), new FalseRule1() };
             var command = new CommandStub(doerOfThings.Object, rules);
 
-            var errors = (await command.ValidateAsync()).ToArray();
+            var errors = (await command.ValidateAsync()).Errors.ToArray();
 
             errors.Count().ShouldBe(1);
             errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
         }
 
+        [Fact]
+        public async Task Operation_Cannot_Complete_If_Any_Rules_Fail_Validation()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var rules = new IRule[] { new TrueRule(), new FalseRule1() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            var result = await command.ValidateAsync();
+
+            result.CanContinue.ShouldBe(false);
+            result.Errors.Count().ShouldBe(1);
+            result.Errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
+        }
+
+        [Fact]
+        public async Task Operation_Can_Complete_If_Rules_Pass_Validation_And_Complete_Validation_With_Successful_Validation_Results()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            doerOfThings.Setup(d => d.GetValue()).Returns("You shall pass");
+            var rules = new IRule[] { new TrueRule(), new TrueRule() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            var validationResult = await command.ValidateAsync();
+
+            validationResult.CanContinue.ShouldBeTrue();
+            validationResult.Errors.Count().ShouldBe(0);
+
+            var executionResult = await validationResult.CompleteCommandExecutionAsync();
+            executionResult.Success.ShouldBeTrue();
+            executionResult.Value.ShouldBe("You shall pass");
+        }
+
+        [Fact]
+        public async Task Completion_Properly_Handles_Caught_Peasy_Exception()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            doerOfThings.Setup(d => d.GetValue()).Throws(new PeasyException("You shall not pass"));
+            var rules = new IRule[] { new TrueRule(), new TrueRule() };
+            var command = new CommandStub(doerOfThings.Object, rules);
+
+            var validationResult = await command.ValidateAsync();
+
+            validationResult.CanContinue.ShouldBeTrue();
+            validationResult.Errors.Count().ShouldBe(0);
+
+            var executionResult = await validationResult.CompleteCommandExecutionAsync();
+
+            executionResult.Success.ShouldBeFalse();
+            executionResult.Errors.Count().ShouldBe(1);
+            executionResult.Errors.First().ErrorMessage.ShouldBe("You shall not pass");
+        }
+
         #endregion
     }
 
-    public interface IDoThings
-    {
-        void Log(string message);
-        string GetValue();
-    }
-
-    public class CommandStub : Command<string>
+    public class CommandStub : CommandBase<string>
     {
         private IEnumerable<IRule> _rules;
         private IEnumerable<ValidationResult> _validationResults;

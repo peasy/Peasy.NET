@@ -1,26 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 
-namespace Peasy.Synchronous
+namespace Peasy
 {
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand : ISynchronousCommand, ISynchronousRulesContainer, ISupportSynchronousValidation
+    public abstract class CommandBase : ICommand, IRulesContainer, ISupportCommandValidation
     {
-        /// <inheritdoc cref="ISynchronousCommand.Execute"/>
-        public virtual ExecutionResult Execute()
+        /// <inheritdoc cref="ICommand.ExecuteAsync"/>
+        public virtual async Task<ExecutionResult> ExecuteAsync()
         {
-            OnInitialization();
+            await OnInitializationAsync();
 
-            var errors = OnValidate().ToArray();
+            var errors = (await OnValidateAsync()).ToArray();
 
             if (errors.Any()) return OnFailedExecution(errors);
 
+            return await OnComplete();
+        }
+
+        ///
+        protected async virtual Task<ExecutionResult> OnComplete()
+        {
             try
             {
-                OnExecute();
+                await OnExecuteAsync();
             }
             catch (PeasyException ex)
             {
@@ -34,44 +41,53 @@ namespace Peasy.Synchronous
         /// Performs initialization logic.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
+        /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to perform initialization logic before rule executions occur.</para>
         /// </remarks>
-        protected virtual void OnInitialization() { }
+        /// <returns>An awaitable task.</returns>
+        protected virtual Task OnInitializationAsync()
+        {
+            return Task.FromResult<object>(null);
+        }
 
         /// <summary>
         /// Performs rule validations.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
+        /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to manipulate how rules are invoked.</para>
         /// </remarks>
-        /// <returns>A potential list of errors resulting from rule executions.</returns>
-        protected virtual IEnumerable<ValidationResult> OnValidate()
+        /// <returns>A potential awaitable list of errors resulting from rule executions.</returns>
+        protected virtual async Task<IEnumerable<ValidationResult>> OnValidateAsync()
         {
-            return OnGetRules().ValidateAll();
+            var rules = await OnGetRulesAsync();
+            return await rules.ValidateAllAsync();
         }
 
         /// <summary>
         /// Executes application logic.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/> if all rule validations are successful.</para>
+        /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/> if all rule validations are successful.</para>
         /// <para>Override this method to perform custom application logic.</para>
         /// </remarks>
-        protected virtual void OnExecute() { }
+        /// <returns>An awaitable task.</returns>
+        protected virtual Task OnExecuteAsync()
+        {
+            return Task.FromResult<object>(null);
+        }
 
         /// <summary>
         /// Composes a list of business and validation rules to execute.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
+        /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to supply custom business rules to execute.</para>
         /// </remarks>
-        /// <returns>A list of business and validation rules.</returns>
-        protected virtual IEnumerable<ISynchronousRule> OnGetRules()
+        /// <returns>An awaitable list of business and validation rules.</returns>
+        protected virtual Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
-            return Enumerable.Empty<ISynchronousRule>();
+            return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>
@@ -111,37 +127,74 @@ namespace Peasy.Synchronous
             return new ExecutionResult { Success = true };
         }
 
-        /// <inheritdoc cref="ISynchronousRulesContainer.GetRules"/>
-        public IEnumerable<ISynchronousRule> GetRules()
+        /// <inheritdoc cref="IRulesContainer.GetRulesAsync"/>
+        public virtual Task<IEnumerable<IRule>> GetRulesAsync()
         {
-            return OnGetRules();
+            return OnGetRulesAsync();
         }
 
-        /// <inheritdoc cref="ISupportSynchronousValidation.Validate"/>
-        public IEnumerable<ValidationResult> Validate()
+        /// <inheritdoc cref="ISupportCommandValidation{T}.ValidateAsync"/>
+        public async virtual Task<ICommandValidationResult> ValidateAsync()
         {
-            return OnValidate();
+            var results = (await OnValidateAsync()).ToArray();
+            return new CommandValidationResult(results, OnComplete);
         }
     }
 
     /// <summary>
     /// Defines a base command responsible for the execution of a logical unit of work.
     /// </summary>
-    public abstract class SynchronousCommand<T> : ISynchronousCommand<T>, ISynchronousRulesContainer, ISupportSynchronousValidation
+    public abstract class CommandBase<T> : ICommand<T>, IRulesContainer, ISupportCommandValidation<T>
     {
-        /// <inheritdoc cref="ISynchronousCommand{T}.Execute"/>
-        public virtual ExecutionResult<T> Execute()
+        /// <inheritdoc cref="ICommand{T}.ExecuteAsync"/>
+        public virtual async Task<ExecutionResult<T>> ExecuteAsync()
         {
-            OnInitialization();
+            await OnInitializationAsync();
 
-            var validationResults = OnValidate().ToArray();
+            var validationResults = (await OnValidateAsync()).ToArray();
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
+            return await OnComplete();
+        }
+
+        /// <summary>
+        /// Performs initialization logic.
+        /// </summary>
+        /// <remarks>
+        /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
+        /// <para>Override this method to perform initialization logic before rule executions occur.</para>
+        /// </remarks>
+        /// <returns>An awaitable task.</returns>
+        protected virtual Task OnInitializationAsync()
+        {
+            return Task.FromResult<object>(null);
+        }
+
+        /// <summary>
+        /// Performs rule validations.
+        /// </summary>
+        /// <remarks>
+        /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
+        /// <para>Override this method to manipulate how rules are invoked.</para>
+        /// </remarks>
+        /// <returns>A potential awaitable list of errors resulting from rule executions.</returns>
+        protected virtual async Task<IEnumerable<ValidationResult>> OnValidateAsync()
+        {
+            var rules = await OnGetRulesAsync();
+            return await rules.ValidateAllAsync();
+        }
+
+        /// <summary>
+        /// Performs command execution finalization functionality (invokes <see cref="OnExecuteAsync"/>, handles exceptions of type <see cref="PeasyException"/>, and composes an execution result).
+        /// </summary>
+        /// <remarks>Override this method to provide an alternative implementation that handles command finalization.</remarks>
+        protected async virtual Task<ExecutionResult<T>> OnComplete()
+        {
             T result;
             try
             {
-                result = OnExecute();
+                result = await OnExecuteAsync();
             }
             catch (PeasyException ex)
             {
@@ -152,51 +205,29 @@ namespace Peasy.Synchronous
         }
 
         /// <summary>
-        /// Performs initialization logic.
-        /// </summary>
-        /// <remarks>
-        /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
-        /// <para>Override this method to perform initialization logic before rule executions occur.</para>
-        /// </remarks>
-        protected virtual void OnInitialization() { }
-
-        /// <summary>
-        /// Performs rule validations.
-        /// </summary>
-        /// <remarks>
-        /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
-        /// <para>Override this method to manipulate how rules are invoked.</para>
-        /// </remarks>
-        /// <returns>A potential list of errors resulting from rule executions.</returns>
-        protected virtual IEnumerable<ValidationResult> OnValidate()
-        {
-            return OnGetRules().ValidateAll();
-        }
-
-        /// <summary>
         /// Executes application logic.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/> if all rule validations are successful.</para>
+        /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/> if all rule validations are successful.</para>
         /// <para>Override this method to perform custom application logic.</para>
         /// </remarks>
-        /// <returns>A resource of type <typeparamref name="T"/> resulting from successful command execution.</returns>
-        protected virtual T OnExecute()
+        /// <returns>An awaitable resource of type <typeparamref name="T"/> resulting from successful command execution.</returns>
+        protected virtual Task<T> OnExecuteAsync()
         {
-            return default(T);
+            return Task.FromResult(default(T));
         }
 
         /// <summary>
         /// Composes a list of business and validation rules to execute.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked within the execution pipeline triggered by <see cref="Execute"/>.</para>
+        /// <para>Invoked within the execution pipeline triggered by <see cref="ExecuteAsync"/>.</para>
         /// <para>Override this method to supply custom business rules to execute.</para>
         /// </remarks>
-        /// <returns>A list of business and validation rules.</returns>
-        protected virtual IEnumerable<ISynchronousRule> OnGetRules()
+        /// <returns>An awaitable list of business and validation rules.</returns>
+        protected virtual Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
-            return Enumerable.Empty<ISynchronousRule>();
+            return Task.FromResult(Enumerable.Empty<IRule>());
         }
 
         /// <summary>
@@ -236,16 +267,17 @@ namespace Peasy.Synchronous
             return new ExecutionResult<T> { Success = true, Value = value };
         }
 
-        /// <inheritdoc cref="ISynchronousRulesContainer.GetRules"/>
-        public IEnumerable<ISynchronousRule> GetRules()
+        /// <inheritdoc cref="IRulesContainer.GetRulesAsync"/>
+        public virtual Task<IEnumerable<IRule>> GetRulesAsync()
         {
-            return OnGetRules();
+            return OnGetRulesAsync();
         }
 
-        /// <inheritdoc cref="ISupportSynchronousValidation.Validate"/>
-        public IEnumerable<ValidationResult> Validate()
+        /// <inheritdoc cref="ISupportCommandValidation{T}.ValidateAsync"/>
+        public async virtual Task<ICommandValidationResult<T>> ValidateAsync()
         {
-            return OnValidate();
+            var results = (await OnValidateAsync()).ToArray();
+            return new CommandValidationResult<T>(results, OnComplete);
         }
     }
 }

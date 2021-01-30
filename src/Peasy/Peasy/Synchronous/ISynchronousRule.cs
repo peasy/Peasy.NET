@@ -1,30 +1,28 @@
 ﻿namespace Peasy.Synchronous
 {
     /// <summary>
+    /// Represents a business or validation rule whose executed outcome must be valid in order to complete command pipeline execution.
     /// </summary>
     public interface ISynchronousRule
     {
         /// <summary>
-        /// Gets or sets a string that associates this rule with a field. This is helpful for validation errors
+        /// Represents an association between this rule and a field or property, which can be especially helpful for displaying validation errors.
         /// </summary>
         string Association { get; }
 
-        /// <summary>
-        /// Gets or sets the message to be supplied to caller in the event that no rule dependencies exist via IfValidThenValidate()
-        /// </summary>
+        /// <summary>Represents the error message resulting from a failed rule execution.</summary>
         string ErrorMessage { get; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this rule is valid.
+        /// Gets a value indicating whether this rule is valid after execution.
         /// </summary>
-        /// <value>
-        /// <c>True</c> if this instance is valid; otherwise, <c>false</c>.
-        /// </value>
+        /// <returns><see langword="true"/> if this instance is valid, otherwise <see langword="false"/>.</returns>
         bool IsValid { get; }
 
         /// <summary>
-        /// Synchronously executes this rule.
+        /// Executes this rule.
         /// </summary>
+        /// <returns>An awaitable reference to this rule.</returns>
         ISynchronousRule Execute();
     }
 }

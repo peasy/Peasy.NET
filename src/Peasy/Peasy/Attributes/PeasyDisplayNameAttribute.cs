@@ -3,7 +3,7 @@
 namespace Peasy.Attributes
 {
     /// <summary>
-    /// Allows a way to display a type name with a more readable name
+    /// Allows a way to display a type name with a more readable name.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class PeasyDisplayNameAttribute : Attribute

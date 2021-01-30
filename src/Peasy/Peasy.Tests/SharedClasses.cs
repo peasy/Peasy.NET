@@ -136,4 +136,12 @@ namespace Peasy.Core.Tests
         [PeasyForeignKey]
         public int? ForeignKeyID { get; set; }
     }
+
+    public interface IDoThings
+    {
+        void Log(string message);
+        void DoSomething();
+        string GetValue();
+    }
+
 }

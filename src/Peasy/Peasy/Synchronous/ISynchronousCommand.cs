@@ -6,7 +6,7 @@
     public interface ISynchronousCommand
     {
         /// <summary>
-        /// Synchronously orchestrates command initialization, rule execution, and application logic.
+        /// Orchestrates command initialization, rule execution, and application logic.
         /// </summary>
         /// <returns>
         /// An execution result.
@@ -20,7 +20,7 @@
     public interface ISynchronousCommand<T>
     {
         /// <summary>
-        /// Synchronously orchestrates command initialization, rule execution, and application logic.
+        /// Orchestrates command initialization, rule execution, and application logic.
         /// </summary>
         /// <returns>
         /// An execution result.

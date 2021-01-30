@@ -139,7 +139,7 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             await new TrueRule()
-                    .IfValidThenInvoke(rule => output = "pass")
+                    .IfValidThenInvoke(async rule => output = "pass")
                     .ExecuteAsync();
 
             output.ShouldBe("pass");
@@ -150,7 +150,7 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             await new FalseRule1()
-                    .IfValidThenInvoke(rule => output = "pass")
+                    .IfValidThenInvoke(async rule => output = "pass")
                     .ExecuteAsync();
 
             output.ShouldBe(string.Empty);
@@ -161,7 +161,7 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             await new FalseRule1()
-                    .IfInvalidThenInvoke(rule => output = "pass")
+                    .IfInvalidThenInvoke(async rule => output = "pass")
                     .ExecuteAsync();
 
             output.ShouldBe("pass");
@@ -172,7 +172,7 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             await new TrueRule()
-                   .IfInvalidThenInvoke(rule => output = "pass")
+                   .IfInvalidThenInvoke(async rule => output = "pass")
                    .ExecuteAsync();
 
             output.ShouldBe(string.Empty);
@@ -184,7 +184,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             await new TrueRule()
                     .IfValidThenValidate(new TrueRule()
-                                                .IfValidThenInvoke(r => output = "pass")).ExecuteAsync();
+                                                .IfValidThenInvoke(async r => output = "pass")).ExecuteAsync();
 
             output.ShouldBe("pass");
         }
@@ -195,7 +195,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             await new TrueRule()
                 .IfValidThenValidate(new FalseRule1()
-                                         .IfValidThenInvoke(r => output = "pass")).ExecuteAsync();
+                                         .IfValidThenInvoke(async r => output = "pass")).ExecuteAsync();
 
             output.ShouldBe(string.Empty);
         }
@@ -206,7 +206,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             await new TrueRule()
                 .IfValidThenValidate(new FalseRule1()
-                                         .IfInvalidThenInvoke(r => output = "pass")).ExecuteAsync();
+                                         .IfInvalidThenInvoke(async r => output = "pass")).ExecuteAsync();
 
             output.ShouldBe("pass");
         }
@@ -217,7 +217,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             await new TrueRule()
                 .IfValidThenValidate(new TrueRule()
-                                         .IfInvalidThenInvoke(r => output = "pass")).ExecuteAsync();
+                                         .IfInvalidThenInvoke(async r => output = "pass")).ExecuteAsync();
 
             output.ShouldBe(string.Empty);
         }
@@ -227,7 +227,7 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             var rule = await new TrueRule()
-                .IfValidThenValidate(new TrueRule().IfValidThenInvoke(r => output = "pass"), new TrueRule())
+                .IfValidThenValidate(new TrueRule().IfValidThenInvoke(async r => output = "pass"), new TrueRule())
                 .IfValidThenValidate(new TrueRule(), new FalseRule3())
                 .ExecuteAsync();
             output.ShouldBe("pass");
@@ -238,7 +238,7 @@ namespace Peasy.Core.Tests
         {
             var output = string.Empty;
             var rule = await new TrueRule()
-                .IfValidThenValidate(new TrueRule(), new TrueRule().IfValidThenInvoke(r => output = "pass"))
+                .IfValidThenValidate(new TrueRule(), new TrueRule().IfValidThenInvoke(async r => output = "pass"))
                 .IfValidThenValidate(new TrueRule(), new FalseRule3())
                 .ExecuteAsync();
             output.ShouldBe("pass");
@@ -250,7 +250,7 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var rule = await new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
-                .IfValidThenValidate(new TrueRule().IfValidThenInvoke(r => output = "pass"), new FalseRule3())
+                .IfValidThenValidate(new TrueRule().IfValidThenInvoke(async r => output = "pass"), new FalseRule3())
                 .ExecuteAsync();
             output.ShouldBe("pass");
         }
@@ -261,10 +261,9 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var rule = await new TrueRule()
                 .IfValidThenValidate(new TrueRule(), new TrueRule())
-                .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenInvokeAsync(async rule =>
+                .IfValidThenValidate(new TrueRule(), new FalseRule3().IfInvalidThenInvoke(async rule =>
                 {
-                    await Task.Delay(6000);
-                    // await Task.CompletedTask;
+                    await Task.Delay(1000);
                     output = "pass";
                 }))
                 .ExecuteAsync();
@@ -277,8 +276,8 @@ namespace Peasy.Core.Tests
             var output = string.Empty;
             var output2 = string.Empty;
             var rule = await new TrueRule()
-                              .IfValidThenValidate(new TrueRule().IfValidThenInvoke(r => output = "pass"), new TrueRule())
-                              .IfValidThenValidate(new FalseRule2().IfValidThenInvoke(r => output2 = "pass"), new FalseRule3())
+                              .IfValidThenValidate(new TrueRule().IfValidThenInvoke(async r => output = "pass"), new TrueRule())
+                              .IfValidThenValidate(new FalseRule2().IfValidThenInvoke(async r => output2 = "pass"), new FalseRule3())
                               .ExecuteAsync();
             output.ShouldBe("pass");
             output2.ShouldBe(string.Empty);

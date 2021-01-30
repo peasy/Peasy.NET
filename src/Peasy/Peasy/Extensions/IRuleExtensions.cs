@@ -8,7 +8,7 @@ using Peasy.Synchronous;
 namespace Peasy
 {
     /// <summary>
-    /// An extensions class used to perform common tasks against type <see cref="IRule"/>.
+    /// An extensions class used to perform common tasks against types <see cref="IRule"/> and <see cref="ISynchronousRule"/>.
     /// </summary>
     public static class IRuleExtensions
     {
@@ -22,7 +22,9 @@ namespace Peasy
         /// <param name="entityName">The name to assign to the <see cref="System.ComponentModel.DataAnnotations.ValidationResult.MemberNames" /> return values.</param>
         public static async Task<IEnumerable<ValidationResult>> ValidateAllAsync(this IEnumerable<IRule> businessRules, string entityName)
         {
-            var rules  = await Task.WhenAll(businessRules.Select(r => r.ExecuteAsync()));
+            var rules = new List<IRule>();
+            // NOTE: Some database providers fail when requesting multiple async db operations.  Favor a foreach loop over Task.WhenAll here.
+            foreach (var rule in businessRules) rules.Add(await rule.ExecuteAsync());
             return rules.Where(rule => !rule.IsValid)
                         .Select(rule => new ValidationResult(rule.ErrorMessage, new string[] { entityName ?? rule.Association ?? string.Empty }));
         }
@@ -88,8 +90,9 @@ namespace Peasy
         /// <param name="entityName">The name to assign to the <see cref="System.ComponentModel.DataAnnotations.ValidationResult.MemberNames" /> return values.</param>
         public static async Task<IEnumerable<T>> ValidateAllAsync<T>(this IEnumerable<IRule> businessRules, string entityName) where T : ValidationResult
         {
-            var rules = await Task.WhenAll(businessRules.Select(rule => rule.ExecuteAsync()));
-
+            var rules = new List<IRule>();
+            // NOTE: Some database providers fail when requesting multiple async db operations.  Favor a foreach loop over Task.WhenAll here.
+            foreach (var rule in businessRules) rules.Add(await rule.ExecuteAsync());
             return rules.Where(rule => !rule.IsValid)
                         .Select(rule =>
                         {

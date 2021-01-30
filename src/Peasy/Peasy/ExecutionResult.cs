@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Peasy
 {
     /// <summary>
-    /// Serves as the result of a command's execution.
+    /// Represents the result of a command execution.
     /// </summary>
     public class ExecutionResult
     {
@@ -25,12 +26,12 @@ namespace Peasy
     }
 
     /// <summary>
-    /// Serves as the result of a command's execution.
+    /// Represents the result of a command execution.
     /// </summary>
     public class ExecutionResult<T> : ExecutionResult
     {
         /// <summary>
-        /// Represents a domain object or resource as the result of successful <see cref="Command"/> execution.
+        /// Represents a domain object or resource as the result of successful command execution.
         /// </summary>
         /// <returns>A resource of type <typeparamref name="T"/>.</returns>
         public virtual T Value { get; set; }

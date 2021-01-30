@@ -4,38 +4,26 @@ using System.Threading.Tasks;
 
 namespace Peasy
 {
-    /// <summary>
-    /// A validation rule to run againt records being processed.
-    /// </summary>
+    /// <inheritdoc cref="IRule"/>
     public abstract class RuleBase : IRule, IRuleSuccessorsContainer<IRule>
     {
         /// <summary>
-        /// The action to perform once when this rule passes validation.
+        /// An action to perform if this rule passes validation.
         /// </summary>
-        protected Action<IRule> _ifValidThenInvoke;
+        private Func<IRule, Task> _ifValidThenInvokeAsync;
 
         /// <summary>
-        /// The action to perform once when this rule fails validation.
+        /// An action to perform if this rule fails validation.
         /// </summary>
-        protected Action<IRule> _ifInvalidThenInvoke;
         private Func<IRule, Task> _ifInvalidThenInvokeAsync;
 
-        /// <summary>
-        /// Gets or sets a string that associates this rule with a field. This is helpful for validation errors
-        /// </summary>
+        /// <inheritdoc cref="IRule.Association"/>
         public string Association { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the message to be supplied to caller in the event that no rule dependencies exist via IfValidThenValidate()
-        /// </summary>
+        /// <inheritdoc cref="IRule.ErrorMessage"/>
         public string ErrorMessage { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this rule is valid.
-        /// </summary>
-        /// <value>
-        /// <c>True</c> if this instance is valid; otherwise, <c>false</c>.
-        /// </value>
+        /// <inheritdoc cref="IRule.IsValid"/>
         public bool IsValid { get; protected set; }
 
         /// <summary>
@@ -43,15 +31,7 @@ namespace Peasy
         /// </summary>
         private List<IRuleSuccessor<IRule>> Successors { set; get; } = new List<IRuleSuccessor<IRule>>();
 
-        ///<inheritdoc cref="IRuleSuccessorsContainer{T}.GetSuccessors"/>
-        public IEnumerable<IRuleSuccessor<IRule>> GetSuccessors()
-        {
-            return Successors;
-        }
-
-        /// <summary>
-        /// Asynchronously validates this rule.
-        /// </summary>
+        /// <inheritdoc cref="IRule.ExecuteAsync"/>
         public async Task<IRule> ExecuteAsync()
         {
             IsValid = true;
@@ -68,29 +48,27 @@ namespace Peasy
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage, rule.Association);
-                                _ifInvalidThenInvoke?.Invoke(this);
-                                await (_ifInvalidThenInvokeAsync?.Invoke(this) ?? Task.CompletedTask);
+                                await (_ifInvalidThenInvokeAsync?.Invoke(this) ?? Task.FromResult<object>(null));
                                 break; // early exit, don't bother further rule execution
                             }
                         }
                         if (!IsValid) break;
                     }
                 }
-                _ifValidThenInvoke?.Invoke(this);
+                await (_ifValidThenInvokeAsync?.Invoke(this) ?? Task.FromResult<object>(null));
             }
             else
             {
-                _ifInvalidThenInvoke?.Invoke(this);
-                await (_ifInvalidThenInvokeAsync?.Invoke(this) ?? Task.CompletedTask);
+                await (_ifInvalidThenInvokeAsync?.Invoke(this) ?? Task.FromResult<object>(null));
             }
             return this;
         }
 
         /// <summary>
-        /// Validates the supplied list of <see cref="IRule"/> upon successful validation.
+        /// Validates the supplied list of rules upon successful validation of this rule.
         /// </summary>
-        /// <param name="rules">The <see cref="IRule"/>.</param>
-        /// <returns>The supplied <see cref="RuleBase"/>.</returns>
+        /// <param name="rules">The rules to validate.</param>
+        /// <returns>A reference to this rule.</returns>
         public RuleBase IfValidThenValidate(params IRule[] rules)
         {
             Successors.Add(new RuleSuccessor<IRule>(rules));
@@ -98,47 +76,43 @@ namespace Peasy
         }
 
         /// <summary>
-        /// Executes the supplied action upon successful validation.
+        /// Asynchonchronously executes the supplied function upon successful validation of this rule.
         /// </summary>
         /// <param name="method">The action to perform.</param>
-        public RuleBase IfValidThenInvoke(Action<IRule> method)
+        public RuleBase IfValidThenInvoke(Func<IRule, Task> method)
         {
-            _ifValidThenInvoke = method;
+            _ifValidThenInvokeAsync = method;
             return this;
         }
 
         /// <summary>
-        /// Executes the supplied action upon failed validation.
+        /// Asynchonchronously executes the supplied function upon failed validation of this rule.
         /// </summary>
         /// <param name="method">The action to perform.</param>
-        public RuleBase IfInvalidThenInvoke(Action<IRule> method)
-        {
-            _ifInvalidThenInvoke = method;
-            return this;
-        }
-
-        /// <summary>
-        /// Executes the supplied action upon failed validation.
-        /// </summary>
-        /// <param name="method">The action to perform.</param>
-        public RuleBase IfInvalidThenInvokeAsync(Func<IRule, Task> method)
+        public RuleBase IfInvalidThenInvoke(Func<IRule, Task> method)
         {
             _ifInvalidThenInvokeAsync = method;
             return this;
         }
 
         /// <summary>
-        /// Called when the <see cref="M:Peasy.Rules.RuleBase.ExecuteAsync()"/> method is called.
+        /// Performs business or validation logic.
         /// </summary>
+        /// <remarks>
+        /// <para>This method is called upon invocation of <see cref="RuleBase.ExecuteAsync"/>.</para>
+        /// <para>Override this method to perform custom business or validation logic.</para>
+        /// </remarks>
+        /// <returns>An awaitable task.</returns>
         protected virtual Task OnValidateAsync()
         {
             return Task.FromResult<object>(null);
         }
 
         /// <summary>
-        /// Invalidates the rule
+        /// Invalidates this rule.
         /// </summary>
-        /// <param name="errorMessage">The error message to associate with the broken rule</param>
+        /// <remarks>Invoke this method to invalidate this rule.</remarks>
+        /// <param name="errorMessage">Sets the <see cref="ErrorMessage"/> value.</param>
         protected virtual void Invalidate(string errorMessage)
         {
             ErrorMessage = errorMessage;
@@ -146,15 +120,21 @@ namespace Peasy
         }
 
         /// <summary>
-        /// Invalidates the rule
+        /// Invalidates this rule.
         /// </summary>
-        /// <param name="errorMessage">The error message to associate with the broken rule</param>
-        /// <param name="association">Sets the <see cref="Association"/> value></param>
+        /// <remarks>Invoke this method to invalidate this rule.</remarks>
+        /// <param name="errorMessage">Sets the <see cref="ErrorMessage"/> value.</param>
+        /// <param name="association">Sets the <see cref="Association"/> value.</param>
         protected virtual void Invalidate(string errorMessage, string association)
         {
             Association = association;
             Invalidate(errorMessage);
         }
 
+        ///<inheritdoc cref="IRuleSuccessorsContainer{T}.GetSuccessors"/>
+        public IEnumerable<IRuleSuccessor<IRule>> GetSuccessors()
+        {
+            return Successors;
+        }
     }
 }
