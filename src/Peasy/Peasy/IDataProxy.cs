@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 
 namespace Peasy
 {
-    /// <inheritdoc cref="IDataProxy{T, TKey}"/>
+    /// <summary>
+    /// Represents a data abstraction for consumption by services, commands, and rules.
+    /// </summary>
     public interface IDataProxy<T, TKey> :
         ISupportGetAll<T>,
         ISupportGetByID<T, TKey>,
@@ -14,7 +16,7 @@ namespace Peasy
     }
 
     /// <summary>
-    /// Represents a data abstraction that asynchronously retrieves all domain objects or resources from a source.
+    /// Represents a data abstraction that retrieves all domain objects or resources from a source.
     /// </summary>
     public interface ISupportGetAll<T>
     {
@@ -26,7 +28,7 @@ namespace Peasy
     }
 
     /// <summary>
-    /// Represents a data abstraction that asynchronously retrieves a domain object or resource from a source specified by an identifier.
+    /// Represents a data abstraction that retrieves a domain object or resource from a source specified by an identifier.
     /// </summary>
     public interface ISupportGetByID<T, TKey>
     {
@@ -39,7 +41,7 @@ namespace Peasy
     }
 
     /// <summary>
-    /// Represents a data abstraction that asynchronously creates a new domain object or resource.
+    /// Represents a data abstraction that creates a new domain object or resource.
     /// </summary>
     public interface ISupportInsert<T>
     {
@@ -54,7 +56,7 @@ namespace Peasy
     }
 
     /// <summary>
-    /// Represents a data abstraction that asynchronously updates an existing domain object or resource.
+    /// Represents a data abstraction that updates an existing domain object or resource.
     /// </summary>
     public interface ISupportUpdate<T>
     {
@@ -69,7 +71,7 @@ namespace Peasy
     }
 
     /// <summary>
-    /// Represents a data abstraction that asynchronously deletes a domain object or resource from a source specified by an identifier.
+    /// Represents a data abstraction that deletes a domain object or resource from a source specified by an identifier.
     /// </summary>
     public interface ISupportDelete<TKey>
     {

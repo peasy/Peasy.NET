@@ -3,7 +3,7 @@
 namespace Peasy
 {
     /// <summary>
-    /// Supports the execution of configured rules and the ability to continue command execution based on successful results.
+    /// Supports the execution of configured rules within a command and the ability to continue command execution based on successful validation results.
     /// </summary>
     public interface ISupportCommandValidation
     {
@@ -15,7 +15,7 @@ namespace Peasy
     }
 
     /// <summary>
-    /// Supports the execution of configured rules and the ability to continue command execution based on successful results.
+    /// Supports the execution of configured rules within a command and the ability to continue command execution based on successful validation results.
     /// </summary>
     public interface ISupportCommandValidation<T>
     {

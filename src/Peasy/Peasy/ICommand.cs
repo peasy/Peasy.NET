@@ -8,7 +8,7 @@ namespace Peasy
     public interface ICommand
     {
         /// <summary>
-        /// Asynchronously orchestrates command initialization, rule execution, and application logic.
+        /// Orchestrates command initialization, rule execution, and application logic.
         /// </summary>
         /// <returns>
         /// An awaitable execution result.
@@ -22,7 +22,7 @@ namespace Peasy
     public interface ICommand<T>
     {
         /// <summary>
-        /// Asynchronously orchestrates command initialization, rule execution, and application logic.
+        /// Orchestrates command initialization, rule execution, and application logic.
         /// </summary>
         /// <returns>
         /// An awaitable execution result.

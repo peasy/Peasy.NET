@@ -36,7 +36,6 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="ICommandValidationResult.CompleteCommandExecutionAsync"/>
-        /// <exception cref="System.InvalidOperationException">Thrown when accessed after validation fails.</exception>
         public virtual Func<Task<ExecutionResult>> CompleteCommandExecutionAsync
         {
             get
@@ -65,7 +64,6 @@ namespace Peasy
         }
 
         /// <inheritdoc cref="ICommandValidationResult{T}.CompleteCommandExecutionAsync"/>
-        /// <exception cref="System.InvalidOperationException">Thrown when accessed after validation fails.</exception>
         public virtual Func<Task<ExecutionResult<T>>> CompleteCommandExecutionAsync
         {
             get

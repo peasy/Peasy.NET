@@ -27,6 +27,7 @@ namespace Peasy.Synchronous
         /// </summary>
         /// <remarks>Can only be invoked if <see cref="CanContinue"/> returns <see langword="true"/>.</remarks>
         /// <returns>A function that when invoked, completes the command execution pipeline.</returns>
+        /// <exception cref="System.InvalidOperationException">Thrown when accessed if failed validations exist.</exception>
         Func<ExecutionResult> CompleteCommandExecution { get; }
     }
 
@@ -53,6 +54,7 @@ namespace Peasy.Synchronous
         /// </summary>
         /// <remarks>Can only be invoked if <see cref="CanContinue"/> returns <see langword="true"/>.</remarks>
         /// <returns>A function that when invoked, completes the command execution pipeline.</returns>
+        /// <exception cref="System.InvalidOperationException">Thrown when accessed if failed validations exist.</exception>
         Func<ExecutionResult<T>> CompleteCommandExecution { get; }
     }
 }

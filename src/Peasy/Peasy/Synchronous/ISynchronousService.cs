@@ -3,7 +3,7 @@
 namespace Peasy.Synchronous
 {
     /// <summary>
-    /// Serves as an abstraction for business services and represents an <see cref="ISynchronousCommand"/> factory.
+    /// Represents an abstraction for business services and serves as an <see cref="ISynchronousCommand"/> factory.
     /// </summary>
     /// <typeparam name="T">Represents a domain object or resource and can be any type.</typeparam>
     /// <typeparam name="TKey">Represents an identifier for a domain object or resource and can be any type.</typeparam>

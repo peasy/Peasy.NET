@@ -20,7 +20,7 @@
         bool IsValid { get; }
 
         /// <summary>
-        /// Asynchronously executes this rule.
+        /// Executes this rule.
         /// </summary>
         /// <returns>An awaitable reference to this rule.</returns>
         ISynchronousRule Execute();

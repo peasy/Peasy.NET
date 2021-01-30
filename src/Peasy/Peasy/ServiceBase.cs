@@ -10,7 +10,7 @@ namespace Peasy
     /// Serves as the base class for business services and represents an <see cref="ICommand"/> factory.
     /// </summary>
     /// <typeparam name="T">Represents a domain object or resource and can be any type that implements <see cref="IDomainObject{TKey}"/>.</typeparam>
-    /// <typeparam name="TKey">Any type.</typeparam>
+    /// <typeparam name="TKey">Represents an identifier for a domain object or resource and can be any type.</typeparam>
     public abstract class ServiceBase<T, TKey> : IService<T, TKey> where T : IDomainObject<TKey>, new()
     {
         /// <inheritdoc cref="IDataProxy{T, TKey}"/>

@@ -21,21 +21,6 @@ namespace Peasy.Synchronous
             return OnComplete();
         }
 
-        ///
-        protected virtual ExecutionResult OnComplete()
-        {
-            try
-            {
-                OnExecute();
-            }
-            catch (PeasyException ex)
-            {
-                return OnPeasyExceptionHandled(ex);
-            }
-
-            return OnSuccessfulExecution();
-        }
-
         /// <summary>
         /// Performs initialization logic.
         /// </summary>
@@ -56,6 +41,24 @@ namespace Peasy.Synchronous
         protected virtual IEnumerable<ValidationResult> OnValidate()
         {
             return OnGetRules().ValidateAll();
+        }
+
+        /// <summary>
+        /// Performs command execution finalization functionality (invokes <see cref="OnExecute"/>, handles exceptions of type <see cref="PeasyException"/>, and composes an execution result).
+        /// </summary>
+        /// <remarks>Override this method to provide an alternative implementation that handles command finalization.</remarks>
+        protected virtual ExecutionResult OnComplete()
+        {
+            try
+            {
+                OnExecute();
+            }
+            catch (PeasyException ex)
+            {
+                return OnPeasyExceptionHandled(ex);
+            }
+
+            return OnSuccessfulExecution();
         }
 
         /// <summary>

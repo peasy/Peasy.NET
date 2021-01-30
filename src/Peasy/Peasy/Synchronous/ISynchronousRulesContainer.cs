@@ -3,16 +3,14 @@
 namespace Peasy.Synchronous
 {
     /// <summary>
-    /// Exposes configured validation and business rules.
+    /// Provides access to configured business and validation rules.
     /// </summary>
     public interface ISynchronousRulesContainer
     {
         /// <summary>
         /// Composes a list of business and validation rules.
         /// </summary>
-        /// <returns>
-        /// A list of <see cref="IRule"/>.
-        /// </returns>
+        /// <returns>A list of rules.</returns>
         IEnumerable<ISynchronousRule> GetRules();
     }
 }

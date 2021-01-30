@@ -22,7 +22,6 @@ namespace Peasy.Synchronous
         }
 
         /// <inheritdoc cref="ISynchronousCommandValidationResult.CompleteCommandExecution"/>
-        /// <exception cref="System.InvalidOperationException">Thrown when accessed after validation fails.</exception>
         public virtual Func<ExecutionResult> CompleteCommandExecution
         {
             get
@@ -51,7 +50,6 @@ namespace Peasy.Synchronous
         }
 
         /// <inheritdoc cref="ISynchronousCommandValidationResult{T}.CompleteCommandExecution"/>
-        /// <exception cref="System.InvalidOperationException">Thrown when accessed after validation fails.</exception>
         public virtual Func<ExecutionResult<T>> CompleteCommandExecution
         {
             get
