@@ -1,4 +1,5 @@
-﻿using Peasy.Synchronous;
+﻿using Peasy.Extensions;
+using Peasy.Synchronous;
 using Shouldly;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

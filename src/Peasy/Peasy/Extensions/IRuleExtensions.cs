@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Peasy.Synchronous;
 
-namespace Peasy
+namespace Peasy.Extensions
 {
     /// <summary>
     /// An extensions class used to perform common tasks against types <see cref="IRule"/> and <see cref="ISynchronousRule"/>.
