@@ -3,37 +3,26 @@ using System.Collections.Generic;
 
 namespace Peasy.Synchronous
 {
-    /// <summary>
-    /// A validation rule to run againt records being processed.
-    /// </summary>
+    /// <inheritdoc cref="ISynchronousRule"/>
     public abstract class SynchronousRuleBase : ISynchronousRule, IRuleSuccessorsContainer<ISynchronousRule>
     {
         /// <summary>
-        /// The action to perform once when this rule passes validation.
+        /// An action to perform if this rule passes validation.
         /// </summary>
         protected Action<ISynchronousRule> _ifValidThenInvoke;
 
         /// <summary>
-        /// The action to perform once when this rule fails validation.
+        /// An action to perform if this rule fails validation.
         /// </summary>
         protected Action<ISynchronousRule> _ifInvalidThenInvoke;
 
-        /// <summary>
-        /// Gets or sets a string that associates this rule with a field. This is helpful for validation errors
-        /// </summary>
+        /// <inheritdoc cref="ISynchronousRule.Association"/>
         public string Association { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the message to be supplied to caller in the event that no rule dependencies exist via IfValidThenValidate()
-        /// </summary>
+        /// <inheritdoc cref="ISynchronousRule.ErrorMessage"/>
         public string ErrorMessage { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether this rule is valid.
-        /// </summary>
-        /// <value>
-        /// <c>True</c> if this instance is valid; otherwise, <c>false</c>.
-        /// </value>
+        /// <inheritdoc cref="ISynchronousRule.IsValid"/>
         public bool IsValid { get; protected set; }
 
         /// <summary>
@@ -41,15 +30,7 @@ namespace Peasy.Synchronous
         /// </summary>
         private List<IRuleSuccessor<ISynchronousRule>> Successors { set; get; } = new List<IRuleSuccessor<ISynchronousRule>>();
 
-        ///<inheritdoc cref="IRuleSuccessorsContainer{T}.GetSuccessors"/>
-        public IEnumerable<IRuleSuccessor<ISynchronousRule>> GetSuccessors()
-        {
-            return Successors;
-        }
-
-        /// <summary>
-        /// Synchronously validates this rule.
-        /// </summary>
+        /// <inheritdoc cref="ISynchronousRule.Execute"/>
         public ISynchronousRule Execute()
         {
             IsValid = true;
@@ -83,10 +64,10 @@ namespace Peasy.Synchronous
         }
 
         /// <summary>
-        /// Validates the supplied list of <see cref="ISynchronousRule"/> upon successful validation.
+        /// Validates the supplied list of rules upon successful validation of this rule.
         /// </summary>
-        /// <param name="rules">The <see cref="ISynchronousRule"/>.</param>
-        /// <returns>The supplied <see cref="RuleBase"/>.</returns>
+        /// <param name="rules">The rules to validate.</param>
+        /// <returns>A reference to this rule.</returns>
         public SynchronousRuleBase IfValidThenValidate(params ISynchronousRule[] rules)
         {
             Successors.Add(new RuleSuccessor<ISynchronousRule>(rules));
@@ -94,9 +75,10 @@ namespace Peasy.Synchronous
         }
 
         /// <summary>
-        /// Executes the supplied action upon successful validation.
+        /// Executes the supplied action upon successful validation of this rule.
         /// </summary>
         /// <param name="method">The action to perform.</param>
+        /// <returns>A reference to this rule.</returns>
         public SynchronousRuleBase IfValidThenInvoke(Action<ISynchronousRule> method)
         {
             _ifValidThenInvoke = method;
@@ -104,9 +86,10 @@ namespace Peasy.Synchronous
         }
 
         /// <summary>
-        /// Executes the supplied action upon failed validation.
+        /// Executes the supplied action upon failed validation of this rule.
         /// </summary>
         /// <param name="method">The action to perform.</param>
+        /// <returns>A reference to this rule.</returns>
         public SynchronousRuleBase IfInvalidThenInvoke(Action<ISynchronousRule> method)
         {
             _ifInvalidThenInvoke = method;
@@ -114,14 +97,19 @@ namespace Peasy.Synchronous
         }
 
         /// <summary>
-        /// Called when the <see cref="M:Peasy.Rules.RuleBase.Execute()"/> method is called.
+        /// Performs business or validation logic.
         /// </summary>
+        /// <remarks>
+        /// <para>This method is called upon invocation of <see cref="RuleBase.ExecuteAsync"/>.</para>
+        /// <para>Override this method to perform custom business or validation logic.</para>
+        /// </remarks>
         protected virtual void OnValidate() {}
 
         /// <summary>
-        /// Invalidates the rule
+        /// Invalidates this rule.
         /// </summary>
-        /// <param name="errorMessage">The error message to associate with the broken rule</param>
+        /// <remarks>Invoke this method to invalidate this rule.</remarks>
+        /// <param name="errorMessage">Sets the <see cref="ErrorMessage"/> value.</param>
         protected virtual void Invalidate(string errorMessage)
         {
             ErrorMessage = errorMessage;
@@ -129,14 +117,21 @@ namespace Peasy.Synchronous
         }
 
         /// <summary>
-        /// Invalidates the rule
+        /// Invalidates this rule.
         /// </summary>
-        /// <param name="errorMessage">The error message to associate with the broken rule</param>
-        /// <param name="association">Sets the <see cref="Association"/> value></param>
+        /// <remarks>Invoke this method to invalidate this rule.</remarks>
+        /// <param name="errorMessage">Sets the <see cref="ErrorMessage"/> value.</param>
+        /// <param name="association">Sets the <see cref="Association"/> value.</param>
         protected virtual void Invalidate(string errorMessage, string association)
         {
             Association = association;
             Invalidate(errorMessage);
+        }
+
+        ///<inheritdoc cref="IRuleSuccessorsContainer{T}.GetSuccessors"/>
+        public IEnumerable<IRuleSuccessor<ISynchronousRule>> GetSuccessors()
+        {
+            return Successors;
         }
     }
 }

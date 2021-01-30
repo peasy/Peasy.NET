@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Peasy.Synchronous
 {
     /// <summary>
-    /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command class.
+    /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command implementation.
     /// </summary>
     public class SynchronousServiceCommand : SynchronousCommand
     {
@@ -135,7 +135,7 @@ namespace Peasy.Synchronous
     }
 
     /// <summary>
-    /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command class.
+    /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command implementation.
     /// </summary>
     public class SynchronousServiceCommand<T> : SynchronousCommand<T>
     {

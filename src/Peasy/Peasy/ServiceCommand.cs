@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Peasy
 {
     /// <summary>
-    /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command class.
+    /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command implementation.
     /// </summary>
     public class ServiceCommand : Command
     {
@@ -137,7 +137,7 @@ namespace Peasy
     }
 
     /// <summary>
-    /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command class.
+    /// A command built for convenience, allows the quick creation of a command without having to create a new concrete command implementation.
     /// </summary>
     public class ServiceCommand<T> : Command<T>
     {

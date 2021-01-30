@@ -7,7 +7,7 @@ using Peasy;
 namespace Peasy.Synchronous
 {
     /// <summary>
-    /// Serves as the base class of all business services and represents an <see cref="ISynchronousCommand"/> factory.
+    /// Serves as a base class for business services and represents an <see cref="ISynchronousCommand"/> factory.
     /// </summary>
     /// <typeparam name="T">Any type that implements <see cref="IDomainObject{TKey}"/>.</typeparam>
     /// <typeparam name="TKey">Any type.</typeparam>

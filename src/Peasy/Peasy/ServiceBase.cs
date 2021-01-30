@@ -7,7 +7,7 @@ using Peasy.Extensions;
 namespace Peasy
 {
     /// <summary>
-    /// Serves as the base class of all business services and represents an <see cref="ICommand"/> factory.
+    /// Serves as the base class for business services and represents an <see cref="ICommand"/> factory.
     /// </summary>
     /// <typeparam name="T">Represents a domain object or resource and can be any type that implements <see cref="IDomainObject{TKey}"/>.</typeparam>
     /// <typeparam name="TKey">Any type.</typeparam>
