@@ -190,7 +190,7 @@ namespace Peasy
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
         /// <returns>An awaitable list of <see cref="ValidationResult"/></returns>
-        protected virtual async Task<IEnumerable<ValidationResult>> OnGetByIDCommandPerformValiationAsync(TKey id, ExecutionContext<T> context)
+        protected virtual async Task<IEnumerable<ValidationResult>> OnGetByIDCommandPerformValidationAsync(TKey id, ExecutionContext<T> context)
         {
             var validationErrors = OnGetByIDCommandValidateID(id, context);
             var rules = await OnGetByIDCommandGetRulesAsync(id, context);
@@ -342,7 +342,7 @@ namespace Peasy
         /// Generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="OnGetByIDCommandPerformValiationAsync"/>.</para>
+        /// <para>Invoked by <see cref="OnGetByIDCommandPerformValidationAsync"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to retrieve.</param>
@@ -405,7 +405,7 @@ namespace Peasy
             return new ServiceCommand<T>
             (
                 initializationMethod: () => OnGetByIDCommandInitializationAsync(id, context),
-                validationMethod: () => OnGetByIDCommandPerformValiationAsync(id, context),
+                validationMethod: () => OnGetByIDCommandPerformValidationAsync(id, context),
                 executeMethod: () => OnGetByIDCommandValidationSuccessAsync(id, context)
             );
         }

@@ -16,8 +16,8 @@ namespace Peasy.Core.Tests
             var service = new ServiceBaseStub(new PersonProxyStub());
             var result = service.GetAllCommand().Execute();
             service.OnGetAllCommandInitializationWasInvoked.ShouldBe(true);
-            service.OnGetBusinessRulesForGetAllWasInvoked.ShouldBe(true);
-            service.OnPerformGetAllCommandValidationWasInvoked.ShouldBe(true);
+            service.OnGetAllCommandGetRulesWasInvoked.ShouldBe(true);
+            service.OnGetAllCommandPerformValidationWasInvoked.ShouldBe(true);
             service.OnGetAllCommandValidationSuccessWasInvoked.ShouldBe(true);
         }
 
@@ -36,9 +36,9 @@ namespace Peasy.Core.Tests
             var service = new ServiceBaseStub(new PersonProxyStub());
             var result = service.GetByIDCommand(1).Execute();
             service.OnGetByIDCommandInitializationWasInvoked.ShouldBe(true);
-            service.OnValidateIdForGetByIDWasInvoked.ShouldBe(true);
-            service.OnGetBusinessRulesForGetByIDWasInvoked.ShouldBe(true);
-            service.OnPerformGetByIDCommandValidationWasInvoked.ShouldBe(true);
+            service.OnGetByIDCommandValidateIDWasInvoked.ShouldBe(true);
+            service.OnGetByIDCommandGetRulesWasInvoked.ShouldBe(true);
+            service.OnGetByIDCommandPerformValidationWasInvoked.ShouldBe(true);
             service.OnGetByIDCommandValidationSuccessWasInvoked.ShouldBe(true);
         }
 
@@ -57,9 +57,9 @@ namespace Peasy.Core.Tests
             var service = new ServiceBaseStub(new PersonProxyStub());
             var result = service.InsertCommand(new Person()).Execute();
             service.OnInsertCommandInitializationWasInvoked.ShouldBe(true);
-            service.OnValidateObjectForInsertWasInvoked.ShouldBe(true);
-            service.OnGetBusinessRulesForInsertWasInvoked.ShouldBe(true);
-            service.OnPerformInsertCommandValidationWasInvoked.ShouldBe(true);
+            service.OnInsertCommandValidateObjectWasInvoked.ShouldBe(true);
+            service.OnInsertCommandGetRulesWasInvoked.ShouldBe(true);
+            service.OnInsertCommandPerformValidationWasInvoked.ShouldBe(true);
             service.OnInsertCommandValidationSuccessWasInvoked.ShouldBe(true);
         }
 
@@ -79,9 +79,9 @@ namespace Peasy.Core.Tests
             var service = new ServiceBaseStub(new PersonProxyStub());
             var result = service.UpdateCommand(new Person()).Execute();
             service.OnUpdateCommandInitializationWasInvoked.ShouldBe(true);
-            service.OnValidateObjectForUpdateWasInvoked.ShouldBe(true);
-            service.OnGetBusinessRulesForUpdateWasInvoked.ShouldBe(true);
-            service.OnPerformUpdateCommandValidationWasInvoked.ShouldBe(true);
+            service.OnUpdateCommandValidateObjectWasInvoked.ShouldBe(true);
+            service.OnUpdateCommandGetRulesWasInvoked.ShouldBe(true);
+            service.OnUpdateCommandPerformValidationWasInvoked.ShouldBe(true);
             service.OnUpdateCommandValidationSuccessWasInvoked.ShouldBe(true);
         }
 
@@ -101,9 +101,9 @@ namespace Peasy.Core.Tests
             var service = new ServiceBaseStub(new PersonProxyStub());
             var result = service.DeleteCommand(1).Execute();
             service.OnDeleteCommandInitializationWasInvoked.ShouldBe(true);
-            service.OnValidateIdForDeleteWasInvoked.ShouldBe(true);
-            service.OnGetBusinessRulesForDeleteWasInvoked.ShouldBe(true);
-            service.OnPerformDeleteCommandValidationWasInvoked.ShouldBe(true);
+            service.OnDeleteCommandValidateIdWasInvoked.ShouldBe(true);
+            service.OnDeleteCommandGetRulesWasInvoked.ShouldBe(true);
+            service.OnDeleteCommandPerformValidationWasInvoked.ShouldBe(true);
             service.OnDeleteCommandValidationSuccessWasInvoked.ShouldBe(true);
         }
 
@@ -120,29 +120,29 @@ namespace Peasy.Core.Tests
         {
             #region Properties
 
-            public bool OnGetBusinessRulesForGetAllWasInvoked { get; private set; }
+            public bool OnGetAllCommandGetRulesWasInvoked { get; private set; }
             public bool OnGetAllCommandValidationSuccessWasInvoked { get; private set; }
             public bool OnGetAllCommandInitializationWasInvoked { get; private set; }
-            public bool OnPerformGetAllCommandValidationWasInvoked { get; private set; }
+            public bool OnGetAllCommandPerformValidationWasInvoked { get; private set; }
             public bool OnGetByIDCommandInitializationWasInvoked { get; private set; }
-            public bool OnValidateIdForGetByIDWasInvoked { get; private set; }
-            public bool OnGetBusinessRulesForGetByIDWasInvoked { get; private set; }
-            public bool OnPerformGetByIDCommandValidationWasInvoked { get; private set; }
+            public bool OnGetByIDCommandValidateIDWasInvoked { get; private set; }
+            public bool OnGetByIDCommandGetRulesWasInvoked { get; private set; }
+            public bool OnGetByIDCommandPerformValidationWasInvoked { get; private set; }
             public bool OnGetByIDCommandValidationSuccessWasInvoked { get; private set; }
             public bool OnInsertCommandInitializationWasInvoked { get; private set; }
-            public bool OnValidateObjectForInsertWasInvoked { get; private set; }
-            public bool OnGetBusinessRulesForInsertWasInvoked { get; private set; }
-            public bool OnPerformInsertCommandValidationWasInvoked { get; private set; }
+            public bool OnInsertCommandValidateObjectWasInvoked { get; private set; }
+            public bool OnInsertCommandGetRulesWasInvoked { get; private set; }
+            public bool OnInsertCommandPerformValidationWasInvoked { get; private set; }
             public bool OnInsertCommandValidationSuccessWasInvoked { get; private set; }
             public bool OnUpdateCommandInitializationWasInvoked { get; private set; }
-            public bool OnValidateObjectForUpdateWasInvoked { get; private set; }
-            public bool OnGetBusinessRulesForUpdateWasInvoked { get; private set; }
-            public bool OnPerformUpdateCommandValidationWasInvoked { get; private set; }
+            public bool OnUpdateCommandValidateObjectWasInvoked { get; private set; }
+            public bool OnUpdateCommandGetRulesWasInvoked { get; private set; }
+            public bool OnUpdateCommandPerformValidationWasInvoked { get; private set; }
             public bool OnUpdateCommandValidationSuccessWasInvoked { get; private set; }
             public bool OnDeleteCommandInitializationWasInvoked { get; private set; }
-            public bool OnValidateIdForDeleteWasInvoked { get; private set; }
-            public bool OnGetBusinessRulesForDeleteWasInvoked { get; private set; }
-            public bool OnPerformDeleteCommandValidationWasInvoked { get; private set; }
+            public bool OnDeleteCommandValidateIdWasInvoked { get; private set; }
+            public bool OnDeleteCommandGetRulesWasInvoked { get; private set; }
+            public bool OnDeleteCommandPerformValidationWasInvoked { get; private set; }
             public bool OnDeleteCommandValidationSuccessWasInvoked { get; private set; }
 
             #endregion
@@ -158,16 +158,17 @@ namespace Peasy.Core.Tests
                 OnGetAllCommandInitializationWasInvoked = true;
                 base.OnGetAllCommandInitialization(context);
             }
-            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForGetAll(ExecutionContext<Person> context)
+
+            protected override IEnumerable<ISynchronousRule> OnGetAllCommandGetRules(ExecutionContext<Person> context)
             {
-                OnGetBusinessRulesForGetAllWasInvoked = true;
-                return base.OnGetBusinessRulesForGetAll(context);
+                OnGetAllCommandGetRulesWasInvoked = true;
+                return base.OnGetAllCommandGetRules(context);
             }
 
-            protected override IEnumerable<ValidationResult> OnPerformGetAllCommandValidation(ExecutionContext<Person> context)
+            protected override IEnumerable<ValidationResult> OnGetAllCommandPerformValidation(ExecutionContext<Person> context)
             {
-                OnPerformGetAllCommandValidationWasInvoked = true;
-                return base.OnPerformGetAllCommandValidation(context);
+                OnGetAllCommandPerformValidationWasInvoked = true;
+                return base.OnGetAllCommandPerformValidation(context);
             }
 
             protected override IEnumerable<Person> OnGetAllCommandValidationSuccess(ExecutionContext<Person> context)
@@ -186,22 +187,22 @@ namespace Peasy.Core.Tests
                 base.OnGetByIDCommandInitialization(id, context);
             }
 
-            protected override IEnumerable<ValidationResult> OnValidateIdForGetByID(long id, ExecutionContext<Person> context)
+            protected override IEnumerable<ValidationResult> OnGetByIDCommandValidateID(long id, ExecutionContext<Person> context)
             {
-                OnValidateIdForGetByIDWasInvoked = true;
-                return base.OnValidateIdForGetByID(id, context);
+                OnGetByIDCommandValidateIDWasInvoked = true;
+                return base.OnGetByIDCommandValidateID(id, context);
             }
 
-            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForGetByID(long id, ExecutionContext<Person> context)
+            protected override IEnumerable<ISynchronousRule> OnGetByIDCommandGetRules(long id, ExecutionContext<Person> context)
             {
-                OnGetBusinessRulesForGetByIDWasInvoked = true;
-                return base.OnGetBusinessRulesForGetByID(id, context);
+                OnGetByIDCommandGetRulesWasInvoked = true;
+                return base.OnGetByIDCommandGetRules(id, context);
             }
 
-            protected override IEnumerable<ValidationResult> OnPerformGetByIDCommandValidation(long id, ExecutionContext<Person> context)
+            protected override IEnumerable<ValidationResult> OnGetByIDCommandPerformValidation(long id, ExecutionContext<Person> context)
             {
-                OnPerformGetByIDCommandValidationWasInvoked = true;
-                return base.OnPerformGetByIDCommandValidation(id, context);
+                OnGetByIDCommandPerformValidationWasInvoked = true;
+                return base.OnGetByIDCommandPerformValidation(id, context);
             }
 
             protected override Person OnGetByIDCommandValidationSuccess(long id, ExecutionContext<Person> context)
@@ -220,22 +221,22 @@ namespace Peasy.Core.Tests
                 base.OnInsertCommandInitialization(entity, context);
             }
 
-            protected override IEnumerable<ValidationResult> OnValidateObjectForInsert(Person resource, ExecutionContext<Person> context)
+            protected override IEnumerable<ValidationResult> OnInsertCommandValidateObject(Person resource, ExecutionContext<Person> context)
             {
-                OnValidateObjectForInsertWasInvoked = true;
-                return base.OnValidateObjectForInsert(resource, context);
+                OnInsertCommandValidateObjectWasInvoked = true;
+                return base.OnInsertCommandValidateObject(resource, context);
             }
 
-            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForInsert(Person resource, ExecutionContext<Person> context)
+            protected override IEnumerable<ISynchronousRule> OnInsertCommandGetRules(Person resource, ExecutionContext<Person> context)
             {
-                OnGetBusinessRulesForInsertWasInvoked = true;
-                return base.OnGetBusinessRulesForInsert(resource, context);
+                OnInsertCommandGetRulesWasInvoked = true;
+                return base.OnInsertCommandGetRules(resource, context);
             }
 
-            protected override IEnumerable<ValidationResult> OnPerformInsertCommandValidation(Person person, ExecutionContext<Person> context)
+            protected override IEnumerable<ValidationResult> OnInsertCommandPerformValidation(Person resource, ExecutionContext<Person> context)
             {
-                OnPerformInsertCommandValidationWasInvoked = true;
-                return base.OnPerformInsertCommandValidation(person, context);
+                OnInsertCommandPerformValidationWasInvoked = true;
+                return base.OnInsertCommandPerformValidation(resource, context);
             }
 
             protected override Person OnInsertCommandValidationSuccess(Person person, ExecutionContext<Person> context)
@@ -254,22 +255,22 @@ namespace Peasy.Core.Tests
                 base.OnUpdateCommandInitialization(entity, context);
             }
 
-            protected override IEnumerable<ValidationResult> OnValidateObjectForUpdate(Person resource, ExecutionContext<Person> context)
+            protected override IEnumerable<ValidationResult> OnUpdateCommandValidateObject(Person resource, ExecutionContext<Person> context)
             {
-                OnValidateObjectForUpdateWasInvoked = true;
-                return base.OnValidateObjectForUpdate(resource, context);
+                OnUpdateCommandValidateObjectWasInvoked = true;
+                return base.OnUpdateCommandValidateObject(resource, context);
             }
 
-            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForUpdate(Person resource, ExecutionContext<Person> context)
+            protected override IEnumerable<ISynchronousRule> OnUpdateCommandGetRules(Person resource, ExecutionContext<Person> context)
             {
-                OnGetBusinessRulesForUpdateWasInvoked = true;
-                return base.OnGetBusinessRulesForUpdate(resource, context);
+                OnUpdateCommandGetRulesWasInvoked = true;
+                return base.OnUpdateCommandGetRules(resource, context);
             }
 
-            protected override IEnumerable<ValidationResult> OnPerformUpdateCommandValidation(Person person, ExecutionContext<Person> context)
+            protected override IEnumerable<ValidationResult> OnUpdateCommandPerformValidation(Person resource, ExecutionContext<Person> context)
             {
-                OnPerformUpdateCommandValidationWasInvoked = true;
-                return base.OnPerformUpdateCommandValidation(person, context);
+                OnUpdateCommandPerformValidationWasInvoked = true;
+                return base.OnUpdateCommandPerformValidation(resource, context);
             }
 
             protected override Person OnUpdateCommandValidationSuccess(Person person, ExecutionContext<Person> context)
@@ -287,22 +288,22 @@ namespace Peasy.Core.Tests
                 OnDeleteCommandInitializationWasInvoked = true;
             }
 
-            protected override IEnumerable<ValidationResult> OnValidateIdForDelete(long id, ExecutionContext<Person> context)
+            protected override IEnumerable<ValidationResult> OnDeleteCommandValidateId(long id, ExecutionContext<Person> context)
             {
-                OnValidateIdForDeleteWasInvoked = true;
-                return base.OnValidateIdForDelete(id, context);
+                OnDeleteCommandValidateIdWasInvoked = true;
+                return base.OnDeleteCommandValidateId(id, context);
             }
 
-            protected override IEnumerable<ISynchronousRule> OnGetBusinessRulesForDelete(long id, ExecutionContext<Person> context)
+            protected override IEnumerable<ISynchronousRule> OnDeleteCommandGetRules(long id, ExecutionContext<Person> context)
             {
-                OnGetBusinessRulesForDeleteWasInvoked = true;
-                return base.OnGetBusinessRulesForDelete(id, context);
+                OnDeleteCommandGetRulesWasInvoked = true;
+                return base.OnDeleteCommandGetRules(id, context);
             }
 
-            protected override IEnumerable<ValidationResult> OnPerformDeleteCommandValidation(long id, ExecutionContext<Person> context)
+            protected override IEnumerable<ValidationResult> OnDeleteCommandPerformValidation(long id, ExecutionContext<Person> context)
             {
-                OnPerformDeleteCommandValidationWasInvoked = true;
-                return base.OnPerformDeleteCommandValidation(id, context);
+                OnDeleteCommandPerformValidationWasInvoked = true;
+                return base.OnDeleteCommandPerformValidation(id, context);
             }
 
             protected override void OnDeleteCommandValidationSuccess(long id, ExecutionContext<Person> context)

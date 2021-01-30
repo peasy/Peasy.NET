@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading.Tasks;
 using Peasy.Extensions;
-using Peasy;
 
 namespace Peasy.Synchronous
 {
     /// <summary>
-    /// Serves as a base class for business services and represents an <see cref="ISynchronousCommand"/> factory.
+    /// Serves as the base class for business services and represents an <see cref="ISynchronousCommand"/> factory.
     /// </summary>
-    /// <typeparam name="T">Any type that implements <see cref="IDomainObject{TKey}"/>.</typeparam>
-    /// <typeparam name="TKey">Any type.</typeparam>
+    /// <typeparam name="T">Represents a domain object or resource and can be any type that implements <see cref="IDomainObject{TKey}"/>.</typeparam>
+    /// <typeparam name="TKey">Represents an identifier for a domain object or resource and can be any type.</typeparam>
     public abstract class SynchronousServiceBase<T, TKey> : ISynchronousService<T, TKey> where T : IDomainObject<TKey>, new()
     {
         /// <inheritdoc cref="ISynchronousDataProxy{T, TKey}"/>
@@ -102,8 +102,8 @@ namespace Peasy.Synchronous
         /// </remarks>
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
-        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
-        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForGetByID(TKey id, ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/>.</returns>
+        protected virtual IEnumerable<ISynchronousRule> OnGetByIDCommandGetRules(TKey id, ExecutionContext<T> context)
         {
             return Enumerable.Empty<ISynchronousRule>();
         }
@@ -117,8 +117,8 @@ namespace Peasy.Synchronous
         /// <para>The successful invocation of the returned rules will determine whether or not to proceed with command pipeline execution.</para>
         /// </remarks>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
-        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
-        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForGetAll(ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/>.</returns>
+        protected virtual IEnumerable<ISynchronousRule> OnGetAllCommandGetRules(ExecutionContext<T> context)
         {
             return Enumerable.Empty<ISynchronousRule>();
         }
@@ -133,8 +133,8 @@ namespace Peasy.Synchronous
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
-        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
-        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForInsert(T resource, ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/>.</returns>
+        protected virtual IEnumerable<ISynchronousRule> OnInsertCommandGetRules(T resource, ExecutionContext<T> context)
         {
             return Enumerable.Empty<ISynchronousRule>();
         }
@@ -149,8 +149,8 @@ namespace Peasy.Synchronous
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
-        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
-        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForUpdate(T resource, ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/>.</returns>
+        protected virtual IEnumerable<ISynchronousRule> OnUpdateCommandGetRules(T resource, ExecutionContext<T> context)
         {
             return Enumerable.Empty<ISynchronousRule>();
         }
@@ -165,10 +165,88 @@ namespace Peasy.Synchronous
         /// </remarks>
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
-        /// <returns>A list of <see cref="ISynchronousRule"/></returns>
-        protected virtual IEnumerable<ISynchronousRule> OnGetBusinessRulesForDelete(TKey id, ExecutionContext<T> context)
+        /// <returns>A list of <see cref="ISynchronousRule"/>.</returns>
+        protected virtual IEnumerable<ISynchronousRule> OnDeleteCommandGetRules(TKey id, ExecutionContext<T> context)
         {
             return Enumerable.Empty<ISynchronousRule>();
+        }
+
+        /// <summary>
+        /// Combines the results of <see cref="OnGetByIDCommandValidateID"/> and <see cref="OnGetByIDCommandGetRules"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// </summary>
+        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
+        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
+        /// </remarks>
+        /// <param name="id">The id of the resource to retrieve.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/>.</returns>
+        protected virtual IEnumerable<ValidationResult> OnGetByIDCommandPerformValidation(TKey id, ExecutionContext<T> context)
+        {
+            var validationErrors = OnGetByIDCommandValidateID(id, context);
+            var rules = OnGetByIDCommandGetRules(id, context);
+            return validationErrors.Concat(rules.ValidateAll());
+        }
+
+        /// <summary>
+        /// Invokes <see cref="OnGetAllCommandGetRules"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// </summary>
+        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
+        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
+        /// </remarks>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/>.</returns>
+        protected virtual IEnumerable<ValidationResult> OnGetAllCommandPerformValidation(ExecutionContext<T> context)
+        {
+            var rules = OnGetAllCommandGetRules(context);
+            return rules.ValidateAll();
+        }
+
+        /// <summary>
+        /// Combines the results of <see cref="OnInsertCommandValidateObject"/> and <see cref="OnInsertCommandGetRules"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// </summary>
+        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
+        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
+        /// </remarks>
+        /// <param name="resource">The resource to insert.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/>.</returns>
+        protected virtual IEnumerable<ValidationResult> OnInsertCommandPerformValidation(T resource, ExecutionContext<T> context)
+        {
+            var validationErrors = OnInsertCommandValidateObject(resource, context);
+            var rules = OnInsertCommandGetRules(resource, context);
+            return validationErrors.Concat(rules.ValidateAll());
+        }
+
+        /// <summary>
+        /// Combines the results of <see cref="OnUpdateCommandValidateObject"/> and <see cref="OnUpdateCommandGetRules"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// </summary>
+        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
+        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
+        /// </remarks>
+        /// <param name="resource">The resource to update.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/>.</returns>
+        protected virtual IEnumerable<ValidationResult> OnUpdateCommandPerformValidation(T resource, ExecutionContext<T> context)
+        {
+            var validationErrors = OnUpdateCommandValidateObject(resource, context);
+            var rules = OnUpdateCommandGetRules(resource, context);
+            return validationErrors.Concat(rules.ValidateAll());
+        }
+
+        /// <summary>
+        /// Combines the results of <see cref="OnDeleteCommandValidateId"/> and <see cref="OnDeleteCommandGetRules"/> to generate potential list of <see cref="ValidationResult"/>.
+        /// </summary>
+        /// <remarks>Override this method to manipulate the creation of a list o <see cref="ValidationResult"/>.
+        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
+        /// </remarks>
+        /// <param name="id">The id of the resource to delete.</param>
+        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
+        /// <returns>A list of <see cref="ValidationResult"/>.</returns>
+        protected virtual IEnumerable<ValidationResult> OnDeleteCommandPerformValidation(TKey id, ExecutionContext<T> context)
+        {
+            var validationErrors = OnDeleteCommandValidateId(id, context);
+            var rules = OnDeleteCommandGetRules(id, context);
+            return validationErrors.Concat(rules.ValidateAll());
         }
 
         /// <summary>
@@ -244,7 +322,6 @@ namespace Peasy.Synchronous
         /// </remarks>
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
-        /// <returns><see cref="void"/> resulting from a call to <see cref="ISupportSynchronousDelete{T}.Delete"/> of <see cref="DataProxy"/>.</returns>
         protected virtual void OnDeleteCommandValidationSuccess(TKey id, ExecutionContext<T> context)
         {
             _dataProxy.Delete(id);
@@ -254,13 +331,13 @@ namespace Peasy.Synchronous
         /// Generates a potential list of <see cref="ValidationResult"/> based on the supplied resource.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="OnPerformGetByIDCommandValidation"/>.</para>
+        /// <para>Invoked by <see cref="OnGetByIDCommandPerformValidation"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to retrieve.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
         /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> OnValidateIdForGetByID(TKey id, ExecutionContext<T> context)
+        protected virtual IEnumerable<ValidationResult> OnGetByIDCommandValidateID(TKey id, ExecutionContext<T> context)
         {
             yield break;
         }
@@ -269,13 +346,13 @@ namespace Peasy.Synchronous
         /// Performs validation against the supplied resource by validating property values applied with attributes of type <see cref="ValidationAttribute"/>.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="OnPerformInsertCommandValidation"/>.</para>
+        /// <para>Invoked by <see cref="OnInsertCommandPerformValidation"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
         /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> OnValidateObjectForInsert(T resource, ExecutionContext<T> context)
+        protected virtual IEnumerable<ValidationResult> OnInsertCommandValidateObject(T resource, ExecutionContext<T> context)
         {
             return resource.Validate();
         }
@@ -284,13 +361,13 @@ namespace Peasy.Synchronous
         /// Performs validation against the supplied resource by validating property values applied with attributes of type <see cref="ValidationAttribute"/>.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="OnPerformUpdateCommandValidation"/>.</para>
+        /// <para>Invoked by <see cref="OnUpdateCommandPerformValidation"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
         /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> OnValidateObjectForUpdate(T resource, ExecutionContext<T> context)
+        protected virtual IEnumerable<ValidationResult> OnUpdateCommandValidateObject(T resource, ExecutionContext<T> context)
         {
             return resource.Validate();
         }
@@ -299,88 +376,15 @@ namespace Peasy.Synchronous
         /// Performs validation against the supplied id.
         /// </summary>
         /// <remarks>
-        /// <para>Invoked by <see cref="OnPerformDeleteCommandValidation"/>.</para>
+        /// <para>Invoked by <see cref="OnDeleteCommandPerformValidation"/>.</para>
         /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
         /// </remarks>
         /// <param name="id">The id of the resource to delete.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
         /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> OnValidateIdForDelete(TKey id, ExecutionContext<T> context)
+        protected virtual IEnumerable<ValidationResult> OnDeleteCommandValidateId(TKey id, ExecutionContext<T> context)
         {
             yield break;
-        }
-
-        /// <summary>
-        /// Combines the results of <see cref="OnValidateIdForGetByID"/> and <see cref="OnGetBusinessRulesForGetByID"/> to generate potential list of <see cref="ValidationResult"/>.
-        /// </summary>
-        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
-        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
-        /// </remarks>
-        /// <param name="id">The id of the resource to retrieve.</param>
-        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetByIDCommand"/>.</param>
-        /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> OnPerformGetByIDCommandValidation(TKey id, ExecutionContext<T> context)
-        {
-            return OnValidateIdForGetByID(id, context).Concat(OnGetBusinessRulesForGetByID(id, context).ValidateAll());
-        }
-
-        /// <summary>
-        /// Invokes <see cref="OnGetBusinessRulesForGetAll"/> to generate potential list of <see cref="ValidationResult"/>.
-        /// </summary>
-        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
-        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
-        /// </remarks>
-        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="GetAllCommand"/>.</param>
-        /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> OnPerformGetAllCommandValidation(ExecutionContext<T> context)
-        {
-            return OnGetBusinessRulesForGetAll(context).ValidateAll();
-        }
-
-        /// <summary>
-        /// Combines the results of <see cref="OnValidateObjectForInsert"/> and <see cref="OnGetBusinessRulesForInsert"/> to generate potential list of <see cref="ValidationResult"/>.
-        /// </summary>
-        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
-        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
-        /// </remarks>
-        /// <param name="resource">The resource to insert.</param>
-        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
-        /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> OnPerformInsertCommandValidation(T resource, ExecutionContext<T> context)
-        {
-            var validationErrors = OnValidateObjectForInsert(resource, context);
-            var businessRuleErrors = OnGetBusinessRulesForInsert(resource, context).ValidateAll();
-            return validationErrors.Concat(businessRuleErrors);
-        }
-
-        /// <summary>
-        /// Combines the results of <see cref="OnValidateObjectForUpdate"/> and <see cref="OnGetBusinessRulesForUpdate"/> to generate potential list of <see cref="ValidationResult"/>.
-        /// </summary>
-        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
-        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
-        /// </remarks>
-        /// <param name="resource">The resource to update.</param>
-        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
-        /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> OnPerformUpdateCommandValidation(T resource, ExecutionContext<T> context)
-        {
-            var validationErrors = OnValidateObjectForUpdate(resource, context);
-            var businessRuleErrors = OnGetBusinessRulesForUpdate(resource, context).ValidateAll();
-            return validationErrors.Concat(businessRuleErrors);
-        }
-
-        /// <summary>
-        /// Combines the results of <see cref="OnValidateIdForDelete"/> and <see cref="OnGetBusinessRulesForDelete"/> to generate potential list of <see cref="ValidationResult"/>.
-        /// </summary>
-        /// <remarks>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.
-        /// <para>Example: You might want to verify that no validation errors exist before invoking the potentially expensive business rules.</para>
-        /// </remarks>
-        /// <param name="id">The id of the resource to delete.</param>
-        /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="DeleteCommand"/>.</param>
-        /// <returns>A list of <see cref="ValidationResult"/></returns>
-        protected virtual IEnumerable<ValidationResult> OnPerformDeleteCommandValidation(TKey id, ExecutionContext<T> context)
-        {
-            return OnValidateIdForDelete(id, context).Concat(OnGetBusinessRulesForDelete(id, context).ValidateAll());
         }
 
         /// <inheritdoc cref="ISupportSynchronousGetByIDCommand{T, TKey}.GetByIDCommand"/>
@@ -390,7 +394,7 @@ namespace Peasy.Synchronous
             return new SynchronousServiceCommand<T>
             (
                 initializationMethod: () => OnGetByIDCommandInitialization(id, context),
-                validationMethod: () => OnPerformGetByIDCommandValidation(id, context),
+                validationMethod: () => OnGetByIDCommandPerformValidation(id, context),
                 executeMethod: () => OnGetByIDCommandValidationSuccess(id, context)
             );
         }
@@ -402,7 +406,7 @@ namespace Peasy.Synchronous
             return new SynchronousServiceCommand<IEnumerable<T>>
             (
                 initializationMethod: () => OnGetAllCommandInitialization(context),
-                validationMethod: () => OnPerformGetAllCommandValidation(context),
+                validationMethod: () => OnGetAllCommandPerformValidation(context),
                 executeMethod: () => OnGetAllCommandValidationSuccess(context)
             );
         }
@@ -414,7 +418,7 @@ namespace Peasy.Synchronous
             return new SynchronousServiceCommand<T>
             (
                 initializationMethod: () => OnInsertCommandInitialization(resource, context),
-                validationMethod: () => OnPerformInsertCommandValidation(resource, context),
+                validationMethod: () => OnInsertCommandPerformValidation(resource, context),
                 executeMethod: () => OnInsertCommandValidationSuccess(resource, context)
             );
         }
@@ -426,7 +430,7 @@ namespace Peasy.Synchronous
             return new SynchronousServiceCommand<T>
             (
                 initializationMethod: () => OnUpdateCommandInitialization(resource, context),
-                validationMethod: () => OnPerformUpdateCommandValidation(resource, context),
+                validationMethod: () => OnUpdateCommandPerformValidation(resource, context),
                 executeMethod: () => OnUpdateCommandValidationSuccess(resource, context)
             );
         }
@@ -438,10 +442,9 @@ namespace Peasy.Synchronous
             return new SynchronousServiceCommand
             (
                 initializationMethod: () => OnDeleteCommandInitialization(id, context),
-                validationMethod: () => OnPerformDeleteCommandValidation(id, context),
+                validationMethod: () => OnDeleteCommandPerformValidation(id, context),
                 executeMethod: () => OnDeleteCommandValidationSuccess(id, context)
             );
         }
-
     }
 }

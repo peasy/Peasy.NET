@@ -199,10 +199,10 @@ namespace Peasy.Core.Tests
                 return base.OnGetByIDCommandGetRulesAsync(id, context);
             }
 
-            protected override Task<IEnumerable<ValidationResult>> OnGetByIDCommandPerformValiationAsync(long id, ExecutionContext<Person> context)
+            protected override Task<IEnumerable<ValidationResult>> OnGetByIDCommandPerformValidationAsync(long id, ExecutionContext<Person> context)
             {
                 OnGetByIDCommandPerformValiationAsyncWasInvoked = true;
-                return base.OnGetByIDCommandPerformValiationAsync(id, context);
+                return base.OnGetByIDCommandPerformValidationAsync(id, context);
             }
 
             protected override Task<Person> OnGetByIDCommandValidationSuccessAsync(long id, ExecutionContext<Person> context)
