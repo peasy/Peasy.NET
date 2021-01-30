@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 namespace Peasy.Rules
 {
     /// <summary>
+    /// A general purpose validation rule that verifies whether a supplied type contains a non-zero or non-empty value.
     /// </summary>
     public class ValueRequiredRule : RuleBase
     {
@@ -56,19 +57,12 @@ namespace Peasy.Rules
             _validate = () => value != Guid.Empty;
         }
 
-        // /// <summary>
-        // /// </summary>
-        // protected override void OnValidate()
-        // {
-        //     if (!_validate())
-        //         Invalidate(_errorMessage, _fieldName);
-        // }
-
         /// <summary>
         /// </summary>
-        protected override Task OnValidateAsync()
+        protected async override Task OnValidateAsync()
         {
-            return Task.FromResult(base.OnValidateAsync());
+            await Task.FromResult<object>(null);
+            if (!_validate()) Invalidate(_errorMessage, _fieldName);
         }
     }
 }
