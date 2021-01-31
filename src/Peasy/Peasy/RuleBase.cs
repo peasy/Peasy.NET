@@ -142,10 +142,10 @@ namespace Peasy
         /// </summary>
         /// <remarks>Use this method to improve the readability of your rule validation.</remarks>
         /// <param name="validationFunction">A function that returns a bool when invoked.</param>
-        /// <returns>An <see cref="IfResponse"/>.</returns>
-        protected IfResponse If(Func<bool> validationFunction)
+        /// <returns>An <see cref="IfValidResponse"/>.</returns>
+        protected IfValidResponse If(Func<bool> validationFunction)
         {
-            return new IfResponse(validationFunction, Invalidate);
+            return new IfValidResponse(validationFunction, Invalidate);
         }
 
         /// <summary>
@@ -153,25 +153,25 @@ namespace Peasy
         /// </summary>
         /// <remarks>Use this method to improve the readability of your rule validation.</remarks>
         /// <param name="validationFunction">A function that returns a bool when invoked.</param>
-        /// <returns>An <see cref="IfNotResponse"/>.</returns>
-        protected IfNotResponse IfNot(Func<bool> validationFunction)
+        /// <returns>An <see cref="IfNotValidResponse"/>.</returns>
+        protected IfNotValidResponse IfNot(Func<bool> validationFunction)
         {
-            return new IfNotResponse(validationFunction, Invalidate);
+            return new IfNotValidResponse(validationFunction, Invalidate);
         }
     }
 
     /// <summary>
     /// Represents the result from an <see cref="RuleBase.If"/> operation.
     /// </summary>
-    public class IfResponse
+    public class IfValidResponse
     {
         private Func<bool> _validationFunction;
         private Action<string> _invalidateFunction;
 
         /// <summary>
-        /// Initializes a new instance of the IfResponse class with a function to perform validation against and a function that invalidates the rule.
+        /// Initializes a new instance of the IfValidResponse class with a function to perform validation against and a function that invalidates the rule.
         /// </summary>
-        public IfResponse(Func<bool> validationFunction, Action<string> invalidateFunction)
+        public IfValidResponse(Func<bool> validationFunction, Action<string> invalidateFunction)
         {
             _validationFunction = validationFunction;
             _invalidateFunction = invalidateFunction;
@@ -191,15 +191,15 @@ namespace Peasy
     /// <summary>
     /// Represents the result from an <see cref="RuleBase.IfNot"/> operation.
     /// </summary>
-    public class IfNotResponse
+    public class IfNotValidResponse
     {
         private Func<bool> _validationFunction;
         private Action<string> _invalidateFunction;
 
         /// <summary>
-        /// Initializes a new instance of the IfNotResponse class with a function to perform validation against and a function that invalidates the rule.
+        /// Initializes a new instance of the IfNotValidResponse class with a function to perform validation against and a function that invalidates the rule.
         /// </summary>
-        public IfNotResponse(Func<bool> validationFunction, Action<string> invalidateFunction)
+        public IfNotValidResponse(Func<bool> validationFunction, Action<string> invalidateFunction)
         {
             _validationFunction = validationFunction;
             _invalidateFunction = invalidateFunction;
