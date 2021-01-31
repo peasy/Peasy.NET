@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Peasy.Synchronous;
 
 namespace Peasy.Core.Tests
 {
@@ -10,16 +10,6 @@ namespace Peasy.Core.Tests
         {
             return (container as IRuleSuccessorsContainer<T>).GetSuccessors();
         }
-
-        // public static IEnumerable<IRuleSuccessor<IRule>> GetSuccessors(this IRule container)
-        // {
-        //     return (container as IRuleSuccessorsContainer<IRule>).GetSuccessors();
-        // }
-
-        // public static IEnumerable<IRuleSuccessor<ISynchronousRule>> GetSuccessors(this ISynchronousRule container)
-        // {
-        //     return (container as IRuleSuccessorsContainer<ISynchronousRule>).GetSuccessors();
-        // }
 
         public static T Second<T>(this IEnumerable<T> rules)
         {
@@ -39,6 +29,30 @@ namespace Peasy.Core.Tests
         public static IRuleSuccessor<T> Third<T>(this IEnumerable<IRuleSuccessor<T>> rules)
         {
             return rules.ElementAt(2);
+        }
+
+        public static void Times(this int value, Action action)
+        {
+            for (var counter = 0; counter < value; counter++)
+            {
+                action();
+            }
+        }
+
+        public static void Times(this int value, Action<int> action)
+        {
+            for (var counter = 0; counter < value; counter++)
+            {
+                action(counter);
+            }
+        }
+
+        public static IEnumerable<T> Times<T>(this int value, Func<int, T> func)
+        {
+            for (var counter = 0; counter < value; counter++)
+            {
+                yield return func(counter);
+            }
         }
     }
 

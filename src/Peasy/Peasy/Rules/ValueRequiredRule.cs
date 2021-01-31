@@ -14,6 +14,15 @@ namespace Peasy.Rules
 
         /// <summary>
         /// </summary>
+        public ValueRequiredRule(double value, string fieldName)
+        {
+            _errorMessage = $"{fieldName} must be greater than 0";
+            _fieldName = fieldName;
+            _validate = () => value > 0;
+        }
+
+        /// <summary>
+        /// </summary>
         public ValueRequiredRule(long value, string fieldName)
         {
             _errorMessage = $"{fieldName} must be greater than 0";

@@ -23,7 +23,7 @@ namespace Peasy.Extensions
         /// <typeparam name="T">Any type that inherits <see cref="System.Object"/>.</typeparam>
         /// <param name="domainObject">The object to perform validation against.</param>
         /// <returns>An enumerable source of <see cref="ValidationResult"/>.</returns>
-        public static IEnumerable<ValidationResult> Validate<T>(this T domainObject) where T : new()
+        public static IEnumerable<ValidationResult> Validate<T>(this T domainObject) where T : IDomainObject, new()
         {
             var validationResults = new List<ValidationResult>();
             var context = new ValidationContext(domainObject);

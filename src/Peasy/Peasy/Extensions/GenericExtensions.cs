@@ -16,6 +16,7 @@ namespace Peasy.Extensions
         /// <see cref="System.UInt64" />,
         /// <see cref="System.UInt32" />,
         /// <see cref="System.Decimal" />,
+        /// <see cref="System.Double" />,
         /// <see cref="System.Guid" />
         /// </typeparam>
         /// <param name="value">The value to create the rule from.</param>
@@ -28,6 +29,7 @@ namespace Peasy.Extensions
                 string stringValue => new ValueRequiredRule(stringValue, fieldName),
                 long longValue => new ValueRequiredRule(longValue, fieldName),
                 decimal decimalValue => new ValueRequiredRule(decimalValue, fieldName),
+                double doubleValue => new ValueRequiredRule(doubleValue, fieldName),
                 int intValue => new ValueRequiredRule(intValue, fieldName),
                 Guid _ => new ValueRequiredRule(new Guid(value.ToString()), fieldName),
                 _ => null

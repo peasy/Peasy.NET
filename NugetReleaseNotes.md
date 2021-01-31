@@ -12,7 +12,7 @@ From Peasy Project Dir:
 
  `dotnet pack -c=Release`
 
-NOTE: This seems to cache packages by version number.  Be sure to modify the version number in Peasy.nuspec to see updated changes in the Peasy assembly.
+NOTE: This seems to cache packages by version number.  Be sure to modify the version number in Peasy.nuspec and the `VersionPrefix` in Peasy.csproj to see updated changes in the Peasy assembly.
 
 # Testing Package Locally
 

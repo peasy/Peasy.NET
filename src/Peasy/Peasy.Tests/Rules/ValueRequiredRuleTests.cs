@@ -75,6 +75,31 @@ namespace Peasy.Tests.Rules
         }
 
         [Fact]
+        public async Task Returns_True_When_Double_Greater_Than_Zero_Supplied()
+        {
+            double val = 1;
+            var rule = await new ValueRequiredRule(val, "id").ExecuteAsync();
+            rule.IsValid.ShouldBe(true);
+        }
+
+        [Fact]
+        public async Task Returns_False_When_Double_Less_Than_One_Supplied()
+        {
+            double val = 0;
+            var rule = await new ValueRequiredRule(val, "id").ExecuteAsync();
+            rule.IsValid.ShouldBe(false);
+        }
+
+        [Fact]
+        public async Task Sets_ErrorMessage_And_Association_When_Double_Less_Than_One_Supplied()
+        {
+            double val = 0;
+            var rule = await new ValueRequiredRule(val, "id").ExecuteAsync();
+            rule.Association.ShouldBe("id");
+            rule.ErrorMessage.ShouldBe("id must be greater than 0");
+        }
+
+        [Fact]
         public async Task Returns_True_When_String_Non_Empty_Is_Supplied()
         {
             var rule = await new ValueRequiredRule("123", "id").ExecuteAsync();
