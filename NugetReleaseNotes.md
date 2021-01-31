@@ -1,3 +1,8 @@
+# Building Assembly
+
+From Peasy Project Dir:
+
+`dotnet build --configuration Release`
 
 # Building Package
 
@@ -6,6 +11,8 @@ Update Peasy.nuspec and Peasy.csproj version info, release notes, etc.
 From Peasy Project Dir:
 
  `dotnet pack -c=Release`
+
+NOTE: This seems to cache packages by version number.  Be sure to modify the version number in Peasy.nuspec to see updated changes in the Peasy assembly.
 
 # Testing Package Locally
 

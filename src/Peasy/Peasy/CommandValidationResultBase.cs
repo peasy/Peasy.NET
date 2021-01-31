@@ -31,7 +31,12 @@ namespace Peasy
             _continuationFunction = continuationFunction;
         }
 
-        ///
+        /// <summary>
+        /// A function that allows continuation of command execution after successful rule validations are performed.
+        /// </summary>
+        /// <remarks>Can only be invoked if <see cref="CanContinue"/> returns <see langword="true"/>.</remarks>
+        /// <returns>A function that when invoked, continues the command execution pipeline.</returns>
+        /// <exception cref="System.InvalidOperationException">Thrown when accessed if failed validations exist.</exception>
         public virtual TFunc ContinuationFunction
         {
             get

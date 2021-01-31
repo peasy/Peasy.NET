@@ -142,7 +142,7 @@ namespace Peasy.Core.Tests.SynchronousCommandBaseTestsOfT
 
         #endregion
 
-        #region ISupportValidation Support
+        #region ISupportSynchronousCommandValidation Support
 
         [Fact]
         public void Allows_Execution_Of_Configured_Rules()

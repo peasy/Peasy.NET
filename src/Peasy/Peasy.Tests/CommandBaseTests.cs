@@ -136,7 +136,7 @@ namespace Peasy.Core.Tests.CommandBaseTests
 
         #endregion
 
-        #region ISupportValidation Support
+        #region ISupportCommandValidation Support
 
         [Fact]
         public async Task Allows_Validation_Of_Configured_Rules()
