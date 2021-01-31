@@ -143,6 +143,17 @@ namespace Peasy
             var results = (await OnValidateAsync()).ToArray();
             return new CommandValidationResult(results, OnCompleteAsync);
         }
+
+        /// <summary>
+        /// Helper function that wraps supplied rules in an awaitable list.
+        /// </summary>
+        /// <remarks>Use this method to improve readability of rule configuration.</remarks>
+        /// <param name="rules">A list of rules to wrap in an awaitable list.</param>
+        /// <returns>An awaitable list of rules.</returns>
+        protected virtual Task<IEnumerable<IRule>> TheseRules(params IRule[] rules)
+        {
+            return Task.FromResult<IEnumerable<IRule>>(rules);
+        }
     }
 
     /// <summary>
@@ -282,6 +293,17 @@ namespace Peasy
         {
             var results = (await OnValidateAsync()).ToArray();
             return new CommandValidationResult<T>(results, OnCompleteAsync);
+        }
+
+        /// <summary>
+        /// Helper function that wraps supplied rules in an awaitable list.
+        /// </summary>
+        /// <remarks>Use this method to improve readability of rule configuration.</remarks>
+        /// <param name="rules">A list of rules to wrap in an awaitable list.</param>
+        /// <returns>An awaitable list of rules.</returns>
+        protected virtual Task<IEnumerable<IRule>> TheseRules(params IRule[] rules)
+        {
+            return Task.FromResult<IEnumerable<IRule>>(rules);
         }
     }
 }

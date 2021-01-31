@@ -211,6 +211,23 @@ namespace Peasy.Core.Tests.CommandBaseTestsOfT
         }
 
         #endregion
+
+        #region RuleList() support
+
+        [Fact]
+        public async Task TheseRules_Works_As_Expected()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var rules = new IRule[] { new TrueRule(), new TrueRule() };
+            var command = new TheseRulesStub(doerOfThings.Object, rules);
+
+            var result = await command.ExecuteAsync();
+
+            result.Success.ShouldBeFalse();
+            result.Errors.Count().ShouldBe(2);
+        }
+
+        #endregion
     }
 
     public class CommandStub : CommandBase<string>
@@ -280,6 +297,31 @@ namespace Peasy.Core.Tests.CommandBaseTestsOfT
         {
             _doerOfThings.Log(nameof(OnSuccessfulExecution));
             return base.OnSuccessfulExecution(value);
+        }
+    }
+
+    public class TheseRulesStub : CommandStub
+    {
+        public TheseRulesStub(IDoThings doerOfThings) : base(doerOfThings) { }
+
+        public TheseRulesStub(IDoThings doerOfThings, IEnumerable<IRule> rules) : base(doerOfThings, rules) {}
+
+        public TheseRulesStub(IDoThings doerOfThings, IEnumerable<ValidationResult> validationResults) : base(doerOfThings, validationResults) {}
+
+        // Because we should be able to.
+        protected override Task<IEnumerable<IRule>> TheseRules(params IRule[] rules)
+        {
+            return base.TheseRules(rules);
+        }
+
+        protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
+        {
+            return TheseRules
+            (
+                new FalseRule1(),
+                new TrueRule(),
+                new TrueRule().IfValidThenValidate(new FalseRule1())
+            );
         }
     }
 }

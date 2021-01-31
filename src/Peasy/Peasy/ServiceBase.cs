@@ -398,6 +398,17 @@ namespace Peasy
             yield break;
         }
 
+        /// <summary>
+        /// Helper function that wraps supplied rules in an awaitable list.
+        /// </summary>
+        /// <remarks>Use this method to improve readability of rule configuration.</remarks>
+        /// <param name="rules">A list of rules to wrap in an awaitable list.</param>
+        /// <returns>An awaitable list of rules.</returns>
+        protected virtual Task<IEnumerable<IRule>> TheseRules(params IRule[] rules)
+        {
+            return Task.FromResult<IEnumerable<IRule>>(rules);
+        }
+
         /// <inheritdoc cref="ISupportGetByIDCommand{T, TKey}.GetByIDCommand"/>
         public virtual ICommand<T> GetByIDCommand(TKey id)
         {

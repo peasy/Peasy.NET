@@ -143,5 +143,4 @@ namespace Peasy.Core.Tests
         void DoSomething();
         string GetValue();
     }
-
 }

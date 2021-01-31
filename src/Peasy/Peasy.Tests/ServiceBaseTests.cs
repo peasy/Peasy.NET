@@ -116,6 +116,18 @@ namespace Peasy.Core.Tests
             executionResult.Success.ShouldBeTrue();
         }
 
+        [Fact]
+        public async Task TheseRules_Works_As_Expected()
+        {
+            var service = new TheseRulesStub(new PersonProxyStub());
+
+            var insertResult = await service.InsertCommand(new Person()).ExecuteAsync();
+            var updateResult = await service.UpdateCommand(new Person()).ExecuteAsync();
+
+            insertResult.Success.ShouldBeTrue();
+            updateResult.Success.ShouldBeFalse();
+        }
+
         public class ServiceBaseStub : ServiceBase<Person, long>
         {
             #region Properties
@@ -314,6 +326,39 @@ namespace Peasy.Core.Tests
             }
 
             #endregion
+        }
+
+        public class TheseRulesStub : ServiceBaseStub
+        {
+            public TheseRulesStub(IDataProxy<Person, long> dataProxy) : base(dataProxy)
+            {
+            }
+
+            // Because we should be able to.
+            protected override Task<IEnumerable<IRule>> TheseRules(params IRule[] rules)
+            {
+                return base.TheseRules(rules);
+            }
+
+            protected override Task<IEnumerable<IRule>> OnInsertCommandGetRulesAsync(Person resource, ExecutionContext<Person> context)
+            {
+                return TheseRules
+                (
+                    new TrueRule(),
+                    new TrueRule().IfValidThenValidate(new TrueRule()),
+                    new TrueRule()
+                );
+            }
+
+            protected override Task<IEnumerable<IRule>> OnUpdateCommandGetRulesAsync(Person resource, ExecutionContext<Person> context)
+            {
+                return TheseRules
+                (
+                    new TrueRule(),
+                    new TrueRule(),
+                    new TrueRule().IfValidThenValidate(new FalseRule1())
+                );
+            }
         }
 
         public class PersonProxyStub : IDataProxy<Person, long>
