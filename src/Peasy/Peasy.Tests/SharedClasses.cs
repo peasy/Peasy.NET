@@ -120,6 +120,46 @@ namespace Peasy.Core.Tests
         }
     }
 
+    public class TrueRuleUsingIfMethod : RuleBase
+    {
+        protected override Task OnValidateAsync()
+        {
+            var name = "Jimi Hendrix";
+            return If(() => name == "James Hendrix")
+                .ThenInvalidateWith("Name cannot be James Hendrix");
+        }
+    }
+
+    public class FalseRuleUsingIfMethod : RuleBase
+    {
+        protected override async Task OnValidateAsync()
+        {
+            var name = "James Hendrix";
+            await If(() => name == "James Hendrix")
+                .ThenInvalidateWith("Name cannot be James Hendrix");
+        }
+    }
+
+    public class TrueRuleUsingIfNotMethod : RuleBase
+    {
+        protected override Task OnValidateAsync()
+        {
+            var age = 18;
+            return IfNot(() => age <= 21)
+                .ThenInvalidateWith("Not young enough");
+        }
+    }
+
+    public class FalseRuleUsingIfNotMethod : RuleBase
+    {
+        protected override async Task OnValidateAsync()
+        {
+            var age = 18;
+            await IfNot(() => age >= 21)
+                .ThenInvalidateWith("Not old enough");
+        }
+    }
+
     public class Person : IDomainObject<long>
     {
         [Range(0, 50)]

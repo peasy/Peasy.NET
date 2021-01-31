@@ -136,5 +136,83 @@ namespace Peasy
         {
             return Successors;
         }
+
+        /// <summary>
+        /// Helper function that wraps a synchronous validation function into an expressive async api.
+        /// </summary>
+        /// <remarks>Use this method to improve the readability of your rule validation.</remarks>
+        /// <param name="validationFunction">A function that returns a bool when invoked.</param>
+        /// <returns>An <see cref="IfResponse"/>.</returns>
+        protected IfResponse If(Func<bool> validationFunction)
+        {
+            return new IfResponse(validationFunction, Invalidate);
+        }
+
+        /// <summary>
+        /// Helper function that wraps a synchronous validation function into an expressive async api.
+        /// </summary>
+        /// <remarks>Use this method to improve the readability of your rule validation.</remarks>
+        /// <param name="validationFunction">A function that returns a bool when invoked.</param>
+        /// <returns>An <see cref="IfNotResponse"/>.</returns>
+        protected IfNotResponse IfNot(Func<bool> validationFunction)
+        {
+            return new IfNotResponse(validationFunction, Invalidate);
+        }
+    }
+
+    /// <summary>
+    /// Represents the result from an <see cref="RuleBase.If"/> operation.
+    /// </summary>
+    public class IfResponse
+    {
+        private Func<bool> _validationFunction;
+        private Action<string> _invalidateFunction;
+
+        /// <summary>
+        /// Initializes a new instance of the IfResponse class with a function to perform validation against and a function that invalidates the rule.
+        /// </summary>
+        public IfResponse(Func<bool> validationFunction, Action<string> invalidateFunction)
+        {
+            _validationFunction = validationFunction;
+            _invalidateFunction = invalidateFunction;
+        }
+
+        /// <summary>
+        /// Invalidates this rule with the supplied error message if the validation function evaluates to <see langword="true"/>.
+        /// </summary>
+        /// <param name="errorMessage">Sets <see cref="RuleBase.ErrorMessage"/>.</param>
+        public Task ThenInvalidateWith(string errorMessage)
+        {
+            if (_validationFunction() == true) _invalidateFunction(errorMessage);
+            return Task.FromResult<object>(null);
+        }
+    }
+
+    /// <summary>
+    /// Represents the result from an <see cref="RuleBase.IfNot"/> operation.
+    /// </summary>
+    public class IfNotResponse
+    {
+        private Func<bool> _validationFunction;
+        private Action<string> _invalidateFunction;
+
+        /// <summary>
+        /// Initializes a new instance of the IfNotResponse class with a function to perform validation against and a function that invalidates the rule.
+        /// </summary>
+        public IfNotResponse(Func<bool> validationFunction, Action<string> invalidateFunction)
+        {
+            _validationFunction = validationFunction;
+            _invalidateFunction = invalidateFunction;
+        }
+
+        /// <summary>
+        /// Invalidates this rule with the supplied error message if the validation function evaluates to <see langword="false"/>.
+        /// </summary>
+        /// <param name="errorMessage">Sets <see cref="RuleBase.ErrorMessage"/>.</param>
+        public Task ThenInvalidateWith(string errorMessage)
+        {
+            if (_validationFunction() == false) _invalidateFunction(errorMessage);
+            return Task.FromResult<object>(null);
+        }
     }
 }

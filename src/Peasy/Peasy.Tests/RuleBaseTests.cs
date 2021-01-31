@@ -319,6 +319,40 @@ namespace Peasy.Core.Tests
             secondSuccessor.Rules.First().GetSuccessors().First().Rules.First().ShouldBeOfType<FalseRule1>();
             secondSuccessor.Rules.Second().ShouldBeOfType<FalseRule3>();
         }
+
+        [Fact]
+        public async Task Rule_Using_If_Function_Works_As_Expected()
+        {
+            var rule = new TrueRuleUsingIfMethod();
+            await rule.ExecuteAsync();
+            rule.IsValid.ShouldBeTrue();
+        }
+
+        [Fact]
+        public async Task Rule_Using_If_Function_Works_As_Expected_II()
+        {
+            var rule = new FalseRuleUsingIfMethod();
+            await rule.ExecuteAsync();
+            rule.IsValid.ShouldBeFalse();
+            rule.ErrorMessage.ShouldBe("Name cannot be James Hendrix");
+        }
+
+        [Fact]
+        public async Task Rule_Using_IfNot_Function_Works_As_Expected()
+        {
+            var rule = new TrueRuleUsingIfNotMethod();
+            await rule.ExecuteAsync();
+            rule.IsValid.ShouldBeTrue();
+        }
+
+        [Fact]
+        public async Task Rule_Using_IfNot_Function_Works_As_Expected_II()
+        {
+            var rule = new FalseRuleUsingIfNotMethod();
+            await rule.ExecuteAsync();
+            rule.IsValid.ShouldBeFalse();
+            rule.ErrorMessage.ShouldBe("Not old enough");
+        }
     }
 
 }
