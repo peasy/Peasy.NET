@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Peasy.Core.Tests.CommandTestsOfT
+namespace Peasy.Core.Tests.CommandBaseTests
 {
     public class Tests
     {
@@ -14,18 +14,17 @@ namespace Peasy.Core.Tests.CommandTestsOfT
         public async Task Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations_Async()
         {
             var doerOfThings = new Mock<IDoThings>();
-            doerOfThings.Setup(d => d.GetValue()).Returns("You shall pass");
             var command = new CommandStub(doerOfThings.Object);
 
             var result = await command.ExecuteAsync();
 
             result.Success.ShouldBeTrue();
             result.Errors.ShouldBeNull();
-            result.Value.ShouldBe("You shall pass");
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnCompleteAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Never);
@@ -36,18 +35,17 @@ namespace Peasy.Core.Tests.CommandTestsOfT
         public async Task Successful_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_All_Rules_Pass_Async()
         {
             var doerOfThings = new Mock<IDoThings>();
-            doerOfThings.Setup(d => d.GetValue()).Returns("You shall pass");
             var command = new CommandStub(doerOfThings.Object, new IRule[] { new TrueRule(), new TrueRule() });
 
             var result = await command.ExecuteAsync();
 
             result.Success.ShouldBeTrue();
             result.Errors.ShouldBeNull();
-            result.Value.ShouldBe("You shall pass");
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnCompleteAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Never);
@@ -66,11 +64,11 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Success.ShouldBeFalse();
             result.Errors.Count().ShouldBe(1);
             result.Errors.First().ErrorMessage.ShouldBe("FalseRule1 failed validation");
-            result.Value.ShouldBeNull();
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnCompleteAsync"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Never);
@@ -89,11 +87,11 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Success.ShouldBeFalse();
             result.Errors.Count().ShouldBe(1);
             result.Errors.First().ErrorMessage.ShouldBe("You shall not pass");
-            result.Value.ShouldBeNull();
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnCompleteAsync"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Never);
@@ -104,7 +102,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
         public async Task Fails_Execution_With_Expected_ExecutionResult_And_Method_Invocations_When_A_ServiceException_Is_Caught_Async()
         {
             var doerOfThings = new Mock<IDoThings>();
-            doerOfThings.Setup(d => d.GetValue()).Throws(new PeasyException("You shall not pass"));
+            doerOfThings.Setup(d => d.DoSomething()).Throws(new PeasyException("You shall not pass"));
             var command = new CommandStub(doerOfThings.Object);
 
             var result = await command.ExecuteAsync();
@@ -112,11 +110,11 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             result.Success.ShouldBeFalse();
             result.Errors.Count().ShouldBe(1);
             result.Errors.First().ErrorMessage.ShouldBe("You shall not pass");
-            result.Value.ShouldBeNull();
 
             doerOfThings.Verify(d => d.Log("OnInitializationAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidateAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRulesAsync"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnCompleteAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecuteAsync"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Once);
@@ -141,7 +139,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
         #region ISupportValidation Support
 
         [Fact]
-        public async Task Allows_Execution_Of_Configured_Rules()
+        public async Task Allows_Validation_Of_Configured_Rules()
         {
             var doerOfThings = new Mock<IDoThings>();
             var rules = new IRule[] { new TrueRule(), new FalseRule1() };
@@ -171,7 +169,6 @@ namespace Peasy.Core.Tests.CommandTestsOfT
         public async Task Operation_Can_Complete_If_Rules_Pass_Validation_And_Complete_Validation_With_Successful_Validation_Results()
         {
             var doerOfThings = new Mock<IDoThings>();
-            doerOfThings.Setup(d => d.GetValue()).Returns("You shall pass");
             var rules = new IRule[] { new TrueRule(), new TrueRule() };
             var command = new CommandStub(doerOfThings.Object, rules);
 
@@ -182,14 +179,13 @@ namespace Peasy.Core.Tests.CommandTestsOfT
 
             var executionResult = await validationResult.CompleteCommandExecutionAsync();
             executionResult.Success.ShouldBeTrue();
-            executionResult.Value.ShouldBe("You shall pass");
         }
 
         [Fact]
         public async Task Completion_Properly_Handles_Caught_Peasy_Exception()
         {
             var doerOfThings = new Mock<IDoThings>();
-            doerOfThings.Setup(d => d.GetValue()).Throws(new PeasyException("You shall not pass"));
+            doerOfThings.Setup(d => d.DoSomething()).Throws(new PeasyException("You shall not pass"));
             var rules = new IRule[] { new TrueRule(), new TrueRule() };
             var command = new CommandStub(doerOfThings.Object, rules);
 
@@ -208,7 +204,7 @@ namespace Peasy.Core.Tests.CommandTestsOfT
         #endregion
     }
 
-    public class CommandStub : CommandBase<string>
+    public class CommandStub : CommandBase
     {
         private IEnumerable<IRule> _rules;
         private IEnumerable<ValidationResult> _validationResults;
@@ -247,28 +243,35 @@ namespace Peasy.Core.Tests.CommandTestsOfT
             return _rules ?? await base.OnGetRulesAsync();
         }
 
-        protected override Task<string> OnExecuteAsync()
+        protected override Task<ExecutionResult> OnCompleteAsync()
         {
-            _doerOfThings.Log(nameof(OnExecuteAsync));
-            return Task.FromResult(_doerOfThings.GetValue());
+            _doerOfThings.Log(nameof(OnCompleteAsync));
+            return base.OnCompleteAsync();
         }
 
-        protected override ExecutionResult<string> OnFailedExecution(ValidationResult[] validationResults)
+        protected override Task OnExecuteAsync()
+        {
+            _doerOfThings.Log(nameof(OnExecuteAsync));
+            _doerOfThings.DoSomething();
+            return base.OnExecuteAsync();
+        }
+
+        protected override ExecutionResult OnFailedExecution(IEnumerable<ValidationResult> validationResults)
         {
             _doerOfThings.Log(nameof(OnFailedExecution));
             return base.OnFailedExecution(validationResults);
         }
 
-        protected override ExecutionResult<string> OnPeasyExceptionHandled(PeasyException exception)
+        protected override ExecutionResult OnPeasyExceptionHandled(PeasyException exception)
         {
             _doerOfThings.Log(nameof(OnPeasyExceptionHandled));
             return base.OnPeasyExceptionHandled(exception);
         }
 
-        protected override ExecutionResult<string> OnSuccessfulExecution(string value)
+        protected override ExecutionResult OnSuccessfulExecution()
         {
             _doerOfThings.Log(nameof(OnSuccessfulExecution));
-            return base.OnSuccessfulExecution(value);
+            return base.OnSuccessfulExecution();
         }
     }
 }

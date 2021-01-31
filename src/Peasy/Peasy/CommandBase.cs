@@ -20,22 +20,7 @@ namespace Peasy
 
             if (errors.Any()) return OnFailedExecution(errors);
 
-            return await OnComplete();
-        }
-
-        ///
-        protected async virtual Task<ExecutionResult> OnComplete()
-        {
-            try
-            {
-                await OnExecuteAsync();
-            }
-            catch (PeasyException ex)
-            {
-                return OnPeasyExceptionHandled(ex);
-            }
-
-            return OnSuccessfulExecution();
+            return await OnCompleteAsync();
         }
 
         /// <summary>
@@ -63,6 +48,24 @@ namespace Peasy
         {
             var rules = await OnGetRulesAsync();
             return await rules.ValidateAllAsync();
+        }
+
+        /// <summary>
+        /// Performs command execution finalization functionality (invokes <see cref="OnExecuteAsync"/>, handles exceptions of type <see cref="PeasyException"/>, and composes an execution result).
+        /// </summary>
+        /// <remarks>Override this method to provide an alternative implementation that handles command finalization.</remarks>
+        protected async virtual Task<ExecutionResult> OnCompleteAsync()
+        {
+            try
+            {
+                await OnExecuteAsync();
+            }
+            catch (PeasyException ex)
+            {
+                return OnPeasyExceptionHandled(ex);
+            }
+
+            return OnSuccessfulExecution();
         }
 
         /// <summary>
@@ -138,7 +141,7 @@ namespace Peasy
         public async virtual Task<ICommandValidationResult> ValidateAsync()
         {
             var results = (await OnValidateAsync()).ToArray();
-            return new CommandValidationResult(results, OnComplete);
+            return new CommandValidationResult(results, OnCompleteAsync);
         }
     }
 
@@ -156,7 +159,7 @@ namespace Peasy
 
             if (validationResults.Any()) return OnFailedExecution(validationResults);
 
-            return await OnComplete();
+            return await OnCompleteAsync();
         }
 
         /// <summary>
@@ -190,7 +193,7 @@ namespace Peasy
         /// Performs command execution finalization functionality (invokes <see cref="OnExecuteAsync"/>, handles exceptions of type <see cref="PeasyException"/>, and composes an execution result).
         /// </summary>
         /// <remarks>Override this method to provide an alternative implementation that handles command finalization.</remarks>
-        protected async virtual Task<ExecutionResult<T>> OnComplete()
+        protected async virtual Task<ExecutionResult<T>> OnCompleteAsync()
         {
             T result;
             try
@@ -278,7 +281,7 @@ namespace Peasy
         public async virtual Task<ICommandValidationResult<T>> ValidateAsync()
         {
             var results = (await OnValidateAsync()).ToArray();
-            return new CommandValidationResult<T>(results, OnComplete);
+            return new CommandValidationResult<T>(results, OnCompleteAsync);
         }
     }
 }

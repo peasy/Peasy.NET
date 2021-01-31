@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Xunit;
 
-namespace Peasy.Core.Tests.SynchronousCommandTests
+namespace Peasy.Core.Tests.SynchronousCommandBaseTests
 {
     public class Tests
     {
@@ -26,6 +26,7 @@ namespace Peasy.Core.Tests.SynchronousCommandTests
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnComplete"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Never);
@@ -46,6 +47,7 @@ namespace Peasy.Core.Tests.SynchronousCommandTests
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnComplete"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Never);
@@ -68,6 +70,7 @@ namespace Peasy.Core.Tests.SynchronousCommandTests
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnComplete"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Never);
@@ -90,6 +93,7 @@ namespace Peasy.Core.Tests.SynchronousCommandTests
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Never);
+            doerOfThings.Verify(d => d.Log("OnComplete"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Never);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Never);
@@ -112,6 +116,7 @@ namespace Peasy.Core.Tests.SynchronousCommandTests
             doerOfThings.Verify(d => d.Log("OnInitialization"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnValidate"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnGetRules"), Times.Once);
+            doerOfThings.Verify(d => d.Log("OnComplete"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnExecute"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnFailedExecution"), Times.Once);
             doerOfThings.Verify(d => d.Log("OnPeasyExceptionHandled"), Times.Once);
@@ -238,6 +243,12 @@ namespace Peasy.Core.Tests.SynchronousCommandTests
         {
             _doerOfThings.Log(nameof(OnGetRules));
             return _rules ?? base.OnGetRules();
+        }
+
+        protected override ExecutionResult OnComplete()
+        {
+            _doerOfThings.Log(nameof(OnComplete));
+            return base.OnComplete();
         }
 
         protected override void OnExecute()

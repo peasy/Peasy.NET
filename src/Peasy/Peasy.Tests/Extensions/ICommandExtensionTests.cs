@@ -15,7 +15,7 @@ namespace Peasy.Core.Tests.Extensions
         public async Task ValidateAsync_Supports_ICommand()
         {
             var doerOfThings = new Mock<IDoThings>();
-            var command = new CommandTests.CommandStub(doerOfThings.Object) as ICommand;
+            var command = new CommandBaseTests.CommandStub(doerOfThings.Object) as ICommand;
             var result = await command.ValidateAsync();
 
             result.CanContinue.ShouldBeTrue();
@@ -34,7 +34,7 @@ namespace Peasy.Core.Tests.Extensions
         public async Task ValidateAsync_Supports_ICommand_Of_T()
         {
             var doerOfThings = new Mock<IDoThings>();
-            var command = new CommandTestsOfT.CommandStub(doerOfThings.Object) as ICommand<string>;
+            var command = new CommandBaseTestsOfT.CommandStub(doerOfThings.Object) as ICommand<string>;
             var result = await command.ValidateAsync();
 
             result.CanContinue.ShouldBeTrue();
@@ -53,7 +53,7 @@ namespace Peasy.Core.Tests.Extensions
         public void Validate_Supports_ISynchronousCommand()
         {
             var doerOfThings = new Mock<IDoThings>();
-            var command = new SynchronousCommandTests.SynchronousCommandStub(doerOfThings.Object) as ISynchronousCommand;
+            var command = new SynchronousCommandBaseTests.SynchronousCommandStub(doerOfThings.Object) as ISynchronousCommand;
             var result = command.Validate();
 
             result.CanContinue.ShouldBeTrue();
@@ -72,7 +72,7 @@ namespace Peasy.Core.Tests.Extensions
         public void Validate_Supports_ISynchronousCommand_Of_T()
         {
             var doerOfThings = new Mock<IDoThings>();
-            var command = new SynchronousCommandTestsOfT.SynchronousCommandStub(doerOfThings.Object) as ISynchronousCommand<string>;
+            var command = new SynchronousCommandBaseTestsOfT.SynchronousCommandStub(doerOfThings.Object) as ISynchronousCommand<string>;
             var result = command.Validate();
 
             result.CanContinue.ShouldBeTrue();
@@ -92,7 +92,7 @@ namespace Peasy.Core.Tests.Extensions
         {
             var doerOfThings = new Mock<IDoThings>();
             var rules = new IRule[] { new TrueRule(), new FalseRule1() };
-            var command = new CommandTests.CommandStub(doerOfThings.Object, rules) as ICommand;
+            var command = new CommandBaseTests.CommandStub(doerOfThings.Object, rules) as ICommand;
             var results = await command.GetRulesAsync();
 
             results.Count().ShouldBe(2);
@@ -114,7 +114,7 @@ namespace Peasy.Core.Tests.Extensions
         {
             var doerOfThings = new Mock<IDoThings>();
             var rules = new IRule[] { new TrueRule(), new FalseRule1() };
-            var command = new CommandTestsOfT.CommandStub(doerOfThings.Object, rules) as ICommand<string>;
+            var command = new CommandBaseTestsOfT.CommandStub(doerOfThings.Object, rules) as ICommand<string>;
             var results = await command.GetRulesAsync();
 
             results.Count().ShouldBe(2);
@@ -136,7 +136,7 @@ namespace Peasy.Core.Tests.Extensions
         {
             var doerOfThings = new Mock<IDoThings>();
             var rules = new ISynchronousRule[] { new SynchronousTrueRule(), new SynchronousFalseRule1() };
-            var command = new SynchronousCommandTests.SynchronousCommandStub(doerOfThings.Object, rules) as ISynchronousCommand;
+            var command = new SynchronousCommandBaseTests.SynchronousCommandStub(doerOfThings.Object, rules) as ISynchronousCommand;
             var results = command.GetRules();
 
             results.Count().ShouldBe(2);
@@ -158,7 +158,7 @@ namespace Peasy.Core.Tests.Extensions
         {
             var doerOfThings = new Mock<IDoThings>();
             var rules = new ISynchronousRule[] { new SynchronousTrueRule(), new SynchronousFalseRule1() };
-            var command = new SynchronousCommandTestsOfT.SynchronousCommandStub(doerOfThings.Object, rules) as ISynchronousCommand<string>;
+            var command = new SynchronousCommandBaseTestsOfT.SynchronousCommandStub(doerOfThings.Object, rules) as ISynchronousCommand<string>;
             var results = command.GetRules();
 
             results.Count().ShouldBe(2);

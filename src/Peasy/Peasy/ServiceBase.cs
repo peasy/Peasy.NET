@@ -358,7 +358,7 @@ namespace Peasy
         /// </summary>
         /// <remarks>
         /// <para>Invoked by <see cref="OnInsertCommandPerformValidationAsync"/>.</para>
-        /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
+        /// <para>Override this method to suppress or further manipulate resource validation based on attributes of type <see cref="ValidationAttribute"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to insert.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="InsertCommand"/>.</param>
@@ -373,7 +373,7 @@ namespace Peasy
         /// </summary>
         /// <remarks>
         /// <para>Invoked by <see cref="OnUpdateCommandPerformValidationAsync"/>.</para>
-        /// <para>Override this method to manipulate the creation of a list of <see cref="ValidationResult"/>.</para>
+        /// <para>Override this method to suppress or further manipulate resource validation based on attributes of type <see cref="ValidationAttribute"/>.</para>
         /// </remarks>
         /// <param name="resource">The resource to update.</param>
         /// <param name="context">Serves as shared state between all pipeline methods invoked by the command returned by <see cref="UpdateCommand"/>.</param>
