@@ -16,6 +16,15 @@ namespace Peasy
 
         /// <inheritdoc cref="ICommandValidationResult.Errors"/>
         public virtual IEnumerable<ValidationResult> Errors { get; protected set; }
+
+        /// <summary>
+        /// Initializes a new instance of the Peasy.CommandValidationResultBase.
+        /// </summary>
+        /// <param name="errors">A potential list of errors resulting from rule executions.</param>
+        public CommandValidationResultBase(IEnumerable<ValidationResult> errors)
+        {
+            Errors = errors ?? Enumerable.Empty<ValidationResult>();
+        }
     }
 
     /// <inheritdoc cref="ICommandValidationResult"/>
@@ -29,9 +38,8 @@ namespace Peasy
         /// </summary>
         /// <param name="errors">A potential list of errors resulting from rule executions.</param>
         /// <param name="continuationFunction">A function that allows the continuation of command execution.</param>
-        public CommandValidationResult(IEnumerable<ValidationResult> errors, Func<Task<ExecutionResult>> continuationFunction)
+        public CommandValidationResult(IEnumerable<ValidationResult> errors, Func<Task<ExecutionResult>> continuationFunction) : base(errors)
         {
-            Errors = errors;
             _continuationFunction = continuationFunction;
         }
 
@@ -41,7 +49,7 @@ namespace Peasy
             get
             {
                 if (CanContinue) return _continuationFunction;
-                throw new InvalidOperationException("Cannot complete command execution because validation was not successful");
+                throw new InvalidOperationException("Cannot complete command execution because validation was not successful.");
             }
         }
     }
@@ -57,9 +65,8 @@ namespace Peasy
         /// </summary>
         /// <param name="errors">A potential list of errors resulting from rule executions.</param>
         /// <param name="continuationFunction">A function that allows the continuation of command execution.</param>
-        public CommandValidationResult(IEnumerable<ValidationResult> errors, Func<Task<ExecutionResult<T>>> continuationFunction)
+        public CommandValidationResult(IEnumerable<ValidationResult> errors, Func<Task<ExecutionResult<T>>> continuationFunction) : base(errors)
         {
-            Errors = errors;
             _continuationFunction = continuationFunction;
         }
 
@@ -69,7 +76,7 @@ namespace Peasy
             get
             {
                 if (CanContinue) return _continuationFunction;
-                throw new InvalidOperationException("Cannot complete command execution because validation was not successful");
+                throw new InvalidOperationException("Cannot complete command execution because validation was not successful.");
             }
         }
     }

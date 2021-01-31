@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace Peasy.Synchronous
 {
@@ -15,9 +16,8 @@ namespace Peasy.Synchronous
         /// </summary>
         /// <param name="errors">A potential list of errors resulting from rule executions.</param>
         /// <param name="continuationFunction">A function that allows the continuation of command execution.</param>
-        public SynchronousCommandValidationResult(IEnumerable<ValidationResult> errors, Func<ExecutionResult> continuationFunction)
+        public SynchronousCommandValidationResult(IEnumerable<ValidationResult> errors, Func<ExecutionResult> continuationFunction) : base(errors)
         {
-            Errors = errors;
             _continuationFunction = continuationFunction;
         }
 
@@ -27,7 +27,7 @@ namespace Peasy.Synchronous
             get
             {
                 if (CanContinue) return _continuationFunction;
-                throw new InvalidOperationException("Cannot complete command execution because validation was not successful");
+                throw new InvalidOperationException("Cannot complete command execution because validation was not successful.");
             }
         }
     }
@@ -43,9 +43,8 @@ namespace Peasy.Synchronous
         /// </summary>
         /// <param name="errors">A potential list of errors resulting from rule executions.</param>
         /// <param name="continuationFunction">A function that allows the continuation of command execution.</param>
-        public SynchronousCommandValidationResult(IEnumerable<ValidationResult> errors, Func<ExecutionResult<T>> continuationFunction)
+        public SynchronousCommandValidationResult(IEnumerable<ValidationResult> errors, Func<ExecutionResult<T>> continuationFunction) : base(errors)
         {
-            Errors = errors;
             _continuationFunction = continuationFunction;
         }
 
@@ -55,7 +54,7 @@ namespace Peasy.Synchronous
             get
             {
                 if (CanContinue) return _continuationFunction;
-                throw new InvalidOperationException("Cannot complete command execution because validation was not successful");
+                throw new InvalidOperationException("Cannot complete command execution because validation was not successful.");
             }
         }
     }
