@@ -26,6 +26,5 @@ From Testing Project Dir (consuming client dir):
 
 From bin/release dir:
 
- `nuget push MyPackage.nupkg` (will push both .nupkg and .snupkg)
-
+`dotnet nuget push AppLogger.1.0.0.nupkg --api-key KEY_GOES_HERE --source https://api.nuget.org/v3/index.json` (will push both .nupkg and .snupkg)
 
