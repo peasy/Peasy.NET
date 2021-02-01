@@ -15,23 +15,21 @@ A middle tier micro-framework for .NET and .NET Core
 </a>-->
 </p>
 
-# Poll (Jan 3, 2021) - Should we remove synchronous support for Peasy.NET?  Please let us know what you [think](https://github.com/peasy/Peasy.NET/issues/21)! 
-
 # What's a middle tier framework?
 
 A middle tier framework is code that facilitates creating business logic in a reusable, extensible, maintainable, and testable manner.   It promotes creating business logic that is completely decoupled from its consuming technologies and helps to ensure that separation of concerns ([SoC](https://en.wikipedia.org/wiki/Separation_of_concerns)) are adhered to.
 
 ##### Peasy.NET offers/addresses the following:
 
-- [Async support](https://github.com/peasy/Peasy.NET/wiki/The-Asynchronous-Pipeline)
+<!-- - [Async support](https://github.com/peasy/Peasy.NET/wiki/The-Asynchronous-Pipeline) -->
 - [Business rules](https://github.com/peasy/Peasy.NET/wiki/Business-Rules)/[validation](https://github.com/peasy/Peasy.NET/wiki/Validation-Rules) engine
-- [Concurrency](https://github.com/peasy/Peasy.NET/wiki/BusinessServiceBase#concurrency-handling)
+<!-- - [Concurrency](https://github.com/peasy/Peasy.NET/wiki/BusinessServiceBase#concurrency-handling) -->
 - [Multiple client support](https://github.com/peasy/Peasy.NET/wiki/Multiple-client-support)
 - [Multiple deployment scenario support](https://github.com/peasy/Peasy.NET/wiki/data-proxy#multiple-deployment-scenarios)
 - [Scalability](https://github.com/peasy/Peasy.NET/wiki/data-proxy#scalability)
 - [Testability](https://github.com/peasy/Peasy.NET/wiki/Testing)
 - [Thread safety](https://github.com/peasy/Peasy.NET/wiki/Thread-Safety)
-- [Transactional support and fault tolerance](https://github.com/peasy/Peasy.NET/wiki/ITransactionContext)
+<!-- - [Transactional support and fault tolerance](https://github.com/peasy/Peasy.NET/wiki/ITransactionContext) -->
 
 # The main actors
 
