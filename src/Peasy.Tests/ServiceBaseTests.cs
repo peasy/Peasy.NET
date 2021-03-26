@@ -128,6 +128,24 @@ namespace Peasy.Core.Tests
             updateResult.Success.ShouldBeFalse();
         }
 
+        [Fact]
+        public async Task Expected_rules_are_accessible_via_commands_when_exposed_via_ServiceCommand()
+        {
+            var service = new TheseRulesStub(new PersonProxyStub());
+
+            var getAllRules = await service.GetAllCommand().GetRulesAsync();
+            var getByIdRules = await service.GetByIDCommand(123).GetRulesAsync();
+            var insertRules = await service.InsertCommand(new Person()).GetRulesAsync();
+            var updateRules = await service.UpdateCommand(new Person()).GetRulesAsync();
+            var deleteRules = await service.DeleteCommand(123).GetRulesAsync();
+
+            getAllRules.Count().ShouldBe(1);
+            getByIdRules.Count().ShouldBe(1);
+            insertRules.Count().ShouldBe(3);
+            updateRules.Count().ShouldBe(3);
+            deleteRules.Count().ShouldBe(1);
+        }
+
         public class ServiceBaseStub : ServiceBase<Person, long>
         {
             #region Properties
@@ -338,6 +356,30 @@ namespace Peasy.Core.Tests
             protected override Task<IEnumerable<IRule>> TheseRules(params IRule[] rules)
             {
                 return base.TheseRules(rules);
+            }
+
+            protected override Task<IEnumerable<IRule>> OnGetByIDCommandGetRulesAsync(long id, ExecutionContext<Person> context)
+            {
+                return TheseRules
+                (
+                    new FalseRule1()
+                );
+            }
+
+            protected override Task<IEnumerable<IRule>> OnGetAllCommandGetRulesAsync(ExecutionContext<Person> context)
+            {
+                return TheseRules
+                (
+                    new TrueRule()
+                );
+            }
+
+            protected override Task<IEnumerable<IRule>> OnDeleteCommandGetRulesAsync(long id, ExecutionContext<Person> context)
+            {
+                return TheseRules
+                (
+                    new TrueRule()
+                );
             }
 
             protected override Task<IEnumerable<IRule>> OnInsertCommandGetRulesAsync(Person resource, ExecutionContext<Person> context)

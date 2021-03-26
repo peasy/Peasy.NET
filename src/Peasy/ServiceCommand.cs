@@ -42,6 +42,28 @@ namespace Peasy
         /// </summary>
         /// <param name="initializationMethod">Performs initialization logic before rule validations occur.</param>
         /// <param name="validationMethod">Performs rule validations whose result will determine whether command pipeline execution continues.</param>
+        /// <param name="validationMethodUsesTheseRules">
+        /// <para>Supplies business rules for the sole purpose of supporting the <see cref="IRulesContainer"/> interface.</para>
+        /// <para>NOTE: rules returned from this function will NOT be executed within the command execution pipeline.</para>
+        /// </param>
+        /// <param name="executeMethod">Executes application logic if all configured rules successfully pass validation.</param>
+        public ServiceCommand(
+            Func<Task> initializationMethod,
+            Func<Task<IEnumerable<ValidationResult>>> validationMethod,
+            Func<Task<IEnumerable<IRule>>> validationMethodUsesTheseRules,
+            Func<Task> executeMethod)
+        {
+            _initializationMethod = initializationMethod;
+            _validationMethod = validationMethod;
+            _getBusinessRulesMethod = validationMethodUsesTheseRules;
+            _executeMethod = executeMethod;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the ServiceCommand.
+        /// </summary>
+        /// <param name="initializationMethod">Performs initialization logic before rule validations occur.</param>
+        /// <param name="validationMethod">Performs rule validations whose result will determine whether command pipeline execution continues.</param>
         /// <param name="executeMethod">Executes application logic if all configured rules successfully pass validation.</param>
         public ServiceCommand(
             Func<Task> initializationMethod,
@@ -167,6 +189,28 @@ namespace Peasy
         /// <remarks>Invoked within the execution pipeline triggered by <see cref="CommandBase{T}.ExecuteAsync"/>.</remarks>
         /// <returns>An awaitable list of business and validation rules.</returns>
         protected Func<Task<IEnumerable<IRule>>> _getBusinessRulesMethod;
+
+        /// <summary>
+        /// Initializes a new instance of the ServiceCommand.
+        /// </summary>
+        /// <param name="initializationMethod">Performs initialization logic before rule validations occur.</param>
+        /// <param name="validationMethod">Performs rule validations whose result will determine whether command pipeline execution continues.</param>
+        /// <param name="validationMethodUsesTheseRules">
+        /// <para>Supplies business rules for the sole purpose of supporting the <see cref="IRulesContainer"/> interface.</para>
+        /// <para>NOTE: rules returned from this function will NOT be executed within the command execution pipeline.</para>
+        /// </param>
+        /// <param name="executeMethod">Executes application logic if all configured rules successfully pass validation.</param>
+        public ServiceCommand(
+            Func<Task> initializationMethod,
+            Func<Task<IEnumerable<ValidationResult>>> validationMethod,
+            Func<Task<IEnumerable<IRule>>> validationMethodUsesTheseRules,
+            Func<Task<T>> executeMethod)
+        {
+            _initializationMethod = initializationMethod;
+            _validationMethod = validationMethod;
+            _getBusinessRulesMethod = validationMethodUsesTheseRules;
+            _executeMethod = executeMethod;
+        }
 
         /// <summary>
         /// Initializes a new instance of the ServiceCommand.

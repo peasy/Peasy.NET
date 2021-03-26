@@ -127,5 +127,21 @@ namespace Peasy.Tests.Rules
 
             _count.ShouldBe("134");
         }
+
+        [Fact]
+        public async Task ServiceCommandOfT_Composition_15()
+        {
+            var command = new ServiceCommand<Person>
+            (
+                initializationAsyncMethod,
+                validationAsyncMethod,
+                getBusinessRulesAsyncMethod,
+                executeAsyncMethod
+            );
+
+            await command.ExecuteAsync();
+
+            _count.ShouldBe("124");
+        }
     }
 }

@@ -417,6 +417,7 @@ namespace Peasy
             (
                 initializationMethod: () => OnGetByIDCommandInitializationAsync(id, context),
                 validationMethod: () => OnGetByIDCommandPerformValidationAsync(id, context),
+                validationMethodUsesTheseRules: () => OnGetByIDCommandGetRulesAsync(id, context),
                 executeMethod: () => OnGetByIDCommandValidationSuccessAsync(id, context)
             );
         }
@@ -429,6 +430,7 @@ namespace Peasy
             (
                 initializationMethod: () => OnGetAllCommandInitializationAsync(context),
                 validationMethod: () => OnGetAllCommandPerformValidationAsync(context),
+                validationMethodUsesTheseRules: () => OnGetAllCommandGetRulesAsync(context),
                 executeMethod: () => OnGetAllCommandValidationSuccessAsync(context)
             );
         }
@@ -441,6 +443,7 @@ namespace Peasy
             (
                 initializationMethod: () => OnInsertCommandInitializationAsync(resource, context),
                 validationMethod: () => OnInsertCommandPerformValidationAsync(resource, context),
+                validationMethodUsesTheseRules: () => OnInsertCommandGetRulesAsync(resource, context),
                 executeMethod: () => OnInsertCommandValidationSuccessAsync(resource, context)
             );
         }
@@ -453,6 +456,7 @@ namespace Peasy
             (
                 initializationMethod: () => OnUpdateCommandInitializationAsync(resource, context),
                 validationMethod: () => OnUpdateCommandPerformValidationAsync(resource, context),
+                validationMethodUsesTheseRules: () => OnUpdateCommandGetRulesAsync(resource, context),
                 executeMethod: () => OnUpdateCommandValidationSuccessAsync(resource, context)
             );
         }
@@ -465,6 +469,7 @@ namespace Peasy
             (
                 initializationMethod: () => OnDeleteCommandInitializationAsync(id, context),
                 validationMethod: () => OnDeleteCommandPerformValidationAsync(id, context),
+                validationMethodUsesTheseRules: () => OnDeleteCommandGetRulesAsync(id, context),
                 executeMethod: () => OnDeleteCommandValidationSuccessAsync(id, context)
             );
         }
