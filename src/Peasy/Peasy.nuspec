@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Peasy</id>
-    <version>5.0.0</version>
+    <version>5.0.1</version>
     <title>Peasy</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
@@ -12,14 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Peasy is a middle tier micro-framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</description>
     <releaseNotes>
-      - THIS IS A SIGNIFICANT VERSION UPGRADE AND CONTAINS POTENTIAL BREAKING CHANGES
-      - Separates asynchronous and synchronous operations into their own first-class citizens.
-      - Introduces IRulesSuccessorContainer, IRuleSuccessor, ISupportCommandValidation.
-      - Renames many method and parameter names for better uniformity and parity across the framework.
-      - Adds better code documentation.
-      - Adds runtime debugger support via symbol packaging.
-      - Repurposes IRulesContainer and PeasyException.
-      - REMOVES: Overly opinionated attributes, classes, extensions, interfaces, and rules that are better suited outside of the core framework.
+      - Allows retrieval of configured rules for base commands in ServiceBase.
     </releaseNotes>
     <copyright>Copyright 2021</copyright>
     <tags>Middle, Tier, Framework, Business, Logic, Layer</tags>
