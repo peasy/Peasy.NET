@@ -12,7 +12,10 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Peasy is a middle tier micro-framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</description>
     <releaseNotes>
-      - Allows retrieval of configured rules for base commands in ServiceBase.
+        - Added null type handling in CreateValueRequireRule method
+        - Added operator overloading to allow chaining rules via the '+' and '&' operators
+        - Changed PeasyRequiredAttribute to inherit from System.ComponentModel.DataAnnotations.RequiredAttribute
+        - Changed the order in which Rule.IfValidThenInvoke executes to be more logical
     </releaseNotes>
     <copyright>Copyright 2021</copyright>
     <tags>Middle, Tier, Framework, Business, Logic, Layer</tags>
