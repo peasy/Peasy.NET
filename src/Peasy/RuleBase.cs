@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Peasy
@@ -38,6 +39,7 @@ namespace Peasy
             await OnValidateAsync();
             if (IsValid)
             {
+                await (_ifValidThenInvokeAsync?.Invoke(this) ?? Task.FromResult<object>(null));
                 if (Successors != null)
                 {
                     foreach (var successor in Successors)
@@ -48,14 +50,12 @@ namespace Peasy
                             if (!rule.IsValid)
                             {
                                 Invalidate(rule.ErrorMessage, rule.Association);
-                                await (_ifInvalidThenInvokeAsync?.Invoke(this) ?? Task.FromResult<object>(null));
                                 break; // early exit, don't bother further rule execution
                             }
                         }
                         if (!IsValid) break;
                     }
                 }
-                await (_ifValidThenInvokeAsync?.Invoke(this) ?? Task.FromResult<object>(null));
             }
             else
             {
@@ -63,6 +63,60 @@ namespace Peasy
             }
             return this;
         }
+
+        /// <summary>
+        /// Allows creating an array of <see cref="RuleBase"/> by chaining them together with the '+' (addition) sign.
+        /// </summary>
+        /// <returns>The supplied <see cref="RuleBase"/>.</returns>
+        public static RuleBase operator +(RuleBase a) => a;
+
+        /// <summary>
+        /// Creates an array of <see cref="RuleBase"/> by concatentating 2 rules via the '+' (addition) operator.
+        /// </summary>
+        /// <param name="a">The first rule used in the concatenation operation.</param>
+        /// <param name="b">The second rule used in the concatenation operation.</param>
+        /// <returns>An array of <see cref="RuleBase"/>.</returns>
+        public static RuleBase[] operator +(RuleBase a, RuleBase b) => new [] { a }.Concat(new [] { b }).ToArray();
+
+        /// <summary>
+        /// Creates an array of <see cref="RuleBase"/> by concatentating a single rule with a rule array via the '+' (addition) operator.
+        /// </summary>
+        /// <param name="a">The single rule used in the concatenation operation.</param>
+        /// <param name="b">The rule list used in the concatenation operation.</param>
+        /// <returns>An array of <see cref="RuleBase"/>.</returns>
+        public static RuleBase[] operator +(RuleBase a, RuleBase[] b) => new RuleBase[] { a }.Concat(b).ToArray();
+
+        /// <summary>
+        /// Creates an array of <see cref="RuleBase"/> by concatentating a rule array with a single rule via the '+' (addition) operator.
+        /// </summary>
+        /// <param name="a">The rule list used in the concatenation operation.</param>
+        /// <param name="b">The single rule used in the concatenation operation.</param>
+        /// <returns>An array of <see cref="RuleBase"/>.</returns>
+        public static RuleBase[] operator +(RuleBase[] a, RuleBase b) => a.Concat(new [] { b }).ToArray();
+
+        /// <summary>
+        /// Creates an array of <see cref="RuleBase"/> by concatentating 2 rules via the &amp; (ampersand) operator.
+        /// </summary>
+        /// <param name="a">The first rule used in the concatenation operation.</param>
+        /// <param name="b">The second rule used in the concatenation operation.</param>
+        /// <returns>An array of <see cref="RuleBase"/>.</returns>
+        public static RuleBase[] operator &(RuleBase a, RuleBase b) => new [] { a }.Concat(new [] { b }).ToArray();
+
+        /// <summary>
+        /// Creates an array of <see cref="RuleBase"/> by concatentating a single rule with a rule array via the &amp; (ampersand) operator.
+        /// </summary>
+        /// <param name="a">The single rule used in the concatenation operation.</param>
+        /// <param name="b">The rule list used in the concatenation operation.</param>
+        /// <returns>An array of <see cref="RuleBase"/>.</returns>
+        public static RuleBase[] operator &(RuleBase a, RuleBase[] b) => new RuleBase[] { a }.Concat(b).ToArray();
+
+        /// <summary>
+        /// Creates an array of <see cref="RuleBase"/> by concatentating a rule array with a single rule via the &amp; (ampersand) operator.
+        /// </summary>
+        /// <param name="a">The rule list used in the concatenation operation.</param>
+        /// <param name="b">The single rule used in the concatenation operation.</param>
+        /// <returns>An array of <see cref="RuleBase"/>.</returns>
+        public static RuleBase[] operator &(RuleBase[] a, RuleBase b) => a.Concat(new [] { b }).ToArray();
 
         /// <summary>
         /// Validates the supplied list of rules upon successful validation of this rule.

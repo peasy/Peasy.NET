@@ -31,6 +31,16 @@ namespace Peasy.Core.Tests
             return rules.ElementAt(2);
         }
 
+        public static T Fourth<T>(this IEnumerable<T> rules)
+        {
+            return rules.ElementAt(3);
+        }
+
+        public static IRuleSuccessor<T> Fourth<T>(this IEnumerable<IRuleSuccessor<T>> rules)
+        {
+            return rules.ElementAt(3);
+        }
+
         public static void Times(this int value, Action action)
         {
             for (var counter = 0; counter < value; counter++)

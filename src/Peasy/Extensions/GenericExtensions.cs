@@ -24,6 +24,23 @@ namespace Peasy.Extensions
         /// <returns>A constructed rule of type <see cref="ValueRequiredRule"/></returns>
         public static IRule CreateValueRequiredRule<T>(this T value, string fieldName)
         {
+            if (typeof(T) == typeof(String) && value == null)
+            {
+                return new ValueRequiredRule(string.Empty, fieldName);
+            }
+
+            var underlyingType = Nullable.GetUnderlyingType(typeof(T));
+            if (underlyingType != null)
+            {
+                var parsed = value ?? Activator.CreateInstance(underlyingType);
+                return ValueRequiredRule(parsed, fieldName);
+            }
+
+            return ValueRequiredRule(value, fieldName);
+        }
+
+        private static IRule ValueRequiredRule<T>(T value, string fieldName)
+        {
             return value switch
             {
                 string stringValue => new ValueRequiredRule(stringValue, fieldName),

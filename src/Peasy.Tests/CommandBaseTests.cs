@@ -134,6 +134,16 @@ namespace Peasy.Core.Tests.CommandBaseTests
             results.ShouldBe(rules);
         }
 
+        [Fact]
+        public async Task Allows_Retrieval_Of_Configured_Rules_With_TheseRules()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var command = new TheseRulesStub(doerOfThings.Object);
+
+            var results = await command.GetRulesAsync();
+            results.Count().ShouldBe(3);
+        }
+
         #endregion
 
         #region ISupportCommandValidation Support
@@ -209,8 +219,34 @@ namespace Peasy.Core.Tests.CommandBaseTests
         public async Task TheseRules_Works_As_Expected()
         {
             var doerOfThings = new Mock<IDoThings>();
-            var rules = new IRule[] { new TrueRule(), new TrueRule() };
-            var command = new TheseRulesStub(doerOfThings.Object, rules);
+            var command = new TheseRulesStub(doerOfThings.Object);
+            var result = await command.ExecuteAsync();
+
+            result.Success.ShouldBeFalse();
+            result.Errors.Count().ShouldBe(2);
+        }
+
+        #endregion
+
+        #region Operator() support
+
+        [Fact]
+        public async Task Plus_Operator_Works_As_Expected()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var command = new PlusOperatorCommandStub(doerOfThings.Object);
+
+            var result = await command.ExecuteAsync();
+
+            result.Success.ShouldBeFalse();
+            result.Errors.Count().ShouldBe(2);
+        }
+
+        [Fact]
+        public async Task And_Operator_Works_As_Expected()
+        {
+            var doerOfThings = new Mock<IDoThings>();
+            var command = new AndOperatorCommandStub(doerOfThings.Object);
 
             var result = await command.ExecuteAsync();
 
@@ -306,14 +342,64 @@ namespace Peasy.Core.Tests.CommandBaseTests
             return base.TheseRules(rules);
         }
 
-        protected override Task<IEnumerable<IRule>> OnGetRulesAsync()
+        protected async override Task<IEnumerable<IRule>> OnGetRulesAsync()
         {
-            return TheseRules
+            await Task.CompletedTask;
+
+            return await TheseRules
             (
                 new FalseRule1(),
                 new TrueRule(),
                 new TrueRule().IfValidThenValidate(new FalseRule1())
             );
+        }
+    }
+
+    public class AndOperatorCommandStub : CommandStub
+    {
+        public AndOperatorCommandStub(IDoThings doerOfThings) : base(doerOfThings)
+        {
+        }
+
+        public AndOperatorCommandStub(IDoThings doerOfThings, IEnumerable<IRule> rules) : base(doerOfThings, rules)
+        {
+        }
+
+        public AndOperatorCommandStub(IDoThings doerOfThings, IEnumerable<ValidationResult> validationResults) : base(doerOfThings, validationResults)
+        {
+        }
+
+        protected async override Task<IEnumerable<IRule>> OnGetRulesAsync()
+        {
+            await Task.CompletedTask;
+
+            return new FalseRule1() &
+                new TrueRule() &
+                new TrueRule().IfValidThenValidate(new FalseRule1());
+        }
+    }
+
+    public class PlusOperatorCommandStub : CommandStub
+    {
+        public PlusOperatorCommandStub(IDoThings doerOfThings) : base(doerOfThings)
+        {
+        }
+
+        public PlusOperatorCommandStub(IDoThings doerOfThings, IEnumerable<IRule> rules) : base(doerOfThings, rules)
+        {
+        }
+
+        public PlusOperatorCommandStub(IDoThings doerOfThings, IEnumerable<ValidationResult> validationResults) : base(doerOfThings, validationResults)
+        {
+        }
+
+        protected async override Task<IEnumerable<IRule>> OnGetRulesAsync()
+        {
+            await Task.CompletedTask;
+
+            return new FalseRule1() +
+                new TrueRule() +
+                new TrueRule().IfValidThenValidate(new FalseRule1());
         }
     }
 }

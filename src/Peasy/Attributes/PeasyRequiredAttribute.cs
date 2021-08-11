@@ -4,21 +4,26 @@ using System.ComponentModel.DataAnnotations;
 namespace Peasy.Attributes
 {
     /// <summary>
-    /// Validates that non-zero values are supplied for int, decimal or non-default values for dates and guids.
+    /// Validates that non-zero values are supplied for numeric types (int, long, decimal, etc.) and non-default values for dates and guids.
     /// </summary>
-    public class PeasyRequiredAttribute : ValidationAttribute
+    /// <remarks>The base <see cref="RequiredAttribute"/> validation takes priority and is invoked first, followed by the non-zero and non-default validation.</remarks>
+    public class PeasyRequiredAttribute : RequiredAttribute
     {
         /// <inheritdoc cref="ValidationAttribute.IsValid"/>
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            var baseResult = base.IsValid(value, validationContext);
+            if (baseResult != null)
+            {
+                return baseResult;
+            }
+
             var errorMessage = $"The {validationContext.DisplayName} field is required.";
             var validationResult = new ValidationResult(errorMessage, new string[] { validationContext.DisplayName });
 
             switch (value)
             {
                 case null:
-                    return validationResult;
-                case string _ when string.IsNullOrWhiteSpace(value.ToString()):
                     return validationResult;
                 case Guid _ when Guid.Parse(value.ToString()) == Guid.Empty:
                     return validationResult;
