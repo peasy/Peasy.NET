@@ -30,6 +30,16 @@ namespace Peasy.Tests.Attributes
         }
 
         [Fact]
+        public void Throws_Exception_When_Value_Is_Long_And_Contains_Zero()
+        {
+            var attr = new PeasyRequiredAttribute();
+            var foo = new Stub<long>();
+            var context = new ValidationContext(foo);
+
+            Should.Throw<ValidationException>(() => attr.Validate(0, context));
+        }
+
+        [Fact]
         public void Throws_Exception_When_Value_Is_Decimal_And_Contains_Zero()
         {
             var attr = new PeasyRequiredAttribute();
@@ -57,6 +67,16 @@ namespace Peasy.Tests.Attributes
             var context = new ValidationContext(foo);
 
             Should.Throw<ValidationException>(() => attr.Validate(Guid.Empty, context));
+        }
+
+        [Fact]
+        public void Throws_Exception_When_Value_Is_String_And_Contains_Empty_Value()
+        {
+            var attr = new PeasyRequiredAttribute();
+            var foo = new Stub<string>();
+            var context = new ValidationContext(foo);
+
+            Should.Throw<ValidationException>(() => attr.Validate(string.Empty, context));
         }
 
         [Fact]

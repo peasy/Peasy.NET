@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Linq;
 using Xunit;
+using System.Collections.Generic;
 
 namespace Peasy.Core.Tests
 {
@@ -135,9 +136,191 @@ namespace Peasy.Core.Tests
         }
 
         [Fact]
+        public async Task Invokes_IfValidThenExecute_Async_Before_Successor_Validation()
+        {
+            var output = string.Empty;
+
+            await new TrueRule()
+                    .IfValidThenValidate(new TrueRule(output).IfValidThenInvoke(async rule => output += "2"))
+                    .IfValidThenInvoke(async rule => output += "1")
+                    .ExecuteAsync();
+
+            output.ShouldBe("12");
+        }
+
+        [Fact]
+        public async Task Invokes_IfValidThenExecute_Async_Before_Successor_Validation_Multiple()
+        {
+            var output = string.Empty;
+
+            await new TrueRule()
+                    .IfValidThenInvoke(async rule => output += "1")
+                    .IfValidThenValidate(
+                        new TrueRule()
+                            .IfValidThenInvoke(async rule => output += "2")
+                            .IfValidThenValidate(
+                                new TrueRule()
+                                    .IfValidThenInvoke(async rule => output += "3"))
+                    )
+                    .ExecuteAsync();
+
+            output.ShouldBe("123");
+        }
+
+        [Fact]
+        public async Task Invokes_IfValidThenExecute_Async_Before_Successor_Validation_Multiple_II()
+        {
+            var output = string.Empty;
+
+            await new TrueRule()
+                    .IfValidThenInvoke(async rule => output += "1")
+                    .IfValidThenValidate(
+                        new TrueRule()
+                            .IfValidThenInvoke(async rule => output += "2")
+                            .IfValidThenValidate(
+                                new TrueRule()
+                                    .IfValidThenInvoke(async rule => output += "3"),
+                        new TrueRule()
+                            .IfValidThenInvoke(async rule => output += "4"))
+                    )
+                    .ExecuteAsync();
+
+            output.ShouldBe("1234");
+        }
+
+        [Fact]
+        public async Task Invokes_IfValidThenExecute_Combo_I()
+        {
+            var output = string.Empty;
+
+            await new TrueRule()
+                    .IfValidThenInvoke(async rule => output += "1")
+                    .IfValidThenValidate(
+                        new TrueRule()
+                            .IfValidThenInvoke(async rule => output += "2")
+                            .IfValidThenValidate(
+                                new FalseRule1()
+                                    .IfInvalidThenInvoke(async rule => output += "3"))
+                    )
+                    .ExecuteAsync();
+
+            output.ShouldBe("123");
+        }
+
+        [Fact]
+        public async Task Invokes_IfValidThenExecute_Combo_II()
+        {
+            var output = string.Empty;
+
+            await new TrueRule()
+                    .IfValidThenInvoke(async rule => output += "1")
+                    .IfValidThenValidate(
+                        new TrueRule()
+                            .IfValidThenInvoke(async rule => output += "2")
+                            .IfValidThenValidate(
+                                new TrueRule()
+                                    .IfValidThenInvoke(async rule => output += "3"),
+                                new FalseRule1()
+                                    .IfInvalidThenInvoke(async rule => output += "4"))
+                    )
+                    .ExecuteAsync();
+
+            output.ShouldBe("1234");
+        }
+
+        [Fact]
+        public async Task Invokes_IfValidThenExecute_Combo_III()
+        {
+            var output = string.Empty;
+
+            await new TrueRule()
+                    .IfValidThenInvoke(async rule => output += "1")
+                    .IfValidThenValidate(
+                        new TrueRule()
+                            .IfValidThenInvoke(async rule => output += "2")
+                            .IfValidThenValidate(
+                                new FalseRule1()
+                                    .IfInvalidThenInvoke(async rule => output += "4"),
+                                new TrueRule() // this rule won't validate because of false rule above
+                                    .IfValidThenInvoke(async rule => output += "3"))
+                    )
+                    .ExecuteAsync();
+
+            output.ShouldBe("124");
+        }
+
+        [Fact]
+        public async Task Invokes_IfValidThenExecute_Combo_IV()
+        {
+            var output = string.Empty;
+
+            await new TrueRule()
+                    .IfValidThenInvoke(async rule => output += "1")
+                    .IfInvalidThenInvoke(async rule => output += "2")
+                    .IfValidThenValidate(
+                        new TrueRule()
+                            .IfValidThenInvoke(async rule => output += "3")
+                            .IfInvalidThenInvoke(async rule => output += "4")
+                            .IfValidThenValidate(
+                                new FalseRule1()
+                                    .IfValidThenInvoke(async rule => output += "5")
+                                    .IfInvalidThenInvoke(async rule => output += "6"),
+                                new TrueRule() // this rule won't validate because of false rule above
+                                    .IfInvalidThenInvoke(async rule => output += "7")
+                                    .IfValidThenInvoke(async rule => output += "8"))
+                    )
+                    .ExecuteAsync();
+
+            output.ShouldBe("136");
+        }
+
+        [Fact]
+        public async Task Invokes_IfValidThenExecute_Combo_V()
+        {
+            var output = string.Empty;
+
+            await new TrueRule()
+                    .IfValidThenInvoke(async rule => output += "1")
+                    .IfInvalidThenInvoke(async rule => output += "2")
+                    .IfValidThenValidate(
+                        new TrueRule()
+                            .IfValidThenInvoke(async rule => output += "3")
+                            .IfInvalidThenInvoke(async rule => output += "4")
+                            .IfValidThenValidate(
+                                new TrueRule() // this rule won't validate because of false rule above
+                                    .IfInvalidThenInvoke(async rule => output += "5")
+                                    .IfValidThenInvoke(async rule => output += "6"),
+                                new FalseRule1()
+                                    .IfValidThenInvoke(async rule => output += "7")
+                                    .IfInvalidThenInvoke(async rule => output += "8"))
+                    )
+                    .ExecuteAsync();
+
+            output.ShouldBe("1368");
+        }
+
+        [Fact]
+        public async Task Invokes_IfValidThenExecute_Async_And_Correctly_Awaits_Async_Invocation()
+        {
+            List<Person> people = new List<Person>();
+
+            var result = await new TrueRule()
+                    .IfValidThenInvoke(async rule =>
+                    {
+                        var everyone = await new PersonDataProxy().GetPeople();
+                        people.AddRange(everyone);
+                    })
+                    .IfValidThenValidate(new PersonCountRule(people, 3))
+                    .ExecuteAsync();
+
+            result.IsValid.ShouldBeTrue();
+        }
+
+        [Fact]
         public async Task Invokes_IfValidThenExecute_Async()
         {
             var output = string.Empty;
+
             await new TrueRule()
                     .IfValidThenInvoke(async rule => output = "pass")
                     .ExecuteAsync();
@@ -353,6 +536,126 @@ namespace Peasy.Core.Tests
             rule.IsValid.ShouldBeFalse();
             rule.ErrorMessage.ShouldBe("Not old enough");
         }
-    }
 
+        [Fact]
+        public async Task And_Operator_Works_As_Expected_I()
+        {
+            var rules = new TrueRule() & new TrueRule() & new FalseRule1() & new FalseRule3();
+
+            rules.Count().ShouldBe(4);
+            rules.First().ShouldBeOfType<TrueRule>();
+            rules.Second().ShouldBeOfType<TrueRule>();
+            rules.Third().ShouldBeOfType<FalseRule1>();
+            rules.Fourth().ShouldBeOfType<FalseRule3>();
+        }
+
+        [Fact]
+        public async Task And_Operator_Works_As_Expected_II()
+        {
+            var rules = new TrueRule().IfValidThenValidate(new TrueRule()) &
+                new TrueRule().IfValidThenValidate(new FalseRule2());
+
+            rules.Count().ShouldBe(2);
+            rules.First().ShouldBeOfType<TrueRule>();
+            rules.First().GetSuccessors().First().Rules.First().ShouldBeOfType<TrueRule>();
+            rules.Second().ShouldBeOfType<TrueRule>();
+            rules.Second().GetSuccessors().First().Rules.First().ShouldBeOfType<FalseRule2>();
+        }
+
+        [Fact]
+        public async Task And_Operator_Works_As_Expected_III()
+        {
+            var ruleSetOne = new TrueRule() & new FalseRule3() & new TrueRule();
+            var rule = new FalseRule2();
+            var ruleSetTwo = ruleSetOne & rule;
+
+            ruleSetTwo.Count().ShouldBe(4);
+            ruleSetTwo.First().ShouldBeOfType<TrueRule>();
+            ruleSetTwo.Second().ShouldBeOfType<FalseRule3>();
+            ruleSetTwo.Third().ShouldBeOfType<TrueRule>();
+            ruleSetTwo.Fourth().ShouldBeOfType<FalseRule2>();
+        }
+
+        [Fact]
+        public async Task And_Operator_Works_As_Expected_IV()
+        {
+            var rule = new FalseRule2();
+            var ruleSetOne = new TrueRule() & new FalseRule3() & new TrueRule();
+            var ruleSetTwo = rule & ruleSetOne;
+
+            ruleSetTwo.Count().ShouldBe(4);
+            ruleSetTwo.First().ShouldBeOfType<FalseRule2>();
+            ruleSetTwo.Second().ShouldBeOfType<TrueRule>();
+            ruleSetTwo.Third().ShouldBeOfType<FalseRule3>();
+            ruleSetTwo.Fourth().ShouldBeOfType<TrueRule>();
+        }
+
+        [Fact]
+        public async Task Addition_Operator_Works_As_Expected_I()
+        {
+            var rules = new TrueRule() + new TrueRule() + new FalseRule1() + new FalseRule3();
+
+            rules.Count().ShouldBe(4);
+            rules.First().ShouldBeOfType<TrueRule>();
+            rules.Second().ShouldBeOfType<TrueRule>();
+            rules.Third().ShouldBeOfType<FalseRule1>();
+            rules.Fourth().ShouldBeOfType<FalseRule3>();
+        }
+
+        [Fact]
+        public async Task Addition_Operator_Works_As_Expected_II()
+        {
+            var rules = new TrueRule().IfValidThenValidate(new TrueRule())
+                + new TrueRule().IfValidThenValidate(new FalseRule2());
+
+            rules.Count().ShouldBe(2);
+            rules.First().ShouldBeOfType<TrueRule>();
+            rules.First().GetSuccessors().First().Rules.First().ShouldBeOfType<TrueRule>();
+            rules.Second().ShouldBeOfType<TrueRule>();
+            rules.Second().GetSuccessors().First().Rules.First().ShouldBeOfType<FalseRule2>();
+        }
+
+        [Fact]
+        public async Task Addition_Operator_Works_As_Expected_III()
+        {
+            var ruleSetOne = new TrueRule() + new FalseRule3() + new TrueRule();
+            var rule = new FalseRule2();
+            var ruleSetTwo = ruleSetOne + rule;
+
+            ruleSetTwo.Count().ShouldBe(4);
+            ruleSetTwo.First().ShouldBeOfType<TrueRule>();
+            ruleSetTwo.Second().ShouldBeOfType<FalseRule3>();
+            ruleSetTwo.Third().ShouldBeOfType<TrueRule>();
+            ruleSetTwo.Fourth().ShouldBeOfType<FalseRule2>();
+        }
+
+        [Fact]
+        public async Task Addition_Operator_Works_As_Expected_IV()
+        {
+            var rule = new FalseRule2();
+            var ruleSetOne = new TrueRule() + new FalseRule3() + new TrueRule();
+            var ruleSetTwo = rule + ruleSetOne;
+
+            ruleSetTwo.Count().ShouldBe(4);
+            ruleSetTwo.First().ShouldBeOfType<FalseRule2>();
+            ruleSetTwo.Second().ShouldBeOfType<TrueRule>();
+            ruleSetTwo.Third().ShouldBeOfType<FalseRule3>();
+            ruleSetTwo.Fourth().ShouldBeOfType<TrueRule>();
+        }
+
+        public class PersonDataProxy
+        {
+            public async Task<IEnumerable<Person>> GetPeople()
+            {
+                await Task.CompletedTask;
+
+                return new []
+                {
+                    new Person(),
+                    new Person(),
+                    new Person()
+                };
+            }
+        }
+    }
 }

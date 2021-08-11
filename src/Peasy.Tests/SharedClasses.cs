@@ -1,10 +1,30 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Threading.Tasks;
 using Peasy.Attributes;
 using Peasy.Synchronous;
 
 namespace Peasy.Core.Tests
 {
+    public class PersonCountRule : RuleBase
+    {
+        private IEnumerable<Person> _people;
+        private int _mustHaveCount;
+
+        public PersonCountRule(IEnumerable<Person> people, int mustHaveCount)
+        {
+            _people = people;
+            _mustHaveCount = mustHaveCount;
+        }
+
+        protected override Task OnValidateAsync()
+        {
+            return base.If(() => _people.Count() != _mustHaveCount)
+                .ThenInvalidateWith("Invalid person count");
+        }
+    }
+
     public class TrueRule : RuleBase
     {
         public TrueRule()
