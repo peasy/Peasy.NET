@@ -6,11 +6,11 @@ pull_requests:
 branches:
   only:
   - master
-image: Visual Studio 2017
+image: Visual Studio 2019
 before_build:
   - nuget restore Peasy.sln
 install:
-  - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/v4.0.0/nuget.exe
+  - appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
 nuget:
   disable_publish_on_pr: true
 test: on
