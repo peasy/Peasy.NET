@@ -13,7 +13,7 @@
     <description>Peasy is a middle tier micro-framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</description>
     <releaseNotes>
         - Added null type handling in CreateValueRequireRule method
-        - Added operator overloading to allow chaining rules via the '+' and '&' operators
+        - Added operator overloading to allow chaining rules via the '+' and &amp; operators
         - Changed PeasyRequiredAttribute to inherit from System.ComponentModel.DataAnnotations.RequiredAttribute
         - Changed the order in which Rule.IfValidThenInvoke executes to be more logical
     </releaseNotes>
