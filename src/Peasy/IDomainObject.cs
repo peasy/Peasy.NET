@@ -14,6 +14,6 @@
         /// <summary>
         /// Represents the identifier of a domain object or resource.
         /// </summary>
-        TKey ID { get; set; }
+        TKey ID { get; }
     }
 }
