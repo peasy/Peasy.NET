@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1</TargetFrameworks>
+    <TargetFrameworks>net6.0</TargetFrameworks>
     <NoWarn>1998</NoWarn>
     <Summary>An easy to use middle tier micro-framework for .NET and .NET Core</Summary>
     <Description>Peasy is a middle tier micro-framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</Description>
-    <VersionPrefix>5.0.2</VersionPrefix>
+    <VersionPrefix>5.1.1</VersionPrefix>
     <Authors>Aaron Hanusa</Authors>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <AssemblyName>Peasy</AssemblyName>

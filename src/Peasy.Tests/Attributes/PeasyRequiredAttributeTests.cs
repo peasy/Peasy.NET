@@ -20,6 +20,30 @@ namespace Peasy.Tests.Attributes
     public class PeasyRequiredAttributeTests
     {
         [Fact]
+        public void Passes_validation_when_string_value_contains_0()
+        {
+            var attr = new PeasyRequiredAttribute();
+            var foo = new Stub<string>();
+            var context = new ValidationContext(foo);
+            string value = "0.0";
+
+            var result = attr.GetValidationResult(value, context);
+
+            result.ShouldBeNull();
+        }
+
+        [Fact]
+        public void Throws_Exception_When_Value_Is_Float_And_Contains_Zero()
+        {
+            var attr = new PeasyRequiredAttribute();
+            var foo = new Stub<float>();
+            var context = new ValidationContext(foo);
+            float value = 0;
+
+            Should.Throw<ValidationException>(() => attr.Validate(value, context));
+        }
+
+        [Fact]
         public void Throws_Exception_When_Value_Is_Int_And_Contains_Zero()
         {
             var attr = new PeasyRequiredAttribute();
@@ -36,7 +60,7 @@ namespace Peasy.Tests.Attributes
             var foo = new Stub<long>();
             var context = new ValidationContext(foo);
 
-            Should.Throw<ValidationException>(() => attr.Validate(0, context));
+            Should.Throw<ValidationException>(() => attr.Validate(0L, context));
         }
 
         [Fact]
