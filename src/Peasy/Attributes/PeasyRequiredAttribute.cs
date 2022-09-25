@@ -39,29 +39,7 @@ namespace Peasy.Attributes
                     return validationResult;
             }
 
-            // var incoming = value.ToString();
-
-            // if (decimal.TryParse(incoming, out var val) && val == 0)
-            // {
-            //     return validationResult;
-            // }
-
-            // if (DateTime.TryParse(incoming, out var date) && date == DateTime.MinValue)
-            // {
-            //     return validationResult;
-            // }
-
             return ValidationResult.Success;
-        }
-
-        private decimal? Parse(object value)
-        {
-            if (decimal.TryParse(value.ToString(), out var result))
-            {
-                return result;
-            }
-
-            return null;
         }
     }
 }

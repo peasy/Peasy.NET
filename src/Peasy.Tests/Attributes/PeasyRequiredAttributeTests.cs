@@ -49,8 +49,9 @@ namespace Peasy.Tests.Attributes
             var attr = new PeasyRequiredAttribute();
             var foo = new Stub<int>();
             var context = new ValidationContext(foo);
+            int value = 0;
 
-            Should.Throw<ValidationException>(() => attr.Validate(0, context));
+            Should.Throw<ValidationException>(() => attr.Validate(value, context));
         }
 
         [Fact]
@@ -59,8 +60,9 @@ namespace Peasy.Tests.Attributes
             var attr = new PeasyRequiredAttribute();
             var foo = new Stub<long>();
             var context = new ValidationContext(foo);
+            long value = 0;
 
-            Should.Throw<ValidationException>(() => attr.Validate(0L, context));
+            Should.Throw<ValidationException>(() => attr.Validate(value, context));
         }
 
         [Fact]
@@ -69,8 +71,9 @@ namespace Peasy.Tests.Attributes
             var attr = new PeasyRequiredAttribute();
             var foo = new Stub<decimal>();
             var context = new ValidationContext(foo);
+            decimal value = 0;
 
-            Should.Throw<ValidationException>(() => attr.Validate(0, context));
+            Should.Throw<ValidationException>(() => attr.Validate(value, context));
         }
 
         [Fact]
@@ -79,8 +82,9 @@ namespace Peasy.Tests.Attributes
             var attr = new PeasyRequiredAttribute();
             var foo = new Stub<DateTime>();
             var context = new ValidationContext(foo);
+            var value = default(DateTime);
 
-            Should.Throw<ValidationException>(() => attr.Validate(0, context));
+            Should.Throw<ValidationException>(() => attr.Validate(value, context));
         }
 
         [Fact]
