@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Peasy</id>
-    <version>5.0.2</version>
+    <version>5.1.1</version>
     <title>Peasy</title>
     <authors>Aaron Hanusa</authors>
     <owners>Aaron Hanusa</owners>
@@ -12,12 +12,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Peasy is a middle tier micro-framework that offers an easy to use and flexible rules engine and was designed to address common challenges such as threading, concurrency, scalability, fault tolerance, async and multiple client support</description>
     <releaseNotes>
-        - Added null type handling in CreateValueRequireRule method
-        - Added operator overloading to allow chaining rules via the '+' and &amp; operators
-        - Changed PeasyRequiredAttribute to inherit from System.ComponentModel.DataAnnotations.RequiredAttribute
-        - Changed the order in which Rule.IfValidThenInvoke executes to be more logical
+        - Fixed bug that disallowed PeasyRequired attribute from passing when applied to string values containing numbers
     </releaseNotes>
-    <copyright>Copyright 2021</copyright>
+    <copyright>Copyright 2022</copyright>
     <tags>Middle, Tier, Framework, Business, Logic, Layer</tags>
     <summary>An easy to use middle tier framework for .NET and .NET Core</summary>
     <!-- Insert within the <metadata> element -->
