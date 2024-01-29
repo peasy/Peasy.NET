@@ -47,7 +47,8 @@ A [business service](https://github.com/peasy/Peasy.NET/wiki/ServiceBase) implem
 
 &nbsp;
 
-##### Peasy actors at work (Note: the classes in bold are peasy classes, all others are examples of concrete classes you might write)
+##### Peasy actors at work
+Note: the services, rules, and proxies are examples of classes you might develop
 <p align="center">
   <img src="peasy-uml.svg">
 </p>
